@@ -10,9 +10,8 @@
 
 /* SHARED NAV */
 .site-nav { position:sticky; top:0; z-index:100; background:rgba(12,20,32,0.94); backdrop-filter:blur(12px); border-bottom:1px solid rgba(100,140,180,0.12); padding:0 40px; display:flex; align-items:center; justify-content:space-between; height:56px; }
-a.site-nav-logo { display:flex; flex-direction:column; gap:1px; text-decoration:none; }
-.site-nav-wordmark { font-family:'Libre Baskerville',serif; font-size:14px; font-weight:700; color:#E0D8C8; letter-spacing:0.01em; line-height:1; }
-.site-nav-sub { font-family:'DM Mono',monospace; font-size:9px; letter-spacing:0.14em; text-transform:uppercase; color:#4A6A7A; }
+a.site-nav-logo { display:flex; align-items:center; text-decoration:none; }
+a.site-nav-logo img { height:42px; width:auto; display:block; }
 .site-nav-links { display:flex; gap:28px; list-style:none; align-items:center; }
 .site-nav-links a { font-family:'DM Mono',monospace; font-size:10px; letter-spacing:0.1em; text-transform:uppercase; color:#4A6A7A; text-decoration:none; transition:color 0.2s; }
 .site-nav-links a:hover { color:#E0D8C8; }
@@ -213,8 +212,7 @@ input[type=date]:focus { border-color: #7BBFC9; }
 <body>
 <nav class="site-nav">
   <a href="index.html" class="site-nav-logo">
-    <span class="site-nav-wordmark">Shark Tooth Island</span>
-    <span class="site-nav-sub">Cape Fear River · NC</span>
+    <img src="logo.png" alt="Shark Tooth Island Field Station">
   </a>
   <ul class="site-nav-links">
     <li><a href="index.html">Field Guide</a></li>
