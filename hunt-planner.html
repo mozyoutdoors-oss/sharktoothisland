@@ -7,51 +7,30 @@
 <link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=DM+Mono:wght@400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
 <style>
 * { box-sizing: border-box; margin: 0; padding: 0; }
+
+/* SHARED NAV */
+.site-nav { position:sticky; top:0; z-index:100; background:rgba(12,20,32,0.94); backdrop-filter:blur(12px); border-bottom:1px solid rgba(100,140,180,0.12); padding:0 40px; display:flex; align-items:center; justify-content:space-between; height:56px; }
+a.site-nav-logo { display:flex; flex-direction:column; gap:1px; text-decoration:none; }
+.site-nav-wordmark { font-family:'Libre Baskerville',serif; font-size:14px; font-weight:700; color:#E0D8C8; letter-spacing:0.01em; line-height:1; }
+.site-nav-sub { font-family:'DM Mono',monospace; font-size:9px; letter-spacing:0.14em; text-transform:uppercase; color:#4A6A7A; }
+.site-nav-links { display:flex; gap:28px; list-style:none; align-items:center; }
+.site-nav-links a { font-family:'DM Mono',monospace; font-size:10px; letter-spacing:0.1em; text-transform:uppercase; color:#4A6A7A; text-decoration:none; transition:color 0.2s; }
+.site-nav-links a:hover { color:#E0D8C8; }
+.site-nav-links a.active { color:#7BBFC9; }
+.site-nav-links a.soon { color:#1E3040; cursor:default; pointer-events:none; }
+.soon-pill { font-size:8px; background:rgba(123,191,201,0.1); border:1px solid rgba(123,191,201,0.2); color:#7BBFC9; padding:1px 5px; border-radius:3px; margin-left:5px; vertical-align:middle; }
+.nav-burger { display:none; flex-direction:column; gap:5px; cursor:pointer; padding:6px; background:none; border:none; }
+.nav-burger span { display:block; width:22px; height:1.5px; background:#4A6A7A; border-radius:1px; }
+.nav-drawer { display:none; position:fixed; top:56px; left:0; right:0; z-index:99; background:rgba(10,16,26,0.97); backdrop-filter:blur(16px); border-bottom:1px solid rgba(100,140,180,0.1); flex-direction:column; padding:12px 0; }
+.nav-drawer.open { display:flex; }
+.nav-drawer a { font-family:'DM Mono',monospace; font-size:11px; letter-spacing:0.14em; text-transform:uppercase; color:#4A6A7A; text-decoration:none; padding:14px 28px; border-bottom:1px solid rgba(100,140,180,0.06); transition:color 0.15s; }
+.nav-drawer a:last-child { border-bottom:none; }
+.nav-drawer a:hover { color:#E0D8C8; }
+.nav-drawer a.active { color:#7BBFC9; }
+.nav-drawer a.soon { color:#1E3040; pointer-events:none; }
+@media (max-width:680px) { .site-nav { padding:0 20px; } .site-nav-links { display:none; } .nav-burger { display:flex; } }
+
 body {
-  position: sticky; top: 0; z-index: 100;
-  background: rgba(12,20,32,0.94);
-  backdrop-filter: blur(12px);
-  border-bottom: 1px solid rgba(100,140,180,0.12);
-  padding: 0 40px;
-  display: flex; align-items: center; justify-content: space-between;
-  height: 56px;
-}
-a.site-nav-logo {
-  display: flex; flex-direction: column; gap: 1px; text-decoration: none;
-}
-.site-nav-wordmark {
-  font-family: 'Libre Baskerville', serif;
-  font-size: 14px; font-weight: 700; color: #E0D8C8;
-  letter-spacing: 0.01em; line-height: 1;
-}
-.site-nav-sub {
-  font-family: 'DM Mono', monospace;
-  font-size: 9px; letter-spacing: 0.14em;
-  text-transform: uppercase; color: #4A6A7A;
-}
-.site-nav-links {
-  display: flex; gap: 28px; list-style: none; align-items: center;
-}
-.site-nav-links a {
-  font-family: 'DM Mono', monospace; font-size: 10px;
-  letter-spacing: 0.1em; text-transform: uppercase;
-  color: #4A6A7A; text-decoration: none; transition: color 0.2s;
-}
-.site-nav-links a:hover { color: #E0D8C8; }
-.site-nav-links a.active { color: #7BBFC9; }
-.site-nav-links a.soon { color: #1E3040; cursor: default; pointer-events: none; }
-.soon-pill {
-  font-size: 8px; background: rgba(123,191,201,0.1);
-  border: 1px solid rgba(123,191,201,0.2); color: #7BBFC9;
-  padding: 1px 5px; border-radius: 3px; margin-left: 5px;
-  vertical-align: middle; letter-spacing: 0.08em;
-}
-@media (max-width:640px) {
-  .site-nav { padding: 0 16px; }
-  .site-nav-links { gap: 14px; }
-  .site-nav-links li:nth-child(4) { display: none; }
-}
-</style>
   background: #0C1420;
   color: #A8C0D4;
   font-family: 'DM Sans', sans-serif;
@@ -229,23 +208,6 @@ input[type=date]:focus { border-color: #7BBFC9; }
   .day-low { display:none; }
 }
 
-/* SHARED NAV */
-.site-nav {
-  position:sticky; top:0; z-index:100;
-  background:rgba(12,20,32,0.94); backdrop-filter:blur(12px);
-  border-bottom:1px solid rgba(100,140,180,0.12);
-  padding:0 40px; display:flex; align-items:center; justify-content:space-between; height:56px;
-}
-a.site-nav-logo { display:flex; flex-direction:column; gap:1px; text-decoration:none; }
-.site-nav-wordmark { font-family:'Libre Baskerville',serif; font-size:14px; font-weight:700; color:#E0D8C8; letter-spacing:0.01em; line-height:1; }
-.site-nav-sub { font-family:'DM Mono',monospace; font-size:9px; letter-spacing:0.14em; text-transform:uppercase; color:#4A6A7A; }
-.site-nav-links { display:flex; gap:28px; list-style:none; align-items:center; }
-.site-nav-links a { font-family:'DM Mono',monospace; font-size:10px; letter-spacing:0.1em; text-transform:uppercase; color:#4A6A7A; text-decoration:none; transition:color 0.2s; }
-.site-nav-links a:hover { color:#E0D8C8; }
-.site-nav-links a.active { color:#7BBFC9; }
-.site-nav-links a.soon { color:#1E3040; cursor:default; pointer-events:none; }
-.soon-pill { font-size:8px; background:rgba(123,191,201,0.1); border:1px solid rgba(123,191,201,0.2); color:#7BBFC9; padding:1px 5px; border-radius:3px; margin-left:5px; vertical-align:middle; }
-@media (max-width:640px) { .site-nav { padding:0 16px; } .site-nav-links { gap:14px; } .site-nav-links li:nth-child(4) { display:none; } }
 </style>
 </head>
 <body>
@@ -260,7 +222,16 @@ a.site-nav-logo { display:flex; flex-direction:column; gap:1px; text-decoration:
     <li><a href="hunt-planner.html" class="active">Hunt Planner</a></li>
     <li><a href="#" class="soon">Depth of Time <span class="soon-pill">Soon</span></a></li>
   </ul>
+  <button class="nav-burger" onclick="toggleNav()" aria-label="Menu">
+    <span></span><span></span><span></span>
+  </button>
 </nav>
+<div class="nav-drawer" id="nav-drawer">
+  <a href="index.html">Field Guide</a>
+  <a href="megalodon-calculator-v4.html">Size Calculator</a>
+  <a href="hunt-planner.html" class="active">Hunt Planner</a>
+  <a href="#" class="soon">Depth of Time — Coming Soon</a>
+</div>
 <div class="container">
 
   <div class="header">
@@ -301,6 +272,14 @@ a.site-nav-logo { display:flex; flex-direction:column; gap:1px; text-decoration:
 </div>
 
 <script>
+function toggleNav() {
+  document.getElementById('nav-drawer').classList.toggle('open');
+}
+document.addEventListener('DOMContentLoaded', () => {
+  document.querySelectorAll('.nav-drawer a').forEach(a => {
+    a.addEventListener('click', () => document.getElementById('nav-drawer').classList.remove('open'));
+  });
+});
 // ─── CONFIG ───────────────────────────────────────────────────
 const NOAA_STATION = '8658715'; // Federal Point, Cape Fear River
 const LAT = 33.9465;   // Shark Tooth Island approx

@@ -171,15 +171,7 @@ input[type=range]::-webkit-slider-thumb:hover { border-color:#C8B890; }
 }
 
 /* SHARED NAV */
-.site-nav {
-  position: sticky; top: 0; z-index: 100;
-  background: rgba(12,18,24,0.94);
-  backdrop-filter: blur(12px);
-  border-bottom: 1px solid #1A2A3A;
-  padding: 0 40px;
-  display: flex; align-items: center; justify-content: space-between;
-  height: 56px;
-}
+.site-nav { position:sticky; top:0; z-index:100; background:rgba(12,18,24,0.94); backdrop-filter:blur(12px); border-bottom:1px solid #1A2A3A; padding:0 40px; display:flex; align-items:center; justify-content:space-between; height:56px; }
 a.site-nav-logo { display:flex; flex-direction:column; gap:1px; text-decoration:none; }
 .site-nav-wordmark { font-family:'Libre Baskerville',serif; font-size:14px; font-weight:700; color:#E8E0D0; letter-spacing:0.01em; line-height:1; }
 .site-nav-sub { font-family:'DM Mono',monospace; font-size:9px; letter-spacing:0.14em; text-transform:uppercase; color:#4A6070; }
@@ -189,7 +181,16 @@ a.site-nav-logo { display:flex; flex-direction:column; gap:1px; text-decoration:
 .site-nav-links a.active { color:#C8B890; }
 .site-nav-links a.soon { color:#1E2E3A; cursor:default; pointer-events:none; }
 .soon-pill { font-size:8px; background:rgba(200,184,144,0.1); border:1px solid rgba(200,184,144,0.2); color:#C8B890; padding:1px 5px; border-radius:3px; margin-left:5px; vertical-align:middle; letter-spacing:0.08em; }
-@media (max-width:640px) { .site-nav { padding:0 16px; } .site-nav-links { gap:14px; } .site-nav-links li:nth-child(4) { display:none; } }
+.nav-burger { display:none; flex-direction:column; gap:5px; cursor:pointer; padding:6px; background:none; border:none; }
+.nav-burger span { display:block; width:22px; height:1.5px; background:#4A6070; border-radius:1px; }
+.nav-drawer { display:none; position:fixed; top:56px; left:0; right:0; z-index:99; background:rgba(10,14,20,0.97); backdrop-filter:blur(16px); border-bottom:1px solid #1A2A3A; flex-direction:column; padding:12px 0; }
+.nav-drawer.open { display:flex; }
+.nav-drawer a { font-family:'DM Mono',monospace; font-size:11px; letter-spacing:0.14em; text-transform:uppercase; color:#4A6070; text-decoration:none; padding:14px 28px; border-bottom:1px solid rgba(255,255,255,0.04); transition:color 0.15s; }
+.nav-drawer a:last-child { border-bottom:none; }
+.nav-drawer a:hover { color:#E8E0D0; }
+.nav-drawer a.active { color:#C8B890; }
+.nav-drawer a.soon { color:#1E2E3A; pointer-events:none; }
+@media (max-width:680px) { .site-nav { padding:0 20px; } .site-nav-links { display:none; } .nav-burger { display:flex; } }
 </style>
 </head>
 <body>
@@ -204,7 +205,16 @@ a.site-nav-logo { display:flex; flex-direction:column; gap:1px; text-decoration:
     <li><a href="hunt-planner.html">Hunt Planner</a></li>
     <li><a href="#" class="soon">Depth of Time <span class="soon-pill">Soon</span></a></li>
   </ul>
+  <button class="nav-burger" onclick="toggleNav()" aria-label="Menu">
+    <span></span><span></span><span></span>
+  </button>
 </nav>
+<div class="nav-drawer" id="nav-drawer">
+  <a href="index.html">Field Guide</a>
+  <a href="megalodon-calculator-v4.html" class="active">Size Calculator</a>
+  <a href="hunt-planner.html">Hunt Planner</a>
+  <a href="#" class="soon">Depth of Time — Coming Soon</a>
+</div>
 <div class="container">
 
   <div class="header">
@@ -366,6 +376,14 @@ a.site-nav-logo { display:flex; flex-direction:column; gap:1px; text-decoration:
 </div>
 
 <script>
+function toggleNav() {
+  document.getElementById('nav-drawer').classList.toggle('open');
+}
+document.addEventListener('DOMContentLoaded', () => {
+  document.querySelectorAll('.nav-drawer a').forEach(a => {
+    a.addEventListener('click', () => document.getElementById('nav-drawer').classList.remove('open'));
+  });
+});
 // Slider value = mm directly (25–175mm)
 // Display unit toggles between mm and inches
 let unit = 'mm';
