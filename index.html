@@ -49,8 +49,9 @@
     display: flex; align-items: center; justify-content: space-between;
     height: 56px;
   }
-  a.nav-logo { display:flex; align-items:center; text-decoration:none; }
-  a.nav-logo img { height:42px; width:auto; display:block; }
+  a.nav-logo { display:flex; flex-direction:column; gap:1px; text-decoration:none; }
+  .nav-wordmark { font-family:'Libre Baskerville',serif; font-size:14px; font-weight:700; color:var(--white); letter-spacing:0.01em; line-height:1; }
+  .nav-sub { font-family:'DM Mono',monospace; font-size:9px; letter-spacing:0.14em; text-transform:uppercase; color:var(--muted); }
   .nav-links { display:flex; gap:28px; list-style:none; align-items:center; }
   .nav-links a { font-family:'DM Mono',monospace; font-size:10px; letter-spacing:0.1em; text-transform:uppercase; color:var(--muted); text-decoration:none; transition:color 0.2s; }
   .nav-links a:hover { color:var(--white); }
@@ -599,7 +600,8 @@
 
 <nav>
   <a href="index.html" class="nav-logo">
-    <img src="logo.png" alt="Shark Tooth Island Field Station">
+    <span class="nav-wordmark">Shark Tooth Island</span>
+    <span class="nav-sub">Cape Fear River · NC</span>
   </a>
   <ul class="nav-links">
     <li><a href="index.html" class="nav-active">Field Guide</a></li>
