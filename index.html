@@ -29,7 +29,8 @@
 
   * { box-sizing: border-box; margin: 0; padding: 0; }
 
-  html { scroll-behavior: smooth; }
+  html { scroll-behavior: smooth; overflow-x: hidden; }
+  body { overflow-x: hidden; }
 
   body {
     font-family: 'DM Sans', sans-serif;
@@ -37,6 +38,7 @@
     color: var(--white-dim);
     min-height: 100vh;
     line-height: 1.6;
+    overflow-x: hidden;
   }
 
   /* NAV */
@@ -535,6 +537,12 @@
     nav { padding: 0 20px; }
     .eyebrow-full { display: none; }
     .eyebrow-short { display: inline !important; }
+    .wrap { padding: 0 20px; }
+    .section-body, .f-body, .epoch-panel-body, .guide-body, .cond-body { font-size: 14px; }
+    .formation-steps { padding: 0; }
+    .guide-grid { gap: 12px; }
+    .conditions-layout { gap: 12px; }
+    .visit-grid { gap: 12px; }
     .nav-links, .nav-tag { display: none; }
     .hero { padding: 60px 20px 48px; }
     .wrap { padding: 0 20px; }
