@@ -8,10 +8,10 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
 <style>
   :root {
-    --deep: #0C1420;
-    --deep-mid: #131E2E;
-    --deep-card: #19273A;
-    --deep-border: rgba(100,140,180,0.12);
+    --deep: #1A2535;
+    --deep-mid: #202E42;
+    --deep-card: #263548;
+    --deep-border: rgba(100,140,180,0.20);
     --blue: #2563A8;
     --blue-mid: #3A7BC8;
     --blue-light: #7FB3E8;
@@ -42,7 +42,7 @@
   /* NAV */
   nav {
     position: sticky; top: 0; z-index: 100;
-    background: rgba(12,20,32,0.94);
+    background: rgba(26,37,53,0.96);
     backdrop-filter: blur(12px);
     border-bottom: 1px solid var(--deep-border);
     padding: 0 40px;
@@ -64,7 +64,7 @@
   .nav-burger span { display:block; width:22px; height:1.5px; background:var(--muted); border-radius:1px; transition:all 0.2s; }
   .nav-drawer {
     display:none; position:fixed; top:56px; left:0; right:0; z-index:99;
-    background:rgba(10,16,26,0.97); backdrop-filter:blur(16px);
+    background:rgba(22,32,46,0.97); backdrop-filter:blur(16px);
     border-bottom:1px solid var(--deep-border);
     flex-direction:column; padding:12px 0;
   }
@@ -86,7 +86,8 @@
     .nav-burger { display:flex; }
   }
 
-  /* HERO */
+
+    /* HERO */
   .hero {
     min-height: 92vh;
     display: flex;
@@ -99,125 +100,72 @@
     overflow: hidden;
   }
   .hero-bg {
-    position: absolute;
-    inset: 0;
+    position: absolute; inset: 0;
     background:
       radial-gradient(ellipse 80% 60% at 50% 100%, rgba(37,99,168,0.18) 0%, transparent 70%),
       radial-gradient(ellipse 40% 30% at 20% 40%, rgba(74,158,191,0.06) 0%, transparent 60%);
     pointer-events: none;
   }
   .hero-grid-lines {
-    position: absolute;
-    inset: 0;
-    opacity: 0.03;
+    position: absolute; inset: 0; opacity: 0.03;
     background-image:
       linear-gradient(rgba(100,160,220,1) 1px, transparent 1px),
       linear-gradient(90deg, rgba(100,160,220,1) 1px, transparent 1px);
-    background-size: 60px 60px;
-    pointer-events: none;
+    background-size: 60px 60px; pointer-events: none;
   }
   .hero-content { position: relative; z-index: 1; max-width: 800px; }
-  .hero-eyebrow {
-    font-family: 'DM Mono', monospace;
-    font-size: 10px;
-    letter-spacing: 0.22em;
-    text-transform: uppercase;
-    color: var(--accent);
-    margin-bottom: 28px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 12px;
-  }
-  .hero-eyebrow::before,
-  .hero-eyebrow::after {
-    content: '';
-    display: block;
-    width: 40px;
-    height: 1px;
-    background: var(--accent);
-    opacity: 0.4;
-  }
   .hero h1 {
     font-family: 'Libre Baskerville', serif;
-    font-size: clamp(44px, 7.5vw, 88px);
-    font-weight: 700;
-    color: var(--white);
-    line-height: 1.0;
-    letter-spacing: -0.025em;
-    margin-bottom: 10px;
+    font-size: clamp(44px, 7.5vw, 88px); font-weight: 700;
+    color: var(--white); line-height: 1.0;
+    letter-spacing: -0.025em; margin-bottom: 10px;
   }
   .hero h1 .sub-line {
-    display: block;
-    font-style: italic;
-    font-weight: 400;
-    font-size: 0.65em;
-    color: var(--blue-light);
-    letter-spacing: -0.01em;
-    margin-top: 6px;
+    display: block; font-style: italic; font-weight: 400;
+    font-size: 0.65em; color: var(--blue-light);
+    letter-spacing: -0.01em; margin-top: 6px;
   }
   .hero-desc {
-    margin: 32px auto 48px;
-    max-width: 520px;
-    font-size: 15px;
-    color: var(--muted);
-    font-weight: 300;
-    line-height: 1.8;
+    margin: 32px auto 48px; max-width: 520px;
+    font-size: 15px; color: var(--muted); font-weight: 300; line-height: 1.8;
   }
   .hero-stats {
-    display: flex;
-    gap: 0;
-    justify-content: center;
-    border: 1px solid var(--deep-border);
-    border-radius: 12px;
-    overflow: hidden;
-    max-width: 540px;
-    margin: 0 auto;
+    display: flex; gap: 0; justify-content: center;
+    border: 1px solid var(--deep-border); border-radius: 12px;
+    overflow: hidden; max-width: 540px; margin: 0 auto;
   }
   .h-stat {
-    flex: 1;
-    padding: 20px 16px;
-    background: var(--deep-card);
-    text-align: center;
-    border-right: 1px solid var(--deep-border);
+    flex: 1; padding: 20px 16px; background: var(--deep-card);
+    text-align: center; border-right: 1px solid var(--deep-border);
   }
   .h-stat:last-child { border-right: none; }
   .h-stat-n {
-    display: block;
-    font-family: 'Libre Baskerville', serif;
-    font-size: 28px;
-    color: var(--blue-light);
-    margin-bottom: 4px;
+    display: block; font-family: 'Libre Baskerville', serif;
+    font-size: 28px; color: var(--blue-light); margin-bottom: 4px;
   }
-  .h-stat-l {
-    font-size: 11px;
-    color: var(--muted);
-    letter-spacing: 0.04em;
-  }
+  .h-stat-l { font-size: 11px; color: var(--muted); letter-spacing: 0.04em; }
   .scroll-hint {
-    position: absolute;
-    bottom: 32px;
-    left: 50%;
-    transform: translateX(-50%);
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 6px;
-    color: var(--muted);
-    font-size: 10px;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-    font-family: 'DM Mono', monospace;
+    position: absolute; bottom: 32px; left: 50%; transform: translateX(-50%);
+    display: flex; flex-direction: column; align-items: center; gap: 6px;
+    color: var(--muted); font-size: 10px; letter-spacing: 0.1em;
+    text-transform: uppercase; font-family: 'DM Mono', monospace;
     animation: bounce 2.4s ease-in-out infinite;
   }
-  .scroll-hint-line {
-    width: 1px;
-    height: 32px;
-    background: linear-gradient(to bottom, var(--accent), transparent);
-  }
+  .scroll-hint-line { width: 1px; height: 32px; background: linear-gradient(to bottom, var(--accent), transparent); }
+  @keyframes fpulse { 0%,100%{opacity:1;transform:scale(1);}50%{opacity:0.35;transform:scale(0.65);} }
   @keyframes bounce {
-    0%, 100% { transform: translateX(-50%) translateY(0); }
-    50% { transform: translateX(-50%) translateY(6px); }
+    0%,100% { transform: translateX(-50%) translateY(0); }
+    50%      { transform: translateX(-50%) translateY(6px); }
+  }
+
+  
+  @media (max-width: 640px) {
+    .hero-data-overlay { top:14px; right:14px; min-width:150px; }
+    .hero-vis-station  { top:14px; left:14px; }
+    .hero-tide-control { bottom:14px; }
+      .hero-coord { display:none; }
+      }
+
   }
 
   /* WRAPPER */
@@ -593,7 +541,6 @@
     .condition-item.full { grid-column: span 1; }
     .visit-grid { grid-template-columns: 1fr; }
     .site-footer { flex-direction: column; gap: 12px; text-align: center; }
-  }
 </style>
 </head>
 <body>
@@ -631,22 +578,10 @@
     </h1>
     <p class="hero-desc">An uninhabited dredge spoil island in the Cape Fear River — one of the most unusual fossil hunting destinations on the East Coast. No admission. No crowds. Forty million years of marine history, revealed by the tide.</p>
     <div class="hero-stats">
-      <div class="h-stat">
-        <span class="h-stat-n">40M</span>
-        <span class="h-stat-l">Years of fossils</span>
-      </div>
-      <div class="h-stat">
-        <span class="h-stat-n">4</span>
-        <span class="h-stat-l">Geologic epochs</span>
-      </div>
-      <div class="h-stat">
-        <span class="h-stat-n">Boat</span>
-        <span class="h-stat-l">Access only</span>
-      </div>
-      <div class="h-stat">
-        <span class="h-stat-n">Low</span>
-        <span class="h-stat-l">Best at low tide</span>
-      </div>
+      <div class="h-stat"><span class="h-stat-n">40M</span><span class="h-stat-l">Years of fossils</span></div>
+      <div class="h-stat"><span class="h-stat-n">4</span><span class="h-stat-l">Geologic epochs</span></div>
+      <div class="h-stat"><span class="h-stat-n">Boat</span><span class="h-stat-l">Access only</span></div>
+      <div class="h-stat"><span class="h-stat-n">Low</span><span class="h-stat-l">Best at low tide</span></div>
     </div>
   </div>
   <div class="scroll-hint">
@@ -654,6 +589,12 @@
     Scroll
   </div>
 </section>
+
+<!-- TIDAL VISUALIZATION -->
+<div style="width:100%;height:100vh;min-height:600px;overflow:hidden;line-height:0;">
+  <iframe src="island-hero.html" style="width:100%;height:100%;border:none;display:block;" scrolling="no" loading="lazy"></iframe>
+</div>
+
 
 <!-- FORMATION -->
 <div class="wrap">
@@ -1027,5 +968,8 @@ new Chart(document.getElementById('sizeChart'), {
   }
 });
 </script>
+
+
+
 </body>
 </html>
