@@ -243,7 +243,7 @@
   }
   .f-num {
     font-family: 'DM Mono', monospace;
-    font-size: 10px;
+    font-size: 11px;
     color: var(--accent);
     letter-spacing: 0.14em;
     margin-bottom: 12px;
@@ -251,9 +251,10 @@
   }
   .f-title {
     font-family: 'Libre Baskerville', serif;
-    font-size: 16px;
+    font-size: 19px;
     color: var(--white);
     margin-bottom: 10px;
+    font-weight: 700;
   }
   .f-body { font-size: 13px; color: var(--muted); line-height: 1.65; }
 
@@ -277,13 +278,16 @@
   }
   .epoch-tab:last-child { border-right: none; }
   .epoch-tab:hover { background: rgba(37,99,168,0.12); }
-  .epoch-tab.active { background: rgba(37,99,168,0.22); border-bottom: 2px solid var(--blue-mid); }
+  .epoch-tab.active { background: rgba(37,99,168,0.45); border-bottom: 3px solid #7FB3E8; box-shadow: inset 0 -3px 0 #7FB3E8; }
   .epoch-tab-name {
     font-family: 'Libre Baskerville', serif;
     font-size: 15px;
     color: var(--white);
     margin-bottom: 4px;
+    transition: color 0.2s;
   }
+  .epoch-tab.active .epoch-tab-name { color: #B8D8F5; font-style: italic; }
+  .epoch-tab.active .epoch-tab-mya { color: #7FB3E8; }
   .epoch-tab-mya {
     font-family: 'DM Mono', monospace;
     font-size: 10px;
@@ -529,6 +533,8 @@
   /* RESPONSIVE */
   @media (max-width: 700px) {
     nav { padding: 0 20px; }
+    .eyebrow-full { display: none; }
+    .eyebrow-short { display: inline !important; }
     .nav-links, .nav-tag { display: none; }
     .hero { padding: 60px 20px 48px; }
     .wrap { padding: 0 20px; }
@@ -552,7 +558,7 @@
   </a>
   <ul class="nav-links">
     <li><a href="index.html" class="nav-active">Field Guide</a></li>
-    <li><a href="megalodon-calculator-v4.html">Size Calculator</a></li>
+    <li><a href="megalodon-calculator-v5.html">Size Calculator</a></li>
     <li><a href="hunt-planner.html">Hunt Planner</a></li>
     <li><a href="#" class="nav-soon">Depth of Time <span class="soon-tag">Soon</span></a></li>
   </ul>
@@ -562,7 +568,7 @@
 </nav>
 <div class="nav-drawer" id="nav-drawer">
   <a href="index.html" class="nav-active">Field Guide</a>
-  <a href="megalodon-calculator-v4.html">Size Calculator</a>
+  <a href="megalodon-calculator-v5.html">Size Calculator</a>
   <a href="hunt-planner.html">Hunt Planner</a>
   <a href="#" class="nav-soon">Depth of Time — Coming Soon</a>
 </div>
@@ -572,7 +578,7 @@
   <div class="hero-bg"></div>
   <div class="hero-grid-lines"></div>
   <div class="hero-content">
-    <div class="hero-eyebrow">Cape Fear River · New Hanover County, North Carolina</div>
+    <div class="hero-eyebrow"><span class="eyebrow-full">Cape Fear River · New Hanover County, North Carolina</span><span class="eyebrow-short" style="display:none;">Cape Fear River · NC</span></div>
     <h1>Shark Tooth Island
       <span class="sub-line">A field guide to the Cape Fear's prehistoric shore</span>
     </h1>

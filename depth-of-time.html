@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Depth of Time — Shark Tooth Island</title>
+<link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=DM+Mono:wght@400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+/* SHARED NAV */
+.site-nav { position:sticky; top:0; z-index:100; background:rgba(26,37,53,0.96); backdrop-filter:blur(12px); border-bottom:1px solid rgba(100,140,180,0.18); padding:0 40px; display:flex; align-items:center; justify-content:space-between; height:56px; }
+a.site-nav-logo { display:flex; flex-direction:column; gap:1px; text-decoration:none; }
+.site-nav-wordmark { font-family:'Libre Baskerville',serif; font-size:14px; font-weight:700; color:#E8E0D0; letter-spacing:0.01em; line-height:1; }
+.site-nav-sub { font-family:'DM Mono',monospace; font-size:9px; letter-spacing:0.14em; text-transform:uppercase; color:#6A8A9A; }
+.site-nav-links { display:flex; gap:28px; list-style:none; align-items:center; }
+.site-nav-links a { font-family:'DM Mono',monospace; font-size:10px; letter-spacing:0.1em; text-transform:uppercase; color:#6A8A9A; text-decoration:none; transition:color 0.2s; }
+.site-nav-links a:hover { color:#E8E0D0; }
+.site-nav-links a.active { color:#C8B890; }
+.site-nav-links a.soon { color:#2E4050; cursor:default; pointer-events:none; }
+.soon-pill { font-size:8px; background:rgba(200,184,144,0.1); border:1px solid rgba(200,184,144,0.2); color:#C8B890; padding:1px 5px; border-radius:3px; margin-left:5px; vertical-align:middle; letter-spacing:0.08em; }
+.nav-burger { display:none; flex-direction:column; gap:5px; cursor:pointer; padding:6px; background:none; border:none; }
+.nav-burger span { display:block; width:22px; height:1.5px; background:#6A8A9A; border-radius:1px; }
+.nav-drawer { display:none; position:fixed; top:56px; left:0; right:0; z-index:99; background:rgba(22,32,46,0.97); backdrop-filter:blur(16px); border-bottom:1px solid rgba(100,140,180,0.12); flex-direction:column; padding:12px 0; }
+.nav-drawer.open { display:flex; }
+.nav-drawer a { font-family:'DM Mono',monospace; font-size:11px; letter-spacing:0.14em; text-transform:uppercase; color:#6A8A9A; text-decoration:none; padding:14px 28px; border-bottom:1px solid rgba(100,140,180,0.08); transition:color 0.15s; }
+.nav-drawer a:last-child { border-bottom:none; }
+.nav-drawer a:hover { color:#E8E0D0; }
+.nav-drawer a.active { color:#C8B890; }
+.nav-drawer a.soon { color:#2E4050; pointer-events:none; }
+@media (max-width:680px) { .site-nav { padding:0 20px; } .site-nav-links { display:none; } .nav-burger { display:flex; } }
+
+body {
+  background: #1A2535;
+  color: #C4D4E0;
+  font-family: 'DM Sans', sans-serif;
+  min-height: 100vh;
+}
+
+.container {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 60px 32px 120px;
+}
+
+/* HEADER */
+.header { text-align: center; margin-bottom: 64px; }
+.header-tag {
+  font-family: 'DM Mono', monospace; font-size: 10px;
+  letter-spacing: 0.22em; text-transform: uppercase; color: #90AABF;
+  display: flex; align-items: center; justify-content: center; gap: 10px; margin-bottom: 18px;
+}
+.header-tag::before, .header-tag::after { content:''; width:48px; height:1px; background:#3A5570; }
+.header h1 {
+  font-family: 'Libre Baskerville', serif;
+  font-size: clamp(30px, 5.5vw, 54px); color: #EEE8DC;
+  font-weight: 700; letter-spacing: -0.02em; line-height: 1.08; margin-bottom: 10px;
+}
+.header h1 em { font-style: italic; font-weight: 400; color: #C8B890; }
+.header-sub { font-size: 14px; color: #6A8090; font-weight: 300; letter-spacing: 0.03em; }
+
+/* TIMELINE SCROLL AREA */
+.timeline-wrap {
+  position: relative;
+  overflow: hidden;
+}
+
+/* EPOCH ENTRIES */
+.epoch {
+  background: #1A2535;
+  border: 1px solid #2E4055;
+  border-radius: 4px;
+  padding: 32px 36px;
+  margin-bottom: 2px;
+  position: relative;
+  transition: border-color 0.2s;
+}
+.epoch:hover { border-color: #4A6070; }
+.epoch-spine {
+  position: absolute;
+  left: 0; top: 0; bottom: 0;
+  width: 4px;
+  border-radius: 4px 0 0 4px;
+}
+.epoch-tag {
+  font-family: 'DM Mono', monospace; font-size: 9px;
+  letter-spacing: 0.18em; text-transform: uppercase; color: #6A8A9A;
+  margin-bottom: 10px; display: block;
+}
+.epoch-name {
+  font-family: 'Libre Baskerville', serif;
+  font-size: 22px; color: #E0D8C8; font-weight: 700;
+  margin-bottom: 4px; line-height: 1.1;
+}
+.epoch-range {
+  font-family: 'DM Mono', monospace; font-size: 11px;
+  color: #8AAABB; letter-spacing: 0.08em; margin-bottom: 14px;
+}
+.epoch-body {
+  font-size: 13px; color: #90AABF; line-height: 1.75; max-width: 640px;
+}
+.epoch-tags {
+  display: flex; flex-wrap: wrap; gap: 6px; margin-top: 14px;
+}
+.epoch-chip {
+  font-family: 'DM Mono', monospace; font-size: 9px;
+  letter-spacing: 0.1em; color: #8AAABB;
+  border: 1px solid #2E4055; padding: 3px 10px; border-radius: 2px;
+}
+.epoch-scale {
+  position: absolute; right: 36px; top: 50%; transform: translateY(-50%);
+  text-align: right;
+}
+.epoch-mya {
+  font-family: 'Libre Baskerville', serif;
+  font-size: 36px; color: #2E4055; font-weight: 700; line-height: 1;
+}
+.epoch-mya-unit {
+  font-family: 'DM Mono', monospace; font-size: 9px;
+  color: #3A5060; letter-spacing: 0.12em; text-transform: uppercase;
+  display: block; margin-top: 2px;
+}
+
+/* CONNECTOR */
+.connector {
+  display: flex; align-items: center; justify-content: center;
+  height: 28px; position: relative;
+}
+.connector::before {
+  content: ''; position: absolute;
+  left: 50%; top: 0; bottom: 0; width: 1px;
+  background: #2E4055;
+}
+.connector-label {
+  font-family: 'DM Mono', monospace; font-size: 8px;
+  letter-spacing: 0.14em; text-transform: uppercase;
+  color: #3A5060; background: #1A2535;
+  padding: 0 8px; position: relative; z-index: 1;
+}
+
+/* NOW MARKER */
+.now-marker {
+  background: #1F2E42; border: 1px solid #2E4055;
+  border-radius: 4px; padding: 16px 24px;
+  display: flex; align-items: center; gap: 16px;
+  margin-bottom: 2px;
+}
+.now-dot { width: 10px; height: 10px; border-radius: 50%; background: #C8B890; flex-shrink: 0; }
+.now-label { font-family: 'DM Mono', monospace; font-size: 10px; letter-spacing: 0.16em; text-transform: uppercase; color: #C8B890; }
+.now-sub { font-size: 12px; color: #6A8A9A; margin-left: auto; font-family: 'DM Mono', monospace; }
+
+/* TOOTH FOUND HERE marker */
+.tooth-marker {
+  background: rgba(200,184,144,0.06); border: 1px solid rgba(200,184,144,0.25);
+  border-radius: 4px; padding: 12px 20px; margin-top: 12px;
+  display: flex; align-items: center; gap: 10px;
+}
+.tooth-marker-icon { font-size: 14px; }
+.tooth-marker-text { font-family: 'DM Mono', monospace; font-size: 9px; letter-spacing: 0.14em; text-transform: uppercase; color: #C8B890; }
+
+/* FOOTNOTE */
+.footnote { margin-top: 60px; padding-top: 20px; border-top: 1px solid #2E4055; text-align: center; }
+.footnote p { font-family: 'DM Mono', monospace; font-size: 9px; color: #5A7A8A; letter-spacing: 0.08em; line-height: 2; }
+
+/* COMING SOON OVERLAY */
+.coming-soon-banner {
+  background: #1F2E42; border: 1px solid #2E4055;
+  border-radius: 4px; padding: 48px 40px;
+  text-align: center; margin-bottom: 48px;
+}
+.coming-soon-glyph { font-size: 36px; margin-bottom: 16px; display: block; }
+.coming-soon-title { font-family: 'Libre Baskerville', serif; font-size: 20px; color: #E0D8C8; margin-bottom: 8px; }
+.coming-soon-body { font-size: 13px; color: #7A9AB0; max-width: 480px; margin: 0 auto; line-height: 1.75; }
+</style>
+</head>
+<body>
+
+<nav class="site-nav">
+  <a href="index.html" class="site-nav-logo">
+    <span class="site-nav-wordmark">Shark Tooth Island</span>
+    <span class="site-nav-sub">Cape Fear River · NC</span>
+  </a>
+  <ul class="site-nav-links">
+    <li><a href="index.html">Field Guide</a></li>
+    <li><a href="megalodon-calculator-v5.html">Size Calculator</a></li>
+    <li><a href="hunt-planner.html">Hunt Planner</a></li>
+    <li><a href="depth-of-time.html" class="active">Depth of Time</a></li>
+  </ul>
+  <button class="nav-burger" onclick="document.getElementById('nav-drawer').classList.toggle('open')" aria-label="Menu">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+<div class="nav-drawer" id="nav-drawer">
+  <a href="index.html">Field Guide</a>
+  <a href="megalodon-calculator-v5.html">Size Calculator</a>
+  <a href="hunt-planner.html">Hunt Planner</a>
+  <a href="depth-of-time.html" class="active">Depth of Time</a>
+</div>
+
+<div class="container">
+
+  <div class="header">
+    <div class="header-tag">Geological Timeline · Cape Fear River Formation</div>
+    <h1>A <em>Depth of Time</em></h1>
+    <p class="header-sub">Scroll 100 million years. Every tooth on this island has a story that starts here.</p>
+  </div>
+
+  <div class="coming-soon-banner">
+    <span class="coming-soon-glyph">◎</span>
+    <div class="coming-soon-title">Interactive Timeline — Coming Soon</div>
+    <p class="coming-soon-body">The full scroll experience is in development. As you move down the page, geological time will compress around you — Cretaceous seas, the rise and fall of Otodus, the Cape Fear sediment record, and exactly where your tooth fits in 100 million years of history.</p>
+  </div>
+
+  <!-- NOW -->
+  <div class="now-marker">
+    <div class="now-dot"></div>
+    <span class="now-label">Present Day</span>
+    <span class="now-sub">0 Ma</span>
+  </div>
+
+  <div class="connector"><span class="connector-label">2.6 million years</span></div>
+
+  <!-- PLEISTOCENE -->
+  <div class="epoch">
+    <div class="epoch-spine" style="background:#4A7A8A;"></div>
+    <span class="epoch-tag">Quaternary · Pleistocene</span>
+    <div class="epoch-name">Ice Ages</div>
+    <div class="epoch-range">2.6 – 0.01 Ma</div>
+    <p class="epoch-body">Sea levels rise and fall dramatically as glaciers advance and retreat. The Cape Fear River cuts deep into the coastal plain during low sea stands, reworking older sediment — and the fossils within it — into new deposits.</p>
+    <div class="epoch-tags">
+      <span class="epoch-chip">Sea level fluctuation</span>
+      <span class="epoch-chip">Fossil reworking</span>
+      <span class="epoch-chip">Mammoth, mastodon</span>
+    </div>
+    <div class="epoch-scale"><div class="epoch-mya">2.6</div><span class="epoch-mya-unit">Ma ago</span></div>
+  </div>
+
+  <div class="connector"><span class="connector-label">3 million years</span></div>
+
+  <!-- PLIOCENE -->
+  <div class="epoch">
+    <div class="epoch-spine" style="background:#5A6A8A;"></div>
+    <span class="epoch-tag">Neogene · Pliocene</span>
+    <div class="epoch-name">Final Megalodon</div>
+    <div class="epoch-range">5.3 – 2.6 Ma</div>
+    <p class="epoch-body">Otodus megalodon goes extinct. The exact cause is debated — cooling oceans, collapse of prey populations, competition from great white sharks, or a combination of all three. The last known specimens date to roughly 3.6 Ma. What you find on the island is all that remains.</p>
+    <div class="epoch-tags">
+      <span class="epoch-chip">Megalodon extinction ~3.6 Ma</span>
+      <span class="epoch-chip">Great white sharks rise</span>
+      <span class="epoch-chip">Ocean cooling</span>
+    </div>
+    <div class="epoch-scale"><div class="epoch-mya">5</div><span class="epoch-mya-unit">Ma ago</span></div>
+  </div>
+
+  <div class="connector"><span class="connector-label">18 million years</span></div>
+
+  <!-- MIOCENE -->
+  <div class="epoch">
+    <div class="epoch-spine" style="background:#C8B890;"></div>
+    <span class="epoch-tag">Neogene · Miocene</span>
+    <div class="epoch-name">Peak Megalodon</div>
+    <div class="epoch-range">23 – 5.3 Ma</div>
+    <p class="epoch-body">The undisputed apex of megalodon's reign. Warm, shallow seas cover much of what is now the Carolina coastal plain. Otodus megalodon reaches its maximum size — estimates range from 50 to 65 feet — hunting large baleen whales in productive coastal waters. Most teeth found on Shark Tooth Island originate from this epoch.</p>
+    <div class="epoch-tags">
+      <span class="epoch-chip">Most local finds</span>
+      <span class="epoch-chip">Warm shallow seas</span>
+      <span class="epoch-chip">Whale prey abundant</span>
+      <span class="epoch-chip">Peak body size</span>
+    </div>
+    <div class="tooth-marker">
+      <span class="tooth-marker-icon">◆</span>
+      <span class="tooth-marker-text">Most teeth found on this island date to this epoch — 5 to 23 million years ago</span>
+    </div>
+    <div class="epoch-scale"><div class="epoch-mya">23</div><span class="epoch-mya-unit">Ma ago</span></div>
+  </div>
+
+  <div class="connector"><span class="connector-label">11 million years</span></div>
+
+  <!-- OLIGOCENE -->
+  <div class="epoch">
+    <div class="epoch-spine" style="background:#6A8A9A;"></div>
+    <span class="epoch-tag">Paleogene · Oligocene</span>
+    <div class="epoch-name">Megalodon Emerges</div>
+    <div class="epoch-range">33.9 – 23 Ma</div>
+    <p class="epoch-body">Otodus megalodon first appears in the fossil record, evolving from the earlier Otodus obliquus lineage. Early specimens are smaller than their later descendants. The Atlantic coastline resembles modern-day Florida — a broad carbonate platform fronting a warm, shallow sea.</p>
+    <div class="epoch-tags">
+      <span class="epoch-chip">First megalodon teeth</span>
+      <span class="epoch-chip">Otodus lineage</span>
+      <span class="epoch-chip">Smaller early specimens</span>
+    </div>
+    <div class="epoch-scale"><div class="epoch-mya">34</div><span class="epoch-mya-unit">Ma ago</span></div>
+  </div>
+
+  <div class="connector"><span class="connector-label">22 million years</span></div>
+
+  <!-- EOCENE -->
+  <div class="epoch">
+    <div class="epoch-spine" style="background:#8A7A6A;"></div>
+    <span class="epoch-tag">Paleogene · Eocene</span>
+    <div class="epoch-name">Ancient Seas</div>
+    <div class="epoch-range">56 – 33.9 Ma</div>
+    <p class="epoch-body">The warmest sustained period of the Cenozoic. Much of the Carolina coastal plain is fully submerged beneath a shallow, tropical sea. The Otodus obliquus shark — megalodon's predecessor — is the apex predator. Occasional Eocene teeth surface in Cape Fear sediment.</p>
+    <div class="epoch-tags">
+      <span class="epoch-chip">Otodus obliquus</span>
+      <span class="epoch-chip">Tropical carbonate seas</span>
+      <span class="epoch-chip">Rare local finds</span>
+    </div>
+    <div class="epoch-scale"><div class="epoch-mya">56</div><span class="epoch-mya-unit">Ma ago</span></div>
+  </div>
+
+  <div class="connector"><span class="connector-label">10 million years</span></div>
+
+  <!-- CRETACEOUS -->
+  <div class="epoch">
+    <div class="epoch-spine" style="background:#7A6A8A;"></div>
+    <span class="epoch-tag">Mesozoic · Late Cretaceous</span>
+    <div class="epoch-name">Before Sharks Ruled</div>
+    <div class="epoch-range">100 – 66 Ma</div>
+    <p class="epoch-body">The Western Interior Seaway splits North America. Marine reptiles — mosasaurs and plesiosaurs — dominate. Sharks exist but are smaller and more diverse. The mass extinction event at 66 Ma reshapes ocean ecosystems and clears the path for the lamniform lineage that will eventually produce megalodon.</p>
+    <div class="epoch-tags">
+      <span class="epoch-chip">Mosasaurs, plesiosaurs</span>
+      <span class="epoch-chip">K-Pg extinction 66 Ma</span>
+      <span class="epoch-chip">Interior seaway</span>
+    </div>
+    <div class="epoch-scale"><div class="epoch-mya">100</div><span class="epoch-mya-unit">Ma ago</span></div>
+  </div>
+
+  <div class="connector"><span class="connector-label">Start of our record</span></div>
+
+  <div class="footnote">
+    <p>
+      Geological time references after ICS International Chronostratigraphic Chart v2023 · Cape Fear River Formation, New Hanover County, NC<br>
+      SharkToothIsland.org · Cape Fear River Field Station · Citizen Science Platform
+    </p>
+  </div>
+
+</div>
+
+<script>
+function toggleNav() {
+  document.getElementById('nav-drawer').classList.toggle('open');
+}
+document.addEventListener('DOMContentLoaded', () => {
+  document.querySelectorAll('.nav-drawer a').forEach(a => {
+    a.addEventListener('click', () => document.getElementById('nav-drawer').classList.remove('open'));
+  });
+});
+</script>
+</body>
+</html>
