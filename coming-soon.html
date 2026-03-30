@@ -10,7 +10,7 @@
 * { box-sizing: border-box; margin: 0; padding: 0; }
 html, body {
   width: 100%; min-height: 100vh;
-  background: #0E1520;
+  background: #111E2E;
   color: #A8BFD4;
   font-family: 'DM Sans', sans-serif;
   overflow-x: hidden;
@@ -20,7 +20,7 @@ html, body {
 body::before {
   content: '';
   position: fixed; inset: 0;
-  background: repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(0,0,0,0.018) 2px, rgba(0,0,0,0.018) 4px);
+  background: repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(0,0,0,0.015) 2px, rgba(0,0,0,0.015) 4px);
   pointer-events: none; z-index: 100;
 }
 
@@ -28,19 +28,33 @@ body::before {
 .bg-grid {
   position: fixed; inset: 0; z-index: 0;
   background-image:
-    linear-gradient(rgba(30,70,100,0.18) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(30,70,100,0.18) 1px, transparent 1px);
+    linear-gradient(rgba(40,90,130,0.22) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(40,90,130,0.22) 1px, transparent 1px);
   background-size: 48px 48px;
-  mask-image: radial-gradient(ellipse 80% 80% at 50% 50%, black 40%, transparent 100%);
+  mask-image: radial-gradient(ellipse 90% 90% at 50% 50%, black 30%, transparent 100%);
 }
 
-/* ── GLOW ── */
+/* ── HORIZON GLOW ── */
 .bg-glow {
   position: fixed; inset: 0; z-index: 0;
   background:
-    radial-gradient(ellipse 60% 50% at 50% 60%, rgba(0,120,180,0.10) 0%, transparent 70%),
-    radial-gradient(ellipse 30% 20% at 50% 95%, rgba(0,80,120,0.15) 0%, transparent 60%);
+    radial-gradient(ellipse 80% 40% at 50% 72%, rgba(0,140,210,0.18) 0%, transparent 70%),
+    radial-gradient(ellipse 50% 25% at 50% 100%, rgba(0,100,160,0.25) 0%, transparent 60%),
+    radial-gradient(ellipse 100% 30% at 50% 68%, rgba(0,60,100,0.30) 0%, transparent 80%);
   pointer-events: none;
+}
+
+/* ── ISLAND SCENE ── */
+.island-scene {
+  position: fixed;
+  bottom: 0; left: 0; right: 0;
+  height: 42vh;
+  z-index: 1;
+  pointer-events: none;
+}
+.island-scene svg {
+  width: 100%; height: 100%;
+  display: block;
 }
 
 /* ── LAYOUT ── */
@@ -251,6 +265,111 @@ h1 em {
 
 <div class="bg-grid"></div>
 <div class="bg-glow"></div>
+
+<!-- DISTANT ISLAND SCENE -->
+<div class="island-scene">
+  <svg viewBox="0 0 1200 320" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMax slice">
+    <defs>
+      <radialGradient id="islandGlow" cx="50%" cy="0%" r="100%">
+        <stop offset="0%" stop-color="rgba(0,160,220,0.18)"/>
+        <stop offset="100%" stop-color="rgba(0,0,0,0)"/>
+      </radialGradient>
+      <radialGradient id="waterGlow" cx="50%" cy="50%" r="50%">
+        <stop offset="0%" stop-color="rgba(0,120,180,0.22)"/>
+        <stop offset="100%" stop-color="rgba(0,0,0,0)"/>
+      </radialGradient>
+      <filter id="blur1">
+        <feGaussianBlur stdDeviation="2.5"/>
+      </filter>
+      <filter id="blur2">
+        <feGaussianBlur stdDeviation="1.2"/>
+      </filter>
+    </defs>
+
+    <!-- WATER SURFACE -->
+    <rect x="0" y="180" width="1200" height="140" fill="rgba(0,30,55,0.85)"/>
+
+    <!-- WATER SHIMMER LINES -->
+    <line x1="0" y1="185" x2="1200" y2="185" stroke="rgba(0,150,220,0.12)" stroke-width="1"/>
+    <line x1="0" y1="192" x2="1200" y2="192" stroke="rgba(0,150,220,0.07)" stroke-width="1"/>
+    <line x1="0" y1="201" x2="1200" y2="201" stroke="rgba(0,150,220,0.05)" stroke-width="1"/>
+
+    <!-- ISLAND GLOW BENEATH -->
+    <ellipse cx="600" cy="183" rx="260" ry="22" fill="url(#islandGlow)"/>
+
+    <!-- ISLAND BODY — organic sandbar silhouette -->
+    <path d="
+      M 380,183
+      C 390,178 420,172 460,170
+      C 490,168 510,166 545,165
+      C 570,163 590,161 620,161
+      C 655,161 680,163 710,165
+      C 740,167 765,170 785,173
+      C 810,177 825,181 820,183
+      Z
+    " fill="rgba(18,35,52,0.95)" filter="url(#blur2)"/>
+
+    <!-- ISLAND SURFACE — slightly lighter -->
+    <path d="
+      M 390,182
+      C 405,176 435,170 468,168
+      C 496,166 518,164 548,163
+      C 572,162 594,160 622,160
+      C 656,160 682,162 712,165
+      C 740,167 762,170 778,174
+      C 795,178 808,181 805,183
+      Z
+    " fill="rgba(22,42,62,0.9)"/>
+
+    <!-- SMALL BUMP LEFT -->
+    <ellipse cx="480" cy="167" rx="28" ry="6" fill="rgba(25,46,68,0.85)"/>
+    <!-- SMALL BUMP CENTER -->
+    <ellipse cx="610" cy="160" rx="38" ry="7" fill="rgba(25,48,70,0.9)"/>
+    <!-- SMALL BUMP RIGHT -->
+    <ellipse cx="730" cy="165" rx="22" ry="5" fill="rgba(24,44,65,0.85)"/>
+
+    <!-- ISLAND EDGE GLOW — waterline -->
+    <path d="
+      M 385,183 C 450,179 550,176 600,176 C 650,176 750,179 815,183
+    " fill="none" stroke="rgba(0,180,230,0.35)" stroke-width="1.5" filter="url(#blur1)"/>
+    <path d="
+      M 395,183 C 455,180 548,177 600,177 C 652,177 745,180 805,183
+    " fill="none" stroke="rgba(0,200,255,0.15)" stroke-width="0.8"/>
+
+    <!-- WATER REFLECTION of island -->
+    <path d="
+      M 400,183 C 450,186 540,189 600,189 C 660,189 750,186 800,183
+      L 820,195 C 780,192 700,190 600,190 C 500,190 420,192 380,195 Z
+    " fill="rgba(0,80,120,0.12)"/>
+
+    <!-- WATER SURFACE GLOW CENTER -->
+    <ellipse cx="600" cy="200" rx="300" ry="30" fill="url(#waterGlow)"/>
+
+    <!-- DISTANT TREE / VEGETATION hint — just 2-3 small bumps -->
+    <ellipse cx="572" cy="159" rx="8" ry="5" fill="rgba(20,40,58,0.7)"/>
+    <ellipse cx="592" cy="157" rx="10" ry="6" fill="rgba(22,44,62,0.75)"/>
+    <ellipse cx="614" cy="156" rx="9" ry="5" fill="rgba(20,40,58,0.7)"/>
+
+    <!-- FADE TO BLACK AT BOTTOM -->
+    <rect x="0" y="260" width="1200" height="60" fill="url(#fadeBottom)"/>
+    <defs>
+      <linearGradient id="fadeBottom" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0%" stop-color="rgba(17,30,46,0)"/>
+        <stop offset="100%" stop-color="rgba(17,30,46,1)"/>
+      </linearGradient>
+    </defs>
+
+    <!-- ANIMATED WATER RIPPLE -->
+    <ellipse id="ripple1" cx="600" cy="195" rx="80" ry="4" fill="none" stroke="rgba(0,160,220,0.15)" stroke-width="1">
+      <animate attributeName="rx" values="60;120;60" dur="5s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.4;0;0.4" dur="5s" repeatCount="indefinite"/>
+    </ellipse>
+    <ellipse id="ripple2" cx="600" cy="200" rx="40" ry="3" fill="none" stroke="rgba(0,140,200,0.10)" stroke-width="0.8">
+      <animate attributeName="rx" values="30;100;30" dur="7s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.3;0;0.3" dur="7s" repeatCount="indefinite"/>
+    </ellipse>
+  </svg>
+</div>
 
 <div class="page">
 
