@@ -4,49 +4,52 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Hunt Planner — Shark Tooth Island</title>
-<link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=DM+Mono:wght@400&family=DM+Sans:wght@400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=DM+Mono:wght@400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
 <style>
 :root {
-  --bg-main: #080F1A;
-  --bg-soft: #0D1520;
-  --bg-card: #111E2E;
-  --bg-card-alt: #0F1A28;
-  --text-main: #E4EEF6;
-  --text-body: #B8CCDA;
-  --text-muted: #7A9AB0;
-  --text-faint: #4A6A7A;
-  --border-soft: rgba(60,100,140,0.18);
-  --border-mid: rgba(60,100,140,0.30);
-  --blue-deep: #4A9EBF;
-  --blue-mid: #5AAECC;
-  --blue-light: #7FCFE8;
-  --accent-gold: #C8A86A;
+  --deep: #1A2535;
+  --deep-mid: #202E42;
+  --deep-card: #263548;
+  --deep-border: rgba(100,140,180,0.20);
+  --blue: #2563A8;
+  --blue-mid: #3A7BC8;
+  --blue-light: #7FB3E8;
+  --blue-pale: #C8DFF5;
+  --slate: #8FA3BA;
+  --slate-dark: #5C7A96;
+  --slate-light: #B8CCDE;
+  --white: #EEF4FA;
+  --white-dim: #C2D2E2;
+  --accent: #4A9EBF;
+  --accent-pale: rgba(74,158,191,0.12);
+  --muted: #5C7A96;
+  --gold: #C8A96A;
   --success: #3ABEA0;
 }
 * { box-sizing: border-box; margin: 0; padding: 0; }
 html { scroll-behavior: smooth; overflow-x: hidden; }
-body { font-family: 'DM Sans', sans-serif; background: #080F1A; color: var(--text-body); min-height: 100vh; line-height: 1.6; overflow-x: hidden; }
+body { font-family: 'DM Sans', sans-serif; background: var(--deep); color: var(--white-dim); min-height: 100vh; line-height: 1.6; overflow-x: hidden; }
 
 /* NAV — exact from index */
-nav { position:sticky; top:0; z-index:100; background:rgba(8,15,26,0.94); backdrop-filter:blur(12px); border-bottom:1px solid var(--border-soft); padding:0 40px; display:flex; align-items:center; justify-content:space-between; height:56px; }
+nav { position:sticky; top:0; z-index:100; background:rgba(26,37,53,0.96); backdrop-filter:blur(12px); border-bottom:1px solid var(--deep-border); padding:0 40px; display:flex; align-items:center; justify-content:space-between; height:56px; }
 a.nav-logo { display:flex; flex-direction:column; gap:1px; text-decoration:none; }
-.nav-wordmark { font-family:'Libre Baskerville',serif; font-size:14px; font-weight:700; color:var(--text-main); letter-spacing:0.01em; line-height:1; }
-.nav-sub { font-family:'DM Mono',monospace; font-size:9px; letter-spacing:0.14em; text-transform:uppercase; color:var(--text-muted); }
+.nav-wordmark { font-family:'Libre Baskerville',serif; font-size:14px; font-weight:700; color:var(--white); letter-spacing:0.01em; line-height:1; }
+.nav-sub { font-family:'DM Mono',monospace; font-size:9px; letter-spacing:0.14em; text-transform:uppercase; color:var(--muted); }
 .nav-links { display:flex; gap:28px; list-style:none; align-items:center; }
-.nav-links a { font-family:'DM Mono',monospace; font-size:10px; letter-spacing:0.16em; text-transform:uppercase; color:var(--blue-deep); text-decoration:none; transition:color 0.2s; }
-.nav-links a:hover { color:var(--text-main); }
-.nav-links a.nav-active { color:var(--blue-mid); }
-.nav-links a.nav-soon { color:var(--text-faint); cursor:default; pointer-events:none; }
-.soon-tag { font-size:8px; background:rgba(74,158,191,0.12); border:1px solid rgba(74,158,191,0.2); color:var(--blue-mid); padding:1px 5px; border-radius:3px; margin-left:5px; vertical-align:middle; letter-spacing:0.08em; }
+.nav-links a { font-family:'DM Mono',monospace; font-size:10px; letter-spacing:0.1em; text-transform:uppercase; color:var(--muted); text-decoration:none; transition:color 0.2s; }
+.nav-links a:hover { color:var(--white); }
+.nav-links a.nav-active { color:var(--accent); }
+.nav-links a.nav-soon { color:#2A4A5A; cursor:default; pointer-events:none; }
+.soon-tag { font-size:8px; background:rgba(74,158,191,0.12); border:1px solid rgba(74,158,191,0.2); color:var(--accent); padding:1px 5px; border-radius:3px; margin-left:5px; vertical-align:middle; letter-spacing:0.08em; }
 .nav-burger { display:none; flex-direction:column; gap:5px; cursor:pointer; padding:6px; background:none; border:none; }
-.nav-burger span { display:block; width:22px; height:1.5px; background:var(--text-muted); border-radius:1px; }
-.nav-drawer { display:none; position:fixed; top:56px; left:0; right:0; z-index:99; background:rgba(8,15,26,0.97); backdrop-filter:blur(16px); border-bottom:1px solid var(--border-soft); flex-direction:column; padding:12px 0; }
+.nav-burger span { display:block; width:22px; height:1.5px; background:var(--muted); border-radius:1px; transition:all 0.2s; }
+.nav-drawer { display:none; position:fixed; top:56px; left:0; right:0; z-index:99; background:rgba(22,32,46,0.97); backdrop-filter:blur(16px); border-bottom:1px solid var(--deep-border); flex-direction:column; padding:12px 0; }
 .nav-drawer.open { display:flex; }
-.nav-drawer a { font-family:'DM Mono',monospace; font-size:11px; letter-spacing:0.14em; text-transform:uppercase; color:var(--text-muted); text-decoration:none; padding:14px 28px; border-bottom:1px solid rgba(100,140,180,0.06); transition:color 0.15s; }
+.nav-drawer a { font-family:'DM Mono',monospace; font-size:11px; letter-spacing:0.14em; text-transform:uppercase; color:var(--muted); text-decoration:none; padding:14px 28px; border-bottom:1px solid rgba(100,140,180,0.06); transition:color 0.15s; }
 .nav-drawer a:last-child { border-bottom:none; }
-.nav-drawer a:hover { color:var(--text-main); }
-.nav-drawer a.nav-active { color:var(--blue-mid); }
-.nav-drawer a.nav-soon { color:var(--text-faint); pointer-events:none; }
+.nav-drawer a:hover { color:var(--white); }
+.nav-drawer a.nav-active { color:var(--accent); }
+.nav-drawer a.nav-soon { color:#2A4A5A; pointer-events:none; }
 @media (max-width:680px) { nav { padding:0 20px; } .nav-links { display:none; } .nav-burger { display:flex; } }
 
 /* PAGE */
@@ -54,100 +57,99 @@ a.nav-logo { display:flex; flex-direction:column; gap:1px; text-decoration:none;
 
 /* HEADER */
 .header { margin-bottom: 40px; }
-.header-tag { font-family:'DM Mono',monospace; font-size:10px; letter-spacing:0.2em; text-transform:uppercase; color:var(--blue-mid); margin-bottom:16px; display:flex; align-items:center; gap:10px; }
-.header-tag::after { content:''; width:48px; height:1px; background:var(--border-mid); }
-.header h1 { font-family:'Libre Baskerville',serif; font-size:clamp(28px,5vw,44px); color:var(--text-main); font-weight:700; letter-spacing:-0.02em; line-height:1.08; margin-bottom:8px; }
-.header h1 em { font-style:italic; font-weight:400; color:var(--blue-mid); }
-.header-sub { font-size:13px; color:var(--text-muted); font-family:'DM Mono',monospace; letter-spacing:0.06em; }
+.header-tag { font-family:'DM Mono',monospace; font-size:10px; letter-spacing:0.2em; text-transform:uppercase; color:var(--accent); margin-bottom:16px; display:flex; align-items:center; gap:10px; }
+.header-tag::after { content:''; width:48px; height:1px; background:var(--accent); opacity:0.3; }
+.header h1 { font-family:'Libre Baskerville',serif; font-size:clamp(28px,5vw,44px); color:var(--white); font-weight:700; letter-spacing:-0.02em; line-height:1.08; margin-bottom:8px; }
+.header h1 em { font-style:italic; font-weight:400; color:var(--blue-light); }
+.header-sub { font-size:13px; color:var(--muted); font-family:'DM Mono',monospace; letter-spacing:0.06em; }
 
 /* 7-DAY STRIP */
 .week-strip { display:flex; gap:8px; margin-bottom:20px; overflow-x:auto; padding-bottom:4px; }
-.day-pill { flex:1; min-width:70px; background:var(--bg-card); border:1px solid var(--border-soft); border-radius:10px; padding:12px 8px; text-align:center; cursor:pointer; transition:border-color 0.15s,background 0.15s; box-shadow:0 1px 3px rgba(0,0,0,0.3); }
+.day-pill { flex:1; min-width:70px; background:var(--deep-card); border:1px solid var(--deep-border); border-radius:10px; padding:12px 8px; text-align:center; cursor:pointer; transition:border-color 0.15s,background 0.15s; box-shadow:0 1px 3px rgba(0,0,0,0.3); }
 .day-pill:hover { border-color:var(--blue-mid); }
-.day-pill.selected { border-color:var(--blue-mid); background:rgba(90,174,204,0.08); }
+.day-pill.selected { border-color:var(--blue-mid); background:rgba(37,99,168,0.12); }
 .day-pill.green { border-color:rgba(58,190,160,0.35); }
 .day-pill.yellow { border-color:rgba(200,168,106,0.35); }
 .day-pill.red { border-color:rgba(180,80,80,0.25); }
-.day-name { font-family:'DM Mono',monospace; font-size:9px; letter-spacing:0.12em; color:var(--text-muted); margin-bottom:4px; }
-.day-date { font-family:'Libre Baskerville',serif; font-size:18px; color:var(--text-main); margin-bottom:6px; }
+.day-name { font-family:'DM Mono',monospace; font-size:9px; letter-spacing:0.12em; color:var(--muted); margin-bottom:4px; }
+.day-date { font-family:'Libre Baskerville',serif; font-size:18px; color:var(--white); margin-bottom:6px; }
 .day-dot { width:8px; height:8px; border-radius:50%; margin:0 auto 6px; }
 .dot-green { background:#3ABEA0; }
-.dot-yellow { background:var(--accent-gold); }
+.dot-yellow { background:var(--gold); }
 .dot-red { background:rgba(200,80,80,0.7); }
-.dot-gray { background:var(--text-faint); }
-.day-low { font-family:'DM Mono',monospace; font-size:9px; color:var(--text-muted); }
+.dot-gray { background:var(--slate-dark); }
+.day-low { font-family:'DM Mono',monospace; font-size:9px; color:var(--muted); }
 
 /* DATE ROW */
 .date-row { display:flex; align-items:center; gap:12px; margin-bottom:24px; flex-wrap:wrap; }
-.date-label { font-family:'DM Mono',monospace; font-size:10px; letter-spacing:0.14em; text-transform:uppercase; color:var(--text-muted); }
-input[type=date] { background:var(--bg-card); border:1px solid var(--border-soft); color:var(--text-main); font-family:'DM Sans',sans-serif; font-size:14px; padding:8px 14px; border-radius:6px; outline:none; cursor:pointer; }
+.date-label { font-family:'DM Mono',monospace; font-size:10px; letter-spacing:0.14em; text-transform:uppercase; color:var(--muted); }
+input[type=date] { background:var(--deep-card); border:1px solid var(--deep-border); color:var(--white); font-family:'DM Sans',sans-serif; font-size:14px; padding:8px 14px; border-radius:6px; outline:none; cursor:pointer; }
 input[type=date]:focus { border-color:var(--blue-mid); }
-.load-btn { background:rgba(0,100,160,0.18); border:1px solid var(--border-mid); color:var(--blue-light); font-family:'DM Mono',monospace; font-size:10px; letter-spacing:0.14em; text-transform:uppercase; padding:8px 18px; border-radius:6px; cursor:pointer; transition:background 0.15s,color 0.15s; min-height:36px; }
-.load-btn:hover { background:rgba(0,130,200,0.28); color:var(--text-main); }
+.load-btn { background:rgba(37,99,168,0.18); border:1px solid rgba(100,140,180,0.30); color:var(--blue-light); font-family:'DM Mono',monospace; font-size:10px; letter-spacing:0.14em; text-transform:uppercase; padding:8px 18px; border-radius:6px; cursor:pointer; transition:background 0.15s,color 0.15s; min-height:36px; }
+.load-btn:hover { background:rgba(37,99,168,0.28); color:var(--white); }
 
 /* VERDICT */
-.verdict { background:var(--bg-card); border:1px solid var(--border-soft); border-radius:12px; padding:24px 28px; margin-bottom:16px; display:flex; gap:20px; align-items:flex-start; box-shadow:0 1px 3px rgba(0,0,0,0.3); }
+.verdict { background:var(--deep-card); border:1px solid var(--deep-border); border-radius:12px; padding:24px 28px; margin-bottom:16px; display:flex; gap:20px; align-items:flex-start; box-shadow:0 1px 3px rgba(0,0,0,0.3); }
 .verdict.go { border-color:rgba(58,190,160,0.35); }
 .verdict.maybe { border-color:rgba(200,168,106,0.35); }
 .verdict.pass { border-color:rgba(200,80,80,0.25); }
-.verdict.loading { border-color:var(--border-soft); }
+.verdict.loading { border-color:var(--deep-border); }
 .verdict-icon { font-family:'Libre Baskerville',serif; font-size:28px; flex-shrink:0; line-height:1; width:36px; text-align:center; margin-top:2px; }
 .verdict.go .verdict-icon { color:#3ABEA0; }
-.verdict.maybe .verdict-icon { color:var(--accent-gold); }
+.verdict.maybe .verdict-icon { color:var(--gold); }
 .verdict.pass .verdict-icon { color:rgba(200,80,80,0.8); }
-.verdict.loading .verdict-icon { color:var(--text-faint); }
-.verdict-label { font-family:'DM Mono',monospace; font-size:9px; letter-spacing:0.2em; text-transform:uppercase; color:var(--text-muted); margin-bottom:4px; }
-.verdict-title { font-family:'Libre Baskerville',serif; font-size:20px; color:var(--text-main); font-weight:700; margin-bottom:8px; }
+.verdict.loading .verdict-icon { color:var(--slate-dark); }
+.verdict-label { font-family:'DM Mono',monospace; font-size:9px; letter-spacing:0.2em; text-transform:uppercase; color:var(--muted); margin-bottom:4px; }
+.verdict-title { font-family:'Libre Baskerville',serif; font-size:20px; color:var(--white); font-weight:700; margin-bottom:8px; }
 .verdict.go .verdict-title { color:#3ABEA0; }
-.verdict.maybe .verdict-title { color:var(--accent-gold); }
+.verdict.maybe .verdict-title { color:var(--gold); }
 .verdict.pass .verdict-title { color:rgba(200,80,80,0.85); }
-.verdict-summary { font-size:14px; color:var(--text-muted); line-height:1.75; max-width:600px; }
+.verdict-summary { font-size:14px; color:var(--muted); line-height:1.75; max-width:600px; }
 
 /* STAT GRID */
 .data-grid { display:grid; grid-template-columns:repeat(4,1fr); gap:10px; margin-bottom:16px; }
-.data-cell { background:var(--bg-card); border:1px solid var(--border-soft); border-radius:10px; padding:16px 14px; text-align:center; box-shadow:0 1px 3px rgba(0,0,0,0.3); }
-.cell-label { font-family:'DM Mono',monospace; font-size:8px; letter-spacing:0.16em; text-transform:uppercase; color:var(--text-muted); margin-bottom:6px; }
-.cell-value { font-family:'Libre Baskerville',serif; font-size:20px; color:var(--blue-mid); line-height:1.1; margin-bottom:3px; }
-
+.data-cell { background:var(--deep-card); border:1px solid var(--deep-border); border-radius:10px; padding:16px 14px; text-align:center; box-shadow:0 1px 3px rgba(0,0,0,0.3); }
+.cell-label { font-family:'DM Mono',monospace; font-size:8px; letter-spacing:0.16em; text-transform:uppercase; color:var(--muted); margin-bottom:6px; }
+.cell-value { font-family:'Libre Baskerville',serif; font-size:20px; color:var(--blue-light); line-height:1.1; margin-bottom:3px; }
 .cell-value.good { color: var(--success); }
-.cell-value.warn { color: var(--accent-gold); }
+.cell-value.warn { color: var(--gold); }
 .cell-value.bad  { color: rgba(200,80,80,0.85); }
-
-.cell-note { font-size:11px; color:var(--text-muted); line-height:1.4; }
+.cell-note { font-size:11px; color:var(--muted); line-height:1.4; }
 
 /* TIDE SECTION */
-.tide-section { background:var(--bg-card); border:1px solid var(--border-soft); border-radius:12px; padding:24px 28px; margin-bottom:16px; box-shadow:0 1px 3px rgba(0,0,0,0.3); }
-.tide-section h3 { font-family:'Libre Baskerville',serif; font-size:15px; font-style:italic; color:var(--text-main); margin-bottom:16px; }
+.tide-section { background:var(--deep-card); border:1px solid var(--deep-border); border-radius:12px; padding:24px 28px; margin-bottom:16px; box-shadow:0 1px 3px rgba(0,0,0,0.3); }
+.tide-section h3 { font-family:'Libre Baskerville',serif; font-size:15px; font-style:italic; color:var(--white); margin-bottom:16px; }
 .tide-table { width:100%; border-collapse:collapse; margin-top:16px; }
-.tide-table th { font-family:'DM Mono',monospace; font-size:9px; letter-spacing:0.16em; text-transform:uppercase; color:var(--text-muted); padding:0 0 10px; text-align:left; border-bottom:1px solid var(--border-soft); }
-.tide-table td.hl { color: var(--blue-mid); font-weight: 500; }
-.tide-table td { font-size:13px; color:var(--text-body); padding:8px 0; border-top:1px solid var(--border-soft); }
-.tide-table .low { color:var(--blue-mid); font-weight:500; }
-.tide-table .high { color:var(--text-muted); }
+.tide-table th { font-family:'DM Mono',monospace; font-size:9px; letter-spacing:0.16em; text-transform:uppercase; color:var(--muted); padding:0 0 10px; text-align:left; border-bottom:1px solid var(--deep-border); }
+.tide-table td.hl { color: var(--blue-light); font-weight: 500; }
+.tide-table td { font-size:13px; color:var(--white-dim); padding:8px 0; border-top:1px solid var(--deep-border); }
+.tide-table .low { color:var(--blue-light); font-weight:500; }
+.tide-table .high { color:var(--muted); }
 
 /* BRIEFING */
-.briefing { background:var(--bg-card); border:1px solid var(--border-soft); border-radius:12px; padding:24px 28px; margin-bottom:16px; box-shadow:0 1px 3px rgba(0,0,0,0.3); }
-.briefing h3 { font-family:'Libre Baskerville',serif; font-size:15px; font-style:italic; color:var(--text-main); margin-bottom:16px; }
-.briefing-item { display:flex; gap:14px; padding:10px 0; border-top:1px solid var(--border-soft); }
+.briefing { background:var(--deep-card); border:1px solid var(--deep-border); border-radius:12px; padding:24px 28px; margin-bottom:16px; box-shadow:0 1px 3px rgba(0,0,0,0.3); }
+.briefing h3 { font-family:'Libre Baskerville',serif; font-size:15px; font-style:italic; color:var(--white); margin-bottom:16px; }
+.briefing-item { display:flex; gap:14px; padding:10px 0; border-top:1px solid var(--deep-border); }
 .briefing-item:first-of-type { border-top:none; }
-.b-icon { font-family:'DM Mono',monospace; font-size:14px; color:var(--blue-mid); flex-shrink:0; width:20px; margin-top:1px; }
-.b-text { font-size:13px; color:var(--text-muted); line-height:1.7; }
-.b-text strong { color:var(--text-main); font-weight:500; }
+.b-icon { font-family:'DM Mono',monospace; font-size:14px; color:var(--accent); flex-shrink:0; width:20px; margin-top:1px; }
+.b-text { font-size:13px; color:var(--muted); line-height:1.7; }
+.b-text strong { color:var(--white); font-weight:500; }
 
 /* EMPTY STATE */
-.empty-state { text-align:center; padding:52px 20px; font-family:'DM Mono',monospace; font-size:11px; letter-spacing:0.12em; color:var(--text-faint); }
+.empty-state { text-align:center; padding:52px 20px; font-family:'DM Mono',monospace; font-size:11px; letter-spacing:0.12em; color:var(--slate-dark); }
 
 /* PLANNER NOTE */
-.planner-note { margin-top:40px; padding-top:20px; border-top:1px solid var(--border-soft); font-family:'DM Mono',monospace; font-size:9px; color:var(--text-faint); letter-spacing:0.08em; line-height:2; text-align:center; }
+.planner-note { margin-top:40px; padding-top:20px; border-top:1px solid var(--deep-border); font-family:'DM Mono',monospace; font-size:9px; color:var(--slate-dark); letter-spacing:0.08em; line-height:2; text-align:center; }
 
 /* LOADING PULSE */
 @keyframes loadpulse { 0%,100%{opacity:0.4;}50%{opacity:1;} }
 .loading-pulse { animation:loadpulse 1.4s ease-in-out infinite; }
 
 /* FOOTER */
-.site-footer { border-top:1px solid var(--border-soft); padding:36px 40px; display:flex; align-items:center; justify-content:space-between; }
-.footer-left { font-family:'DM Mono',monospace; font-size:11px; color:var(--text-muted); letter-spacing:0.08em; }
-.footer-right { font-family:'DM Mono',monospace; font-size:11px; color:var(--text-muted); }
+.site-footer { border-top:1px solid var(--deep-border); padding:36px 40px; display:flex; align-items:center; justify-content:space-between; }
+.footer-left { font-family:'DM Mono',monospace; font-size:11px; color:var(--muted); letter-spacing:0.08em; }
+.footer-right { font-family:'DM Mono',monospace; font-size:11px; color:var(--muted); }
+.footer-right a { color:var(--accent); text-decoration:none; }
 
 @media (max-width:640px) {
   .container { padding:32px 20px 60px; }
@@ -171,7 +173,7 @@ input[type=date]:focus { border-color:var(--blue-mid); }
     <li><a href="index.html">Field Guide</a></li>
     <li><a href="megalodon-calculator-v5.html">Size Calculator</a></li>
     <li><a href="hunt-planner.html" class="nav-active">Hunt Planner</a></li>
-    <li><a href="depth-of-time.html" class="nav-soon">Depth of Time <span class="soon-tag">Soon</span></a></li>
+    <li><a href="#" class="nav-soon">Depth of Time <span class="soon-tag">Soon</span></a></li>
   </ul>
   <button class="nav-burger" onclick="toggleNav()" aria-label="Menu">
     <span></span><span></span><span></span>
@@ -181,7 +183,7 @@ input[type=date]:focus { border-color:var(--blue-mid); }
   <a href="index.html">Field Guide</a>
   <a href="megalodon-calculator-v5.html">Size Calculator</a>
   <a href="hunt-planner.html" class="nav-active">Hunt Planner</a>
-  <a href="depth-of-time.html" class="nav-soon">Depth of Time — Coming Soon</a>
+  <a href="#" class="nav-soon">Depth of Time — Coming Soon</a>
 </div>
 
 <div class="container">
@@ -230,44 +232,27 @@ input[type=date]:focus { border-color:var(--blue-mid); }
 
 <script>
 function toggleNav() { document.getElementById('nav-drawer').classList.toggle('open'); }
-document.querySelectorAll('.nav-drawer a').forEach(a => { a.addEventListener('click', () => document.getElementById('nav-drawer').classList.remove('open')); });
-function toggleNav() {
-  document.getElementById('nav-drawer').classList.toggle('open');
-}
-document.addEventListener('DOMContentLoaded', () => {
-  document.querySelectorAll('.nav-drawer a').forEach(a => {
-    a.addEventListener('click', () => document.getElementById('nav-drawer').classList.remove('open'));
-  });
+document.querySelectorAll('.nav-drawer a').forEach(a => {
+  a.addEventListener('click', () => document.getElementById('nav-drawer').classList.remove('open'));
 });
+
 // ─── CONFIG ───────────────────────────────────────────────────
 const NOAA_STATION = '8658715'; // Federal Point, Cape Fear River
 const LAT = 33.9465;   // Shark Tooth Island approx
 const LON = -77.9421;
 
 // ─── DATE HELPERS ─────────────────────────────────────────────
-function today() {
-  return new Date();
-}
+function today() { return new Date(); }
 function fmtNoaa(d) {
-  // yyyyMMdd
   const y = d.getFullYear();
   const m = String(d.getMonth()+1).padStart(2,'0');
   const day = String(d.getDate()).padStart(2,'0');
   return `${y}${m}${day}`;
 }
-function fmtISO(d) {
-  return d.toISOString().split('T')[0];
-}
-function addDays(d, n) {
-  const r = new Date(d);
-  r.setDate(r.getDate() + n);
-  return r;
-}
-function dayName(d) {
-  return d.toLocaleDateString('en-US',{weekday:'short'}).toUpperCase();
-}
+function fmtISO(d) { return d.toISOString().split('T')[0]; }
+function addDays(d, n) { const r = new Date(d); r.setDate(r.getDate() + n); return r; }
+function dayName(d) { return d.toLocaleDateString('en-US',{weekday:'short'}).toUpperCase(); }
 function fmtTime(timeStr) {
-  // timeStr: "2026-03-28 07:42"
   const parts = timeStr.split(' ')[1];
   const [h, m] = parts.split(':').map(Number);
   const ampm = h >= 12 ? 'pm' : 'am';
@@ -275,34 +260,31 @@ function fmtTime(timeStr) {
   return `${h12}:${String(m).padStart(2,'0')} ${ampm}`;
 }
 function moonPhase(date) {
-  // Simple moon phase calculation
-  const known = new Date('2000-01-06'); // known new moon
+  const known = new Date('2000-01-06');
   const diff = (date - known) / (1000*60*60*24);
   const cycle = 29.53059;
   const phase = ((diff % cycle) + cycle) % cycle;
-  if (phase < 1.85) return { name: 'New Moon', icon: '🌑', amp: 'Spring tide — large tidal range' };
-  if (phase < 7.38) return { name: 'Waxing Crescent', icon: '🌒', amp: 'Building tidal range' };
-  if (phase < 9.22) return { name: 'First Quarter', icon: '🌓', amp: 'Moderate tidal range' };
-  if (phase < 14.77) return { name: 'Waxing Gibbous', icon: '🌔', amp: 'Good tidal range' };
-  if (phase < 16.61) return { name: 'Full Moon', icon: '🌕', amp: 'Spring tide — large tidal range' };
-  if (phase < 22.15) return { name: 'Waning Gibbous', icon: '🌖', amp: 'Good tidal range' };
-  if (phase < 23.99) return { name: 'Last Quarter', icon: '🌗', amp: 'Moderate tidal range' };
-  if (phase < 29.53) return { name: 'Waning Crescent', icon: '🌘', amp: 'Diminishing tidal range' };
-  return { name: 'New Moon', icon: '🌑', amp: 'Spring tide — large tidal range' };
+  if (phase < 1.85) return { name: 'New Moon', icon: '\u{1F311}', amp: 'Spring tide \u2014 large tidal range' };
+  if (phase < 7.38) return { name: 'Waxing Crescent', icon: '\u{1F312}', amp: 'Building tidal range' };
+  if (phase < 9.22) return { name: 'First Quarter', icon: '\u{1F313}', amp: 'Moderate tidal range' };
+  if (phase < 14.77) return { name: 'Waxing Gibbous', icon: '\u{1F314}', amp: 'Good tidal range' };
+  if (phase < 16.61) return { name: 'Full Moon', icon: '\u{1F315}', amp: 'Spring tide \u2014 large tidal range' };
+  if (phase < 22.15) return { name: 'Waning Gibbous', icon: '\u{1F316}', amp: 'Good tidal range' };
+  if (phase < 23.99) return { name: 'Last Quarter', icon: '\u{1F317}', amp: 'Moderate tidal range' };
+  if (phase < 29.53) return { name: 'Waning Crescent', icon: '\u{1F318}', amp: 'Diminishing tidal range' };
+  return { name: 'New Moon', icon: '\u{1F311}', amp: 'Spring tide \u2014 large tidal range' };
 }
 
 // ─── NOAA TIDES API ───────────────────────────────────────────
 async function fetchTides(dateStr) {
-  // dateStr: yyyyMMdd
   const url = `https://api.tidesandcurrents.noaa.gov/api/prod/datagetter?begin_date=${dateStr}&end_date=${dateStr}&station=${NOAA_STATION}&product=predictions&datum=MLLW&time_zone=lst_ldt&interval=hilo&units=english&application=SharkToothIsland&format=json`;
   const res = await fetch(url);
   const data = await res.json();
   if (data.error) throw new Error(data.error.message);
-  return data.predictions; // [{t, v, type}]
+  return data.predictions;
 }
 
 async function fetchTidesCurve(dateStr) {
-  // 6-min interval for curve drawing
   const url = `https://api.tidesandcurrents.noaa.gov/api/prod/datagetter?begin_date=${dateStr}&end_date=${dateStr}&station=${NOAA_STATION}&product=predictions&datum=MLLW&time_zone=lst_ldt&interval=6&units=english&application=SharkToothIsland&format=json`;
   const res = await fetch(url);
   const data = await res.json();
@@ -311,7 +293,6 @@ async function fetchTidesCurve(dateStr) {
 
 // ─── OPEN-METEO WEATHER API ───────────────────────────────────
 async function fetchWeather(dateStr) {
-  // dateStr: yyyy-MM-dd
   const url = `https://api.open-meteo.com/v1/forecast?latitude=${LAT}&longitude=${LON}&daily=precipitation_sum,windspeed_10m_max,winddirection_10m_dominant,weathercode&wind_speed_unit=mph&precipitation_unit=inch&timezone=America%2FNew_York&start_date=${dateStr}&end_date=${dateStr}`;
   const res = await fetch(url);
   return await res.json();
@@ -319,22 +300,17 @@ async function fetchWeather(dateStr) {
 
 // ─── SCORE A DAY ──────────────────────────────────────────────
 function scoreDay(tides, weather, date) {
-  // tides: array of {t, v, type}
-  // Returns {verdict, score, lowTide, tidalRange, details}
   const lows = tides.filter(t => t.type === 'L');
   const highs = tides.filter(t => t.type === 'H');
   if (!lows.length) return { verdict:'unknown', score:0 };
 
-  // Best low tide (lowest v)
   const bestLow = lows.reduce((a,b) => parseFloat(a.v) < parseFloat(b.v) ? a : b);
   const lowTime = fmtTime(bestLow.t);
   const lowHeight = parseFloat(bestLow.v).toFixed(1);
 
-  // Tidal range
   const maxHigh = highs.length ? Math.max(...highs.map(h => parseFloat(h.v))) : 0;
   const tidalRange = (maxHigh - parseFloat(bestLow.v)).toFixed(1);
 
-  // Score components
   let score = 0;
   const rangeF = parseFloat(tidalRange);
   if (rangeF >= 4.0) score += 40;
@@ -342,13 +318,11 @@ function scoreDay(tides, weather, date) {
   else if (rangeF >= 2.0) score += 16;
   else score += 6;
 
-  // Low tide timing (best: morning or early afternoon)
   const lowHour = parseInt(bestLow.t.split(' ')[1].split(':')[0]);
   if (lowHour >= 5 && lowHour <= 13) score += 25;
   else if (lowHour >= 14 && lowHour <= 17) score += 12;
   else score += 4;
 
-  // Weather
   let rain = 0, wind = 0, wcode = 0;
   if (weather && weather.daily) {
     rain  = weather.daily.precipitation_sum?.[0] || 0;
@@ -398,29 +372,26 @@ function renderBriefing(dateStr, tides, curve, weather) {
   const wdir  = wDay?.winddirection_10m_dominant?.[0] ?? null;
   const wcode = wDay?.weathercode?.[0] ?? null;
 
-  // Verdict config
   const vConf = {
-    go:    { icon:'▲', label:'GO — Excellent conditions', cls:'go' },
-    maybe: { icon:'◈', label:'MARGINAL — Worth considering', cls:'maybe' },
-    pass:  { icon:'▼', label:'PASS — Wait for better conditions', cls:'pass' },
-    unknown:{ icon:'○', label:'CHECKING CONDITIONS...', cls:'loading' }
+    go:    { icon:'\u25B2', label:'GO \u2014 Excellent conditions', cls:'go' },
+    maybe: { icon:'\u25C8', label:'MARGINAL \u2014 Worth considering', cls:'maybe' },
+    pass:  { icon:'\u25BC', label:'PASS \u2014 Wait for better conditions', cls:'pass' },
+    unknown:{ icon:'\u25CB', label:'CHECKING CONDITIONS...', cls:'loading' }
   }[s.verdict];
 
-  // Verdict summary text
   let summaryText = '';
   if (s.verdict === 'go') {
-    summaryText = `Low tide at ${s.lowTime} with a ${s.tidalRange} ft tidal range — that's solid exposure. ${s.rangeF >= 4 ? 'Strong range this day, more island surface than average.' : 'Good range for productive hunting.'} ${rain < 0.1 ? 'Dry conditions.' : `Light rain possible (${rain.toFixed(2)}")`} ${wind < 10 ? 'Calm winds.' : `Wind ${Math.round(wind)} mph.`} ${moon.amp}.`;
+    summaryText = `Low tide at ${s.lowTime} with a ${s.tidalRange} ft tidal range \u2014 that's solid exposure. ${s.rangeF >= 4 ? 'Strong range this day, more island surface than average.' : 'Good range for productive hunting.'} ${rain < 0.1 ? 'Dry conditions.' : `Light rain possible (${rain.toFixed(2)}")`} ${wind < 10 ? 'Calm winds.' : `Wind ${Math.round(wind)} mph.`} ${moon.amp}.`;
   } else if (s.verdict === 'maybe') {
-    summaryText = `Low tide at ${s.lowTime}, ${s.tidalRange} ft range. ${s.rangeF < 2.5 ? 'Modest tidal range limits how much island is exposed. ' : ''}${rain > 0.5 ? `Rain expected (${rain.toFixed(2)}") — worth watching. ` : ''}${wind > 15 ? `Wind up to ${Math.round(wind)} mph could make the river crossing uncomfortable. ` : ''}If you're already planning to be on the water, go. Otherwise consider Thursday or the next strong low.`;
+    summaryText = `Low tide at ${s.lowTime}, ${s.tidalRange} ft range. ${s.rangeF < 2.5 ? 'Modest tidal range limits how much island is exposed. ' : ''}${rain > 0.5 ? `Rain expected (${rain.toFixed(2)}") \u2014 worth watching. ` : ''}${wind > 15 ? `Wind up to ${Math.round(wind)} mph could make the river crossing uncomfortable. ` : ''}If you're already planning to be on the water, go. Otherwise consider Thursday or the next strong low.`;
   } else {
-    summaryText = `${rain > 0.5 ? `Rain in the forecast (${rain.toFixed(2)}"). ` : ''}${wind > 18 ? `Wind up to ${Math.round(wind)} mph — rough conditions on the river. ` : ''}${s.rangeF < 1.5 ? 'Weak tidal range, minimal island exposure. ' : ''}Better conditions likely in the coming days.`;
+    summaryText = `${rain > 0.5 ? `Rain in the forecast (${rain.toFixed(2)}"). ` : ''}${wind > 18 ? `Wind up to ${Math.round(wind)} mph \u2014 rough conditions on the river. ` : ''}${s.rangeF < 1.5 ? 'Weak tidal range, minimal island exposure. ' : ''}Better conditions likely in the coming days.`;
   }
 
-  // Tidal range quality
-  const rangeQuality = s.rangeF >= 4 ? ['good','Excellent — strong exposure'] : s.rangeF >= 3 ? ['good','Good — solid hunting window'] : s.rangeF >= 2 ? ['warn','Moderate — limited exposure'] : ['bad','Weak — minimal island surface'];
-  const lowQuality   = s.lowHour >= 5 && s.lowHour <= 13 ? ['good','Morning low — ideal timing'] : s.lowHour <= 17 ? ['warn','Afternoon low — workable'] : ['bad','Evening low — limited daylight'];
-  const rainQuality  = rain === null ? ['','—'] : rain < 0.1 ? ['good','Dry'] : rain < 0.4 ? ['warn',`${rain.toFixed(2)}" expected`] : ['bad',`${rain.toFixed(2)}" — significant rain`];
-  const windQuality  = wind === null ? ['','—'] : wind < 10 ? ['good',`${Math.round(wind)} mph — calm`] : wind < 18 ? ['warn',`${Math.round(wind)} mph — moderate`] : ['bad',`${Math.round(wind)} mph — rough`];
+  const rangeQuality = s.rangeF >= 4 ? ['good','Excellent \u2014 strong exposure'] : s.rangeF >= 3 ? ['good','Good \u2014 solid hunting window'] : s.rangeF >= 2 ? ['warn','Moderate \u2014 limited exposure'] : ['bad','Weak \u2014 minimal island surface'];
+  const lowQuality   = s.lowHour >= 5 && s.lowHour <= 13 ? ['good','Morning low \u2014 ideal timing'] : s.lowHour <= 17 ? ['warn','Afternoon low \u2014 workable'] : ['bad','Evening low \u2014 limited daylight'];
+  const rainQuality  = rain === null ? ['','\u2014'] : rain < 0.1 ? ['good','Dry'] : rain < 0.4 ? ['warn',`${rain.toFixed(2)}" expected`] : ['bad',`${rain.toFixed(2)}" \u2014 significant rain`];
+  const windQuality  = wind === null ? ['','\u2014'] : wind < 10 ? ['good',`${Math.round(wind)} mph \u2014 calm`] : wind < 18 ? ['warn',`${Math.round(wind)} mph \u2014 moderate`] : ['bad',`${Math.round(wind)} mph \u2014 rough`];
 
   // Build tide curve SVG
   let curveSVG = '';
@@ -436,7 +407,6 @@ function renderBriefing(dateStr, tides, curve, weather) {
       return `${x},${y}`;
     }).join(' ');
 
-    // Find low tide positions for markers
     const lowMarkers = tides.filter(t=>t.type==='L').map(t => {
       const timeStr = t.t.split(' ')[1];
       const [hh,mm] = timeStr.split(':').map(Number);
@@ -444,38 +414,36 @@ function renderBriefing(dateStr, tides, curve, weather) {
       const x = (totalMins / (24*60)) * W;
       const v = parseFloat(t.v);
       const y = H - ((v - minV) / range) * (H * 0.85) - 8;
-      return `<circle cx="${x}" cy="${y}" r="5" fill="#7BBFC9" opacity="0.8"/>
-              <text x="${x}" y="${y-12}" text-anchor="middle" font-family="DM Mono, monospace" font-size="11" fill="#7BBFC9">${fmtTime(t.t)}</text>`;
+      return `<circle cx="${x}" cy="${y}" r="5" fill="#4A9EBF" opacity="0.8"/>
+              <text x="${x}" y="${y-12}" text-anchor="middle" font-family="DM Mono, monospace" font-size="11" fill="#4A9EBF">${fmtTime(t.t)}</text>`;
     }).join('');
 
-    // Time axis labels
     const timeLabels = ['12am','3am','6am','9am','12pm','3pm','6pm','9pm','12am'].map((label,i) => {
       const x = (i/8) * W;
-      return `<text x="${x}" y="${H+14}" text-anchor="middle" font-family="DM Mono, monospace" font-size="10" fill="#2A4A5A">${label}</text>`;
+      return `<text x="${x}" y="${H+14}" text-anchor="middle" font-family="DM Mono, monospace" font-size="10" fill="#5C7A96">${label}</text>`;
     }).join('');
 
     curveSVG = `
       <svg viewBox="0 0 ${W} ${H+20}" preserveAspectRatio="none" style="width:100%;height:130px;overflow:visible;">
         <defs>
           <linearGradient id="waveGrad" x1="0" y1="0" x2="0" y2="1">
-            <stop offset="0%" stop-color="#7BBFC9" stop-opacity="0.25"/>
-            <stop offset="100%" stop-color="#7BBFC9" stop-opacity="0.02"/>
+            <stop offset="0%" stop-color="#4A9EBF" stop-opacity="0.25"/>
+            <stop offset="100%" stop-color="#4A9EBF" stop-opacity="0.02"/>
           </linearGradient>
         </defs>
-        <polyline points="${pts}" fill="none" stroke="#7BBFC9" stroke-width="2" stroke-linejoin="round"/>
+        <polyline points="${pts}" fill="none" stroke="#4A9EBF" stroke-width="2" stroke-linejoin="round"/>
         <polygon points="0,${H} ${pts} ${W},${H}" fill="url(#waveGrad)"/>
         ${lowMarkers}
         ${timeLabels}
       </svg>`;
   }
 
-  // Tide table rows
   const tideRows = tides.map(t => `
     <tr class="${t.type==='L'?'low':''}">
       <td class="hl">${t.type==='H'?'High':'Low'}</td>
       <td>${fmtTime(t.t)}</td>
       <td>${parseFloat(t.v).toFixed(1)} ft</td>
-      <td>${t.type==='L'?`${(parseFloat(t.v)<0.5?'Very low':'Low')} — prime window`:'—'}</td>
+      <td>${t.type==='L'?`${(parseFloat(t.v)<0.5?'Very low':'Low')} \u2014 prime window`:'\u2014'}</td>
     </tr>`).join('');
 
   document.getElementById('briefing-area').innerHTML = `
@@ -494,7 +462,7 @@ function renderBriefing(dateStr, tides, curve, weather) {
       <div class="data-cell">
         <span class="cell-label">Best low tide</span>
         <div class="cell-value good">${s.lowTime}</div>
-        <div class="cell-note">${s.lowHeight} ft · ${lowQuality[1]}</div>
+        <div class="cell-note">${s.lowHeight} ft \u00B7 ${lowQuality[1]}</div>
       </div>
       <div class="data-cell">
         <span class="cell-label">Tidal range</span>
@@ -503,13 +471,13 @@ function renderBriefing(dateStr, tides, curve, weather) {
       </div>
       <div class="data-cell">
         <span class="cell-label">Weather</span>
-        <div class="cell-value ${rainQuality[0]}">${wcode !== null ? wmoDesc(wcode) : '—'}</div>
+        <div class="cell-value ${rainQuality[0]}">${wcode !== null ? wmoDesc(wcode) : '\u2014'}</div>
         <div class="cell-note">${rainQuality[1]}</div>
       </div>
       <div class="data-cell">
         <span class="cell-label">Wind</span>
         <div class="cell-value ${windQuality[0]}">${windQuality[1]}</div>
-        <div class="cell-note">${wdir !== null ? `From the ${windDir(wdir)}` : '—'}</div>
+        <div class="cell-note">${wdir !== null ? 'From the ' + windDir(wdir) : '\u2014'}</div>
       </div>
       <div class="data-cell">
         <span class="cell-label">Moon phase</span>
@@ -524,7 +492,7 @@ function renderBriefing(dateStr, tides, curve, weather) {
           const ah = arrive.getHours() % 12 || 12;
           const am = String(arrive.getMinutes()).padStart(2,'0');
           const ap = arrive.getHours() >= 12 ? 'pm' : 'am';
-          return `${ah}:${am} ${ap}`;
+          return ah + ':' + am + ' ' + ap;
         })()}</div>
         <div class="cell-note">1 hour before low for best access</div>
       </div>
@@ -532,8 +500,8 @@ function renderBriefing(dateStr, tides, curve, weather) {
 
     <!-- TIDE CURVE -->
     <div class="tide-section">
-      <h3>Tide curve · ${dateObj.toLocaleDateString('en-US',{month:'short',day:'numeric'})}</h3>
-      ${curveSVG || '<div style="color:#2A4A5A;font-size:12px;padding:20px 0;text-align:center;">Curve data unavailable</div>'}
+      <h3>Tide curve \u00B7 ${dateObj.toLocaleDateString('en-US',{month:'short',day:'numeric'})}</h3>
+      ${curveSVG || '<div style="color:var(--slate-dark);font-size:12px;padding:20px 0;text-align:center;">Curve data unavailable</div>'}
       <table class="tide-table">
         <thead><tr><th>Type</th><th>Time</th><th>Height</th><th>Notes</th></tr></thead>
         <tbody>${tideRows}</tbody>
@@ -544,31 +512,31 @@ function renderBriefing(dateStr, tides, curve, weather) {
     <div class="briefing">
       <h3>Field briefing</h3>
       <div class="briefing-item">
-        <span class="b-icon">◎</span>
+        <span class="b-icon">\u25CE</span>
         <div class="b-text"><strong>Primary window:</strong> Arrive at ${(() => {
           const [hh,mm] = s.bestLow.t.split(' ')[1].split(':').map(Number);
           const arrive = new Date(2000,0,1,hh,mm-60);
           const ah = arrive.getHours() % 12 || 12;
           const am = String(arrive.getMinutes()).padStart(2,'0');
           const ap = arrive.getHours() >= 12 ? 'pm' : 'am';
-          return `${ah}:${am} ${ap}`;
-        })()} and plan to hunt through ${s.lowTime}. ${s.rangeF >= 3.5 ? 'Strong range today — you may have nearly 2 hours of productive surface.' : s.rangeF >= 2.5 ? 'Moderate range — expect about 60–90 minutes of prime access.' : 'Modest range — work quickly, the window is shorter than ideal.'}</div>
+          return ah + ':' + am + ' ' + ap;
+        })()} and plan to hunt through ${s.lowTime}. ${s.rangeF >= 3.5 ? 'Strong range today \u2014 you may have nearly 2 hours of productive surface.' : s.rangeF >= 2.5 ? 'Moderate range \u2014 expect about 60\u201390 minutes of prime access.' : 'Modest range \u2014 work quickly, the window is shorter than ideal.'}</div>
       </div>
       <div class="briefing-item">
-        <span class="b-icon">◈</span>
-        <div class="b-text"><strong>Tidal range context:</strong> ${s.tidalRange} ft range. ${s.rangeF >= 4 ? 'Anything above 4 ft is exceptional for this station. More island surface exposed than average — check the far sandbars and the edges of Keg Island too.' : s.rangeF >= 3 ? 'Solid range for the Cape Fear. The main island cluster should be well exposed.' : s.rangeF >= 2 ? 'Decent but not exceptional. Focus on the primary spoil deposit rather than the outer bars.' : 'Weak range. The outer areas may stay submerged. Concentrate effort on the main deposit.'}</div>
+        <span class="b-icon">\u25C8</span>
+        <div class="b-text"><strong>Tidal range context:</strong> ${s.tidalRange} ft range. ${s.rangeF >= 4 ? 'Anything above 4 ft is exceptional for this station. More island surface exposed than average \u2014 check the far sandbars and the edges of Keg Island too.' : s.rangeF >= 3 ? 'Solid range for the Cape Fear. The main island cluster should be well exposed.' : s.rangeF >= 2 ? 'Decent but not exceptional. Focus on the primary spoil deposit rather than the outer bars.' : 'Weak range. The outer areas may stay submerged. Concentrate effort on the main deposit.'}</div>
       </div>
       <div class="briefing-item">
-        <span class="b-icon">◇</span>
-        <div class="b-text"><strong>Weather:</strong> ${wcode !== null ? wmoDesc(wcode) : 'Forecast unavailable'}${rain > 0 ? ` · ${rain.toFixed(2)}" precipitation expected` : ' · Dry conditions'}. Wind ${wind !== null ? `${Math.round(wind)} mph from the ${wdir !== null ? windDir(wdir) : '—'}` : 'data unavailable'}. ${wind > 15 ? 'Wind above 15 mph can make river crossings uncomfortable in a small boat — check conditions at the launch before committing.' : 'Good boating conditions.'}</div>
+        <span class="b-icon">\u25C7</span>
+        <div class="b-text"><strong>Weather:</strong> ${wcode !== null ? wmoDesc(wcode) : 'Forecast unavailable'}${rain > 0 ? ' \u00B7 ' + rain.toFixed(2) + '" precipitation expected' : ' \u00B7 Dry conditions'}. Wind ${wind !== null ? Math.round(wind) + ' mph from the ' + (wdir !== null ? windDir(wdir) : '\u2014') : 'data unavailable'}. ${wind > 15 ? 'Wind above 15 mph can make river crossings uncomfortable in a small boat \u2014 check conditions at the launch before committing.' : 'Good boating conditions.'}</div>
       </div>
       <div class="briefing-item">
-        <span class="b-icon">○</span>
-        <div class="b-text"><strong>Moon:</strong> ${moon.icon} ${moon.name}. ${moon.amp}. ${moon.name.includes('New') || moon.name.includes('Full') ? 'Spring tides around new and full moon produce the largest tidal ranges — this week is a good window overall.' : 'Standard tidal range expected this week.'}</div>
+        <span class="b-icon">\u25CB</span>
+        <div class="b-text"><strong>Moon:</strong> ${moon.icon} ${moon.name}. ${moon.amp}. ${moon.name.includes('New') || moon.name.includes('Full') ? 'Spring tides around new and full moon produce the largest tidal ranges \u2014 this week is a good window overall.' : 'Standard tidal range expected this week.'}</div>
       </div>
       <div class="briefing-item">
-        <span class="b-icon">—</span>
-        <div class="b-text"><strong>Launch reminder:</strong> River Road Park is the standard access point for Shark Tooth Island. Water shoes required — the spoil sediment is rough. Bring a mesh sifter, water, sunscreen, and a dry bag for your phone and finds. Check the launch for current conditions before casting off.</div>
+        <span class="b-icon">\u2014</span>
+        <div class="b-text"><strong>Launch reminder:</strong> River Road Park is the standard access point for Shark Tooth Island. Water shoes required \u2014 the spoil sediment is rough. Bring a mesh sifter, water, sunscreen, and a dry bag for your phone and finds. Check the launch for current conditions before casting off.</div>
       </div>
     </div>
   `;
@@ -578,18 +546,17 @@ function renderBriefing(dateStr, tides, curve, weather) {
 async function loadDate(dateStr) {
   if (!dateStr) return;
 
-  // Highlight selected day in strip
   document.querySelectorAll('.day-pill').forEach(p => {
     p.classList.toggle('selected', p.dataset.date === dateStr);
   });
 
   document.getElementById('briefing-area').innerHTML = `
     <div class="verdict loading">
-      <div class="verdict-icon loading-pulse">◌</div>
+      <div class="verdict-icon loading-pulse">\u25CC</div>
       <div>
         <div class="verdict-label">Fetching conditions...</div>
-        <div class="verdict-title loading-pulse">Pulling tides from NOAA · Federal Point Station</div>
-        <div class="verdict-summary" style="color:var(--text-muted);">Contacting Open-Meteo for weather forecast...</div>
+        <div class="verdict-title loading-pulse">Pulling tides from NOAA \u00B7 Federal Point Station</div>
+        <div class="verdict-summary" style="color:var(--muted);">Contacting Open-Meteo for weather forecast...</div>
       </div>
     </div>`;
 
@@ -620,7 +587,6 @@ async function loadWeekStrip() {
   const days = [];
   const t = today();
 
-  // Fetch tides for next 7 days
   const startDate = fmtNoaa(t);
   const endDate   = fmtNoaa(addDays(t, 6));
   const url = `https://api.tidesandcurrents.noaa.gov/api/prod/datagetter?begin_date=${startDate}&end_date=${endDate}&station=${NOAA_STATION}&product=predictions&datum=MLLW&time_zone=lst_ldt&interval=hilo&units=english&application=SharkToothIsland&format=json`;
@@ -632,7 +598,6 @@ async function loadWeekStrip() {
     allTides = data.predictions || [];
   } catch(e) {}
 
-  // Also fetch week weather
   const weatherUrl = `https://api.open-meteo.com/v1/forecast?latitude=${LAT}&longitude=${LON}&daily=precipitation_sum,windspeed_10m_max,weathercode&wind_speed_unit=mph&precipitation_unit=inch&timezone=America%2FNew_York&start_date=${fmtISO(t)}&end_date=${fmtISO(addDays(t,6))}`;
   let weekWeather = null;
   try {
@@ -645,9 +610,7 @@ async function loadWeekStrip() {
   for (let i = 0; i < 7; i++) {
     const d = addDays(t, i);
     const iso = fmtISO(d);
-    const noaa = fmtNoaa(d);
 
-    // Filter tides for this day
     const dayTides = allTides.filter(p => p.t.startsWith(iso));
     const dayWeather = weekWeather ? {
       daily: {
@@ -664,7 +627,7 @@ async function loadWeekStrip() {
 
     const lows = dayTides.filter(t=>t.type==='L');
     const bestLow = lows.length ? lows.reduce((a,b)=>parseFloat(a.v)<parseFloat(b.v)?a:b) : null;
-    const lowStr = bestLow ? fmtTime(bestLow.t) : '—';
+    const lowStr = bestLow ? fmtTime(bestLow.t) : '\u2014';
 
     const pill = document.createElement('div');
     pill.className = `day-pill ${pillClass}`;
@@ -681,7 +644,6 @@ async function loadWeekStrip() {
     strip.appendChild(pill);
   }
 
-  // Auto-load today
   const todayISO = fmtISO(t);
   document.getElementById('date-picker').value = todayISO;
   loadDate(todayISO);
