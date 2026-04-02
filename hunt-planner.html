@@ -147,6 +147,8 @@ input[type=date]:focus { border-color:var(--blue-mid); }
 
 /* FOOTER */
 .site-footer { border-top:1px solid var(--deep-border); padding:36px 40px; display:flex; align-items:center; justify-content:space-between; }
+.footer-left { line-height:1.8; }
+.footer-right a { color:var(--accent); text-decoration:none; }
 .footer-left { font-family:'DM Mono',monospace; font-size:11px; color:var(--muted); letter-spacing:0.08em; }
 .footer-right { font-family:'DM Mono',monospace; font-size:11px; color:var(--muted); }
 .footer-right a { color:var(--accent); text-decoration:none; }
@@ -226,8 +228,8 @@ input[type=date]:focus { border-color:var(--blue-mid); }
 </div>
 
 <footer class="site-footer">
-  <div class="footer-left">SharkToothIsland.org · Cape Fear River · New Hanover County, NC</div>
-  <div class="footer-right">A field resource for the Cape Fear region</div>
+  <div class="footer-left">SharkToothIsland.org · Cape Fear River · New Hanover County, NC<br>A field resource for the Cape Fear region</div>
+  <div class="footer-right">A field project by <a href="https://mozyoutdoors.com" target="_blank" rel="noopener">Mozy Outdoors</a></div>
 </footer>
 
 <script>
@@ -284,11 +286,38 @@ async function fetchTides(dateStr) {
   return data.predictions;
 }
 
-async function fetchTidesCurve(dateStr) {
-  const url = `https://api.tidesandcurrents.noaa.gov/api/prod/datagetter?begin_date=${dateStr}&end_date=${dateStr}&station=${NOAA_STATION}&product=predictions&datum=MLLW&time_zone=lst_ldt&interval=6&units=english&application=SharkToothIsland&format=json`;
-  const res = await fetch(url);
-  const data = await res.json();
-  return data.predictions || [];
+// Generate smooth tide curve from hi/lo points using cosine interpolation
+function generateTideCurve(tides, dateStr) {
+  if (!tides.length) return [];
+  // Convert tide points to {min, val} format
+  const points = tides.map(t => {
+    const [hh, mm] = t.t.split(' ')[1].split(':').map(Number);
+    return { min: hh * 60 + mm, val: parseFloat(t.v) };
+  });
+  // Extend with synthetic points at midnight boundaries for smooth edges
+  if (points[0].min > 0) {
+    const avg = (points[0].val + points[points.length-1].val) / 2;
+    points.unshift({ min: 0, val: avg });
+  }
+  if (points[points.length-1].min < 1440) {
+    const avg = (points[0].val + points[points.length-1].val) / 2;
+    points.push({ min: 1440, val: avg });
+  }
+  // Generate curve points every 10 minutes using cosine interpolation
+  const curve = [];
+  for (let m = 0; m <= 1440; m += 10) {
+    let seg = 0;
+    for (let i = 1; i < points.length; i++) {
+      if (m <= points[i].min) { seg = i; break; }
+    }
+    if (seg === 0) seg = points.length - 1;
+    const p0 = points[seg - 1], p1 = points[seg];
+    const t = (m - p0.min) / (p1.min - p0.min || 1);
+    const cosT = (1 - Math.cos(t * Math.PI)) / 2; // smooth S-curve
+    const v = p0.val + (p1.val - p0.val) * cosT;
+    curve.push({ t: dateStr + ' ' + String(Math.floor(m/60)).padStart(2,'0') + ':' + String(m%60).padStart(2,'0'), v: v.toFixed(3) });
+  }
+  return curve;
 }
 
 // ─── OPEN-METEO WEATHER API ───────────────────────────────────
@@ -319,9 +348,10 @@ function scoreDay(tides, weather, date) {
   else score += 6;
 
   const lowHour = parseInt(bestLow.t.split(' ')[1].split(':')[0]);
-  if (lowHour >= 5 && lowHour <= 13) score += 25;
-  else if (lowHour >= 14 && lowHour <= 17) score += 12;
-  else score += 4;
+  if (lowHour >= 6 && lowHour <= 12) score += 25;
+  else if (lowHour >= 13 && lowHour <= 16) score += 18;
+  else if (lowHour >= 5 || (lowHour >= 17 && lowHour <= 18)) score += 10;
+  else score += 0; // pre-dawn (0-4) or after dark (19+) — not huntable
 
   let rain = 0, wind = 0, wcode = 0;
   if (weather && weather.daily) {
@@ -335,7 +365,7 @@ function scoreDay(tides, weather, date) {
   else if (wind < 18) score += 8;
 
   let verdict = 'pass';
-  if (score >= 75) verdict = 'go';
+  if (score >= 78) verdict = 'go';
   else if (score >= 45) verdict = 'maybe';
 
   return { verdict, score, bestLow, lowTime, lowHeight, tidalRange, rangeF, lowHour, rain, wind, wcode, lows, highs };
@@ -380,16 +410,20 @@ function renderBriefing(dateStr, tides, curve, weather) {
   }[s.verdict];
 
   let summaryText = '';
+  const preDawn = s.lowHour < 5;
+  const afterDark = s.lowHour >= 19;
+  const darkWarning = preDawn ? ' Note: this low occurs before sunrise \u2014 you\'d be hunting in the dark.' : afterDark ? ' Note: this low occurs after sunset \u2014 limited visibility.' : '';
+
   if (s.verdict === 'go') {
-    summaryText = `Low tide at ${s.lowTime} with a ${s.tidalRange} ft tidal range \u2014 that's solid exposure. ${s.rangeF >= 4 ? 'Strong range this day, more island surface than average.' : 'Good range for productive hunting.'} ${rain < 0.1 ? 'Dry conditions.' : `Light rain possible (${rain.toFixed(2)}")`} ${wind < 10 ? 'Calm winds.' : `Wind ${Math.round(wind)} mph.`} ${moon.amp}.`;
+    summaryText = `Low tide at ${s.lowTime} with a ${s.tidalRange} ft tidal range \u2014 that's solid exposure. ${s.rangeF >= 4 ? 'Strong range this day, more island surface than average.' : 'Good range for productive hunting.'} ${rain < 0.1 ? 'Dry conditions.' : `Light rain possible (${rain.toFixed(2)}")`} ${wind < 10 ? 'Calm winds.' : `Wind ${Math.round(wind)} mph.`} ${moon.amp}.${darkWarning}`;
   } else if (s.verdict === 'maybe') {
-    summaryText = `Low tide at ${s.lowTime}, ${s.tidalRange} ft range. ${s.rangeF < 2.5 ? 'Modest tidal range limits how much island is exposed. ' : ''}${rain > 0.5 ? `Rain expected (${rain.toFixed(2)}") \u2014 worth watching. ` : ''}${wind > 15 ? `Wind up to ${Math.round(wind)} mph could make the river crossing uncomfortable. ` : ''}If you're already planning to be on the water, go. Otherwise consider Thursday or the next strong low.`;
+    summaryText = `Low tide at ${s.lowTime}, ${s.tidalRange} ft range. ${preDawn ? 'Low tide falls before sunrise, which limits the practical hunting window. ' : ''}${s.rangeF < 2.5 ? 'Modest tidal range limits how much island is exposed. ' : ''}${rain > 0.5 ? `Rain expected (${rain.toFixed(2)}") \u2014 worth watching. ` : ''}${wind > 15 ? `Wind up to ${Math.round(wind)} mph could make the river crossing uncomfortable. ` : ''}If conditions align otherwise, it could still be worth the trip. Check the week strip for stronger options.`;
   } else {
-    summaryText = `${rain > 0.5 ? `Rain in the forecast (${rain.toFixed(2)}"). ` : ''}${wind > 18 ? `Wind up to ${Math.round(wind)} mph \u2014 rough conditions on the river. ` : ''}${s.rangeF < 1.5 ? 'Weak tidal range, minimal island exposure. ' : ''}Better conditions likely in the coming days.`;
+    summaryText = `${preDawn ? 'Low tide is pre-dawn \u2014 not a practical hunting window. ' : ''}${rain > 0.5 ? `Rain in the forecast (${rain.toFixed(2)}"). ` : ''}${wind > 18 ? `Wind up to ${Math.round(wind)} mph \u2014 rough conditions on the river. ` : ''}${s.rangeF < 1.5 ? 'Weak tidal range, minimal island exposure. ' : ''}Better conditions likely in the coming days.`;
   }
 
   const rangeQuality = s.rangeF >= 4 ? ['good','Excellent \u2014 strong exposure'] : s.rangeF >= 3 ? ['good','Good \u2014 solid hunting window'] : s.rangeF >= 2 ? ['warn','Moderate \u2014 limited exposure'] : ['bad','Weak \u2014 minimal island surface'];
-  const lowQuality   = s.lowHour >= 5 && s.lowHour <= 13 ? ['good','Morning low \u2014 ideal timing'] : s.lowHour <= 17 ? ['warn','Afternoon low \u2014 workable'] : ['bad','Evening low \u2014 limited daylight'];
+  const lowQuality   = s.lowHour >= 6 && s.lowHour <= 12 ? ['good','Morning low \u2014 ideal timing'] : s.lowHour >= 13 && s.lowHour <= 16 ? ['warn','Afternoon low \u2014 workable'] : (s.lowHour === 5 || (s.lowHour >= 17 && s.lowHour <= 18)) ? ['warn','Dawn/dusk low \u2014 tight window'] : s.lowHour < 5 ? ['bad','Pre-dawn low \u2014 not practical'] : ['bad','After dark \u2014 not huntable'];
   const rainQuality  = rain === null ? ['','\u2014'] : rain < 0.1 ? ['good','Dry'] : rain < 0.4 ? ['warn',`${rain.toFixed(2)}" expected`] : ['bad',`${rain.toFixed(2)}" \u2014 significant rain`];
   const windQuality  = wind === null ? ['','\u2014'] : wind < 10 ? ['good',`${Math.round(wind)} mph \u2014 calm`] : wind < 18 ? ['warn',`${Math.round(wind)} mph \u2014 moderate`] : ['bad',`${Math.round(wind)} mph \u2014 rough`];
 
@@ -562,11 +596,11 @@ async function loadDate(dateStr) {
 
   try {
     const noaaDate = dateStr.replace(/-/g,'');
-    const [tides, curve, weather] = await Promise.all([
+    const [tides, weather] = await Promise.all([
       fetchTides(noaaDate),
-      fetchTidesCurve(noaaDate),
       fetchWeather(dateStr)
     ]);
+    const curve = generateTideCurve(tides, dateStr);
     renderBriefing(dateStr, tides, curve, weather);
   } catch(e) {
     document.getElementById('briefing-area').innerHTML = `
