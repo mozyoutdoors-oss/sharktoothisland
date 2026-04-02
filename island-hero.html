@@ -7,11 +7,11 @@
 <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@300;400&family=Libre+Baskerville:ital,wght@0,700;1,400&display=swap" rel="stylesheet">
 <style>
 * { box-sizing: border-box; margin: 0; padding: 0; }
-html, body { width: 100%; height: 100%; background: #080F1A; overflow-x: hidden; }
+html, body { width: 100%; height: 100%; background: #1A2535; overflow-x: hidden; }
 
 #hero {
   position: relative; width: 100%; height: 100vh;
-  min-height: 600px; overflow: hidden; background: #080F1A;
+  min-height: 600px; overflow: hidden; background: #1A2535;
 }
 #three-canvas { position: absolute; inset: 0; width: 100%; height: 100%; }
 #hero::after {
@@ -25,7 +25,7 @@ html, body { width: 100%; height: 100%; background: #080F1A; overflow-x: hidden;
   display: flex; flex-direction: column; gap: 2px; min-width: 186px;
 }
 .data-block {
-  background: rgba(8,15,26,0.78); border: 1px solid rgba(0,200,255,0.13);
+  background: rgba(26,37,53,0.82); border: 1px solid rgba(0,200,255,0.13);
   border-left: 2px solid rgba(0,200,255,0.45);
   padding: 8px 14px; backdrop-filter: blur(8px);
 }
@@ -162,17 +162,20 @@ input[type=range]#tide-slider::-webkit-slider-thumb {
   <canvas id="three-canvas"></canvas>
 
   <div class="station-id">
-    <div class="station-label">Field Station · Active</div>
+    <div class="station-label">Field Station · <span id="station-status">Connecting</span></div>
     <div class="station-name">Shark Tooth Island</div>
     <div class="station-sub">Cape Fear River · 34.0°N 77.9°W</div>
   </div>
 
   <div class="data-overlay">
-    <div class="data-block"><div class="data-key">Tide Level</div><div class="data-val" id="disp-level">—</div></div>
+    <div class="data-block"><div class="data-key">Tide Level <span id="live-badge" style="color:#50DFA0;font-size:7px;letter-spacing:0.18em;margin-left:6px;opacity:0;">● LIVE</span></div><div class="data-val" id="disp-level">—</div></div>
     <div class="data-block"><div class="data-key">Status</div><div class="data-val" id="disp-status">—</div></div>
     <div class="data-block"><div class="data-key">Exposed Area</div><div class="data-val" id="disp-exposed">—</div></div>
     <div class="data-block"><div class="data-key">Hunt Conditions</div><div class="data-val" id="disp-conditions">—</div></div>
     <div class="data-block" id="win-block"><div class="data-key">Best Window</div><div class="data-val" id="disp-window">—</div></div>
+    <div class="data-block"><div class="data-key">Wind</div><div class="data-val" id="disp-wind">—</div></div>
+    <div class="data-block"><div class="data-key">Temperature</div><div class="data-val" id="disp-temp">—</div></div>
+    <div class="data-block"><div class="data-key">Conditions</div><div class="data-val" id="disp-wx">—</div></div>
   </div>
 
   <div class="tick-label" id="tick-0">0 ft</div>
@@ -193,6 +196,7 @@ input[type=range]#tide-slider::-webkit-slider-thumb {
     <span class="tide-ctrl-label">Low</span>
     <input type="range" id="tide-slider" min="0" max="100" value="12">
     <span class="tide-ctrl-label">High</span>
+    <span class="tide-ctrl-label" id="slider-mode" style="margin-left:8px;color:rgba(80,223,160,0.5);opacity:0;transition:opacity 0.4s;">Manual Override</span>
   </div>
 
   <div class="coord-readout">
@@ -210,14 +214,14 @@ input[type=range]#tide-slider::-webkit-slider-thumb {
 const canvas = document.getElementById('three-canvas');
 const renderer = new THREE.WebGLRenderer({ canvas, antialias: true });
 renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-renderer.setClearColor(0x080F1A, 1);
+renderer.setClearColor(0x1A2535, 1);
 const container = canvas.parentElement;
 let W = container.offsetWidth || window.innerWidth;
 let H = container.offsetHeight || window.innerHeight;
 renderer.setSize(W, H);
 
 const scene = new THREE.Scene();
-scene.fog = new THREE.FogExp2(0x080F1A, 0.02);
+scene.fog = new THREE.FogExp2(0x1A2535, 0.02);
 
 const camera = new THREE.PerspectiveCamera(42, W/H, 0.1, 200);
 camera.position.set(-3.2, 7.4, 10.5);
@@ -529,33 +533,207 @@ function updateFossilLayer(n, pulse, waterY){
   fossilBand.material.opacity  = Math.min(0.55, bandVis * 0.55 * shimmer);
 }
 
-// ── TIDE LOGIC ─────────────────────────────────────────────
-const TMIN=-0.35, TMAX=0.58, TCYCLE=9;
+// ── LIVE DATA INTEGRATION ──────────────────────────────────
+const TMIN=-0.35, TMAX=0.58;
+const TIDE_MIN_FT=-1.0, TIDE_MAX_FT=5.5; // expected range for station 8658715
+const NOAA_STATION='8658715';
+const ISLAND_LAT=34.0522, ISLAND_LON=-77.9067;
+
+let liveTideFt=null;    // current interpolated tide in feet
+let liveTideN=null;     // normalized 0-1 for visualization
+let liveRising=false;
+let tidePredictions=[];  // raw hi/lo points
+let nextLowTide=null;   // {time:Date, ft:number}
+let weatherData=null;
+let dataReady=false;
 let autoT=0.05, manTide=null, prevN=0;
+
 const slider=document.getElementById('tide-slider');
 let slActive=false;
-slider.addEventListener('mousedown',()=>{slActive=true;});
-slider.addEventListener('touchstart',()=>{slActive=true;},{passive:true});
-document.addEventListener('mouseup',()=>{slActive=false;manTide=null;});
-document.addEventListener('touchend',()=>{slActive=false;manTide=null;});
+slider.addEventListener('mousedown',()=>{slActive=true; document.getElementById('slider-mode').style.opacity='1';});
+slider.addEventListener('touchstart',()=>{slActive=true; document.getElementById('slider-mode').style.opacity='1';},{passive:true});
+document.addEventListener('mouseup',()=>{
+  if(slActive){slActive=false; manTide=null; document.getElementById('slider-mode').style.opacity='0';}
+});
+document.addEventListener('touchend',()=>{
+  if(slActive){slActive=false; manTide=null; document.getElementById('slider-mode').style.opacity='0';}
+});
 slider.addEventListener('input',()=>{manTide=parseInt(slider.value)/100;});
 
-function getTide(t){const r=Math.sin(t*Math.PI*2-Math.PI/2);return(r+1)*0.5+r*0.04;}
 function cl01(v){return Math.min(1,Math.max(0,v));}
+function fmtTime(d){
+  // Always display in Eastern time regardless of user's timezone
+  const s=d.toLocaleTimeString('en-US',{timeZone:'America/New_York',hour:'2-digit',minute:'2-digit',hour12:true});
+  return s;
+}
+function pad2(n){return String(n).padStart(2,'0');}
 
-function fmtTime(d){return d.getHours().toString().padStart(2,'0')+':'+d.getMinutes().toString().padStart(2,'0');}
-function bestWindow(n){
-  const now=new Date();
-  if(n<0.25)return 'Active Now';
-  const ms=(n-0.0)*TCYCLE*1000*0.5*200;
-  const s=new Date(now.getTime()+ms);
-  const e=new Date(s.getTime()+7200000);
+// Synthetic sine tide for fallback when API unavailable
+function getTideFallback(t){const r=Math.sin(t*Math.PI*2-Math.PI/2);return(r+1)*0.5+r*0.04;}
+
+// ── NOAA TIDE FETCH ───────────────────────────────────────
+async function fetchTidePredictions(){
+  try {
+    const now=new Date();
+    // Start from yesterday to always have a "before" point for interpolation
+    const yesterday=new Date(now.getTime()-86400000);
+    const y=yesterday.getFullYear(), m=yesterday.getMonth()+1, d=yesterday.getDate();
+    const begin=`${y}${pad2(m)}${pad2(d)}`;
+    // Fetch 4 days total to ensure we always have surrounding points
+    const end3=new Date(now.getTime()+3*86400000);
+    const endStr=`${end3.getFullYear()}${pad2(end3.getMonth()+1)}${pad2(end3.getDate())}`;
+    const url=`https://api.tidesandcurrents.noaa.gov/api/prod/datagetter?station=${NOAA_STATION}&product=predictions&datum=MLLW&units=english&time_zone=lst_ldt&interval=hilo&begin_date=${begin}&end_date=${endStr}&format=json&application=SharkToothIsland`;
+    const resp=await fetch(url);
+    const data=await resp.json();
+    if(data.predictions&&data.predictions.length>0){
+      // NOAA lst_ldt returns Eastern local time (EDT or EST)
+      // Determine current offset: EDT (-04:00) from 2nd Sun Mar to 1st Sun Nov
+      function isEDT(dateStr){
+        const [yy,mm]=dateStr.split('-').map(Number);
+        if(mm>3&&mm<11)return true; if(mm<3||mm>11)return false;
+        // March: DST starts 2nd Sunday; November: DST ends 1st Sunday
+        const d=new Date(yy,mm-1,1);
+        if(mm===3){let sun=0;for(let i=1;i<=14;i++){if(new Date(yy,2,i).getDay()===0)sun++;if(sun===2)return parseInt(dateStr.split('-')[2])>=i;} return false;}
+        if(mm===11){for(let i=1;i<=7;i++){if(new Date(yy,10,i).getDay()===0)return parseInt(dateStr.split('-')[2])<i;} return false;}
+        return false;
+      }
+      const sampleDate=data.predictions[0].t.split(' ')[0];
+      const tzSuffix=isEDT(sampleDate)?'-04:00':'-05:00';
+      tidePredictions=data.predictions.map(p=>({
+        time:new Date(p.t.replace(' ','T')+tzSuffix),
+        ft:parseFloat(p.v),
+        type:p.type // 'H' or 'L'
+      }));
+      return true;
+    }
+  } catch(e){ console.warn('NOAA fetch failed:',e); }
+  return false;
+}
+
+// Cosine interpolation between hi/lo points to get current tide
+function interpolateTide(predictions, now){
+  if(!predictions.length)return null;
+  const nowMs=now.getTime();
+  // Find surrounding prediction points
+  let before=null, after=null;
+  for(let i=0;i<predictions.length;i++){
+    if(predictions[i].time.getTime()<=nowMs) before=predictions[i];
+    if(predictions[i].time.getTime()>nowMs&&!after) after=predictions[i];
+  }
+  if(!before&&!after)return null;
+  if(!before)return after.ft;
+  if(!after)return before.ft;
+  const t=(nowMs-before.time.getTime())/(after.time.getTime()-before.time.getTime());
+  const cosT=(1-Math.cos(t*Math.PI))/2;
+  return before.ft+(after.ft-before.ft)*cosT;
+}
+
+// Find next low tide from predictions
+function findNextLow(predictions, now){
+  const nowMs=now.getTime();
+  for(const p of predictions){
+    if(p.type==='L'&&p.time.getTime()>nowMs) return p;
+  }
+  return null;
+}
+
+// Find best hunting window (around low tide ± 1.5hr)
+function bestWindowStr(predictions, now){
+  const nowMs=now.getTime();
+  // First check: are we currently near a low tide? (within 1.5 hrs after)
+  for(const p of predictions){
+    if(p.type==='L'){
+      const diff=nowMs-p.time.getTime();
+      if(diff>=-5400000&&diff<=5400000){
+        return 'Active Now — Low at '+fmtTime(p.time);
+      }
+    }
+  }
+  // Next: find the upcoming low
+  const low=findNextLow(predictions, now);
+  if(!low)return '—';
+  const s=new Date(low.time.getTime()-5400000);
+  const e=new Date(low.time.getTime()+5400000);
   return fmtTime(s)+' – '+fmtTime(e);
 }
 
-function readouts(n,rising){
-  const wy=TMIN+n*(TMAX-TMIN), ft=wy*3.28;
-  document.getElementById('disp-level').textContent=(ft>=0?'+':'')+ft.toFixed(2)+' ft';
+// ── WEATHER FETCH ─────────────────────────────────────────
+async function fetchWeather(){
+  try {
+    const url=`https://api.open-meteo.com/v1/forecast?latitude=${ISLAND_LAT}&longitude=${ISLAND_LON}&current=temperature_2m,wind_speed_10m,wind_direction_10m,weather_code,precipitation&temperature_unit=fahrenheit&wind_speed_unit=mph&timezone=America%2FNew_York`;
+    const resp=await fetch(url);
+    const data=await resp.json();
+    if(data.current){
+      weatherData={
+        temp:Math.round(data.current.temperature_2m),
+        wind:Math.round(data.current.wind_speed_10m),
+        windDir:data.current.wind_direction_10m,
+        code:data.current.weather_code,
+        precip:data.current.precipitation
+      };
+      return true;
+    }
+  } catch(e){ console.warn('Weather fetch failed:',e); }
+  return false;
+}
+
+function wxCodeToText(code){
+  if(code===0)return 'Clear';
+  if(code<=3)return 'Partly Cloudy';
+  if(code<=48)return 'Foggy';
+  if(code<=57)return 'Drizzle';
+  if(code<=67)return 'Rain';
+  if(code<=77)return 'Snow';
+  if(code<=82)return 'Showers';
+  if(code<=86)return 'Snow Showers';
+  if(code<=99)return 'Thunderstorm';
+  return 'Unknown';
+}
+
+function windDirToArrow(deg){
+  const dirs=['N','NE','E','SE','S','SW','W','NW'];
+  return dirs[Math.round(deg/45)%8];
+}
+
+// ── INIT DATA ─────────────────────────────────────────────
+async function initLiveData(){
+  const statusEl=document.getElementById('station-status');
+  const badgeEl=document.getElementById('live-badge');
+  const [tideOk, wxOk]=await Promise.all([fetchTidePredictions(), fetchWeather()]);
+  if(tideOk){
+    dataReady=true;
+    statusEl.textContent='Live';
+    statusEl.style.color='#50DFA0';
+    badgeEl.style.opacity='1';
+  } else {
+    statusEl.textContent='Simulated';
+    statusEl.style.color='#E09060';
+  }
+  // Update weather display
+  if(wxOk&&weatherData){
+    document.getElementById('disp-wind').textContent=weatherData.wind+' mph '+windDirToArrow(weatherData.windDir);
+    document.getElementById('disp-temp').textContent=weatherData.temp+'°F';
+    const wxEl=document.getElementById('disp-wx');
+    wxEl.textContent=wxCodeToText(weatherData.code);
+    if(weatherData.precip>0) wxEl.textContent+=' ('+weatherData.precip+' mm)';
+  }
+  // Refresh every 10 minutes
+  setInterval(async()=>{
+    await fetchTidePredictions();
+    await fetchWeather();
+    if(wxOk&&weatherData){
+      document.getElementById('disp-wind').textContent=weatherData.wind+' mph '+windDirToArrow(weatherData.windDir);
+      document.getElementById('disp-temp').textContent=weatherData.temp+'°F';
+      document.getElementById('disp-wx').textContent=wxCodeToText(weatherData.code);
+    }
+  },600000);
+}
+initLiveData();
+
+// ── READOUTS ──────────────────────────────────────────────
+function readouts(n,rising,realFt){
+  const ftDisplay=realFt!==null?realFt:((TMIN+n*(TMAX-TMIN))*3.28);
+  document.getElementById('disp-level').textContent=(ftDisplay>=0?'+':'')+ftDisplay.toFixed(2)+' ft MLLW';
   const sEl=document.getElementById('disp-status');
   sEl.textContent=rising?'Rising ↑':'Falling ↓';
   sEl.className='data-val '+(rising?'rising':'falling');
@@ -568,26 +746,55 @@ function readouts(n,rising){
   else{cond='Submerged';cc='falling';}
   const cEl=document.getElementById('disp-conditions');
   cEl.textContent=cond; cEl.className='data-val '+cc;
+  // Best window from real predictions
   const wEl=document.getElementById('disp-window');
   const wb=document.getElementById('win-block');
-  if(n<0.25){wEl.textContent='Active Now';wEl.className='data-val active';wb.classList.add('hl');}
-  else{wEl.textContent=bestWindow(n);wEl.className='data-val inactive';wb.classList.remove('hl');}
+  if(dataReady&&tidePredictions.length){
+    const now=new Date();
+    const winStr=bestWindowStr(tidePredictions, now);
+    if(winStr.startsWith('Active')){wEl.textContent=winStr;wEl.className='data-val active';wb.classList.add('hl');}
+    else{wEl.textContent=winStr;wEl.className='data-val inactive';wb.classList.remove('hl');}
+  } else {
+    if(n<0.25){wEl.textContent='Active Now';wEl.className='data-val active';wb.classList.add('hl');}
+    else{wEl.textContent='—';wEl.className='data-val inactive';wb.classList.remove('hl');}
+  }
   // fossil message
   const fm=document.getElementById('fossil-msg');
   n<0.30?fm.classList.add('visible'):fm.classList.remove('visible');
   // clock
   const now=new Date();
-  document.getElementById('disp-time').textContent=now.toUTCString().slice(17,25)+' UTC';
+  document.getElementById('disp-time').textContent=now.toLocaleTimeString('en-US',{timeZone:'America/New_York',hour:'2-digit',minute:'2-digit',second:'2-digit',hour12:true})+' ET';
   if(!slActive&&manTide===null)slider.value=Math.round(n*100);
 }
 
 // ── ANIMATE ────────────────────────────────────────────────
 let lastT=0, pulseT=0;
+const TCYCLE=9; // fallback cycle speed
 function animate(t){
   requestAnimationFrame(animate);
   const dt=Math.min((t-lastT)/1000,0.05); lastT=t; pulseT+=dt*1.9;
-  if(manTide===null)autoT=(autoT+dt/TCYCLE)%1;
-  const n=cl01(manTide!==null?manTide:getTide(autoT));
+
+  let n, realFt=null;
+  if(manTide!==null){
+    // Manual slider override
+    n=cl01(manTide);
+  } else if(dataReady&&tidePredictions.length){
+    // Live NOAA data
+    const now=new Date();
+    const ft=interpolateTide(tidePredictions, now);
+    if(ft!==null){
+      realFt=ft;
+      n=cl01((ft-TIDE_MIN_FT)/(TIDE_MAX_FT-TIDE_MIN_FT));
+    } else {
+      autoT=(autoT+dt/TCYCLE)%1;
+      n=getTideFallback(autoT);
+    }
+  } else {
+    // Fallback synthetic cycle
+    autoT=(autoT+dt/TCYCLE)%1;
+    n=getTideFallback(autoT);
+  }
+
   const rising=n>prevN; prevN=n;
   const wy=TMIN+n*(TMAX-TMIN);
 
@@ -608,7 +815,7 @@ function animate(t){
   camera.position.z=10.5+Math.cos(dr*0.65)*0.30;
   camera.lookAt(0,0.2,0);
 
-  readouts(n,rising);
+  readouts(n,rising,realFt);
   updateTicks();
   updateFossilLayer(n,pulseT,wy);
   renderer.render(scene,camera);
