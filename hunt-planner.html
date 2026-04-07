@@ -7,31 +7,43 @@
 <link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=DM+Mono:wght@400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
 <style>
 :root {
-  --deep: #ceeddb;
-  --deep-mid: #b8deca;
-  --deep-card: #ffffff;
-  --deep-border: rgba(110,136,148,0.18);
+  --deep: #6e8894;
+  --deep-mid: #60797f;
+  --deep-card: #ceeddb;
+  --deep-border: rgba(84,78,97,0.20);
   --blue: #85baa1;
-  --blue-mid: #6e8894;
-  --blue-light: #85baa1;
+  --blue-mid: #85baa1;
+  --blue-light: #ceeddb;
   --blue-pale: #ceeddb;
-  --slate: #6e8894;
-  --slate-dark: #67597a;
-  --slate-light: #85baa1;
-  --white: #544e61;
-  --white-dim: #67597a;
+  --slate: #ceeddb;
+  --slate-dark: rgba(255,255,255,0.6);
+  --slate-light: #ceeddb;
+  --white: #ffffff;
+  --white-dim: rgba(255,255,255,0.9);
   --accent: #85baa1;
-  --accent-pale: rgba(133,186,161,0.12);
-  --muted: #6e8894;
+  --accent-pale: rgba(133,186,161,0.15);
+  --muted: rgba(255,255,255,0.7);
   --gold: #C8A96A;
   --success: #3ABEA0;
+}
+
+/* Card-interior text: dark on honeydew surfaces */
+.day-pill, .verdict, .data-cell, .tide-section, .briefing {
+  --white: #544e61;
+  --white-dim: #67597a;
+  --muted: #67597a;
+  --slate: #6e8894;
+  --slate-dark: #544e61;
+  --slate-light: #67597a;
+  --blue-light: #85baa1;
+  --deep-border: rgba(84,78,97,0.15);
 }
 * { box-sizing: border-box; margin: 0; padding: 0; }
 html { scroll-behavior: smooth; overflow-x: hidden; }
 body { font-family: 'DM Sans', sans-serif; background: var(--deep); color: var(--white-dim); min-height: 100vh; line-height: 1.6; overflow-x: hidden; }
 
 /* NAV — exact from index */
-nav { position:sticky; top:0; z-index:100; background:rgba(206,237,219,0.92); backdrop-filter:blur(12px); border-bottom:1px solid var(--deep-border); padding:0 40px; display:flex; align-items:center; justify-content:space-between; height:56px; }
+nav { position:sticky; top:0; z-index:100; background:rgba(96,121,127,0.94); backdrop-filter:blur(12px); border-bottom:1px solid var(--deep-border); padding:0 40px; display:flex; align-items:center; justify-content:space-between; height:56px; }
 a.nav-logo { display:flex; flex-direction:column; gap:1px; text-decoration:none; }
 .nav-wordmark { font-family:'Libre Baskerville',serif; font-size:14px; font-weight:700; color:var(--white); letter-spacing:0.01em; line-height:1; }
 .nav-sub { font-family:'DM Mono',monospace; font-size:9px; letter-spacing:0.14em; text-transform:uppercase; color:var(--muted); }
@@ -39,17 +51,17 @@ a.nav-logo { display:flex; flex-direction:column; gap:1px; text-decoration:none;
 .nav-links a { font-family:'DM Mono',monospace; font-size:10px; letter-spacing:0.1em; text-transform:uppercase; color:var(--muted); text-decoration:none; transition:color 0.2s; }
 .nav-links a:hover { color:var(--white); }
 .nav-links a.nav-active { color:var(--accent); }
-.nav-links a.nav-soon { color:#b0c4b8; cursor:default; pointer-events:none; }
-.soon-tag { font-size:8px; background:rgba(133,186,161,0.12); border:1px solid rgba(133,186,161,0.25); color:var(--accent); padding:1px 5px; border-radius:3px; margin-left:5px; vertical-align:middle; letter-spacing:0.08em; }
+.nav-links a.nav-soon { color:rgba(255,255,255,0.3); cursor:default; pointer-events:none; }
+.soon-tag { font-size:8px; background:rgba(133,186,161,0.15); border:1px solid rgba(133,186,161,0.25); color:var(--accent); padding:1px 5px; border-radius:3px; margin-left:5px; vertical-align:middle; letter-spacing:0.08em; }
 .nav-burger { display:none; flex-direction:column; gap:5px; cursor:pointer; padding:6px; background:none; border:none; }
 .nav-burger span { display:block; width:22px; height:1.5px; background:var(--muted); border-radius:1px; transition:all 0.2s; }
-.nav-drawer { display:none; position:fixed; top:56px; left:0; right:0; z-index:99; background:rgba(206,237,219,0.96); backdrop-filter:blur(16px); border-bottom:1px solid var(--deep-border); flex-direction:column; padding:12px 0; }
+.nav-drawer { display:none; position:fixed; top:56px; left:0; right:0; z-index:99; background:rgba(96,121,127,0.97); backdrop-filter:blur(16px); border-bottom:1px solid var(--deep-border); flex-direction:column; padding:12px 0; }
 .nav-drawer.open { display:flex; }
-.nav-drawer a { font-family:'DM Mono',monospace; font-size:11px; letter-spacing:0.14em; text-transform:uppercase; color:var(--muted); text-decoration:none; padding:14px 28px; border-bottom:1px solid rgba(110,136,148,0.08); transition:color 0.15s; }
+.nav-drawer a { font-family:'DM Mono',monospace; font-size:11px; letter-spacing:0.14em; text-transform:uppercase; color:var(--muted); text-decoration:none; padding:14px 28px; border-bottom:1px solid rgba(255,255,255,0.06); transition:color 0.15s; }
 .nav-drawer a:last-child { border-bottom:none; }
 .nav-drawer a:hover { color:var(--white); }
 .nav-drawer a.nav-active { color:var(--accent); }
-.nav-drawer a.nav-soon { color:#b0c4b8; pointer-events:none; }
+.nav-drawer a.nav-soon { color:rgba(255,255,255,0.3); pointer-events:none; }
 @media (max-width:680px) { nav { padding:0 20px; } .nav-links { display:none; } .nav-burger { display:flex; } }
 
 /* PAGE */
@@ -67,7 +79,7 @@ a.nav-logo { display:flex; flex-direction:column; gap:1px; text-decoration:none;
 .week-strip { display:flex; gap:8px; margin-bottom:20px; overflow-x:auto; padding-bottom:4px; }
 .day-pill { flex:1; min-width:70px; background:var(--deep-card); border:1px solid var(--deep-border); border-radius:10px; padding:12px 8px; text-align:center; cursor:pointer; transition:border-color 0.15s,background 0.15s; box-shadow:0 1px 3px rgba(0,0,0,0.06); }
 .day-pill:hover { border-color:var(--blue-mid); }
-.day-pill.selected { border-color:var(--accent); background:rgba(133,186,161,0.12); }
+.day-pill.selected { border-color:rgba(84,78,97,0.35); background:rgba(133,186,161,0.15); }
 .day-pill.green { border-color:rgba(58,190,160,0.35); }
 .day-pill.yellow { border-color:rgba(200,168,106,0.35); }
 .day-pill.red { border-color:rgba(180,80,80,0.25); }
@@ -448,8 +460,8 @@ function renderBriefing(dateStr, tides, curve, weather) {
       const x = (totalMins / (24*60)) * W;
       const v = parseFloat(t.v);
       const y = H - ((v - minV) / range) * (H * 0.85) - 8;
-      return `<circle cx="${x}" cy="${y}" r="5" fill="#85baa1" opacity="0.8"/>
-              <text x="${x}" y="${y-12}" text-anchor="middle" font-family="DM Mono, monospace" font-size="11" fill="#85baa1">${fmtTime(t.t)}</text>`;
+      return `<circle cx="${x}" cy="${y}" r="5" fill="#6e8894" opacity="0.8"/>
+              <text x="${x}" y="${y-12}" text-anchor="middle" font-family="DM Mono, monospace" font-size="11" fill="#6e8894">${fmtTime(t.t)}</text>`;
     }).join('');
 
     const timeLabels = ['12am','3am','6am','9am','12pm','3pm','6pm','9pm','12am'].map((label,i) => {
@@ -461,11 +473,11 @@ function renderBriefing(dateStr, tides, curve, weather) {
       <svg viewBox="0 0 ${W} ${H+20}" preserveAspectRatio="none" style="width:100%;height:130px;overflow:visible;">
         <defs>
           <linearGradient id="waveGrad" x1="0" y1="0" x2="0" y2="1">
-            <stop offset="0%" stop-color="#85baa1" stop-opacity="0.25"/>
-            <stop offset="100%" stop-color="#85baa1" stop-opacity="0.02"/>
+            <stop offset="0%" stop-color="#6e8894" stop-opacity="0.25"/>
+            <stop offset="100%" stop-color="#6e8894" stop-opacity="0.02"/>
           </linearGradient>
         </defs>
-        <polyline points="${pts}" fill="none" stroke="#85baa1" stroke-width="2" stroke-linejoin="round"/>
+        <polyline points="${pts}" fill="none" stroke="#6e8894" stroke-width="2" stroke-linejoin="round"/>
         <polygon points="0,${H} ${pts} ${W},${H}" fill="url(#waveGrad)"/>
         ${lowMarkers}
         ${timeLabels}
