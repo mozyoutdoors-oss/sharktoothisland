@@ -1,0 +1,787 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Shark Tooth Island — Field Station</title>
+  <link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=DM+Sans:wght@300;400;500&family=DM+Mono:wght@400&display=swap" rel="stylesheet">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
+  <style>
+  :root {
+    --deep: #1A2535;
+    --deep-mid: #202E42;
+    --deep-card: #263548;
+    --deep-border: rgba(100,140,180,0.20);
+    --blue: #2563A8;
+    --blue-mid: #3A7BC8;
+    --blue-light: #7FB3E8;
+    --blue-pale: #C8DFF5;
+    --slate: #8FA3BA;
+    --slate-dark: #5C7A96;
+    --slate-light: #B8CCDE;
+    --white: #EEF4FA;
+    --white-dim: #C2D2E2;
+    --accent: #4A9EBF;
+    --accent-pale: rgba(74,158,191,0.12);
+    --muted: #5C7A96;
+    --gold: #C8A96A;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; overflow-x: hidden; }
+  body { overflow-x: hidden; }
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--deep);
+    color: var(--white-dim);
+    min-height: 100vh;
+    line-height: 1.6;
+    overflow-x: hidden;
+  }
+
+  /* NAV */
+  nav {
+    position: sticky; top: 0; z-index: 100;
+    background: rgba(26,37,53,0.96);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--deep-border);
+    padding: 0 40px;
+    display: flex; align-items: center; justify-content: space-between;
+    height: 56px;
+  }
+  a.nav-logo { display:flex; flex-direction:column; gap:1px; text-decoration:none; }
+  .nav-wordmark { font-family:'Libre Baskerville',serif; font-size:14px; font-weight:700; color:var(--white); letter-spacing:0.01em; line-height:1; }
+  .nav-sub { font-family:'DM Mono',monospace; font-size:9px; letter-spacing:0.14em; text-transform:uppercase; color:var(--muted); }
+  .nav-links { display:flex; gap:28px; list-style:none; align-items:center; }
+  .nav-links a { font-family:'DM Mono',monospace; font-size:10px; letter-spacing:0.1em; text-transform:uppercase; color:var(--muted); text-decoration:none; transition:color 0.2s; }
+  .nav-links a:hover { color:var(--white); }
+  .nav-links a.nav-active { color:var(--accent); }
+  .nav-links a.nav-soon { color:#2A4A5A; cursor:default; pointer-events:none; }
+  .soon-tag { font-size:8px; background:rgba(74,158,191,0.12); border:1px solid rgba(74,158,191,0.2); color:var(--accent); padding:1px 5px; border-radius:3px; margin-left:5px; vertical-align:middle; letter-spacing:0.08em; }
+
+  /* HAMBURGER */
+  .nav-burger { display:none; flex-direction:column; gap:5px; cursor:pointer; padding:6px; background:none; border:none; }
+  .nav-burger span { display:block; width:22px; height:1.5px; background:var(--muted); border-radius:1px; transition:all 0.2s; }
+  .nav-drawer { display:none; position:fixed; top:56px; left:0; right:0; z-index:99; background:rgba(22,32,46,0.97); backdrop-filter:blur(16px); border-bottom:1px solid var(--deep-border); flex-direction:column; padding:12px 0; }
+  .nav-drawer.open { display:flex; }
+  .nav-drawer a { font-family:'DM Mono',monospace; font-size:11px; letter-spacing:0.14em; text-transform:uppercase; color:var(--muted); text-decoration:none; padding:14px 28px; border-bottom:1px solid rgba(100,140,180,0.06); transition:color 0.15s; }
+  .nav-drawer a:last-child { border-bottom:none; }
+  .nav-drawer a:hover { color:var(--white); }
+  .nav-drawer a.nav-active { color:var(--accent); }
+  .nav-drawer a.nav-soon { color:#2A4A5A; pointer-events:none; }
+
+  @media (max-width: 680px) {
+    nav { padding:0 20px; }
+    .nav-links { display:none; }
+    .nav-burger { display:flex; }
+  }
+
+  /* HERO */
+  .hero {
+    min-height: 92vh;
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    padding: 80px 40px 60px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero-bg {
+    position: absolute; inset: 0;
+    background: radial-gradient(ellipse 80% 60% at 50% 100%, rgba(37,99,168,0.18) 0%, transparent 70%),
+                radial-gradient(ellipse 40% 30% at 20% 40%, rgba(74,158,191,0.06) 0%, transparent 60%);
+    pointer-events: none;
+  }
+  .hero-grid-lines {
+    position: absolute; inset: 0; opacity: 0.03;
+    background-image: linear-gradient(rgba(100,160,220,1) 1px, transparent 1px),
+                       linear-gradient(90deg, rgba(100,160,220,1) 1px, transparent 1px);
+    background-size: 60px 60px;
+    pointer-events: none;
+  }
+  .hero-content { position: relative; z-index: 1; max-width: 800px; }
+  .hero h1 {
+    font-family: 'Libre Baskerville', serif;
+    font-size: clamp(44px, 7.5vw, 88px);
+    font-weight: 700; color: var(--white);
+    line-height: 1.0; letter-spacing: -0.025em;
+    margin-bottom: 10px;
+  }
+  .hero h1 .sub-line {
+    display: block; font-style: italic; font-weight: 400;
+    font-size: 0.65em; color: var(--blue-light);
+    letter-spacing: -0.01em; margin-top: 6px;
+  }
+  .hero-desc {
+    margin: 32px auto 48px; max-width: 520px;
+    font-size: 15px; color: var(--muted); font-weight: 300; line-height: 1.8;
+  }
+  .hero-stats {
+    display: flex; gap: 0; justify-content: center;
+    border: 1px solid var(--deep-border); border-radius: 12px;
+    overflow: hidden; max-width: 540px; margin: 0 auto;
+  }
+  .h-stat {
+    flex: 1; padding: 20px 16px; background: var(--deep-card);
+    text-align: center; border-right: 1px solid var(--deep-border);
+  }
+  .h-stat:last-child { border-right: none; }
+  .h-stat-n {
+    display: block; font-family: 'Libre Baskerville', serif;
+    font-size: 28px; color: var(--blue-light); margin-bottom: 4px;
+  }
+  .h-stat-l { font-size: 11px; color: var(--muted); letter-spacing: 0.04em; }
+  .scroll-hint {
+    position: absolute; bottom: 32px; left: 50%; transform: translateX(-50%);
+    display: flex; flex-direction: column; align-items: center; gap: 6px;
+    color: var(--muted); font-size: 10px; letter-spacing: 0.1em;
+    text-transform: uppercase; font-family: 'DM Mono', monospace;
+    animation: bounce 2.4s ease-in-out infinite;
+  }
+  .scroll-hint-line { width: 1px; height: 32px; background: linear-gradient(to bottom, var(--accent), transparent); }
+
+  @keyframes fpulse { 0%,100%{opacity:1;transform:scale(1);}50%{opacity:0.35;transform:scale(0.65);} }
+  @keyframes bounce {
+    0%,100% { transform: translateX(-50%) translateY(0); }
+    50% { transform: translateX(-50%) translateY(6px); }
+  }
+
+  @media (max-width: 640px) {
+    .hero-data-overlay { top:14px; right:14px; min-width:150px; }
+    .hero-vis-station  { top:14px; left:14px; }
+    .hero-tide-control { bottom:14px; }
+    .hero-coord { display:none; }
+  }
+
+  /* WRAPPER */
+  .wrap {
+    max-width: 920px;
+    margin: 0 auto;
+    padding: 0 40px;
+  }
+
+  /* SECTION BASE */
+  .section { padding: 72px 0; border-top: 1px solid var(--deep-border); }
+  .section-label {
+    font-family: 'DM Mono', monospace; font-size: 10px;
+    letter-spacing: 0.2em; text-transform: uppercase;
+    color: var(--accent); margin-bottom: 16px;
+    display: flex; align-items: center; gap: 10px;
+  }
+  .section-label::after {
+    content: ''; display: block; height: 1px; width: 48px;
+    background: var(--accent); opacity: 0.3;
+  }
+  .section-title {
+    font-family: 'Libre Baskerville', serif;
+    font-size: clamp(26px, 4vw, 40px);
+    color: var(--white); font-weight: 700;
+    line-height: 1.15; margin-bottom: 18px;
+  }
+  .section-title em { font-style: italic; color: var(--blue-light); font-weight: 400; }
+  .section-body {
+    font-size: 15px; color: var(--muted);
+    line-height: 1.85; max-width: 580px; font-weight: 300;
+  }
+
+  /* FORMATION */
+  .formation-steps {
+    display: grid; grid-template-columns: 1fr 28px 1fr 28px 1fr;
+    gap: 0; margin-top: 44px; align-items: center;
+  }
+  .f-step {
+    background: var(--deep-card); border: 1px solid var(--deep-border);
+    border-radius: 12px; padding: 28px 24px; transition: border-color 0.2s;
+  }
+  .f-step:hover { border-color: var(--blue-mid); }
+  .f-arrow { text-align: center; color: var(--slate-dark); font-size: 14px; }
+  .f-num {
+    font-family: 'DM Mono', monospace; font-size: 11px;
+    color: var(--accent); letter-spacing: 0.14em; margin-bottom: 12px; display: block;
+  }
+  .f-title {
+    font-family: 'Libre Baskerville', serif; font-size: 19px;
+    color: var(--white); margin-bottom: 10px; font-weight: 700;
+  }
+  .f-body { font-size: 13px; color: var(--muted); line-height: 1.65; }
+
+  /* TIMELINE / EPOCHS */
+  .epoch-tabs {
+    display: flex; gap: 0; margin-top: 44px;
+    border: 1px solid var(--deep-border); border-radius: 12px; overflow: hidden;
+  }
+  .epoch-tab {
+    flex: 1; padding: 20px 16px; background: var(--deep-card);
+    cursor: pointer; border-right: 1px solid var(--deep-border);
+    transition: background 0.2s; text-align: center;
+  }
+  .epoch-tab:last-child { border-right: none; }
+  .epoch-tab:hover { background: rgba(37,99,168,0.12); }
+  .epoch-tab.active {
+    background: rgba(37,99,168,0.45);
+    border-bottom: 3px solid #7FB3E8;
+    box-shadow: inset 0 -3px 0 #7FB3E8;
+  }
+  .epoch-tab-name {
+    font-family: 'Libre Baskerville', serif; font-size: 15px;
+    color: var(--white); margin-bottom: 4px; transition: color 0.2s;
+  }
+  .epoch-tab.active .epoch-tab-name { color: #B8D8F5; font-style: italic; }
+  .epoch-tab.active .epoch-tab-mya { color: #7FB3E8; }
+  .epoch-tab-mya {
+    font-family: 'DM Mono', monospace; font-size: 10px;
+    color: var(--accent); letter-spacing: 0.1em;
+  }
+  .epoch-panel {
+    display: none; margin-top: 2px;
+    background: var(--deep-card); border: 1px solid var(--deep-border);
+    border-top: none; border-radius: 0 0 12px 12px; padding: 32px 36px;
+  }
+  .epoch-panel.active { display: grid; grid-template-columns: 1fr 1fr; gap: 32px; }
+  .epoch-panel-title {
+    font-family: 'Libre Baskerville', serif; font-size: 18px;
+    color: var(--white); margin-bottom: 12px; font-style: italic;
+  }
+  .epoch-panel-body { font-size: 14px; color: var(--muted); line-height: 1.8; }
+  .epoch-panel-finds h4 {
+    font-family: 'DM Mono', monospace; font-size: 10px;
+    letter-spacing: 0.14em; text-transform: uppercase;
+    color: var(--accent); margin-bottom: 14px;
+  }
+  .epoch-find-pill {
+    display: inline-block; background: rgba(37,99,168,0.15);
+    border: 1px solid rgba(100,160,220,0.2); border-radius: 20px;
+    padding: 5px 14px; font-size: 12px; color: var(--blue-pale);
+    margin: 0 6px 8px 0;
+  }
+
+  /* CHARTS */
+  .charts-row { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-top: 44px; }
+  .chart-card {
+    background: var(--deep-card); border: 1px solid var(--deep-border);
+    border-radius: 12px; padding: 24px;
+  }
+  .chart-card h3 {
+    font-family: 'Libre Baskerville', serif; font-size: 15px;
+    color: var(--white); margin-bottom: 6px; font-style: italic;
+  }
+  .chart-card p { font-size: 12px; color: var(--muted); margin-bottom: 20px; }
+  .chart-box { position: relative; width: 100%; height: 220px; }
+
+  /* FIELD GUIDE */
+  .guide-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; margin-top: 44px; }
+  .guide-card {
+    background: var(--deep-card); border: 1px solid var(--deep-border);
+    border-radius: 12px; padding: 24px 20px;
+    transition: border-color 0.2s, background 0.2s; cursor: default;
+  }
+  .guide-card:hover { border-color: var(--blue-mid); background: rgba(19,30,46,0.9); }
+  .guide-top { display: flex; align-items: flex-start; justify-content: space-between; margin-bottom: 12px; }
+  .guide-name { font-family: 'Libre Baskerville', serif; font-size: 15px; color: var(--white); line-height: 1.3; }
+  .rarity-badge {
+    font-family: 'DM Mono', monospace; font-size: 9px;
+    letter-spacing: 0.1em; padding: 3px 8px; border-radius: 10px;
+    white-space: nowrap; margin-left: 8px; flex-shrink: 0;
+  }
+  .r-common { background: rgba(74,158,191,0.15); color: var(--accent); border: 1px solid rgba(74,158,191,0.25); }
+  .r-uncommon { background: rgba(143,163,186,0.12); color: var(--slate-light); border: 1px solid rgba(143,163,186,0.2); }
+  .r-rare { background: rgba(200,169,106,0.12); color: var(--gold); border: 1px solid rgba(200,169,106,0.22); }
+  .guide-body { font-size: 13px; color: var(--muted); line-height: 1.65; }
+
+  /* CONDITIONS */
+  .conditions-layout {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 20px;
+    margin-top: 44px; align-items: start;
+  }
+  .condition-item {
+    background: var(--deep-card); border: 1px solid var(--deep-border);
+    border-radius: 12px; padding: 26px;
+  }
+  .condition-item.full { grid-column: span 2; }
+  .cond-label {
+    font-family: 'DM Mono', monospace; font-size: 10px;
+    letter-spacing: 0.14em; text-transform: uppercase;
+    color: var(--accent); margin-bottom: 10px; display: block;
+  }
+  .cond-value {
+    font-family: 'Libre Baskerville', serif; font-size: 24px;
+    color: var(--white); margin-bottom: 8px;
+  }
+  .cond-body { font-size: 13px; color: var(--muted); line-height: 1.65; }
+  .cond-bar { height: 3px; background: rgba(100,140,180,0.15); border-radius: 2px; margin-top: 16px; overflow: hidden; }
+  .cond-fill { height: 100%; border-radius: 2px; }
+  .tide-visual { height: 80px; position: relative; margin-top: 16px; overflow: hidden; }
+  .tide-svg { width: 100%; height: 100%; }
+
+  /* VISIT */
+  .visit-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-top: 44px; }
+  .visit-card {
+    background: var(--deep-card); border: 1px solid var(--deep-border);
+    border-radius: 12px; padding: 28px;
+  }
+  .visit-card.highlight { border-color: rgba(74,158,191,0.3); background: rgba(74,158,191,0.06); }
+  .visit-card h3 {
+    font-family: 'Libre Baskerville', serif; font-size: 17px;
+    color: var(--white); margin-bottom: 14px;
+  }
+  .visit-list { list-style: none; display: flex; flex-direction: column; gap: 10px; }
+  .visit-list li {
+    font-size: 13px; color: var(--muted); padding-left: 18px;
+    position: relative; line-height: 1.55;
+  }
+  .visit-list li::before {
+    content: '—'; position: absolute; left: 0;
+    color: var(--accent); font-size: 12px;
+  }
+
+  /* FOOTER */
+  .site-footer {
+    border-top: 1px solid var(--deep-border);
+    padding: 36px 40px;
+    display: flex; align-items: center; justify-content: space-between;
+  }
+  .footer-left { font-family: 'DM Mono', monospace; font-size: 11px; color: var(--muted); letter-spacing: 0.08em; }
+  .footer-right { font-family: 'DM Mono', monospace; font-size: 11px; color: var(--muted); }
+  .footer-right a { color: var(--accent); text-decoration: none; }
+
+  /* ANIMATIONS */
+  .reveal { opacity: 0; transform: translateY(20px); transition: opacity 0.7s ease, transform 0.7s ease; }
+  .reveal.in { opacity: 1; transform: none; }
+  .reveal-delay-1 { transition-delay: 0.1s; }
+  .reveal-delay-2 { transition-delay: 0.2s; }
+  .reveal-delay-3 { transition-delay: 0.3s; }
+
+  /* RESPONSIVE */
+  @media (max-width: 700px) {
+    nav { padding: 0 20px; }
+    .eyebrow-full { display: none; }
+    .eyebrow-short { display: inline !important; }
+    .wrap { padding: 0 20px; }
+    .section-body, .f-body, .epoch-panel-body, .guide-body, .cond-body { font-size: 14px; }
+    .formation-steps { padding: 0; }
+    .guide-grid { gap: 12px; }
+    .conditions-layout { gap: 12px; }
+    .visit-grid { gap: 12px; }
+    .nav-links, .nav-tag { display: none; }
+    .hero { padding: 60px 20px 48px; }
+    .wrap { padding: 0 20px; }
+    .formation-steps { grid-template-columns: 1fr; }
+    .f-arrow { display: none; }
+    .epoch-panel.active { grid-template-columns: 1fr; }
+    .charts-row { grid-template-columns: 1fr; }
+    .guide-grid { grid-template-columns: 1fr 1fr; }
+    .conditions-layout { grid-template-columns: 1fr; }
+    .condition-item.full { grid-column: span 1; }
+    .visit-grid { grid-template-columns: 1fr; }
+    .site-footer { flex-direction: column; gap: 12px; text-align: center; }
+  }
+  </style>
+</head>
+<body>
+
+<nav>
+  <a href="index.html" class="nav-logo">
+    <span class="nav-wordmark">Shark Tooth Island</span>
+    <span class="nav-sub">Cape Fear River · NC</span>
+  </a>
+  <ul class="nav-links">
+    <li><a href="index.html" class="nav-active">Field Guide</a></li>
+    <li><a href="megalodon-calculator-v5.html">Size Calculator</a></li>
+    <li><a href="hunt-planner.html">Hunt Planner</a></li>
+    <li><a href="#" class="nav-soon">Depth of Time <span class="soon-tag">Soon</span></a></li>
+  </ul>
+  <button class="nav-burger" onclick="toggleNav()" aria-label="Menu">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+
+<div class="nav-drawer" id="nav-drawer">
+  <a href="index.html" class="nav-active">Field Guide</a>
+  <a href="megalodon-calculator-v5.html">Size Calculator</a>
+  <a href="hunt-planner.html">Hunt Planner</a>
+  <a href="#" class="nav-soon">Depth of Time — Coming Soon</a>
+</div>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-grid-lines"></div>
+  <div class="hero-content">
+    <div class="hero-eyebrow"><span class="eyebrow-full">Cape Fear River · New Hanover County, North Carolina</span><span class="eyebrow-short" style="display:none;">Cape Fear River · NC</span></div>
+    <h1>Shark Tooth Island
+      <span class="sub-line">A field guide to the Cape Fear's prehistoric shore</span>
+    </h1>
+    <p class="hero-desc">An uninhabited dredge spoil island in the Cape Fear River — one of the most unusual fossil hunting destinations on the East Coast. No admission. No crowds. Forty million years of marine history, revealed by the tide.</p>
+    <div class="hero-stats">
+      <div class="h-stat"><span class="h-stat-n">40M</span><span class="h-stat-l">Years of fossils</span></div>
+      <div class="h-stat"><span class="h-stat-n">4</span><span class="h-stat-l">Geologic epochs</span></div>
+      <div class="h-stat"><span class="h-stat-n">Boat</span><span class="h-stat-l">Access only</span></div>
+      <div class="h-stat"><span class="h-stat-n">Low</span><span class="h-stat-l">Best at low tide</span></div>
+    </div>
+  </div>
+  <div class="scroll-hint">
+    <div class="scroll-hint-line"></div>
+    Scroll
+  </div>
+</section>
+
+<!-- TIDAL VISUALIZATION -->
+<div style="width:100%;height:100vh;min-height:600px;overflow:hidden;line-height:0;">
+  <iframe src="island-hero.html" style="width:100%;height:100%;border:none;display:block;" scrolling="no" loading="lazy"></iframe>
+</div>
+
+<!-- FORMATION -->
+<div class="wrap">
+
+<section class="section reveal" id="formation">
+  <div class="section-label">How it formed</div>
+  <h2 class="section-title">Human engineering meets<br><em>ancient geology</em></h2>
+  <p class="section-body">Shark Tooth Island didn't exist until the late 1800s. The Army Corps of Engineers dredged the Cape Fear River to allow large cargo vessels to reach Wilmington — and in doing so, pulled millions of years of buried marine sediment to the surface. What the dredge created, the tide continues to reveal.</p>
+  <div class="formation-steps">
+    <div class="f-step reveal reveal-delay-1">
+      <span class="f-num">01 · Channel work</span>
+      <div class="f-title">River deepened for navigation</div>
+      <p class="f-body">Heavy dredging equipment excavates the Cape Fear channel, biting into limestone beds formed when this entire region sat beneath a warm, shallow sea some 30–40 million years ago.</p>
+    </div>
+    <div class="f-arrow">→</div>
+    <div class="f-step reveal reveal-delay-2">
+      <span class="f-num">02 · Sediment surfaced</span>
+      <div class="f-title">Ancient material deposited</div>
+      <p class="f-body">Dredged material — including fossilized teeth, bone, and shell — is pumped out and deposited as "spoil," forming new islands. Forty million years of burial, undone in a season of dredging.</p>
+    </div>
+    <div class="f-arrow">→</div>
+    <div class="f-step reveal reveal-delay-3">
+      <span class="f-num">03 · Tide does the rest</span>
+      <div class="f-title">Fossils revealed each cycle</div>
+      <p class="f-body">Every tidal cycle erodes fine sediment, concentrating denser material — teeth, bone, dense shell — on the surface. The river is constantly refreshing what's available to find. Low tide is everything.</p>
+    </div>
+  </div>
+</section>
+
+<!-- EPOCHS -->
+<section class="section reveal" id="epochs">
+  <div class="section-label">Geological record</div>
+  <h2 class="section-title">Four epochs in<br><em>one island</em></h2>
+  <p class="section-body">The dredged sediment contains fossils from four distinct geological epochs — a compressed record of 50 million years of marine life. Each era left a different signature in what you're likely to find.</p>
+
+  <div class="epoch-tabs" id="epoch-tabs">
+    <div class="epoch-tab active" onclick="setEpoch(0)" id="etab-0">
+      <div class="epoch-tab-name">Eocene</div>
+      <div class="epoch-tab-mya">56 – 33 MYA</div>
+    </div>
+    <div class="epoch-tab" onclick="setEpoch(1)" id="etab-1">
+      <div class="epoch-tab-name">Oligocene</div>
+      <div class="epoch-tab-mya">33 – 23 MYA</div>
+    </div>
+    <div class="epoch-tab" onclick="setEpoch(2)" id="etab-2">
+      <div class="epoch-tab-name">Miocene</div>
+      <div class="epoch-tab-mya">23 – 5 MYA</div>
+    </div>
+    <div class="epoch-tab" onclick="setEpoch(3)" id="etab-3">
+      <div class="epoch-tab-name">Pliocene</div>
+      <div class="epoch-tab-mya">5 – 2.5 MYA</div>
+    </div>
+  </div>
+
+  <div class="epoch-panel active" id="epanel-0">
+    <div>
+      <div class="epoch-panel-title">Eocene — the warm sea era</div>
+      <p class="epoch-panel-body">This region sat beneath a warm, shallow subtropical sea teeming with primitive marine life. The sharks of this era — like <em>Otodus obliquus</em> — were direct ancestors of the megalodon. Their teeth are rounder, less serrated, and more laterally compressed than later species. Finding an Eocene tooth means you're holding something between 33 and 56 million years old — formed when modern humans didn't exist and what is now North Carolina was a seafloor.</p>
+    </div>
+    <div class="epoch-panel-finds">
+      <h4>What you might find from this era</h4>
+      <span class="epoch-find-pill">Otodus obliquus teeth</span>
+      <span class="epoch-find-pill">Primitive shark teeth</span>
+      <span class="epoch-find-pill">Rounded, unserrated forms</span>
+      <span class="epoch-find-pill">Fossilized marine shell</span>
+      <span class="epoch-find-pill">Bony fish fragments</span>
+    </div>
+  </div>
+
+  <div class="epoch-panel" id="epanel-1">
+    <div>
+      <div class="epoch-panel-title">Oligocene — the transition</div>
+      <p class="epoch-panel-body">Global temperatures cooled as Antarctica glaciated. The marine ecosystem diversified rapidly in response. Early baleen whale ancestors appeared alongside more advanced shark species — which is why whale bone occasionally surfaces here alongside teeth. This is the era where megalodon's direct ancestors begin to appear in the fossil record, setting the stage for the apex predator of the Miocene.</p>
+    </div>
+    <div class="epoch-panel-finds">
+      <h4>What you might find from this era</h4>
+      <span class="epoch-find-pill">Early Otodus teeth</span>
+      <span class="epoch-find-pill">Crow shark teeth</span>
+      <span class="epoch-find-pill">Whale vertebrae fragments</span>
+      <span class="epoch-find-pill">Dolphin bone</span>
+      <span class="epoch-find-pill">Fossilized sea biscuits</span>
+    </div>
+  </div>
+
+  <div class="epoch-panel" id="epanel-2">
+    <div>
+      <div class="epoch-panel-title">Miocene — the megalodon era</div>
+      <p class="epoch-panel-body">The apex of <em>Otodus megalodon</em> dominance. This species reached estimated lengths of 50+ feet and produced teeth up to 7 inches long. The Cape Fear region was prime megalodon habitat — warm coastal waters with abundant whale prey. Miocene-aged teeth are the most commonly found on the island, the most visually striking, and what most hunters are hoping to find. These are the teeth that still stop people cold.</p>
+    </div>
+    <div class="epoch-panel-finds">
+      <h4>What you might find from this era</h4>
+      <span class="epoch-find-pill">Megalodon teeth</span>
+      <span class="epoch-find-pill">Mackerel shark teeth</span>
+      <span class="epoch-find-pill">Sand tiger teeth</span>
+      <span class="epoch-find-pill">Whale rib fragments</span>
+      <span class="epoch-find-pill">Dense fossilized bone</span>
+    </div>
+  </div>
+
+  <div class="epoch-panel" id="epanel-3">
+    <div>
+      <div class="epoch-panel-title">Pliocene — the modern transition</div>
+      <p class="epoch-panel-body">As ocean temperatures dropped and prey migrated to cooler, deeper water, megalodon declined and ultimately vanished. Modern shark species — great whites, sand tigers, hammerheads — emerged in this window. Pliocene teeth are often visually similar to teeth from living sharks, but the fossil mineralization process turns them black, giving you a way to date at a glance. These are often the sharpest-looking teeth on the island.</p>
+    </div>
+    <div class="epoch-panel-finds">
+      <h4>What you might find from this era</h4>
+      <span class="epoch-find-pill">Early great white teeth</span>
+      <span class="epoch-find-pill">Hammerhead teeth</span>
+      <span class="epoch-find-pill">Modern-form sand tigers</span>
+      <span class="epoch-find-pill">Fossilized coral</span>
+      <span class="epoch-find-pill">Marine turtle bone</span>
+    </div>
+  </div>
+</section>
+
+<!-- CHARTS -->
+<section class="section reveal">
+  <div class="section-label">By the numbers</div>
+  <h2 class="section-title">What the island<br><em>actually yields</em></h2>
+  <div class="charts-row">
+    <div class="chart-card">
+      <h3>Finds by category</h3>
+      <p>Approximate distribution across documented finds</p>
+      <div class="chart-box"><canvas id="fossilChart"></canvas></div>
+    </div>
+    <div class="chart-card">
+      <h3>Tooth size comparison</h3>
+      <p>Maximum recorded length by species (inches)</p>
+      <div class="chart-box"><canvas id="sizeChart"></canvas></div>
+    </div>
+  </div>
+</section>
+
+<!-- FIELD GUIDE -->
+<section class="section reveal" id="field-guide">
+  <div class="section-label">Field guide</div>
+  <h2 class="section-title">What to look for,<br><em>what to expect</em></h2>
+  <p class="section-body">Almost every fossil on this island is black — the result of mineral replacement over millions of years. Iron, manganese, and other minerals slowly replace the original calcium phosphate of the tooth. Train your eye to recognize the triangular silhouette and smooth, flat enamel surface. In a pile of shell and rock, teeth have a different weight and density that you'll start to feel.</p>
+  <div class="guide-grid">
+    <div class="guide-card">
+      <div class="guide-top">
+        <div class="guide-name">Sand tiger shark teeth</div>
+        <span class="rarity-badge r-common">Common</span>
+      </div>
+      <p class="guide-body">Long, narrow, needle-like with pronounced cusps (small points) at the base. Usually 1–1.5 inches. The most frequently found tooth here — excellent for beginners learning what fossilized teeth look like. Very distinctive shape once you've seen one.</p>
+    </div>
+    <div class="guide-card">
+      <div class="guide-top">
+        <div class="guide-name">Mackerel shark teeth</div>
+        <span class="rarity-badge r-common">Common</span>
+      </div>
+      <p class="guide-body">Broader, flatter, with fine serrations along both edges. Triangular profile. Ancestors of the modern great white shark. Ranges 1–3 inches. The serrations are the tell — look for the fine, even saw-edge along the cutting blade.</p>
+    </div>
+    <div class="guide-card">
+      <div class="guide-top">
+        <div class="guide-name">Crow shark teeth</div>
+        <span class="rarity-badge r-uncommon">Uncommon</span>
+      </div>
+      <p class="guide-body">Wide, low-crowned with coarse serrations. The root is thick and U-shaped — significantly wider than the crown. An extinct species. These date primarily to the Eocene and Oligocene. Often overlooked because they don't look like the classic shark tooth shape.</p>
+    </div>
+    <div class="guide-card">
+      <div class="guide-top">
+        <div class="guide-name">Whale and dolphin bone</div>
+        <span class="rarity-badge r-uncommon">Uncommon</span>
+      </div>
+      <p class="guide-body">Dense, heavy, irregular in shape. Deep charcoal black. Could be vertebrae, rib fragments, or skull pieces from ancient cetaceans. Less exciting to casual hunters but scientifically significant — these confirm whale presence in the Cape Fear during the Oligocene and Miocene.</p>
+    </div>
+    <div class="guide-card">
+      <div class="guide-top">
+        <div class="guide-name">Sea biscuits and urchins</div>
+        <span class="rarity-badge r-uncommon">Uncommon</span>
+      </div>
+      <p class="guide-body">Round, disc-shaped fossils with a five-point radial pattern on top. Fossilized sand dollars and sea urchins from ancient shallow water environments. Often found in better condition than bone. Look in finer, sandier sediment rather than coarser shell beds.</p>
+    </div>
+    <div class="guide-card">
+      <div class="guide-top">
+        <div class="guide-name">Megalodon teeth</div>
+        <span class="rarity-badge r-rare">Rare</span>
+      </div>
+      <p class="guide-body">Large, thick, heavily serrated. Typically 3–7 inches. The root is massive relative to the crown — unmistakably different from anything else. Deep black, near-mirror enamel on the crown surface. Finding one is a genuine discovery. Most serious hunters have found only a handful in their lives.</p>
+    </div>
+  </div>
+</section>
+
+<!-- CONDITIONS -->
+<section class="section reveal" id="conditions">
+  <div class="section-label">Conditions matter</div>
+  <h2 class="section-title">Timing is everything —<br><em>here's why</em></h2>
+  <p class="section-body">The single biggest factor in a successful hunt isn't technique or luck. It's tide. Low tide exposes sediment that's submerged the rest of the day. A 1–2 hour window around dead low is prime. Arriving even an hour late can mean hunting in ankle-deep water over material that was visible an hour ago.</p>
+  <div class="conditions-layout">
+    <div class="condition-item">
+      <span class="cond-label">Optimal window</span>
+      <div class="cond-value">Low tide ± 1 hr</div>
+      <p class="cond-body">Dead low is your peak window. Start arriving one hour before low and plan to stay until one hour after. The best spots are only accessible at true low.</p>
+      <div class="cond-bar"><div class="cond-fill" style="width:90%; background: var(--blue-mid);"></div></div>
+    </div>
+    <div class="condition-item">
+      <span class="cond-label">Tide differential</span>
+      <div class="cond-value">Higher = better hunt</div>
+      <p class="cond-body">A 4–5 foot tidal range exposes far more island than a 2-foot range. Check the Cape Fear River tide tables, not just the beach tide charts — they differ.</p>
+      <div class="cond-bar"><div class="cond-fill" style="width:70%; background: var(--accent);"></div></div>
+    </div>
+    <div class="condition-item">
+      <span class="cond-label">Season</span>
+      <div class="cond-value">Spring and fall</div>
+      <p class="cond-body">Milder temperatures, manageable bugs, lower boat traffic. Summer works but heat and insects make extended hunts uncomfortable. Winter low tides can be exceptional but access gets tricky.</p>
+      <div class="cond-bar"><div class="cond-fill" style="width:75%; background: var(--slate-dark);"></div></div>
+    </div>
+    <div class="condition-item">
+      <span class="cond-label">After dredging</span>
+      <div class="cond-value">Best windows of all</div>
+      <p class="cond-body">Recent dredge activity on the Cape Fear — for channel maintenance or beach nourishment projects — can dramatically improve a season. Fresh material gets deposited, tides sort it, and finds spike. Worth tracking Corps of Engineers activity in the area.</p>
+      <div class="cond-bar"><div class="cond-fill" style="width:100%; background: var(--gold);"></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- HOW TO VISIT -->
+<section class="section reveal" id="visit">
+  <div class="section-label">How to visit</div>
+  <h2 class="section-title">Getting there and<br><em>doing it right</em></h2>
+  <p class="section-body">There's no bridge, no ferry, no launch from the island itself. You need a boat or kayak. The experience rewards preparation — the right tide, the right gear, enough time to actually hunt.</p>
+  <div class="visit-grid">
+    <div class="visit-card highlight">
+      <h3>Access</h3>
+      <ul class="visit-list">
+        <li>Boat or kayak only — no land access from shore</li>
+        <li>River Road Park is the most common launch point</li>
+        <li>Short paddle from the park to the island cluster</li>
+        <li>Schedule your launch around low tide, not convenience</li>
+        <li>Allow 3–4 hours minimum for a real hunt</li>
+        <li>Check Cape Fear River tide tables, not beach tables</li>
+      </ul>
+    </div>
+    <div class="visit-card">
+      <h3>What to bring</h3>
+      <ul class="visit-list">
+        <li>Water shoes or old sneakers — the sediment is rough</li>
+        <li>A mesh strainer or sifter (old colander works)</li>
+        <li>Sun protection — there's no shade on the island</li>
+        <li>Bug spray, especially spring and fall mornings</li>
+        <li>A small dry bag for your phone and finds</li>
+        <li>More water than you think you need</li>
+      </ul>
+    </div>
+    <div class="visit-card">
+      <h3>How to search</h3>
+      <ul class="visit-list">
+        <li>Work the waterline at low tide — fossils concentrate there</li>
+        <li>Scoop sediment and sift rather than surface scanning</li>
+        <li>Look for the triangular silhouette and flat, smooth surface</li>
+        <li>Black is the color — ignore brown, tan, or white fragments</li>
+        <li>Dense and heavy is a good sign; shell is light</li>
+        <li>Explore the other islands in the cluster — Keg Island too</li>
+      </ul>
+    </div>
+    <div class="visit-card">
+      <h3>Leave it right</h3>
+      <ul class="visit-list">
+        <li>Pack out everything you bring in</li>
+        <li>Fossil collecting for personal use is generally permitted</li>
+        <li>Commercial collection and vertebrate fossils may have restrictions — check current federal guidelines</li>
+        <li>Respect the wildlife — fiddler crabs, shorebirds, and gators are all present</li>
+        <li>Uninhabited doesn't mean unmanaged — tread carefully</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+</div>
+
+<footer class="site-footer">
+  <div class="footer-left">SharkToothIsland.org · Cape Fear River · New Hanover County, NC</div>
+  <div class="footer-right">A field resource for the Cape Fear region</div>
+</footer>
+
+<script>
+function toggleNav() {
+  document.getElementById('nav-drawer').classList.toggle('open');
+}
+// Close drawer on link click
+document.querySelectorAll('.nav-drawer a').forEach(a => {
+  a.addEventListener('click', () => document.getElementById('nav-drawer').classList.remove('open'));
+});
+
+// REVEAL OBSERVER
+const obs = new IntersectionObserver(entries => {
+  entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('in'); });
+}, { threshold: 0.02, rootMargin: '0px 0px -20px 0px' });
+document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
+// Also fire on load for anything already in view
+window.addEventListener('load', () => {
+  document.querySelectorAll('.reveal').forEach(el => {
+    const rect = el.getBoundingClientRect();
+    if (rect.top < window.innerHeight) el.classList.add('in');
+  });
+});
+
+// EPOCH TABS
+function setEpoch(i) {
+  for (let j = 0; j < 4; j++) {
+    document.getElementById('etab-' + j).classList.remove('active');
+    document.getElementById('epanel-' + j).classList.remove('active');
+  }
+  document.getElementById('etab-' + i).classList.add('active');
+  document.getElementById('epanel-' + i).classList.add('active');
+}
+
+// FOSSIL DONUT
+const BLUE = '#2563A8', BLUE2 = '#3A7BC8', BLUE3 = '#7FB3E8';
+const SLATE = '#5C7A96', SLATE2 = '#8FA3BA', GOLD = '#C8A96A';
+
+new Chart(document.getElementById('fossilChart'), {
+  type: 'doughnut',
+  data: {
+    labels: ['Sand tiger', 'Mackerel shark', 'Crow shark', 'Whale/dolphin bone', 'Sea biscuits', 'Megalodon'],
+    datasets: [{
+      data: [35, 25, 15, 10, 10, 5],
+      backgroundColor: [BLUE3, BLUE2, BLUE, SLATE2, SLATE, GOLD],
+      borderColor: '#19273A', borderWidth: 3
+    }]
+  },
+  options: {
+    responsive: true, maintainAspectRatio: false, cutout: '65%',
+    plugins: {
+      legend: {
+        position: 'bottom',
+        labels: { color: '#5C7A96', font: { family: 'DM Sans', size: 11 }, padding: 10, boxWidth: 10, boxHeight: 10 }
+      }
+    }
+  }
+});
+
+// SIZE BAR
+new Chart(document.getElementById('sizeChart'), {
+  type: 'bar',
+  data: {
+    labels: ['Megalodon', 'Great white', 'Sand tiger', 'Crow shark'],
+    datasets: [{
+      label: 'Max tooth length (in)',
+      data: [7.1, 3.0, 1.5, 2.2],
+      backgroundColor: [GOLD, BLUE3, SLATE2, SLATE],
+      borderRadius: 4, borderSkipped: false
+    }]
+  },
+  options: {
+    responsive: true, maintainAspectRatio: false, indexAxis: 'y',
+    plugins: { legend: { display: false } },
+    scales: {
+      x: { grid: { color: 'rgba(100,140,180,0.08)' }, ticks: { color: '#5C7A96', font: { family: 'DM Sans', size: 11 } } },
+      y: { grid: { display: false }, ticks: { color: '#B8CCDE', font: { family: 'DM Sans', size: 12 } } }
+    }
+  }
+});
+</script>
+</body>
+</html>

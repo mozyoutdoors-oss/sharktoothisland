@@ -1,0 +1,690 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Hunt Planner — Shark Tooth Island</title>
+<link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=DM+Mono:wght@400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --deep: #ceeddb;
+  --deep-mid: #b8deca;
+  --deep-card: #ffffff;
+  --deep-border: rgba(110,136,148,0.18);
+  --blue: #85baa1;
+  --blue-mid: #6e8894;
+  --blue-light: #85baa1;
+  --blue-pale: #ceeddb;
+  --slate: #6e8894;
+  --slate-dark: #67597a;
+  --slate-light: #85baa1;
+  --white: #544e61;
+  --white-dim: #67597a;
+  --accent: #85baa1;
+  --accent-pale: rgba(133,186,161,0.12);
+  --muted: #6e8894;
+  --gold: #C8A96A;
+  --success: #3ABEA0;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; overflow-x: hidden; }
+body { font-family: 'DM Sans', sans-serif; background: var(--deep); color: var(--white-dim); min-height: 100vh; line-height: 1.6; overflow-x: hidden; }
+
+/* NAV — exact from index */
+nav { position:sticky; top:0; z-index:100; background:rgba(206,237,219,0.92); backdrop-filter:blur(12px); border-bottom:1px solid var(--deep-border); padding:0 40px; display:flex; align-items:center; justify-content:space-between; height:56px; }
+a.nav-logo { display:flex; flex-direction:column; gap:1px; text-decoration:none; }
+.nav-wordmark { font-family:'Libre Baskerville',serif; font-size:14px; font-weight:700; color:var(--white); letter-spacing:0.01em; line-height:1; }
+.nav-sub { font-family:'DM Mono',monospace; font-size:9px; letter-spacing:0.14em; text-transform:uppercase; color:var(--muted); }
+.nav-links { display:flex; gap:28px; list-style:none; align-items:center; }
+.nav-links a { font-family:'DM Mono',monospace; font-size:10px; letter-spacing:0.1em; text-transform:uppercase; color:var(--muted); text-decoration:none; transition:color 0.2s; }
+.nav-links a:hover { color:var(--white); }
+.nav-links a.nav-active { color:var(--accent); }
+.nav-links a.nav-soon { color:#b0c4b8; cursor:default; pointer-events:none; }
+.soon-tag { font-size:8px; background:rgba(133,186,161,0.12); border:1px solid rgba(133,186,161,0.25); color:var(--accent); padding:1px 5px; border-radius:3px; margin-left:5px; vertical-align:middle; letter-spacing:0.08em; }
+.nav-burger { display:none; flex-direction:column; gap:5px; cursor:pointer; padding:6px; background:none; border:none; }
+.nav-burger span { display:block; width:22px; height:1.5px; background:var(--muted); border-radius:1px; transition:all 0.2s; }
+.nav-drawer { display:none; position:fixed; top:56px; left:0; right:0; z-index:99; background:rgba(206,237,219,0.96); backdrop-filter:blur(16px); border-bottom:1px solid var(--deep-border); flex-direction:column; padding:12px 0; }
+.nav-drawer.open { display:flex; }
+.nav-drawer a { font-family:'DM Mono',monospace; font-size:11px; letter-spacing:0.14em; text-transform:uppercase; color:var(--muted); text-decoration:none; padding:14px 28px; border-bottom:1px solid rgba(110,136,148,0.08); transition:color 0.15s; }
+.nav-drawer a:last-child { border-bottom:none; }
+.nav-drawer a:hover { color:var(--white); }
+.nav-drawer a.nav-active { color:var(--accent); }
+.nav-drawer a.nav-soon { color:#b0c4b8; pointer-events:none; }
+@media (max-width:680px) { nav { padding:0 20px; } .nav-links { display:none; } .nav-burger { display:flex; } }
+
+/* PAGE */
+.container { max-width: 900px; margin: 0 auto; padding: 52px 40px 80px; }
+
+/* HEADER */
+.header { margin-bottom: 40px; }
+.header-tag { font-family:'DM Mono',monospace; font-size:10px; letter-spacing:0.2em; text-transform:uppercase; color:var(--accent); margin-bottom:16px; display:flex; align-items:center; gap:10px; }
+.header-tag::after { content:''; width:48px; height:1px; background:var(--accent); opacity:0.3; }
+.header h1 { font-family:'Libre Baskerville',serif; font-size:clamp(28px,5vw,44px); color:var(--white); font-weight:700; letter-spacing:-0.02em; line-height:1.08; margin-bottom:8px; }
+.header h1 em { font-style:italic; font-weight:400; color:var(--blue-light); }
+.header-sub { font-size:13px; color:var(--muted); font-family:'DM Mono',monospace; letter-spacing:0.06em; }
+
+/* 7-DAY STRIP */
+.week-strip { display:flex; gap:8px; margin-bottom:20px; overflow-x:auto; padding-bottom:4px; }
+.day-pill { flex:1; min-width:70px; background:var(--deep-card); border:1px solid var(--deep-border); border-radius:10px; padding:12px 8px; text-align:center; cursor:pointer; transition:border-color 0.15s,background 0.15s; box-shadow:0 1px 3px rgba(0,0,0,0.06); }
+.day-pill:hover { border-color:var(--blue-mid); }
+.day-pill.selected { border-color:var(--accent); background:rgba(133,186,161,0.12); }
+.day-pill.green { border-color:rgba(58,190,160,0.35); }
+.day-pill.yellow { border-color:rgba(200,168,106,0.35); }
+.day-pill.red { border-color:rgba(180,80,80,0.25); }
+.day-name { font-family:'DM Mono',monospace; font-size:9px; letter-spacing:0.12em; color:var(--muted); margin-bottom:4px; }
+.day-date { font-family:'Libre Baskerville',serif; font-size:18px; color:var(--white); margin-bottom:6px; }
+.day-dot { width:8px; height:8px; border-radius:50%; margin:0 auto 6px; }
+.dot-green { background:#3ABEA0; }
+.dot-yellow { background:var(--gold); }
+.dot-red { background:rgba(200,80,80,0.7); }
+.dot-gray { background:var(--slate-dark); }
+.day-low { font-family:'DM Mono',monospace; font-size:9px; color:var(--muted); }
+
+/* DATE ROW */
+.date-row { display:flex; align-items:center; gap:12px; margin-bottom:24px; flex-wrap:wrap; }
+.date-label { font-family:'DM Mono',monospace; font-size:10px; letter-spacing:0.14em; text-transform:uppercase; color:var(--muted); }
+input[type=date] { background:var(--deep-card); border:1px solid var(--deep-border); color:var(--white); font-family:'DM Sans',sans-serif; font-size:14px; padding:8px 14px; border-radius:6px; outline:none; cursor:pointer; }
+input[type=date]:focus { border-color:var(--blue-mid); }
+.load-btn { background:rgba(133,186,161,0.18); border:1px solid rgba(110,136,148,0.30); color:var(--accent); font-family:'DM Mono',monospace; font-size:10px; letter-spacing:0.14em; text-transform:uppercase; padding:8px 18px; border-radius:6px; cursor:pointer; transition:background 0.15s,color 0.15s; min-height:36px; }
+.load-btn:hover { background:rgba(133,186,161,0.28); color:var(--white); }
+
+/* VERDICT */
+.verdict { background:var(--deep-card); border:1px solid var(--deep-border); border-radius:12px; padding:24px 28px; margin-bottom:16px; display:flex; gap:20px; align-items:flex-start; box-shadow:0 1px 3px rgba(0,0,0,0.06); }
+.verdict.go { border-color:rgba(58,190,160,0.35); }
+.verdict.maybe { border-color:rgba(200,168,106,0.35); }
+.verdict.pass { border-color:rgba(200,80,80,0.25); }
+.verdict.loading { border-color:var(--deep-border); }
+.verdict-icon { font-family:'Libre Baskerville',serif; font-size:28px; flex-shrink:0; line-height:1; width:36px; text-align:center; margin-top:2px; }
+.verdict.go .verdict-icon { color:#3ABEA0; }
+.verdict.maybe .verdict-icon { color:var(--gold); }
+.verdict.pass .verdict-icon { color:rgba(200,80,80,0.8); }
+.verdict.loading .verdict-icon { color:var(--slate-dark); }
+.verdict-label { font-family:'DM Mono',monospace; font-size:9px; letter-spacing:0.2em; text-transform:uppercase; color:var(--muted); margin-bottom:4px; }
+.verdict-title { font-family:'Libre Baskerville',serif; font-size:20px; color:var(--white); font-weight:700; margin-bottom:8px; }
+.verdict.go .verdict-title { color:#3ABEA0; }
+.verdict.maybe .verdict-title { color:var(--gold); }
+.verdict.pass .verdict-title { color:rgba(200,80,80,0.85); }
+.verdict-summary { font-size:14px; color:var(--muted); line-height:1.75; max-width:600px; }
+
+/* STAT GRID */
+.data-grid { display:grid; grid-template-columns:repeat(4,1fr); gap:10px; margin-bottom:16px; }
+.data-cell { background:var(--deep-card); border:1px solid var(--deep-border); border-radius:10px; padding:16px 14px; text-align:center; box-shadow:0 1px 3px rgba(0,0,0,0.06); }
+.cell-label { font-family:'DM Mono',monospace; font-size:8px; letter-spacing:0.16em; text-transform:uppercase; color:var(--muted); margin-bottom:6px; }
+.cell-value { font-family:'Libre Baskerville',serif; font-size:20px; color:var(--blue-light); line-height:1.1; margin-bottom:3px; }
+.cell-value.good { color: var(--success); }
+.cell-value.warn { color: var(--gold); }
+.cell-value.bad  { color: rgba(200,80,80,0.85); }
+.cell-note { font-size:11px; color:var(--muted); line-height:1.4; }
+
+/* TIDE SECTION */
+.tide-section { background:var(--deep-card); border:1px solid var(--deep-border); border-radius:12px; padding:24px 28px; margin-bottom:16px; box-shadow:0 1px 3px rgba(0,0,0,0.06); }
+.tide-section h3 { font-family:'Libre Baskerville',serif; font-size:15px; font-style:italic; color:var(--white); margin-bottom:16px; }
+.tide-table { width:100%; border-collapse:collapse; margin-top:16px; }
+.tide-table th { font-family:'DM Mono',monospace; font-size:9px; letter-spacing:0.16em; text-transform:uppercase; color:var(--muted); padding:0 0 10px; text-align:left; border-bottom:1px solid var(--deep-border); }
+.tide-table td.hl { color: var(--blue-light); font-weight: 500; }
+.tide-table td { font-size:13px; color:var(--white-dim); padding:8px 0; border-top:1px solid var(--deep-border); }
+.tide-table .low { color:var(--blue-light); font-weight:500; }
+.tide-table .high { color:var(--muted); }
+
+/* BRIEFING */
+.briefing { background:var(--deep-card); border:1px solid var(--deep-border); border-radius:12px; padding:24px 28px; margin-bottom:16px; box-shadow:0 1px 3px rgba(0,0,0,0.06); }
+.briefing h3 { font-family:'Libre Baskerville',serif; font-size:15px; font-style:italic; color:var(--white); margin-bottom:16px; }
+.briefing-item { display:flex; gap:14px; padding:10px 0; border-top:1px solid var(--deep-border); }
+.briefing-item:first-of-type { border-top:none; }
+.b-icon { font-family:'DM Mono',monospace; font-size:14px; color:var(--accent); flex-shrink:0; width:20px; margin-top:1px; }
+.b-text { font-size:13px; color:var(--muted); line-height:1.7; }
+.b-text strong { color:var(--white); font-weight:500; }
+
+/* EMPTY STATE */
+.empty-state { text-align:center; padding:52px 20px; font-family:'DM Mono',monospace; font-size:11px; letter-spacing:0.12em; color:var(--slate-dark); }
+
+/* PLANNER NOTE */
+.planner-note { margin-top:40px; padding-top:20px; border-top:1px solid var(--deep-border); font-family:'DM Mono',monospace; font-size:9px; color:var(--slate-dark); letter-spacing:0.08em; line-height:2; text-align:center; }
+
+/* LOADING PULSE */
+@keyframes loadpulse { 0%,100%{opacity:0.4;}50%{opacity:1;} }
+.loading-pulse { animation:loadpulse 1.4s ease-in-out infinite; }
+
+/* FOOTER */
+.site-footer { border-top:1px solid var(--deep-border); padding:36px 40px; display:flex; align-items:center; justify-content:space-between; }
+.footer-left { line-height:1.8; }
+.footer-right a { color:var(--accent); text-decoration:none; }
+.footer-left { font-family:'DM Mono',monospace; font-size:11px; color:var(--muted); letter-spacing:0.08em; }
+.footer-right { font-family:'DM Mono',monospace; font-size:11px; color:var(--muted); }
+.footer-right a { color:var(--accent); text-decoration:none; }
+
+@media (max-width:640px) {
+  .container { padding:32px 20px 60px; }
+  .data-grid { grid-template-columns:1fr 1fr; }
+  .week-strip { gap:6px; }
+  .day-pill { min-width:44px; padding:10px 4px; }
+  .date-row { gap:8px; }
+  .verdict { flex-direction:column; gap:12px; padding:18px 16px; }
+  .site-footer { flex-direction:column; gap:8px; text-align:center; padding:28px 20px; }
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="index.html" class="nav-logo">
+    <span class="nav-wordmark">Shark Tooth Island</span>
+    <span class="nav-sub">Cape Fear River · NC</span>
+  </a>
+  <ul class="nav-links">
+    <li><a href="index.html">Field Guide</a></li>
+    <li><a href="megalodon-calculator-v5.html">Size Calculator</a></li>
+    <li><a href="hunt-planner.html" class="nav-active">Hunt Planner</a></li>
+    <li><a href="#" class="nav-soon">Depth of Time <span class="soon-tag">Soon</span></a></li>
+  </ul>
+  <button class="nav-burger" onclick="toggleNav()" aria-label="Menu">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+<div class="nav-drawer" id="nav-drawer">
+  <a href="index.html">Field Guide</a>
+  <a href="megalodon-calculator-v5.html">Size Calculator</a>
+  <a href="hunt-planner.html" class="nav-active">Hunt Planner</a>
+  <a href="#" class="nav-soon">Depth of Time — Coming Soon</a>
+</div>
+
+<div class="container">
+
+  <div class="header">
+    <div class="header-tag">Shark Tooth Island · Cape Fear River, NC</div>
+    <h1>Hunt Planner —<br><em>Is it worth going?</em></h1>
+    <p class="header-sub">Real tide data · Federal Point Station · Open-Meteo weather · No guessing</p>
+  </div>
+
+  <!-- 7-DAY STRIP -->
+  <div class="week-strip" id="week-strip">
+    <div class="day-pill"><div class="day-name">—</div><div class="day-date loading-pulse">—</div><div class="day-dot dot-gray"></div><div class="day-low">loading</div></div>
+    <div class="day-pill"><div class="day-name">—</div><div class="day-date loading-pulse">—</div><div class="day-dot dot-gray"></div><div class="day-low">loading</div></div>
+    <div class="day-pill"><div class="day-name">—</div><div class="day-date loading-pulse">—</div><div class="day-dot dot-gray"></div><div class="day-low">loading</div></div>
+    <div class="day-pill"><div class="day-name">—</div><div class="day-date loading-pulse">—</div><div class="day-dot dot-gray"></div><div class="day-low">loading</div></div>
+    <div class="day-pill"><div class="day-name">—</div><div class="day-date loading-pulse">—</div><div class="day-dot dot-gray"></div><div class="day-low">loading</div></div>
+    <div class="day-pill"><div class="day-name">—</div><div class="day-date loading-pulse">—</div><div class="day-dot dot-gray"></div><div class="day-low">loading</div></div>
+    <div class="day-pill"><div class="day-name">—</div><div class="day-date loading-pulse">—</div><div class="day-dot dot-gray"></div><div class="day-low">loading</div></div>
+  </div>
+
+  <!-- DATE PICKER -->
+  <div class="date-row">
+    <span class="date-label">Plan a date</span>
+    <input type="date" id="date-picker">
+    <button class="load-btn" onclick="loadDate(document.getElementById('date-picker').value)">Load Briefing</button>
+  </div>
+
+  <!-- MAIN BRIEFING AREA -->
+  <div id="briefing-area">
+    <div class="empty-state">Select a day above to load the full briefing.</div>
+  </div>
+
+  <div class="planner-note">
+    Tides: NOAA CO-OPS Station 8658715 · Federal Point, Cape Fear River, NC<br>
+    Weather: Open-Meteo · Forecast data updated every 3 hours<br>
+    SharkToothIsland.org · For educational and planning purposes · Always check conditions before launching
+  </div>
+
+</div>
+
+<footer class="site-footer">
+  <div class="footer-left">SharkToothIsland.org · Cape Fear River · New Hanover County, NC<br>A field resource for the Cape Fear region</div>
+  <div class="footer-right">A field project by <a href="https://mozyoutdoors.com" target="_blank" rel="noopener">Mozy Outdoors</a></div>
+</footer>
+
+<script>
+function toggleNav() { document.getElementById('nav-drawer').classList.toggle('open'); }
+document.querySelectorAll('.nav-drawer a').forEach(a => {
+  a.addEventListener('click', () => document.getElementById('nav-drawer').classList.remove('open'));
+});
+
+// ─── CONFIG ───────────────────────────────────────────────────
+const NOAA_STATION = '8658715'; // Federal Point, Cape Fear River
+const LAT = 33.9465;   // Shark Tooth Island approx
+const LON = -77.9421;
+
+// ─── DATE HELPERS ─────────────────────────────────────────────
+function today() { return new Date(); }
+function fmtNoaa(d) {
+  const y = d.getFullYear();
+  const m = String(d.getMonth()+1).padStart(2,'0');
+  const day = String(d.getDate()).padStart(2,'0');
+  return `${y}${m}${day}`;
+}
+function fmtISO(d) { return d.toISOString().split('T')[0]; }
+function addDays(d, n) { const r = new Date(d); r.setDate(r.getDate() + n); return r; }
+function dayName(d) { return d.toLocaleDateString('en-US',{weekday:'short'}).toUpperCase(); }
+function fmtTime(timeStr) {
+  const parts = timeStr.split(' ')[1];
+  const [h, m] = parts.split(':').map(Number);
+  const ampm = h >= 12 ? 'pm' : 'am';
+  const h12 = h % 12 || 12;
+  return `${h12}:${String(m).padStart(2,'0')} ${ampm}`;
+}
+function moonPhase(date) {
+  const known = new Date('2000-01-06');
+  const diff = (date - known) / (1000*60*60*24);
+  const cycle = 29.53059;
+  const phase = ((diff % cycle) + cycle) % cycle;
+  if (phase < 1.85) return { name: 'New Moon', icon: '\u{1F311}', amp: 'Spring tide \u2014 large tidal range' };
+  if (phase < 7.38) return { name: 'Waxing Crescent', icon: '\u{1F312}', amp: 'Building tidal range' };
+  if (phase < 9.22) return { name: 'First Quarter', icon: '\u{1F313}', amp: 'Moderate tidal range' };
+  if (phase < 14.77) return { name: 'Waxing Gibbous', icon: '\u{1F314}', amp: 'Good tidal range' };
+  if (phase < 16.61) return { name: 'Full Moon', icon: '\u{1F315}', amp: 'Spring tide \u2014 large tidal range' };
+  if (phase < 22.15) return { name: 'Waning Gibbous', icon: '\u{1F316}', amp: 'Good tidal range' };
+  if (phase < 23.99) return { name: 'Last Quarter', icon: '\u{1F317}', amp: 'Moderate tidal range' };
+  if (phase < 29.53) return { name: 'Waning Crescent', icon: '\u{1F318}', amp: 'Diminishing tidal range' };
+  return { name: 'New Moon', icon: '\u{1F311}', amp: 'Spring tide \u2014 large tidal range' };
+}
+
+// ─── NOAA TIDES API ───────────────────────────────────────────
+async function fetchTides(dateStr) {
+  const url = `https://api.tidesandcurrents.noaa.gov/api/prod/datagetter?begin_date=${dateStr}&end_date=${dateStr}&station=${NOAA_STATION}&product=predictions&datum=MLLW&time_zone=lst_ldt&interval=hilo&units=english&application=SharkToothIsland&format=json`;
+  const res = await fetch(url);
+  const data = await res.json();
+  if (data.error) throw new Error(data.error.message);
+  return data.predictions;
+}
+
+// Generate smooth tide curve from hi/lo points using cosine interpolation
+function generateTideCurve(tides, dateStr) {
+  if (!tides.length) return [];
+  // Convert tide points to {min, val} format
+  const points = tides.map(t => {
+    const [hh, mm] = t.t.split(' ')[1].split(':').map(Number);
+    return { min: hh * 60 + mm, val: parseFloat(t.v) };
+  });
+  // Extend with synthetic points at midnight boundaries for smooth edges
+  if (points[0].min > 0) {
+    const avg = (points[0].val + points[points.length-1].val) / 2;
+    points.unshift({ min: 0, val: avg });
+  }
+  if (points[points.length-1].min < 1440) {
+    const avg = (points[0].val + points[points.length-1].val) / 2;
+    points.push({ min: 1440, val: avg });
+  }
+  // Generate curve points every 10 minutes using cosine interpolation
+  const curve = [];
+  for (let m = 0; m <= 1440; m += 10) {
+    let seg = 0;
+    for (let i = 1; i < points.length; i++) {
+      if (m <= points[i].min) { seg = i; break; }
+    }
+    if (seg === 0) seg = points.length - 1;
+    const p0 = points[seg - 1], p1 = points[seg];
+    const t = (m - p0.min) / (p1.min - p0.min || 1);
+    const cosT = (1 - Math.cos(t * Math.PI)) / 2; // smooth S-curve
+    const v = p0.val + (p1.val - p0.val) * cosT;
+    curve.push({ t: dateStr + ' ' + String(Math.floor(m/60)).padStart(2,'0') + ':' + String(m%60).padStart(2,'0'), v: v.toFixed(3) });
+  }
+  return curve;
+}
+
+// ─── OPEN-METEO WEATHER API ───────────────────────────────────
+async function fetchWeather(dateStr) {
+  const url = `https://api.open-meteo.com/v1/forecast?latitude=${LAT}&longitude=${LON}&daily=precipitation_sum,windspeed_10m_max,winddirection_10m_dominant,weathercode&wind_speed_unit=mph&precipitation_unit=inch&timezone=America%2FNew_York&start_date=${dateStr}&end_date=${dateStr}`;
+  const res = await fetch(url);
+  return await res.json();
+}
+
+// ─── SCORE A DAY ──────────────────────────────────────────────
+function scoreDay(tides, weather, date) {
+  const lows = tides.filter(t => t.type === 'L');
+  const highs = tides.filter(t => t.type === 'H');
+  if (!lows.length) return { verdict:'unknown', score:0 };
+
+  const bestLow = lows.reduce((a,b) => parseFloat(a.v) < parseFloat(b.v) ? a : b);
+  const lowTime = fmtTime(bestLow.t);
+  const lowHeight = parseFloat(bestLow.v).toFixed(1);
+
+  const maxHigh = highs.length ? Math.max(...highs.map(h => parseFloat(h.v))) : 0;
+  const tidalRange = (maxHigh - parseFloat(bestLow.v)).toFixed(1);
+
+  let score = 0;
+  const rangeF = parseFloat(tidalRange);
+  if (rangeF >= 4.0) score += 40;
+  else if (rangeF >= 3.0) score += 28;
+  else if (rangeF >= 2.0) score += 16;
+  else score += 6;
+
+  const lowHour = parseInt(bestLow.t.split(' ')[1].split(':')[0]);
+  if (lowHour >= 6 && lowHour <= 12) score += 25;
+  else if (lowHour >= 13 && lowHour <= 16) score += 18;
+  else if (lowHour >= 5 || (lowHour >= 17 && lowHour <= 18)) score += 10;
+  else score += 0; // pre-dawn (0-4) or after dark (19+) — not huntable
+
+  let rain = 0, wind = 0, wcode = 0;
+  if (weather && weather.daily) {
+    rain  = weather.daily.precipitation_sum?.[0] || 0;
+    wind  = weather.daily.windspeed_10m_max?.[0] || 0;
+    wcode = weather.daily.weathercode?.[0] || 0;
+  }
+  if (rain < 0.1) score += 20;
+  else if (rain < 0.5) score += 10;
+  if (wind < 10) score += 15;
+  else if (wind < 18) score += 8;
+
+  let verdict = 'pass';
+  if (score >= 78) verdict = 'go';
+  else if (score >= 45) verdict = 'maybe';
+
+  return { verdict, score, bestLow, lowTime, lowHeight, tidalRange, rangeF, lowHour, rain, wind, wcode, lows, highs };
+}
+
+function wmoDesc(code) {
+  const map = {
+    0:'Clear sky', 1:'Mainly clear', 2:'Partly cloudy', 3:'Overcast',
+    45:'Foggy', 48:'Icy fog',
+    51:'Light drizzle', 53:'Moderate drizzle', 55:'Dense drizzle',
+    61:'Slight rain', 63:'Moderate rain', 65:'Heavy rain',
+    71:'Slight snow', 73:'Moderate snow', 75:'Heavy snow',
+    77:'Snow grains', 80:'Slight showers', 81:'Moderate showers', 82:'Violent showers',
+    85:'Snow showers', 86:'Heavy snow showers',
+    95:'Thunderstorm', 96:'Thunderstorm with hail', 99:'Thunderstorm with heavy hail'
+  };
+  return map[code] || 'Variable conditions';
+}
+
+function windDir(deg) {
+  const dirs = ['N','NE','E','SE','S','SW','W','NW'];
+  return dirs[Math.round(deg/45) % 8];
+}
+
+// ─── RENDER BRIEFING ──────────────────────────────────────────
+function renderBriefing(dateStr, tides, curve, weather) {
+  const dateObj = new Date(dateStr + 'T12:00:00');
+  const s = scoreDay(tides, weather, dateObj);
+  const moon = moonPhase(dateObj);
+
+  const wDay = weather?.daily;
+  const rain  = wDay?.precipitation_sum?.[0] ?? null;
+  const wind  = wDay?.windspeed_10m_max?.[0] ?? null;
+  const wdir  = wDay?.winddirection_10m_dominant?.[0] ?? null;
+  const wcode = wDay?.weathercode?.[0] ?? null;
+
+  const vConf = {
+    go:    { icon:'\u25B2', label:'GO \u2014 Excellent conditions', cls:'go' },
+    maybe: { icon:'\u25C8', label:'MARGINAL \u2014 Worth considering', cls:'maybe' },
+    pass:  { icon:'\u25BC', label:'PASS \u2014 Wait for better conditions', cls:'pass' },
+    unknown:{ icon:'\u25CB', label:'CHECKING CONDITIONS...', cls:'loading' }
+  }[s.verdict];
+
+  let summaryText = '';
+  const preDawn = s.lowHour < 5;
+  const afterDark = s.lowHour >= 19;
+  const darkWarning = preDawn ? ' Note: this low occurs before sunrise \u2014 you\'d be hunting in the dark.' : afterDark ? ' Note: this low occurs after sunset \u2014 limited visibility.' : '';
+
+  if (s.verdict === 'go') {
+    summaryText = `Low tide at ${s.lowTime} with a ${s.tidalRange} ft tidal range \u2014 that's solid exposure. ${s.rangeF >= 4 ? 'Strong range this day, more island surface than average.' : 'Good range for productive hunting.'} ${rain < 0.1 ? 'Dry conditions.' : `Light rain possible (${rain.toFixed(2)}")`} ${wind < 10 ? 'Calm winds.' : `Wind ${Math.round(wind)} mph.`} ${moon.amp}.${darkWarning}`;
+  } else if (s.verdict === 'maybe') {
+    summaryText = `Low tide at ${s.lowTime}, ${s.tidalRange} ft range. ${preDawn ? 'Low tide falls before sunrise, which limits the practical hunting window. ' : ''}${s.rangeF < 2.5 ? 'Modest tidal range limits how much island is exposed. ' : ''}${rain > 0.5 ? `Rain expected (${rain.toFixed(2)}") \u2014 worth watching. ` : ''}${wind > 15 ? `Wind up to ${Math.round(wind)} mph could make the river crossing uncomfortable. ` : ''}If conditions align otherwise, it could still be worth the trip. Check the week strip for stronger options.`;
+  } else {
+    summaryText = `${preDawn ? 'Low tide is pre-dawn \u2014 not a practical hunting window. ' : ''}${rain > 0.5 ? `Rain in the forecast (${rain.toFixed(2)}"). ` : ''}${wind > 18 ? `Wind up to ${Math.round(wind)} mph \u2014 rough conditions on the river. ` : ''}${s.rangeF < 1.5 ? 'Weak tidal range, minimal island exposure. ' : ''}Better conditions likely in the coming days.`;
+  }
+
+  const rangeQuality = s.rangeF >= 4 ? ['good','Excellent \u2014 strong exposure'] : s.rangeF >= 3 ? ['good','Good \u2014 solid hunting window'] : s.rangeF >= 2 ? ['warn','Moderate \u2014 limited exposure'] : ['bad','Weak \u2014 minimal island surface'];
+  const lowQuality   = s.lowHour >= 6 && s.lowHour <= 12 ? ['good','Morning low \u2014 ideal timing'] : s.lowHour >= 13 && s.lowHour <= 16 ? ['warn','Afternoon low \u2014 workable'] : (s.lowHour === 5 || (s.lowHour >= 17 && s.lowHour <= 18)) ? ['warn','Dawn/dusk low \u2014 tight window'] : s.lowHour < 5 ? ['bad','Pre-dawn low \u2014 not practical'] : ['bad','After dark \u2014 not huntable'];
+  const rainQuality  = rain === null ? ['','\u2014'] : rain < 0.1 ? ['good','Dry'] : rain < 0.4 ? ['warn',`${rain.toFixed(2)}" expected`] : ['bad',`${rain.toFixed(2)}" \u2014 significant rain`];
+  const windQuality  = wind === null ? ['','\u2014'] : wind < 10 ? ['good',`${Math.round(wind)} mph \u2014 calm`] : wind < 18 ? ['warn',`${Math.round(wind)} mph \u2014 moderate`] : ['bad',`${Math.round(wind)} mph \u2014 rough`];
+
+  // Build tide curve SVG
+  let curveSVG = '';
+  if (curve.length > 0) {
+    const vals = curve.map(p => parseFloat(p.v));
+    const minV = Math.min(...vals);
+    const maxV = Math.max(...vals);
+    const range = maxV - minV || 1;
+    const W = 800, H = 100;
+    const pts = vals.map((v,i) => {
+      const x = (i / (vals.length-1)) * W;
+      const y = H - ((v - minV) / range) * (H * 0.85) - 8;
+      return `${x},${y}`;
+    }).join(' ');
+
+    const lowMarkers = tides.filter(t=>t.type==='L').map(t => {
+      const timeStr = t.t.split(' ')[1];
+      const [hh,mm] = timeStr.split(':').map(Number);
+      const totalMins = hh*60 + mm;
+      const x = (totalMins / (24*60)) * W;
+      const v = parseFloat(t.v);
+      const y = H - ((v - minV) / range) * (H * 0.85) - 8;
+      return `<circle cx="${x}" cy="${y}" r="5" fill="#85baa1" opacity="0.8"/>
+              <text x="${x}" y="${y-12}" text-anchor="middle" font-family="DM Mono, monospace" font-size="11" fill="#85baa1">${fmtTime(t.t)}</text>`;
+    }).join('');
+
+    const timeLabels = ['12am','3am','6am','9am','12pm','3pm','6pm','9pm','12am'].map((label,i) => {
+      const x = (i/8) * W;
+      return `<text x="${x}" y="${H+14}" text-anchor="middle" font-family="DM Mono, monospace" font-size="10" fill="#6e8894">${label}</text>`;
+    }).join('');
+
+    curveSVG = `
+      <svg viewBox="0 0 ${W} ${H+20}" preserveAspectRatio="none" style="width:100%;height:130px;overflow:visible;">
+        <defs>
+          <linearGradient id="waveGrad" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#85baa1" stop-opacity="0.25"/>
+            <stop offset="100%" stop-color="#85baa1" stop-opacity="0.02"/>
+          </linearGradient>
+        </defs>
+        <polyline points="${pts}" fill="none" stroke="#85baa1" stroke-width="2" stroke-linejoin="round"/>
+        <polygon points="0,${H} ${pts} ${W},${H}" fill="url(#waveGrad)"/>
+        ${lowMarkers}
+        ${timeLabels}
+      </svg>`;
+  }
+
+  const tideRows = tides.map(t => `
+    <tr class="${t.type==='L'?'low':''}">
+      <td class="hl">${t.type==='H'?'High':'Low'}</td>
+      <td>${fmtTime(t.t)}</td>
+      <td>${parseFloat(t.v).toFixed(1)} ft</td>
+      <td>${t.type==='L'?`${(parseFloat(t.v)<0.5?'Very low':'Low')} \u2014 prime window`:'\u2014'}</td>
+    </tr>`).join('');
+
+  document.getElementById('briefing-area').innerHTML = `
+    <!-- VERDICT -->
+    <div class="verdict ${vConf.cls}">
+      <div class="verdict-icon">${vConf.icon}</div>
+      <div>
+        <div class="verdict-label">${vConf.label}</div>
+        <div class="verdict-title">${dateObj.toLocaleDateString('en-US',{weekday:'long',month:'long',day:'numeric'})}</div>
+        <div class="verdict-summary">${summaryText}</div>
+      </div>
+    </div>
+
+    <!-- DATA CELLS -->
+    <div class="data-grid">
+      <div class="data-cell">
+        <span class="cell-label">Best low tide</span>
+        <div class="cell-value good">${s.lowTime}</div>
+        <div class="cell-note">${s.lowHeight} ft \u00B7 ${lowQuality[1]}</div>
+      </div>
+      <div class="data-cell">
+        <span class="cell-label">Tidal range</span>
+        <div class="cell-value ${rangeQuality[0]}">${s.tidalRange} ft</div>
+        <div class="cell-note">${rangeQuality[1]}</div>
+      </div>
+      <div class="data-cell">
+        <span class="cell-label">Weather</span>
+        <div class="cell-value ${rainQuality[0]}">${wcode !== null ? wmoDesc(wcode) : '\u2014'}</div>
+        <div class="cell-note">${rainQuality[1]}</div>
+      </div>
+      <div class="data-cell">
+        <span class="cell-label">Wind</span>
+        <div class="cell-value ${windQuality[0]}">${windQuality[1]}</div>
+        <div class="cell-note">${wdir !== null ? 'From the ' + windDir(wdir) : '\u2014'}</div>
+      </div>
+      <div class="data-cell">
+        <span class="cell-label">Moon phase</span>
+        <div class="cell-value">${moon.name}</div>
+        <div class="cell-note">${moon.amp}</div>
+      </div>
+      <div class="data-cell">
+        <span class="cell-label">Arrive by</span>
+        <div class="cell-value good">${(() => {
+          const [hh,mm] = s.bestLow.t.split(' ')[1].split(':').map(Number);
+          const arrive = new Date(2000,0,1,hh,mm-60);
+          const ah = arrive.getHours() % 12 || 12;
+          const am = String(arrive.getMinutes()).padStart(2,'0');
+          const ap = arrive.getHours() >= 12 ? 'pm' : 'am';
+          return ah + ':' + am + ' ' + ap;
+        })()}</div>
+        <div class="cell-note">1 hour before low for best access</div>
+      </div>
+    </div>
+
+    <!-- TIDE CURVE -->
+    <div class="tide-section">
+      <h3>Tide curve \u00B7 ${dateObj.toLocaleDateString('en-US',{month:'short',day:'numeric'})}</h3>
+      ${curveSVG || '<div style="color:var(--slate-dark);font-size:12px;padding:20px 0;text-align:center;">Curve data unavailable</div>'}
+      <table class="tide-table">
+        <thead><tr><th>Type</th><th>Time</th><th>Height</th><th>Notes</th></tr></thead>
+        <tbody>${tideRows}</tbody>
+      </table>
+    </div>
+
+    <!-- FIELD BRIEFING -->
+    <div class="briefing">
+      <h3>Field briefing</h3>
+      <div class="briefing-item">
+        <span class="b-icon">\u25CE</span>
+        <div class="b-text"><strong>Primary window:</strong> Arrive at ${(() => {
+          const [hh,mm] = s.bestLow.t.split(' ')[1].split(':').map(Number);
+          const arrive = new Date(2000,0,1,hh,mm-60);
+          const ah = arrive.getHours() % 12 || 12;
+          const am = String(arrive.getMinutes()).padStart(2,'0');
+          const ap = arrive.getHours() >= 12 ? 'pm' : 'am';
+          return ah + ':' + am + ' ' + ap;
+        })()} and plan to hunt through ${s.lowTime}. ${s.rangeF >= 3.5 ? 'Strong range today \u2014 you may have nearly 2 hours of productive surface.' : s.rangeF >= 2.5 ? 'Moderate range \u2014 expect about 60\u201390 minutes of prime access.' : 'Modest range \u2014 work quickly, the window is shorter than ideal.'}</div>
+      </div>
+      <div class="briefing-item">
+        <span class="b-icon">\u25C8</span>
+        <div class="b-text"><strong>Tidal range context:</strong> ${s.tidalRange} ft range. ${s.rangeF >= 4 ? 'Anything above 4 ft is exceptional for this station. More island surface exposed than average \u2014 check the far sandbars and the edges of Keg Island too.' : s.rangeF >= 3 ? 'Solid range for the Cape Fear. The main island cluster should be well exposed.' : s.rangeF >= 2 ? 'Decent but not exceptional. Focus on the primary spoil deposit rather than the outer bars.' : 'Weak range. The outer areas may stay submerged. Concentrate effort on the main deposit.'}</div>
+      </div>
+      <div class="briefing-item">
+        <span class="b-icon">\u25C7</span>
+        <div class="b-text"><strong>Weather:</strong> ${wcode !== null ? wmoDesc(wcode) : 'Forecast unavailable'}${rain > 0 ? ' \u00B7 ' + rain.toFixed(2) + '" precipitation expected' : ' \u00B7 Dry conditions'}. Wind ${wind !== null ? Math.round(wind) + ' mph from the ' + (wdir !== null ? windDir(wdir) : '\u2014') : 'data unavailable'}. ${wind > 15 ? 'Wind above 15 mph can make river crossings uncomfortable in a small boat \u2014 check conditions at the launch before committing.' : 'Good boating conditions.'}</div>
+      </div>
+      <div class="briefing-item">
+        <span class="b-icon">\u25CB</span>
+        <div class="b-text"><strong>Moon:</strong> ${moon.icon} ${moon.name}. ${moon.amp}. ${moon.name.includes('New') || moon.name.includes('Full') ? 'Spring tides around new and full moon produce the largest tidal ranges \u2014 this week is a good window overall.' : 'Standard tidal range expected this week.'}</div>
+      </div>
+      <div class="briefing-item">
+        <span class="b-icon">\u2014</span>
+        <div class="b-text"><strong>Launch reminder:</strong> River Road Park is the standard access point for Shark Tooth Island. Water shoes required \u2014 the spoil sediment is rough. Bring a mesh sifter, water, sunscreen, and a dry bag for your phone and finds. Check the launch for current conditions before casting off.</div>
+      </div>
+    </div>
+  `;
+}
+
+// ─── LOAD A DATE ──────────────────────────────────────────────
+async function loadDate(dateStr) {
+  if (!dateStr) return;
+
+  document.querySelectorAll('.day-pill').forEach(p => {
+    p.classList.toggle('selected', p.dataset.date === dateStr);
+  });
+
+  document.getElementById('briefing-area').innerHTML = `
+    <div class="verdict loading">
+      <div class="verdict-icon loading-pulse">\u25CC</div>
+      <div>
+        <div class="verdict-label">Fetching conditions...</div>
+        <div class="verdict-title loading-pulse">Pulling tides from NOAA \u00B7 Federal Point Station</div>
+        <div class="verdict-summary" style="color:var(--muted);">Contacting Open-Meteo for weather forecast...</div>
+      </div>
+    </div>`;
+
+  try {
+    const noaaDate = dateStr.replace(/-/g,'');
+    const [tides, weather] = await Promise.all([
+      fetchTides(noaaDate),
+      fetchWeather(dateStr)
+    ]);
+    const curve = generateTideCurve(tides, dateStr);
+    renderBriefing(dateStr, tides, curve, weather);
+  } catch(e) {
+    document.getElementById('briefing-area').innerHTML = `
+      <div class="verdict maybe">
+        <div class="verdict-icon">!</div>
+        <div>
+          <div class="verdict-label">Data fetch error</div>
+          <div class="verdict-title">Could not load conditions</div>
+          <div class="verdict-summary">${e.message}. NOAA predictions are available up to 10 years out. Weather forecasts are limited to ~16 days. Try a date within that range.</div>
+        </div>
+      </div>`;
+  }
+}
+
+// ─── LOAD 7-DAY STRIP ─────────────────────────────────────────
+async function loadWeekStrip() {
+  const strip = document.getElementById('week-strip');
+  const days = [];
+  const t = today();
+
+  const startDate = fmtNoaa(t);
+  const endDate   = fmtNoaa(addDays(t, 6));
+  const url = `https://api.tidesandcurrents.noaa.gov/api/prod/datagetter?begin_date=${startDate}&end_date=${endDate}&station=${NOAA_STATION}&product=predictions&datum=MLLW&time_zone=lst_ldt&interval=hilo&units=english&application=SharkToothIsland&format=json`;
+
+  let allTides = [];
+  try {
+    const res = await fetch(url);
+    const data = await res.json();
+    allTides = data.predictions || [];
+  } catch(e) {}
+
+  const weatherUrl = `https://api.open-meteo.com/v1/forecast?latitude=${LAT}&longitude=${LON}&daily=precipitation_sum,windspeed_10m_max,weathercode&wind_speed_unit=mph&precipitation_unit=inch&timezone=America%2FNew_York&start_date=${fmtISO(t)}&end_date=${fmtISO(addDays(t,6))}`;
+  let weekWeather = null;
+  try {
+    const res = await fetch(weatherUrl);
+    weekWeather = await res.json();
+  } catch(e) {}
+
+  strip.innerHTML = '';
+
+  for (let i = 0; i < 7; i++) {
+    const d = addDays(t, i);
+    const iso = fmtISO(d);
+
+    const dayTides = allTides.filter(p => p.t.startsWith(iso));
+    const dayWeather = weekWeather ? {
+      daily: {
+        precipitation_sum: [weekWeather.daily?.precipitation_sum?.[i]],
+        windspeed_10m_max: [weekWeather.daily?.windspeed_10m_max?.[i]],
+        weathercode:       [weekWeather.daily?.weathercode?.[i]]
+      }
+    } : null;
+
+    const score = dayTides.length ? scoreDay(dayTides, dayWeather, d) : null;
+    const verdict = score?.verdict || 'unknown';
+    const dotClass = {go:'dot-green',maybe:'dot-yellow',pass:'dot-red',unknown:'dot-gray'}[verdict];
+    const pillClass = {go:'green',maybe:'yellow',pass:'red',unknown:''}[verdict];
+
+    const lows = dayTides.filter(t=>t.type==='L');
+    const bestLow = lows.length ? lows.reduce((a,b)=>parseFloat(a.v)<parseFloat(b.v)?a:b) : null;
+    const lowStr = bestLow ? fmtTime(bestLow.t) : '\u2014';
+
+    const pill = document.createElement('div');
+    pill.className = `day-pill ${pillClass}`;
+    pill.dataset.date = iso;
+    pill.innerHTML = `
+      <div class="day-name">${dayName(d)}</div>
+      <div class="day-date">${d.getDate()}</div>
+      <div class="day-dot ${dotClass}"></div>
+      <div class="day-low">${lowStr}</div>`;
+    pill.onclick = () => {
+      document.getElementById('date-picker').value = iso;
+      loadDate(iso);
+    };
+    strip.appendChild(pill);
+  }
+
+  const todayISO = fmtISO(t);
+  document.getElementById('date-picker').value = todayISO;
+  loadDate(todayISO);
+}
+
+// ─── INIT ─────────────────────────────────────────────────────
+loadWeekStrip();
+</script>
+</body>
+</html>

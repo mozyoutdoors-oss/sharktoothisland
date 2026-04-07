@@ -1,0 +1,834 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Shark Tooth Island — Field Station</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@300;400&family=Libre+Baskerville:ital,wght@0,700;1,400&display=swap" rel="stylesheet">
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html, body { width: 100%; height: 100%; background: #1A2535; overflow-x: hidden; }
+
+#hero {
+  position: relative; width: 100%; height: 100vh;
+  min-height: 600px; overflow: hidden; background: #1A2535;
+}
+#three-canvas { position: absolute; inset: 0; width: 100%; height: 100%; }
+#hero::after {
+  content: ''; position: absolute; inset: 0;
+  background: repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(0,0,0,0.025) 2px, rgba(0,0,0,0.025) 4px);
+  pointer-events: none; z-index: 10;
+}
+
+.data-overlay {
+  position: absolute; top: 28px; right: 32px; z-index: 20;
+  display: flex; flex-direction: column; gap: 2px; min-width: 186px;
+}
+.data-block {
+  background: rgba(26,37,53,0.82); border: 1px solid rgba(0,200,255,0.13);
+  border-left: 2px solid rgba(0,200,255,0.45);
+  padding: 8px 14px; backdrop-filter: blur(8px);
+}
+.data-block.hl { border-left-color: rgba(80,220,160,0.8); border-color: rgba(80,220,160,0.2); }
+.data-key {
+  font-family: 'DM Mono', monospace; font-size: 8px;
+  letter-spacing: 0.22em; text-transform: uppercase;
+  color: rgba(0,200,255,0.45); margin-bottom: 3px;
+}
+.data-block.hl .data-key { color: rgba(80,220,160,0.6); }
+.data-val {
+  font-family: 'DM Mono', monospace; font-size: 14px;
+  color: rgba(0,210,255,0.88); letter-spacing: 0.03em;
+}
+.data-val.rising   { color: #50DFA0; }
+.data-val.falling  { color: #E09060; }
+.data-val.active   { color: #50DFA0; }
+.data-val.inactive { color: rgba(0,200,255,0.45); }
+
+.station-id { position: absolute; top: 28px; left: 32px; z-index: 20; }
+.station-label {
+  font-family: 'DM Mono', monospace; font-size: 8px;
+  letter-spacing: 0.24em; text-transform: uppercase;
+  color: rgba(0,200,255,0.35); margin-bottom: 4px;
+}
+.station-name {
+  font-family: 'Libre Baskerville', serif; font-size: 19px;
+  font-weight: 700; color: rgba(215,230,245,0.90); line-height: 1;
+}
+.station-sub {
+  font-family: 'DM Mono', monospace; font-size: 9px;
+  letter-spacing: 0.16em; text-transform: uppercase;
+  color: rgba(0,200,255,0.35); margin-top: 4px;
+}
+
+.tick-label {
+  position: absolute; z-index: 20; pointer-events: none;
+  font-family: 'DM Mono', monospace; font-size: 8px;
+  letter-spacing: 0.12em; color: rgba(0,180,220,0.28);
+  transform: translate(-50%, -50%); white-space: nowrap;
+}
+
+.fossil-msg {
+  position: absolute; top: 110px; left: 32px;
+  transform: none;
+  z-index: 20; display: flex; align-items: center; gap: 10px;
+  font-family: 'DM Mono', monospace; font-size: 11px;
+  letter-spacing: 0.20em; text-transform: uppercase;
+  color: #50FFAA;
+  background: rgba(0,20,15,0.55);
+  border: 1px solid rgba(80,255,170,0.35);
+  padding: 10px 18px; border-radius: 3px;
+  backdrop-filter: blur(6px);
+  opacity: 0; transition: opacity 0.8s ease; white-space: nowrap;
+  box-shadow: 0 0 20px rgba(50,220,130,0.20);
+}
+.fossil-msg.visible { opacity: 1; }
+.fossil-dot {
+  width: 8px; height: 8px; border-radius: 50%;
+  background: #50FFAA;
+  box-shadow: 0 0 8px rgba(80,255,170,0.8);
+  animation: fpulse 1.2s ease-in-out infinite;
+  flex-shrink: 0;
+}
+@keyframes fpulse {
+  0%,100% { opacity: 1; transform: scale(1); }
+  50%      { opacity: 0.35; transform: scale(0.65); }
+}
+
+.hero-center {
+  position: absolute; bottom: 108px; left: 50%; transform: translateX(-50%);
+  text-align: center; z-index: 20; width: 100%; padding: 0 20px;
+}
+.hero-eyebrow {
+  font-family: 'DM Mono', monospace; font-size: 10px;
+  letter-spacing: 0.28em; text-transform: uppercase;
+  color: rgba(180,230,255,1); margin-bottom: 10px;
+  display: flex; align-items: center; justify-content: center; gap: 12px;
+  text-shadow: 0 1px 8px rgba(0,0,0,0.9);
+}
+.hero-eyebrow::before,.hero-eyebrow::after {
+  content: ''; width: 40px; height: 1px; background: rgba(140,210,255,0.6);
+}
+.hero-title {
+  font-family: 'Libre Baskerville', serif;
+  font-size: clamp(22px,3.8vw,42px); font-weight: 700;
+  color: #FFFFFF; letter-spacing: -0.01em;
+  margin-bottom: 8px; line-height: 1.1;
+  text-shadow: 0 2px 16px rgba(0,0,0,0.9), 0 0 40px rgba(0,0,0,0.7);
+}
+.hero-title em { font-style: italic; font-weight: 400; color: rgba(120,230,255,1); text-shadow: 0 2px 12px rgba(0,0,0,0.9); }
+.hero-sub {
+  font-family: 'DM Mono', monospace; font-size: 10px;
+  color: rgba(160,220,255,0.95); letter-spacing: 0.1em;
+  text-shadow: 0 1px 8px rgba(0,0,0,0.9);
+}
+
+.tide-control {
+  position: absolute; bottom: 32px; left: 50%; transform: translateX(-50%);
+  z-index: 20; display: flex; align-items: center; gap: 14px;
+}
+.tide-ctrl-label {
+  font-family: 'DM Mono', monospace; font-size: 8px;
+  letter-spacing: 0.2em; text-transform: uppercase;
+  color: rgba(0,200,255,0.32); white-space: nowrap;
+}
+input[type=range]#tide-slider {
+  -webkit-appearance: none; width: 200px; height: 2px;
+  background: rgba(0,200,255,0.18); outline: none; cursor: pointer;
+}
+input[type=range]#tide-slider::-webkit-slider-thumb {
+  -webkit-appearance: none; width: 13px; height: 13px; border-radius: 50%;
+  background: rgba(8,15,26,0.95); border: 1.5px solid rgba(0,200,255,0.6); cursor: pointer;
+}
+
+.coord-readout { position: absolute; bottom: 32px; left: 32px; z-index: 20; }
+.coord-line {
+  font-family: 'DM Mono', monospace; font-size: 8px;
+  letter-spacing: 0.14em; color: rgba(0,200,255,0.22); line-height: 1.85;
+}
+
+@media (max-width:640px) {
+  .data-overlay { top:14px; right:14px; min-width:150px; }
+  .station-id   { top:14px; left:14px; }
+  .tide-control { bottom:14px; }
+  input[type=range]#tide-slider { width:120px; }
+  .coord-readout,.tick-label { display:none; }
+  .fossil-msg { display:none; }
+}
+</style>
+</head>
+<body>
+<div id="hero">
+  <canvas id="three-canvas"></canvas>
+
+  <div class="station-id">
+    <div class="station-label">Field Station · <span id="station-status">Connecting</span></div>
+    <div class="station-name">Shark Tooth Island</div>
+    <div class="station-sub">Cape Fear River · 34.0°N 77.9°W</div>
+  </div>
+
+  <div class="data-overlay">
+    <div class="data-block"><div class="data-key">Tide Level <span id="live-badge" style="color:#50DFA0;font-size:7px;letter-spacing:0.18em;margin-left:6px;opacity:0;">● LIVE</span></div><div class="data-val" id="disp-level">—</div></div>
+    <div class="data-block"><div class="data-key">Status</div><div class="data-val" id="disp-status">—</div></div>
+    <div class="data-block"><div class="data-key">Exposed Area</div><div class="data-val" id="disp-exposed">—</div></div>
+    <div class="data-block"><div class="data-key">Hunt Conditions</div><div class="data-val" id="disp-conditions">—</div></div>
+    <div class="data-block" id="win-block"><div class="data-key">Best Window</div><div class="data-val" id="disp-window">—</div></div>
+    <div class="data-block"><div class="data-key">Wind</div><div class="data-val" id="disp-wind">—</div></div>
+    <div class="data-block"><div class="data-key">Temperature</div><div class="data-val" id="disp-temp">—</div></div>
+    <div class="data-block"><div class="data-key">Conditions</div><div class="data-val" id="disp-wx">—</div></div>
+  </div>
+
+  <div class="tick-label" id="tick-0">0 ft</div>
+  <div class="tick-label" id="tick-1">+1 ft</div>
+  <div class="tick-label" id="tick-2">+2 ft</div>
+
+  <div class="fossil-msg" id="fossil-msg">
+    <div class="fossil-dot"></div>LOW TIDE — FOSSIL LAYER EXPOSED
+  </div>
+
+  <div class="hero-center">
+    <div class="hero-eyebrow">Tidal Field Model</div>
+    <h1 class="hero-title">Low tide reveals <em>what the river buried.</em></h1>
+    <div class="hero-sub">Timing matters &nbsp;·&nbsp; Low tide exposes the fossil layer</div>
+  </div>
+
+  <div class="tide-control">
+    <span class="tide-ctrl-label">Low</span>
+    <input type="range" id="tide-slider" min="0" max="100" value="12">
+    <span class="tide-ctrl-label">High</span>
+    <span class="tide-ctrl-label" id="slider-mode" style="margin-left:8px;color:rgba(80,223,160,0.5);opacity:0;transition:opacity 0.4s;">Manual Override</span>
+  </div>
+
+  <div class="coord-readout">
+    <div class="coord-line">LAT 34.0522° N</div>
+    <div class="coord-line">LON 77.9067° W</div>
+    <div class="coord-line">ELEV ~1.2 ft MLLW</div>
+    <div class="coord-line" id="disp-time">——:——:—— UTC</div>
+  </div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script>
+(function(){
+
+const canvas = document.getElementById('three-canvas');
+const renderer = new THREE.WebGLRenderer({ canvas, antialias: true });
+renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+renderer.setClearColor(0x1A2535, 1);
+const container = canvas.parentElement;
+let W = container.offsetWidth || window.innerWidth;
+let H = container.offsetHeight || window.innerHeight;
+renderer.setSize(W, H);
+
+const scene = new THREE.Scene();
+scene.fog = new THREE.FogExp2(0x1A2535, 0.02);
+
+const camera = new THREE.PerspectiveCamera(42, W/H, 0.1, 200);
+camera.position.set(-3.2, 7.4, 10.5);
+camera.lookAt(0, 0.35, 0);
+
+// ── NOISE ──────────────────────────────────────────────────
+function fade(t){ return t*t*t*(t*(t*6-15)+10); }
+function lrp(a,b,t){ return a+(b-a)*t; }
+function h2(x,y){
+  const n=Math.sin(x*127.1+y*311.7)*43758.545+Math.sin(x*269.5+y*183.3)*12345.67;
+  return n-Math.floor(n);
+}
+function sn(x,y){
+  const xi=Math.floor(x),yi=Math.floor(y),xf=x-xi,yf=y-yi;
+  const u=fade(xf),v=fade(yf);
+  return lrp(lrp(h2(xi,yi),h2(xi+1,yi),u),lrp(h2(xi,yi+1),h2(xi+1,yi+1),u),v);
+}
+function fbm(x,y,o){
+  let val=0,amp=0.5,freq=1,mx=0;
+  for(let i=0;i<o;i++){val+=sn(x*freq+i*3.7,y*freq+i*2.3)*amp;mx+=amp;amp*=0.52;freq*=2.07;}
+  return val/mx;
+}
+
+// ── ISLAND ─────────────────────────────────────────────────
+const IW=22, IL=42, ISW=7.5, ISL=8.0;
+const grid=[];
+for(let i=0;i<=IL;i++){grid.push([]);for(let j=0;j<=IW;j++)grid[i].push({});}
+
+function islandH(wx,wz){
+  // Rotate off grid axis
+  const angle=-0.25;
+  const rx=wx*Math.cos(angle)-wz*Math.sin(angle);
+  const rz=wx*Math.sin(angle)+wz*Math.cos(angle);
+  const nx=rx/(ISW*0.5), nz=rz/(ISL*0.5);
+
+  // ── FOOTPRINT MASK ──────────────────────────────────────
+  // Organic ellipse — asymmetric, not circular, not rectangular
+  const r=Math.sqrt(
+    Math.pow(nx*0.82,2)+
+    Math.pow(nz*0.95,2)+
+    nx*nz*0.12           // skew for asymmetry
+  );
+
+  // Bite into edges at two specific spots
+  const bite1=0.12*Math.exp(-Math.pow((nx-0.72)*3.5,2)-Math.pow((nz+0.25)*3.0,2));
+  const bite2=0.10*Math.exp(-Math.pow((nx+0.65)*3.8,2)-Math.pow((nz-0.30)*3.2,2));
+  const rAdj=r+bite1+bite2;
+
+  // Shoreline noise — irregular edge, not a smooth oval
+  const edgeNoise=fbm(nx*3.1+7.3,nz*3.4+2.9,3)*0.18;
+  const rFinal=rAdj+edgeNoise*0.5;
+
+  if(rFinal>=1.0)return 0;
+
+  // ── EDGE DROPOFF ────────────────────────────────────────
+  // Cliff-like near shore, flat everywhere inside
+  const edgeDist=1.0-rFinal;
+  const shelf=Math.min(1.0, Math.pow(edgeDist*4.5, 1.8));
+
+  // ── PLATEAU HEIGHT ──────────────────────────────────────
+  // Everything inside the mask lives at essentially the same elevation
+  const PLATEAU=0.52;
+
+  // ── SURFACE BUMPS ───────────────────────────────────────
+  // Three humps arranged in a triangle — not a line, not a ridge
+  // Viewed from above: one near top-left, one near top-right, one lower-center
+  const bump1=0.32*Math.exp(-Math.pow((nx+0.18)*3.8,2)-Math.pow((nz+0.20)*3.8,2));
+  const bump2=0.24*Math.exp(-Math.pow((nx-0.24)*4.2,2)-Math.pow((nz-0.28)*4.2,2));
+  const bump3=0.19*Math.exp(-Math.pow((nx+0.30)*4.5,2)-Math.pow((nz-0.22)*4.5,2));
+  const bumps=bump1+bump2+bump3;
+
+  // Fine surface grit — sand texture, not terrain
+  const grit=fbm(wx*3.8+11.3,wz*3.5+22.1,2)*0.025;
+
+  // ── FINAL HEIGHT ────────────────────────────────────────
+  // Shelf mask keeps edges flat before dropoff
+  // Interior = plateau + bumps + grit, all scaled by shelf
+  const h=(PLATEAU+bumps+grit)*shelf;
+  return Math.max(0,h);
+}
+
+const geo=new THREE.PlaneGeometry(ISW,ISL,IW,IL);
+geo.rotateX(-Math.PI/2);
+const pa=geo.attributes.position;
+for(let i=0;i<=IL;i++){
+  for(let j=0;j<=IW;j++){
+    const idx=i*(IW+1)+j;
+    const wx=pa.getX(idx), wz=pa.getZ(idx);
+    const h=islandH(wx,wz);
+    pa.setY(idx,h);
+    grid[i][j]={x:wx,z:wz,h};
+  }
+}
+pa.needsUpdate=true; geo.computeVertexNormals();
+
+const wireMat=new THREE.MeshBasicMaterial({color:0x00CCFF,wireframe:true,transparent:true,opacity:0.50});
+scene.add(new THREE.Mesh(geo,wireMat));
+const fillMat=new THREE.MeshBasicMaterial({color:0x14263A,transparent:true,opacity:0.78});
+const fillMesh=new THREE.Mesh(geo.clone(),fillMat);
+fillMesh.position.y=-0.003; scene.add(fillMesh);
+
+// ── GRID ───────────────────────────────────────────────────
+function mkGrid(s,d,c,o){const g=new THREE.GridHelper(s,d,c,c);g.material.transparent=true;g.material.opacity=o;return g;}
+const gg=mkGrid(60,60,0x003D55,0.30); gg.position.y=-0.06; scene.add(gg);
+for(let r=4;r<=28;r+=4){
+  const rg=new THREE.RingGeometry(r-0.02,r+0.02,72);
+  const rm=new THREE.MeshBasicMaterial({color:0x001E33,side:THREE.DoubleSide,transparent:true,opacity:Math.max(0.04,0.26-r*0.008)});
+  const rr=new THREE.Mesh(rg,rm); rr.rotation.x=-Math.PI/2; rr.position.y=-0.05; scene.add(rr);
+}
+
+// ── WATER ──────────────────────────────────────────────────
+const wg=new THREE.PlaneGeometry(60,60); wg.rotateX(-Math.PI/2);
+const wm=new THREE.MeshBasicMaterial({color:0x003355,transparent:true,opacity:0.18,side:THREE.DoubleSide,depthWrite:false});
+const water=new THREE.Mesh(wg,wm); scene.add(water);
+const wGrid=mkGrid(60,44,0x006688,0.14); scene.add(wGrid);
+
+// ── CONTOUR LINE ───────────────────────────────────────────
+const MAX_C=4800;
+const cbuf=new Float32Array(MAX_C);
+const cGeo=new THREE.BufferGeometry();
+cGeo.setAttribute('position',new THREE.BufferAttribute(cbuf,3));
+cGeo.setDrawRange(0,0);
+const cMat=new THREE.LineBasicMaterial({color:0x00FFE8,transparent:true,opacity:0.85});
+const cLine=new THREE.LineSegments(cGeo,cMat);
+scene.add(cLine);
+
+function triCross(a,b,c,wy){
+  const ab=[a.h>wy,b.h>wy,c.h>wy];
+  const n=ab.filter(Boolean).length;
+  if(n===0||n===3)return null;
+  const vs=[a,b,c]; const pts=[];
+  for(let i=0;i<3;i++){
+    const j=(i+1)%3;
+    if(ab[i]!==ab[j]){
+      const t=(wy-vs[i].h)/(vs[j].h-vs[i].h);
+      pts.push({x:vs[i].x+t*(vs[j].x-vs[i].x),z:vs[i].z+t*(vs[j].z-vs[i].z)});
+    }
+  }
+  return pts.length===2?pts:null;
+}
+
+function updateContour(wy){
+  let idx=0; const buf=cGeo.attributes.position.array;
+  for(let i=0;i<IL;i++){
+    for(let j=0;j<IW;j++){
+      const v00=grid[i][j],v10=grid[i+1][j],v01=grid[i][j+1],v11=grid[i+1][j+1];
+      const sA=triCross(v00,v10,v01,wy);
+      if(sA&&idx+6<=MAX_C){buf[idx++]=sA[0].x;buf[idx++]=wy+0.01;buf[idx++]=sA[0].z;buf[idx++]=sA[1].x;buf[idx++]=wy+0.01;buf[idx++]=sA[1].z;}
+      const sB=triCross(v10,v11,v01,wy);
+      if(sB&&idx+6<=MAX_C){buf[idx++]=sB[0].x;buf[idx++]=wy+0.01;buf[idx++]=sB[0].z;buf[idx++]=sB[1].x;buf[idx++]=wy+0.01;buf[idx++]=sB[1].z;}
+    }
+  }
+  cGeo.attributes.position.needsUpdate=true;
+  cGeo.setDrawRange(0,idx/3);
+}
+
+// ── VERTICAL TICK LINES ────────────────────────────────────
+const lm=new THREE.LineBasicMaterial({color:0x003A55,transparent:true,opacity:0.42});
+const tm=new THREE.LineBasicMaterial({color:0x005577,transparent:true,opacity:0.52});
+[[5.8,-6.5],[5.8,6.5],[-5.8,-6.5],[-5.8,6.5]].forEach(([tx,tz])=>{
+  const pts=[new THREE.Vector3(tx,-0.5,tz),new THREE.Vector3(tx,2.2,tz)];
+  scene.add(new THREE.Line(new THREE.BufferGeometry().setFromPoints(pts),lm));
+  [0,0.5,1.0,1.5,2.0].forEach(y=>{
+    const tp=[new THREE.Vector3(tx-0.18,y,tz),new THREE.Vector3(tx+0.18,y,tz)];
+    scene.add(new THREE.Line(new THREE.BufferGeometry().setFromPoints(tp),tm));
+  });
+});
+
+// Tick label 3D positions (right-side, near corner)
+const TL3=[
+  new THREE.Vector3(6.2,0,6.5),
+  new THREE.Vector3(6.2,1.0,6.5),
+  new THREE.Vector3(6.2,2.0,6.5),
+];
+const tlEls=[document.getElementById('tick-0'),document.getElementById('tick-1'),document.getElementById('tick-2')];
+
+function proj(v,cam,w,h){
+  const c=v.clone().project(cam);
+  return{x:(c.x+1)/2*w,y:(1-(c.y+1)/2)*h,vis:c.z<1};
+}
+function updateTicks(){
+  TL3.forEach((p,i)=>{
+    if(!tlEls[i])return;
+    const s=proj(p,camera,W,H);
+    tlEls[i].style.left=s.x+'px'; tlEls[i].style.top=s.y+'px';
+    tlEls[i].style.display=s.vis?'block':'none';
+  });
+}
+
+// ── PARTICLES ──────────────────────────────────────────────
+const ptG=new THREE.BufferGeometry();
+const ptP=new Float32Array(140*3);
+for(let i=0;i<140;i++){ptP[i*3]=(Math.random()-0.5)*36;ptP[i*3+1]=Math.random()*0.4-0.05;ptP[i*3+2]=(Math.random()-0.5)*36;}
+ptG.setAttribute('position',new THREE.BufferAttribute(ptP,3));
+scene.add(new THREE.Points(ptG,new THREE.PointsMaterial({color:0x006688,size:0.05,transparent:true,opacity:0.32})));
+
+// ── FOSSIL EXPOSURE LAYER ──────────────────────────────────
+
+// Zone A — left lower shelf, hugging the exposed margin
+const fossilZoneA = (function() {
+  const pts = [];
+  // Pushed out toward left edge, low elevation shelf
+  const cx=-2.3, cz=1.2, rx=0.9, rz=0.55;
+  for(let i=0;i<55;i++){
+    const a=Math.random()*Math.PI*2;
+    const r=Math.pow(Math.random(),0.6); // bias toward outer edge
+    const px=cx+(r*rx+Math.sin(a*3.1)*0.14)*Math.cos(a);
+    const pz=cz+(r*rz+Math.sin(a*2.3)*0.10)*Math.sin(a);
+    const h=islandH(px,pz);
+    if(h>0.005) pts.push(px, h+0.025, pz);
+  }
+  const g=new THREE.BufferGeometry();
+  g.setAttribute('position',new THREE.BufferAttribute(new Float32Array(pts),3));
+  return new THREE.Points(g,new THREE.PointsMaterial({color:0x33FFD6,size:0.10,transparent:true,opacity:0,sizeAttenuation:true}));
+})();
+scene.add(fossilZoneA);
+
+// Zone B — right shelf margin, near the water edge on the far side
+const fossilZoneB = (function() {
+  const pts = [];
+  const cx=2.1, cz=-0.68, rx=0.70, rz=0.50;
+  for(let i=0;i<36;i++){
+    const a=Math.random()*Math.PI*2;
+    const r=Math.pow(Math.random(),0.55);
+    const px=cx+(r*rx+Math.sin(a*2.7)*0.10)*Math.cos(a);
+    const pz=cz+(r*rz+Math.sin(a*3.8)*0.08)*Math.sin(a);
+    const h=islandH(px,pz);
+    if(h>0.005) pts.push(px, h+0.025, pz);
+  }
+  const g=new THREE.BufferGeometry();
+  g.setAttribute('position',new THREE.BufferAttribute(new Float32Array(pts),3));
+  return new THREE.Points(g,new THREE.PointsMaterial({color:0x2AF5D8,size:0.098,transparent:true,opacity:0,sizeAttenuation:true}));
+})();
+scene.add(fossilZoneB);
+
+// Zone C — small interior secondary, clearly weaker, near tapered lower end
+const fossilZoneC = (function() {
+  const pts = [];
+  const cx=0.2, cz=2.8, rx=0.35, rz=0.28;
+  for(let i=0;i<18;i++){
+    const a=Math.random()*Math.PI*2;
+    const r=Math.pow(Math.random(),0.5);
+    const px=cx+(r*rx+Math.sin(a*4.1)*0.06)*Math.cos(a);
+    const pz=cz+(r*rz+Math.sin(a*2.9)*0.05)*Math.sin(a);
+    const h=islandH(px,pz);
+    if(h>0.005) pts.push(px, h+0.025, pz);
+  }
+  const g=new THREE.BufferGeometry();
+  g.setAttribute('position',new THREE.BufferAttribute(new Float32Array(pts),3));
+  return new THREE.Points(g,new THREE.PointsMaterial({color:0xE0B45A,size:0.078,transparent:true,opacity:0,sizeAttenuation:true}));
+})();
+scene.add(fossilZoneC);
+
+// Shoreline band — main storytelling layer
+// Broken irregular arcs hugging the actual low-tide margin
+const fossilBand = (function() {
+  const pts = [];
+  for(let i=0;i<240;i++){
+    const a=(i/240)*Math.PI*2;
+    // Organic perimeter — asymmetric, follows island contour
+    const br=2.6
+      +Math.sin(a*1.7+0.4)*0.55
+      +Math.sin(a*3.2+1.1)*0.28
+      +Math.sin(a*5.8+2.3)*0.12;
+    const px=Math.cos(a-0.25)*br*0.68;
+    const pz=Math.sin(a-0.25)*br*0.78;
+    const h=islandH(px,pz);
+    // Tight band: only where elevation is in active exposure zone
+    // Random gaps create the broken arc feel
+    const gapNoise=Math.sin(a*7.3+1.4)*Math.sin(a*11.2+0.9);
+    if(h>0.005 && h<0.55 && gapNoise>-0.3 && Math.random()>0.30){
+      pts.push(px, h+0.030, pz);
+    }
+  }
+  const g=new THREE.BufferGeometry();
+  g.setAttribute('position',new THREE.BufferAttribute(new Float32Array(pts),3));
+  return new THREE.Points(g,new THREE.PointsMaterial({color:0x7FDFFF,size:0.055,transparent:true,opacity:0,sizeAttenuation:true}));
+})();
+scene.add(fossilBand);
+
+const fossilLayers=[fossilZoneA,fossilZoneB,fossilZoneC,fossilBand];
+
+const debugFossils = false; // set true to force 100% visible
+
+function updateFossilLayer(n, pulse, waterY){
+  if(debugFossils){
+    fossilZoneA.material.opacity = 1.0;
+    fossilZoneB.material.opacity = 1.0;
+    fossilZoneC.material.opacity = 1.0;
+    fossilBand.material.opacity  = 1.0;
+    return;
+  }
+
+  const shimmer = 1 + Math.sin(pulse*0.6)*0.12;
+
+  function smoothstep(edge0, edge1, x) {
+    const t = Math.max(0, Math.min(1, (x - edge0) / (edge1 - edge0)));
+    return t * t * (3 - 2 * t);
+  }
+
+  const edgeA   = smoothstep(0.55, -0.10, waterY);
+  const edgeB   = smoothstep(0.48, -0.05, waterY);
+  const edgeC   = smoothstep(0.38,  0.00, waterY);
+  const bandVis = smoothstep(0.60, -0.10, waterY);
+
+  fossilZoneA.material.opacity = Math.min(0.62, edgeA   * 0.62 * shimmer);
+  fossilZoneB.material.opacity = Math.min(0.48, edgeB   * 0.48 * shimmer);
+  fossilZoneC.material.opacity = Math.min(0.22, edgeC   * 0.22);
+  fossilBand.material.opacity  = Math.min(0.55, bandVis * 0.55 * shimmer);
+}
+
+// ── LIVE DATA INTEGRATION ──────────────────────────────────
+const TMIN=-0.35, TMAX=0.58;
+const TIDE_MIN_FT=-1.0, TIDE_MAX_FT=5.5; // expected range for station 8658715
+const NOAA_STATION='8658715';
+const ISLAND_LAT=34.0522, ISLAND_LON=-77.9067;
+
+let liveTideFt=null;    // current interpolated tide in feet
+let liveTideN=null;     // normalized 0-1 for visualization
+let liveRising=false;
+let tidePredictions=[];  // raw hi/lo points
+let nextLowTide=null;   // {time:Date, ft:number}
+let weatherData=null;
+let dataReady=false;
+let autoT=0.05, manTide=null, prevN=0;
+
+const slider=document.getElementById('tide-slider');
+let slActive=false;
+slider.addEventListener('mousedown',()=>{slActive=true; document.getElementById('slider-mode').style.opacity='1';});
+slider.addEventListener('touchstart',()=>{slActive=true; document.getElementById('slider-mode').style.opacity='1';},{passive:true});
+document.addEventListener('mouseup',()=>{
+  if(slActive){slActive=false; manTide=null; document.getElementById('slider-mode').style.opacity='0';}
+});
+document.addEventListener('touchend',()=>{
+  if(slActive){slActive=false; manTide=null; document.getElementById('slider-mode').style.opacity='0';}
+});
+slider.addEventListener('input',()=>{manTide=parseInt(slider.value)/100;});
+
+function cl01(v){return Math.min(1,Math.max(0,v));}
+function fmtTime(d){
+  // Always display in Eastern time regardless of user's timezone
+  const s=d.toLocaleTimeString('en-US',{timeZone:'America/New_York',hour:'2-digit',minute:'2-digit',hour12:true});
+  return s;
+}
+function pad2(n){return String(n).padStart(2,'0');}
+
+// Synthetic sine tide for fallback when API unavailable
+function getTideFallback(t){const r=Math.sin(t*Math.PI*2-Math.PI/2);return(r+1)*0.5+r*0.04;}
+
+// ── NOAA TIDE FETCH ───────────────────────────────────────
+async function fetchTidePredictions(){
+  try {
+    const now=new Date();
+    // Start from yesterday to always have a "before" point for interpolation
+    const yesterday=new Date(now.getTime()-86400000);
+    const y=yesterday.getFullYear(), m=yesterday.getMonth()+1, d=yesterday.getDate();
+    const begin=`${y}${pad2(m)}${pad2(d)}`;
+    // Fetch 4 days total to ensure we always have surrounding points
+    const end3=new Date(now.getTime()+3*86400000);
+    const endStr=`${end3.getFullYear()}${pad2(end3.getMonth()+1)}${pad2(end3.getDate())}`;
+    const url=`https://api.tidesandcurrents.noaa.gov/api/prod/datagetter?station=${NOAA_STATION}&product=predictions&datum=MLLW&units=english&time_zone=lst_ldt&interval=hilo&begin_date=${begin}&end_date=${endStr}&format=json&application=SharkToothIsland`;
+    const resp=await fetch(url);
+    const data=await resp.json();
+    if(data.predictions&&data.predictions.length>0){
+      // NOAA lst_ldt returns Eastern local time (EDT or EST)
+      // Determine current offset: EDT (-04:00) from 2nd Sun Mar to 1st Sun Nov
+      function isEDT(dateStr){
+        const [yy,mm]=dateStr.split('-').map(Number);
+        if(mm>3&&mm<11)return true; if(mm<3||mm>11)return false;
+        // March: DST starts 2nd Sunday; November: DST ends 1st Sunday
+        const d=new Date(yy,mm-1,1);
+        if(mm===3){let sun=0;for(let i=1;i<=14;i++){if(new Date(yy,2,i).getDay()===0)sun++;if(sun===2)return parseInt(dateStr.split('-')[2])>=i;} return false;}
+        if(mm===11){for(let i=1;i<=7;i++){if(new Date(yy,10,i).getDay()===0)return parseInt(dateStr.split('-')[2])<i;} return false;}
+        return false;
+      }
+      const sampleDate=data.predictions[0].t.split(' ')[0];
+      const tzSuffix=isEDT(sampleDate)?'-04:00':'-05:00';
+      tidePredictions=data.predictions.map(p=>({
+        time:new Date(p.t.replace(' ','T')+tzSuffix),
+        ft:parseFloat(p.v),
+        type:p.type // 'H' or 'L'
+      }));
+      return true;
+    }
+  } catch(e){ console.warn('NOAA fetch failed:',e); }
+  return false;
+}
+
+// Cosine interpolation between hi/lo points to get current tide
+function interpolateTide(predictions, now){
+  if(!predictions.length)return null;
+  const nowMs=now.getTime();
+  // Find surrounding prediction points
+  let before=null, after=null;
+  for(let i=0;i<predictions.length;i++){
+    if(predictions[i].time.getTime()<=nowMs) before=predictions[i];
+    if(predictions[i].time.getTime()>nowMs&&!after) after=predictions[i];
+  }
+  if(!before&&!after)return null;
+  if(!before)return after.ft;
+  if(!after)return before.ft;
+  const t=(nowMs-before.time.getTime())/(after.time.getTime()-before.time.getTime());
+  const cosT=(1-Math.cos(t*Math.PI))/2;
+  return before.ft+(after.ft-before.ft)*cosT;
+}
+
+// Find next low tide from predictions
+function findNextLow(predictions, now){
+  const nowMs=now.getTime();
+  for(const p of predictions){
+    if(p.type==='L'&&p.time.getTime()>nowMs) return p;
+  }
+  return null;
+}
+
+// Find best hunting window (around low tide ± 1.5hr)
+function bestWindowStr(predictions, now){
+  const nowMs=now.getTime();
+  // First check: are we currently near a low tide? (within 1.5 hrs after)
+  for(const p of predictions){
+    if(p.type==='L'){
+      const diff=nowMs-p.time.getTime();
+      if(diff>=-5400000&&diff<=5400000){
+        return 'Active Now — Low at '+fmtTime(p.time);
+      }
+    }
+  }
+  // Next: find the upcoming low
+  const low=findNextLow(predictions, now);
+  if(!low)return '—';
+  const s=new Date(low.time.getTime()-5400000);
+  const e=new Date(low.time.getTime()+5400000);
+  return fmtTime(s)+' – '+fmtTime(e);
+}
+
+// ── WEATHER FETCH ─────────────────────────────────────────
+async function fetchWeather(){
+  try {
+    const url=`https://api.open-meteo.com/v1/forecast?latitude=${ISLAND_LAT}&longitude=${ISLAND_LON}&current=temperature_2m,wind_speed_10m,wind_direction_10m,weather_code,precipitation&temperature_unit=fahrenheit&wind_speed_unit=mph&timezone=America%2FNew_York`;
+    const resp=await fetch(url);
+    const data=await resp.json();
+    if(data.current){
+      weatherData={
+        temp:Math.round(data.current.temperature_2m),
+        wind:Math.round(data.current.wind_speed_10m),
+        windDir:data.current.wind_direction_10m,
+        code:data.current.weather_code,
+        precip:data.current.precipitation
+      };
+      return true;
+    }
+  } catch(e){ console.warn('Weather fetch failed:',e); }
+  return false;
+}
+
+function wxCodeToText(code){
+  if(code===0)return 'Clear';
+  if(code<=3)return 'Partly Cloudy';
+  if(code<=48)return 'Foggy';
+  if(code<=57)return 'Drizzle';
+  if(code<=67)return 'Rain';
+  if(code<=77)return 'Snow';
+  if(code<=82)return 'Showers';
+  if(code<=86)return 'Snow Showers';
+  if(code<=99)return 'Thunderstorm';
+  return 'Unknown';
+}
+
+function windDirToArrow(deg){
+  const dirs=['N','NE','E','SE','S','SW','W','NW'];
+  return dirs[Math.round(deg/45)%8];
+}
+
+// ── INIT DATA ─────────────────────────────────────────────
+async function initLiveData(){
+  const statusEl=document.getElementById('station-status');
+  const badgeEl=document.getElementById('live-badge');
+  const [tideOk, wxOk]=await Promise.all([fetchTidePredictions(), fetchWeather()]);
+  if(tideOk){
+    dataReady=true;
+    statusEl.textContent='Live';
+    statusEl.style.color='#50DFA0';
+    badgeEl.style.opacity='1';
+  } else {
+    statusEl.textContent='Simulated';
+    statusEl.style.color='#E09060';
+  }
+  // Update weather display
+  if(wxOk&&weatherData){
+    document.getElementById('disp-wind').textContent=weatherData.wind+' mph '+windDirToArrow(weatherData.windDir);
+    document.getElementById('disp-temp').textContent=weatherData.temp+'°F';
+    const wxEl=document.getElementById('disp-wx');
+    wxEl.textContent=wxCodeToText(weatherData.code);
+    if(weatherData.precip>0) wxEl.textContent+=' ('+weatherData.precip+' mm)';
+  }
+  // Refresh every 10 minutes
+  setInterval(async()=>{
+    await fetchTidePredictions();
+    await fetchWeather();
+    if(wxOk&&weatherData){
+      document.getElementById('disp-wind').textContent=weatherData.wind+' mph '+windDirToArrow(weatherData.windDir);
+      document.getElementById('disp-temp').textContent=weatherData.temp+'°F';
+      document.getElementById('disp-wx').textContent=wxCodeToText(weatherData.code);
+    }
+  },600000);
+}
+initLiveData();
+
+// ── READOUTS ──────────────────────────────────────────────
+function readouts(n,rising,realFt){
+  const ftDisplay=realFt!==null?realFt:((TMIN+n*(TMAX-TMIN))*3.28);
+  document.getElementById('disp-level').textContent=(ftDisplay>=0?'+':'')+ftDisplay.toFixed(2)+' ft MLLW';
+  const sEl=document.getElementById('disp-status');
+  sEl.textContent=rising?'Rising ↑':'Falling ↓';
+  sEl.className='data-val '+(rising?'rising':'falling');
+  const exp=Math.max(0,Math.round(100-n*125));
+  document.getElementById('disp-exposed').textContent=exp>0?exp+'% visible':'Submerged';
+  let cond,cc;
+  if(n<0.22){cond='Prime';cc='rising';}
+  else if(n<0.45){cond='Good';cc='rising';}
+  else if(n<0.70){cond='Limited';cc='inactive';}
+  else{cond='Submerged';cc='falling';}
+  const cEl=document.getElementById('disp-conditions');
+  cEl.textContent=cond; cEl.className='data-val '+cc;
+  // Best window from real predictions
+  const wEl=document.getElementById('disp-window');
+  const wb=document.getElementById('win-block');
+  if(dataReady&&tidePredictions.length){
+    const now=new Date();
+    const winStr=bestWindowStr(tidePredictions, now);
+    if(winStr.startsWith('Active')){wEl.textContent=winStr;wEl.className='data-val active';wb.classList.add('hl');}
+    else{wEl.textContent=winStr;wEl.className='data-val inactive';wb.classList.remove('hl');}
+  } else {
+    if(n<0.25){wEl.textContent='Active Now';wEl.className='data-val active';wb.classList.add('hl');}
+    else{wEl.textContent='—';wEl.className='data-val inactive';wb.classList.remove('hl');}
+  }
+  // fossil message
+  const fm=document.getElementById('fossil-msg');
+  n<0.30?fm.classList.add('visible'):fm.classList.remove('visible');
+  // clock
+  const now=new Date();
+  document.getElementById('disp-time').textContent=now.toLocaleTimeString('en-US',{timeZone:'America/New_York',hour:'2-digit',minute:'2-digit',second:'2-digit',hour12:true})+' ET';
+  if(!slActive&&manTide===null)slider.value=Math.round(n*100);
+}
+
+// ── ANIMATE ────────────────────────────────────────────────
+let lastT=0, pulseT=0;
+const TCYCLE=9; // fallback cycle speed
+function animate(t){
+  requestAnimationFrame(animate);
+  const dt=Math.min((t-lastT)/1000,0.05); lastT=t; pulseT+=dt*1.9;
+
+  let n, realFt=null;
+  if(manTide!==null){
+    // Manual slider override
+    n=cl01(manTide);
+  } else if(dataReady&&tidePredictions.length){
+    // Live NOAA data
+    const now=new Date();
+    const ft=interpolateTide(tidePredictions, now);
+    if(ft!==null){
+      realFt=ft;
+      n=cl01((ft-TIDE_MIN_FT)/(TIDE_MAX_FT-TIDE_MIN_FT));
+    } else {
+      autoT=(autoT+dt/TCYCLE)%1;
+      n=getTideFallback(autoT);
+    }
+  } else {
+    // Fallback synthetic cycle
+    autoT=(autoT+dt/TCYCLE)%1;
+    n=getTideFallback(autoT);
+  }
+
+  const rising=n>prevN; prevN=n;
+  const wy=TMIN+n*(TMAX-TMIN);
+
+  water.position.y=wy; wGrid.position.y=wy+0.006;
+  wm.opacity=0.18+n*0.28;
+  updateContour(wy);
+
+  // Contour pulse — brighter when tide is actively crossing the island
+  const pulse=0.55+0.38*Math.sin(pulseT);
+  cMat.opacity=pulse*Math.max(0.08,1-n*0.62);
+
+  wireMat.opacity=0.52-n*0.22;
+  wireMat.color.setHSL(0.55-n*0.08,1.0,0.58-n*0.1);
+
+  // Slow camera drift
+  const dr=t*0.00007;
+  camera.position.x=-3.2+Math.sin(dr)*0.45;
+  camera.position.z=10.5+Math.cos(dr*0.65)*0.30;
+  camera.lookAt(0,0.2,0);
+
+  readouts(n,rising,realFt);
+  updateTicks();
+  updateFossilLayer(n,pulseT,wy);
+  renderer.render(scene,camera);
+}
+
+function onResize(){
+  W=container.offsetWidth||window.innerWidth; H=container.offsetHeight||window.innerHeight;
+  renderer.setSize(W,H); camera.aspect=W/H; camera.updateProjectionMatrix();
+}
+window.addEventListener('resize',onResize);
+requestAnimationFrame(animate);
+
+})();
+</script>
+</body>
+</html>

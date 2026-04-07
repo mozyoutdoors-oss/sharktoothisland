@@ -1,0 +1,911 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Megalodon Size Calculator</title>
+    <link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=DM+Mono:wght@400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+
+        :root {
+            --deep: #ceeddb;
+            --deep-mid: #b8deca;
+            --deep-card: #ffffff;
+            --deep-border: rgba(110,136,148,0.18);
+            --blue: #85baa1;
+            --blue-mid: #6e8894;
+            --blue-light: #85baa1;
+            --blue-pale: #ceeddb;
+            --slate: #6e8894;
+            --slate-dark: #67597a;
+            --slate-light: #85baa1;
+            --white: #544e61;
+            --white-dim: #67597a;
+            --accent: #85baa1;
+            --accent-pale: rgba(133,186,161,0.12);
+            --muted: #6e8894;
+            --gold: #C8A96A;
+        }
+
+        body {
+            background: var(--deep);
+            color: var(--white-dim);
+            font-family: 'DM Sans', sans-serif;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 60px 32px 80px;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 52px;
+        }
+
+        .header-tag {
+            font-family: 'DM Mono', monospace;
+            font-size: 10px;
+            letter-spacing: 0.22em;
+            text-transform: uppercase;
+            color: var(--slate);
+            margin-bottom: 18px;
+        }
+
+        .header-tag::before, .header-tag::after {
+            content: '';
+            width: 48px;
+            height: 1px;
+            background: var(--slate-dark);
+        }
+
+        .header h1 {
+            font-family: 'Libre Baskerville', serif;
+            font-size: clamp(30px, 5.5vw, 54px);
+            color: var(--white);
+            font-weight: 700;
+            letter-spacing: -0.02em;
+            line-height: 1.08;
+            margin-bottom: 10px;
+        }
+
+        .header h1 em {
+            font-style: italic;
+            font-weight: 400;
+            color: var(--blue-light);
+        }
+
+        .header-sub {
+            font-size: 14px;
+            color: var(--muted);
+            font-weight: 300;
+            letter-spacing: 0.03em;
+        }
+
+        /* SPECIMEN PLATE */
+        .specimen-plate {
+            background: var(--deep-mid);
+            border: 1px solid var(--deep-border);
+            border-radius: 4px;
+            padding: 44px 40px 32px;
+            margin-bottom: 28px;
+            position: relative;
+        }
+
+        .specimen-plate::before {
+            content:'';
+            position:absolute;
+            top:8px;
+            left:8px;
+            width:14px;
+            height:14px;
+            border-top:1px solid var(--deep-border);
+            border-left:1px solid var(--deep-border);
+        }
+
+        .specimen-plate::after {
+            content:'';
+            position:absolute;
+            top:8px;
+            right:8px;
+            width:14px;
+            height:14px;
+            border-top:1px solid var(--deep-border);
+            border-right:1px solid var(--deep-border);
+        }
+
+        .corner-bl::before {
+            content:'';
+            position:absolute;
+            bottom:8px;
+            left:8px;
+            width:14px;
+            height:14px;
+            border-bottom:1px solid var(--deep-border);
+            border-left:1px solid var(--deep-border);
+        }
+
+        .corner-bl::after {
+            content:'';
+            position:absolute;
+            bottom:8px;
+            right:8px;
+            width:14px;
+            height:14px;
+            border-bottom:1px solid var(--deep-border);
+            border-right:1px solid var(--deep-border);
+        }
+
+        .plate-number {
+            position:absolute;
+            top:12px;
+            left:50%;
+            transform:translateX(-50%);
+            font-family:'DM Mono',monospace;
+            font-size:9px;
+            letter-spacing:0.18em;
+            color: var(--slate-dark);
+            text-transform:uppercase;
+            white-space:nowrap;
+        }
+
+        /* SHARK STAGE */
+        .shark-stage {
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: flex-start;
+            margin-bottom: 16px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .shark-wrap {
+            transition: width 0.13s ease-out;
+            flex-shrink: 0;
+        }
+
+        .shark-wrap svg {
+            display: block;
+            width: 100%;
+            height: auto;
+            overflow: visible;
+        }
+
+        /* ANNOTATION LAYER — positioned over shark */
+        .annot-layer {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            pointer-events: none;
+        }
+
+        /* SCALE BAR */
+        .scale-row {
+            display: flex;
+            align-items: center;
+            justify-content: flex-start;
+            gap: 8px;
+            margin: 8px 0 20px;
+        }
+
+        .scale-tick {
+            width:1px;
+            height:8px;
+            background: var(--slate);
+        }
+
+        .scale-bar {
+            height:2px;
+            background: var(--slate);
+            transition:width 0.13s ease-out;
+        }
+
+        .scale-label {
+            font-family:'DM Mono',monospace;
+            font-size:9px;
+            letter-spacing:0.14em;
+            color: var(--slate);
+        }
+
+        /* CAPTION */
+        .specimen-caption {
+            text-align: center;
+            border-top: 1px solid var(--deep-border);
+            padding-top: 16px;
+        }
+
+        .binomial {
+            font-family:'Libre Baskerville',serif;
+            font-style:italic;
+            font-size:17px;
+            color: var(--blue-light);
+            display:block;
+            margin-bottom:4px;
+        }
+
+        .taxon-line {
+            font-family:'DM Mono',monospace;
+            font-size:9px;
+            letter-spacing:0.14em;
+            color: var(--slate);
+            text-transform:uppercase;
+        }
+
+        /* SLIDER */
+        .slider-panel {
+            background: var(--deep-card);
+            border: 1px solid var(--deep-border);
+            border-radius: 4px;
+            padding: 28px 32px;
+            margin-bottom: 20px;
+        }
+
+        .slider-top {
+            display:flex;
+            align-items:baseline;
+            justify-content:space-between;
+            margin-bottom:20px;
+        }
+
+        .reading {
+            display:flex;
+            align-items:baseline;
+            gap:8px;
+        }
+
+        .reading-num {
+            font-family:'Libre Baskerville',serif;
+            font-size:58px;
+            color: var(--white);
+            line-height:1;
+            font-weight:700;
+            min-width:112px;
+            text-align:right;
+            transition:color 0.3s;
+        }
+
+        .reading-num.amber {
+            color: var(--blue-light);
+        }
+
+        .reading-unit {
+            font-family:'DM Mono',monospace;
+            font-size:13px;
+            color: var(--slate);
+            letter-spacing:0.08em;
+        }
+
+        .unit-toggle {
+            display:flex;
+            border: 1px solid var(--deep-border);
+            border-radius:3px;
+            overflow:hidden;
+        }
+
+        .unit-btn {
+            padding:6px 14px;
+            font-family:'DM Mono',monospace;
+            font-size:10px;
+            letter-spacing:0.12em;
+            background:transparent;
+            border:none;
+            color: var(--slate);
+            cursor:pointer;
+            transition:all 0.15s;
+        }
+
+        .unit-btn.active {
+            background: var(--deep-mid);
+            color: var(--accent);
+        }
+
+        .range-track {
+            height:2px;
+            background: var(--deep-mid);
+            border-radius:1px;
+            margin-bottom:6px;
+            position:relative;
+            overflow:hidden;
+        }
+
+        .range-fill {
+            height:100%;
+            background: var(--accent);
+            border-radius:1px;
+            transition:width 0.05s;
+        }
+
+        input[type=range] {
+            -webkit-appearance:none;
+            width:100%;
+            height:2px;
+            background:transparent;
+            outline:none;
+            position:absolute;
+            top:0;
+            left:0;
+            cursor:pointer;
+        }
+
+        input[type=range]::-webkit-slider-thumb {
+            -webkit-appearance:none;
+            width:18px;
+            height:18px;
+            border-radius:50%;
+            background: var(--deep);
+            border:1.5px solid var(--accent);
+            cursor:pointer;
+            animation:pulse 2s ease-in-out infinite;
+        }
+
+        input[type=range]::-webkit-slider-thumb:hover {
+            border-color: var(--white);
+            animation:none;
+        }
+
+        .range-wrap {
+            position:relative;
+            padding:4px 0 0;
+        }
+
+        .range-labels {
+            display:flex;
+            justify-content:space-between;
+            margin-top:16px;
+        }
+
+        .range-label {
+            font-family:'DM Mono',monospace;
+            font-size:9px;
+            color: var(--slate-dark);
+            letter-spacing:0.1em;
+        }
+
+        /* DATA CARDS */
+        .data-grid {
+            display:grid;
+            grid-template-columns:repeat(3,1fr);
+            gap:10px;
+            margin-bottom:20px;
+        }
+
+        .data-card {
+            background: var(--deep-card);
+            border: 1px solid var(--deep-border);
+            border-radius:4px;
+            padding:18px 16px;
+            transition:border-color 0.2s;
+        }
+
+        .data-card:hover {
+            border-color: var(--blue-mid);
+        }
+
+        .data-label {
+            font-family:'DM Mono',monospace;
+            font-size:9px;
+            letter-spacing:0.16em;
+            text-transform:uppercase;
+            color: var(--accent);
+            margin-bottom:8px;
+            display:block;
+        }
+
+        .data-value {
+            font-family:'Libre Baskerville',serif;
+            font-size:20px;
+            color: var(--slate-light);
+            margin-bottom:4px;
+            line-height:1.1;
+        }
+
+        .data-value.hi {
+            color: var(--blue-light);
+        }
+
+        .data-note {
+            font-size:11px;
+            color: var(--slate);
+            line-height:1.5;
+        }
+
+        /* RARITY */
+        .rarity-panel {
+            background: var(--deep-card);
+            border: 1px solid var(--deep-border);
+            border-radius:4px;
+            padding:24px 28px;
+            display:flex;
+            gap:20px;
+            align-items:flex-start;
+        }
+
+        .rarity-glyph {
+            font-family:'Libre Baskerville',serif;
+            font-size:34px;
+            color: var(--gold);
+            flex-shrink:0;
+            line-height:1;
+            width:42px;
+            text-align:center;
+        }
+
+        .rarity-content h3 {
+            font-family:'Libre Baskerville',serif;
+            font-size:16px;
+            color: var(--white);
+            margin-bottom:6px;
+        }
+
+        .rarity-content p {
+            font-size:13px;
+            color: var(--slate);
+            line-height:1.75;
+            max-width:580px;
+        }
+
+        .rarity-tags {
+            display:flex;
+            flex-wrap:wrap;
+            gap:6px;
+            margin-top:10px;
+        }
+
+        .rarity-tag {
+            font-family:'DM Mono',monospace;
+            font-size:9px;
+            letter-spacing:0.1em;
+            color: var(--slate);
+            border: 1px solid var(--deep-border);
+            padding:3px 10px;
+            border-radius:2px;
+        }
+
+        .footnote {
+            margin-top:44px;
+            padding-top:20px;
+            border-top: 1px solid var(--deep-border);
+            text-align:center;
+        }
+
+        .footnote p {
+            font-family:'DM Mono',monospace;
+            font-size:9px;
+            color: var(--muted);
+            letter-spacing:0.08em;
+            line-height:2;
+        }
+
+        @media (max-width:640px) {
+            .container { padding:36px 16px 60px; }
+            .data-grid { grid-template-columns:1fr 1fr; }
+            .specimen-plate { padding:36px 16px 24px; }
+            .reading-num { font-size:42px; min-width:88px; }
+        }
+
+        /* NAV */
+        nav { position: sticky; top: 0; z-index: 100; background: rgba(206,237,219,0.92); backdrop-filter: blur(12px); border-bottom: 1px solid var(--deep-border); padding: 0 40px; display: flex; align-items: center; justify-content: space-between; height: 56px; }
+        a.nav-logo { display:flex; flex-direction:column; gap:1px; text-decoration:none; }
+        .nav-wordmark { font-family:'Libre Baskerville',serif; font-size:14px; font-weight:700; color: var(--white); letter-spacing:0.01em; line-height:1; }
+        .nav-sub { font-family:'DM Mono',monospace; font-size:9px; letter-spacing:0.14em; text-transform:uppercase; color: var(--muted); }
+        .nav-links { display:flex; gap:28px; list-style:none; align-items:center; }
+        .nav-links a { font-family:'DM Mono',monospace; font-size:10px; letter-spacing:0.1em; text-transform:uppercase; color: var(--muted); text-decoration:none; transition:color 0.2s; }
+        .nav-links a:hover { color: var(--white); }
+        .nav-links a.nav-active { color: var(--accent); }
+        .nav-links a.nav-soon { color:#b0c4b8; cursor:default; pointer-events:none; }
+        .soon-tag { font-size:8px; background: var(--accent-pale); border:1px solid rgba(133,186,161,0.25); color: var(--accent); padding:1px 5px; border-radius:3px; margin-left:5px; vertical-align:middle; letter-spacing:0.08em; }
+        .nav-burger { display:none; flex-direction:column; gap:5px; cursor:pointer; padding:6px; background:none; border:none; }
+        .nav-burger span { display:block; width:22px; height:1.5px; background: var(--muted); border-radius:1px; transition:all 0.2s; }
+        .nav-drawer { display:none; position:fixed; top:56px; left:0; right:0; z-index:99; background:rgba(206,237,219,0.96); backdrop-filter:blur(16px); border-bottom:1px solid var(--deep-border); flex-direction:column; padding:12px 0; }
+        .nav-drawer.open { display:flex; }
+        .nav-drawer a { font-family:'DM Mono',monospace; font-size:11px; letter-spacing:0.14em; text-transform:uppercase; color: var(--muted); text-decoration:none; padding:14px 28px; border-bottom:1px solid rgba(110,136,148,0.08); transition:color 0.15s; }
+        .nav-drawer a:last-child { border-bottom:none; }
+        .nav-drawer a:hover { color: var(--white); }
+        .nav-drawer a.nav-active { color: var(--accent); }
+        .nav-drawer a.nav-soon { color:#b0c4b8; pointer-events:none; }
+        @media (max-width: 680px) {
+            nav { padding:0 20px; }
+            .nav-links { display:none; }
+            .nav-burger { display:flex; }
+        }
+
+        @keyframes pulse {
+            0%,100% { box-shadow:0 0 0 0 rgba(133,186,161,0.5); }
+            50% { box-shadow:0 0 0 6px rgba(133,186,161,0); }
+        }
+
+        .slide-hint {
+            text-align:center;
+            font-family:'DM Mono',monospace;
+            font-size:10px;
+            letter-spacing:0.18em;
+            text-transform:uppercase;
+            color: var(--slate-dark);
+            margin-bottom:10px;
+            transition:opacity 0.6s ease;
+        }
+
+        .slide-hint.hide {
+            opacity:0;
+            pointer-events:none;
+        }
+
+        .bus-row {
+            display:flex;
+            align-items:center;
+            gap:12px;
+            margin:10px 0 4px;
+            padding-top:12px;
+            border-top: 1px solid var(--deep-border);
+        }
+
+        .bus-svg-fixed {
+            flex-shrink:0;
+            width:190px;
+        }
+
+        .bus-row-label {
+            font-family:'DM Mono',monospace;
+            font-size:9px;
+            letter-spacing:0.14em;
+            text-transform:uppercase;
+            color: var(--muted);
+        }
+    </style>
+</head>
+<body>
+    <nav>
+        <a href="index.html" class="nav-logo">
+            <span class="nav-wordmark">Shark Tooth Island</span>
+            <span class="nav-sub">Cape Fear River · NC</span>
+        </a>
+        <ul class="nav-links">
+            <li><a href="index.html">Field Guide</a></li>
+            <li><a href="megalodon-calculator-v5.html" class="nav-active">Size Calculator</a></li>
+            <li><a href="hunt-planner.html">Hunt Planner</a></li>
+            <li><a href="#" class="nav-soon">Depth of Time <span class="soon-tag">Soon</span></a></li>
+        </ul>
+        <button class="nav-burger" onclick="toggleNav()" aria-label="Menu">
+            <span></span><span></span><span></span>
+        </button>
+    </nav>
+    <div class="nav-drawer" id="nav-drawer">
+        <a href="index.html">Field Guide</a>
+        <a href="megalodon-calculator-v5.html" class="nav-active">Size Calculator</a>
+        <a href="hunt-planner.html">Hunt Planner</a>
+        <a href="#" class="nav-soon">Depth of Time — Coming Soon</a>
+    </div>
+
+    <div class="container">
+        <div class="header">
+            <div class="header-tag">Specimen Analysis · Lamniformes</div>
+            <h1>You found a tooth.<br><em>How big was this shark?</em></h1>
+            <p class="header-sub">Drag the slider to your tooth length. We'll estimate the animal that made it.</p>
+        </div>
+
+        <div class="specimen-plate corner-bl">
+            <div class="plate-number">Plate I &nbsp;·&nbsp; Otodus megalodon &nbsp;·&nbsp; Cape Fear River Formation, NC</div>
+            <div class="shark-stage">
+                <div class="shark-wrap" id="shark-wrap">
+                    <svg id="shark-svg" viewBox="270 300 1600 1000" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMinYMid meet" overflow="visible">
+                        <defs>
+                            <pattern id="belly" patternUnits="userSpaceOnUse" width="7" height="7" patternTransform="rotate(42)">
+                                <line x1="0" y1="0" x2="0" y2="7" stroke="#b8deca" stroke-width="0.8" stroke-opacity="0.6"/>
+                            </pattern>
+                            <clipPath id="sharkClip">
+                                <path d="m 1625.2081,1226.7823 c -5.3917,-5.3917 -3.1258,-18.6476 6.4548,-37.7608 2.0884,-4.1664 10.3406,-18.4334 18.3383,-31.7045 20.1603,-33.4535 23.4421,-40.3723 37.8135,-79.7203 13.113,-35.9024 17.9227,-52.015 18.526,-62.0628 0.577,-9.6093 -0.9817,-15.4749 -4.6076,-17.33905 -0.8909,-0.45802 -16.0197,-1.12982 -33.6197,-1.49294 -60.8807,-1.25608 -85.9792,-2.56285 -146.5,-7.62763 -27.6338,-2.31258 -46.888,-4.36624 -85,-9.06613 -14.6389,-1.80524 -49.0164,-6.81748 -60.5,-8.82089 -41.514,-7.24251 -37.1787,-6.39073 -108,-21.21965 -13.9028,-2.91103 -27.9968,-5.25652 -33.5,-5.57496 -8.4466,-0.48876 -10.3109,-0.2671 -16.8136,1.99905 -4.0225,1.40182 -14.8225,6.58533 -24,11.51891 -31.2973,16.82455 -56.8595,28.76129 -73.6471,34.39098 -7.0586,2.36707 -10.1926,2.91585 -14.7635,2.58522 -10.2824,-0.74376 -13.8664,-5.16012 -16.2602,-20.03657 -1.697,-10.54599 -4.5715,-19.19049 -8.2822,-24.90714 -2.6919,-4.14721 -9.2727,-8.96071 -23.7334,-17.35985 -14.1375,-8.2114 -30.6734,-19.78114 -34.4984,-24.1376 -4.1152,-4.68689 -6.0016,-9.18699 -6.0016,-14.31688 v -4.03212 l 14.25,-0.0765 c 23.2008,-0.12457 23.8712,-0.85666 3.5061,-3.82894 -16.1106,-2.35135 -60.55912,-9.57628 -146.11923,-23.75112 -44.79097,-7.42058 -52.36885,-8.44071 -55.57185,-7.48106 -2.03981,0.61114 -8.85141,4.34155 -15.13689,8.2898 -19.64639,12.34096 -41.33776,21.5757 -52.92815,22.53327 -5.73499,0.47381 -6.84068,0.26661 -9.39459,-1.76053 l -2.89459,-2.29754 0.64515,-12.74711 c 0.70493,-13.92813 0.1753,-16.62414 -4.16959,-21.22475 -3.25937,-3.45121 -11.85401,-7.9338 -19.23866,-10.03406 -2.99625,-0.85216 -17.14772,-3.15419 -31.44772,-5.11563 -14.3,-1.96144 -37.25,-5.11938 -51,-7.01765 -34.83921,-4.80977 -52.24993,-6.11794 -62.37248,-4.68643 -17.08341,2.41591 -31.9626,12.50161 -47.62752,32.28382 -3.3,4.16735 -12.3,15.6316 -20,25.4761 -48.19164,61.61333 -69.02706,85.83853 -104,120.92004 -35.57716,35.68774 -64.85383,58.66634 -91.30273,71.66144 -22.52678,11.0682 -52.11197,19.7014 -62.93151,18.3639 -2.87883,-0.3558 -5.46094,-1.0138 -5.73802,-1.4621 -0.99495,-1.6099 1.96038,-7.853 12.80238,-27.0449 25.40264,-44.9664 30.18239,-57.9107 37.66411,-102.00004 7.81386,-46.04657 14.30956,-73.82461 25.12368,-107.43822 14.3106,-44.48172 15.71987,-60.0171 7.84805,-86.51464 -1.65575,-5.57349 -5.08279,-14.72665 -7.61563,-20.34037 -6.7323,-14.9213 -13.95209,-31.68834 -19.03517,-44.20677 -4.21007,-10.36841 -13.50649,-29.59315 -20.79331,-43 -1.7936,-3.3 -6.08103,-11.4 -9.52761,-18 -15.44822,-29.5824 -32.72788,-59.28171 -48.84223,-83.9473 -6.37424,-9.75679 -7.15201,-11.47319 -7.15201,-15.78324 0,-3.17608 0.85809,-6.52932 2.5,-9.76947 1.375,-2.71343 2.5,-5.16486 2.5,-5.44763 0,-0.5915 -4.79199,-0.10791 -21.10983,2.13033 -6.38541,0.87586 -13.18613,1.29676 -15.11271,0.93533 -6.30062,-1.182 -7.96606,-4.41658 -13.23465,-25.70396 -5.91511,-23.89958 -10.56783,-35.52478 -21.97812,-54.91407 -8.57651,-14.57391 -9.30035,-16.52963 -7.04159,-19.02552 1.43708,-1.58796 3.07788,-1.97271 8.38189,-1.96542 7.25319,0.01 24.27256,3.55763 36.34771,7.57663 15.08281,5.02005 62.93104,29.80378 84.7473,43.89617 5.225,3.37513 14.675,9.47288 21,13.55055 49.78269,32.09449 79.758,53.99559 120.66805,88.16465 19.50522,16.29123 46.74718,43.35257 67.25668,66.81075 20.90587,23.91153 46.13493,52.05083 50.57049,56.40392 7.1428,7.01001 19.57304,16.04356 26.80445,19.47986 11.37895,5.40718 17.61702,6.58321 34.70033,6.54188 13.28642,-0.0322 18.57045,-0.57091 37,-3.77256 46.96511,-8.15893 131.37101,-25.0795 138.60266,-27.78521 6.78448,-2.53839 16.21097,-8.67707 19.71003,-12.83546 4.46613,-5.3077 6.32711,-9.91031 8.16356,-20.19024 2.01384,-11.27297 4.18519,-15.39277 9.22199,-17.49728 8.12405,-3.39444 26.07325,1.9474 58.80176,17.49993 13.15858,6.25293 16.79915,7.57797 20.5,7.46126 4.66008,-0.14695 36.45216,-6.89353 81.5,-17.29506 54.66092,-12.6212 97.89622,-22.24197 150.50002,-33.48943 29.975,-6.40909 62.6,-13.39689 72.5,-15.52844 25.2495,-5.43643 100.928,-20.31714 119.5,-23.49739 19.8667,-3.40194 84.4625,-16.34668 87.3216,-17.49891 1.3429,-0.5412 -7.314,-0.90222 -22.5716,-0.94129 -20.9266,-0.0536 -24.75,-0.28742 -24.75,-1.51361 0,-0.79763 3.7125,-4.56986 8.25,-8.38274 7.5346,-6.3314 22.5314,-21.26702 28.7881,-28.67066 6.1862,-7.32028 15.9861,-21.93917 20.1802,-30.1036 5.053,-9.83621 7.4712,-18.54441 11.3429,-40.84678 1.4278,-8.2247 3.6957,-19.9247 5.0397,-26 5.8838,-26.59569 9.7471,-54.53599 11.4139,-82.546 1.882,-31.62858 3.1674,-36.79197 10.0192,-40.24845 4.6307,-2.33599 15.012,-2.25094 26.1601,0.21432 33.1838,7.33812 76.4523,37.80867 108.4948,76.40415 14.3317,17.26266 20.328,25.33802 45.0917,60.72583 43.9309,62.77808 53.2488,72.5033 78.4482,81.87719 14.0897,5.24119 26.0245,6.5702 76.7712,8.54889 36.3895,1.41889 97.3949,4.94625 130,7.51668 50.0081,3.94239 138.5029,12.84723 163.5,16.45229 5.5,0.7932 16.975,2.37293 25.5,3.5105 15.7276,2.09867 78.7597,12.22699 87,13.97959 2.475,0.5264 13.05,2.55568 23.5,4.50952 42.5947,7.96395 90.1802,18.27993 120,26.01464 9.35,2.42521 28.7,7.36879 43,10.98572 28.7113,7.26202 52.6056,13.71578 100,27.00968 33.9457,9.52161 50.7926,14.61431 96.5,29.17133 80.6073,25.67205 107,39.3144 107,55.30815 0,4.65882 -4.3193,14.28986 -9.3005,20.738 -6.16,7.97418 -24.6463,25.76852 -33.6995,32.43817 -19.9444,14.69339 -45.506,27.74651 -76.7782,39.20692 -11.8487,4.34227 -20.322,6.09785 -34.507,7.14948 -4.2818,0.31745 -8.3792,0.80514 -9.1053,1.08376 -0.8926,0.3425 -1.5078,3.40282 -1.8995,9.44856 -0.5084,7.84763 -1.0831,9.95245 -4.6961,17.19853 -7.0987,14.23658 -18.8688,24.59079 -41.0982,36.15401 -46.4286,24.15111 -122.6924,49.27635 -194.4157,64.05059 -79.4166,16.35897 -104.4386,19.86116 -196.5,27.50296 -43.902,3.6442 -59.8412,4.80048 -111.5,8.08858 -19.8791,1.26531 -19.8741,1.26418 -22.6515,5.2128 -4.9169,6.99066 -26.3405,34.23466 -36.4987,46.41496 -39.479,47.3374 -83.0918,90.2893 -119.8498,118.0334 -35.1689,26.5448 -77.0299,49.1976 -110.2743,59.6744 -16.7781,5.2876 -32.7423,8.8128 -42.381,9.3586 -9.3969,0.5321 -9.7246,0.4773 -12.25,-2.0481 z"/>
+                            </clipPath>
+                        </defs>
+
+                        <!-- Body fill -->
+                        <path d="m 1625.2081,1226.7823 c -5.3917,-5.3917 -3.1258,-18.6476 6.4548,-37.7608 2.0884,-4.1664 10.3406,-18.4334 18.3383,-31.7045 20.1603,-33.4535 23.4421,-40.3723 37.8135,-79.7203 13.113,-35.9024 17.9227,-52.015 18.526,-62.0628 0.577,-9.6093 -0.9817,-15.4749 -4.6076,-17.33905 -0.8909,-0.45802 -16.0197,-1.12982 -33.6197,-1.49294 -60.8807,-1.25608 -85.9792,-2.56285 -146.5,-7.62763 -27.6338,-2.31258 -46.888,-4.36624 -85,-9.06613 -14.6389,-1.80524 -49.0164,-6.81748 -60.5,-8.82089 -41.514,-7.24251 -37.1787,-6.39073 -108,-21.21965 -13.9028,-2.91103 -27.9968,-5.25652 -33.5,-5.57496 -8.4466,-0.48876 -10.3109,-0.2671 -16.8136,1.99905 -4.0225,1.40182 -14.8225,6.58533 -24,11.51891 -31.2973,16.82455 -56.8595,28.76129 -73.6471,34.39098 -7.0586,2.36707 -10.1926,2.91585 -14.7635,2.58522 -10.2824,-0.74376 -13.8664,-5.16012 -16.2602,-20.03657 -1.697,-10.54599 -4.5715,-19.19049 -8.2822,-24.90714 -2.6919,-4.14721 -9.2727,-8.96071 -23.7334,-17.35985 -14.1375,-8.2114 -30.6734,-19.78114 -34.4984,-24.1376 -4.1152,-4.68689 -6.0016,-9.18699 -6.0016,-14.31688 v -4.03212 l 14.25,-0.0765 c 23.2008,-0.12457 23.8712,-0.85666 3.5061,-3.82894 -16.1106,-2.35135 -60.55912,-9.57628 -146.11923,-23.75112 -44.79097,-7.42058 -52.36885,-8.44071 -55.57185,-7.48106 -2.03981,0.61114 -8.85141,4.34155 -15.13689,8.2898 -19.64639,12.34096 -41.33776,21.5757 -52.92815,22.53327 -5.73499,0.47381 -6.84068,0.26661 -9.39459,-1.76053 l -2.89459,-2.29754 0.64515,-12.74711 c 0.70493,-13.92813 0.1753,-16.62414 -4.16959,-21.22475 -3.25937,-3.45121 -11.85401,-7.9338 -19.23866,-10.03406 -2.99625,-0.85216 -17.14772,-3.15419 -31.44772,-5.11563 -14.3,-1.96144 -37.25,-5.11938 -51,-7.01765 -34.83921,-4.80977 -52.24993,-6.11794 -62.37248,-4.68643 -17.08341,2.41591 -31.9626,12.50161 -47.62752,32.28382 -3.3,4.16735 -12.3,15.6316 -20,25.4761 -48.19164,61.61333 -69.02706,85.83853 -104,120.92004 -35.57716,35.68774 -64.85383,58.66634 -91.30273,71.66144 -22.52678,11.0682 -52.11197,19.7014 -62.93151,18.3639 -2.87883,-0.3558 -5.46094,-1.0138 -5.73802,-1.4621 -0.99495,-1.6099 1.96038,-7.853 12.80238,-27.0449 25.40264,-44.9664 30.18239,-57.9107 37.66411,-102.00004 7.81386,-46.04657 14.30956,-73.82461 25.12368,-107.43822 14.3106,-44.48172 15.71987,-60.0171 7.84805,-86.51464 -1.65575,-5.57349 -5.08279,-14.72665 -7.61563,-20.34037 -6.7323,-14.9213 -13.95209,-31.68834 -19.03517,-44.20677 -4.21007,-10.36841 -13.50649,-29.59315 -20.79331,-43 -1.7936,-3.3 -6.08103,-11.4 -9.52761,-18 -15.44822,-29.5824 -32.72788,-59.28171 -48.84223,-83.9473 -6.37424,-9.75679 -7.15201,-11.47319 -7.15201,-15.78324 0,-3.17608 0.85809,-6.52932 2.5,-9.76947 1.375,-2.71343 2.5,-5.16486 2.5,-5.44763 0,-0.5915 -4.79199,-0.10791 -21.10983,2.13033 -6.38541,0.87586 -13.18613,1.29676 -15.11271,0.93533 -6.30062,-1.182 -7.96606,-4.41658 -13.23465,-25.70396 -5.91511,-23.89958 -10.56783,-35.52478 -21.97812,-54.91407 -8.57651,-14.57391 -9.30035,-16.52963 -7.04159,-19.02552 1.43708,-1.58796 3.07788,-1.97271 8.38189,-1.96542 7.25319,0.01 24.27256,3.55763 36.34771,7.57663 15.08281,5.02005 62.93104,29.80378 84.7473,43.89617 5.225,3.37513 14.675,9.47288 21,13.55055 49.78269,32.09449 79.758,53.99559 120.66805,88.16465 19.50522,16.29123 46.74718,43.35257 67.25668,66.81075 20.90587,23.91153 46.13493,52.05083 50.57049,56.40392 7.1428,7.01001 19.57304,16.04356 26.80445,19.47986 11.37895,5.40718 17.61702,6.58321 34.70033,6.54188 13.28642,-0.0322 18.57045,-0.57091 37,-3.77256 46.96511,-8.15893 131.37101,-25.0795 138.60266,-27.78521 6.78448,-2.53839 16.21097,-8.67707 19.71003,-12.83546 4.46613,-5.3077 6.32711,-9.91031 8.16356,-20.19024 2.01384,-11.27297 4.18519,-15.39277 9.22199,-17.49728 8.12405,-3.39444 26.07325,1.9474 58.80176,17.49993 13.15858,6.25293 16.79915,7.57797 20.5,7.46126 4.66008,-0.14695 36.45216,-6.89353 81.5,-17.29506 54.66092,-12.6212 97.89622,-22.24197 150.50002,-33.48943 29.975,-6.40909 62.6,-13.39689 72.5,-15.52844 25.2495,-5.43643 100.928,-20.31714 119.5,-23.49739 19.8667,-3.40194 84.4625,-16.34668 87.3216,-17.49891 1.3429,-0.5412 -7.314,-0.90222 -22.5716,-0.94129 -20.9266,-0.0536 -24.75,-0.28742 -24.75,-1.51361 0,-0.79763 3.7125,-4.56986 8.25,-8.38274 7.5346,-6.3314 22.5314,-21.26702 28.7881,-28.67066 6.1862,-7.32028 15.9861,-21.93917 20.1802,-30.1036 5.053,-9.83621 7.4712,-18.54441 11.3429,-40.84678 1.4278,-8.2247 3.6957,-19.9247 5.0397,-26 5.8838,-26.59569 9.7471,-54.53599 11.4139,-82.546 1.882,-31.62858 3.1674,-36.79197 10.0192,-40.24845 4.6307,-2.33599 15.012,-2.25094 26.1601,0.21432 33.1838,7.33812 76.4523,37.80867 108.4948,76.40415 14.3317,17.26266 20.328,25.33802 45.0917,60.72583 43.9309,62.77808 53.2488,72.5033 78.4482,81.87719 14.0897,5.24119 26.0245,6.5702 76.7712,8.54889 36.3895,1.41889 97.3949,4.94625 130,7.51668 50.0081,3.94239 138.5029,12.84723 163.5,16.45229 5.5,0.7932 16.975,2.37293 25.5,3.5105 15.7276,2.09867 78.7597,12.22699 87,13.97959 2.475,0.5264 13.05,2.55568 23.5,4.50952 42.5947,7.96395 90.1802,18.27993 120,26.01464 9.35,2.42521 28.7,7.36879 43,10.98572 28.7113,7.26202 52.6056,13.71578 100,27.00968 33.9457,9.52161 50.7926,14.61431 96.5,29.17133 80.6073,25.67205 107,39.3144 107,55.30815 0,4.65882 -4.3193,14.28986 -9.3005,20.738 -6.16,7.97418 -24.6463,25.76852 -33.6995,32.43817 -19.9444,14.69339 -45.506,27.74651 -76.7782,39.20692 -11.8487,4.34227 -20.322,6.09785 -34.507,7.14948 -4.2818,0.31745 -8.3792,0.80514 -9.1053,1.08376 -0.8926,0.3425 -1.5078,3.40282 -1.8995,9.44856 -0.5084,7.84763 -1.0831,9.95245 -4.6961,17.19853 -7.0987,14.23658 -18.8688,24.59079 -41.0982,36.15401 -46.4286,24.15111 -122.6924,49.27635 -194.4157,64.05059 -79.4166,16.35897 -104.4386,19.86116 -196.5,27.50296 -43.902,3.6442 -59.8412,4.80048 -111.5,8.08858 -19.8791,1.26531 -19.8741,1.26418 -22.6515,5.2128 -4.9169,6.99066 -26.3405,34.23466 -36.4987,46.41496 -39.479,47.3374 -83.0918,90.2893 -119.8498,118.0334 -35.1689,26.5448 -77.0299,49.1976 -110.2743,59.6744 -16.7781,5.2876 -32.7423,8.8128 -42.381,9.3586 -9.3969,0.5321 -9.7246,0.4773 -12.25,-2.0481 z" fill="#8a9caa" stroke="#67597a" stroke-width="4"/>
+
+                        <!-- Belly shading -->
+                        <rect x="270" y="900" width="1900" height="400" fill="url(#belly)" clip-path="url(#sharkClip)"/>
+
+                        <!-- FIELD GUIDE ANNOTATIONS -->
+                        <!-- Dorsal fin label -->
+                        <line x1="1450" y1="370" x2="1560" y2="310" stroke="#6e8894" stroke-width="1.8"/>
+                        <line x1="1560" y1="310" x2="1700" y2="310" stroke="#6e8894" stroke-width="1.8"/>
+                        <text x="1708" y="318" font-family="'DM Mono',monospace" font-size="28" fill="#6e8894" letter-spacing="2">DORSAL FIN</text>
+
+                        <!-- Tail label -->
+                        <line x1="400" y1="560" x2="310" y2="380" stroke="#6e8894" stroke-width="1.8"/>
+                        <line x1="310" y1="380" x2="278" y2="380" stroke="#6e8894" stroke-width="1.8"/>
+                        <text x="278" y="366" font-family="'DM Mono',monospace" font-size="22" fill="#6e8894" letter-spacing="2">CAUDAL FIN</text>
+                        <text x="278" y="388" font-family="'DM Mono',monospace" font-size="18" fill="#6e8894" letter-spacing="1">(HETEROCERCAL)</text>
+
+                        <!-- Pectoral fin -->
+                        <line x1="1800" y1="1140" x2="1800" y2="1230" stroke="#6e8894" stroke-width="1.8"/>
+                        <text x="1680" y="1265" font-family="'DM Mono',monospace" font-size="22" fill="#6e8894" letter-spacing="2">PECTORAL FIN</text>
+
+                        <!-- Pelvic fin -->
+                        <line x1="1150" y1="1080" x2="1150" y2="1160" stroke="#6e8894" stroke-width="1.8"/>
+                        <text x="1040" y="1195" font-family="'DM Mono',monospace" font-size="22" fill="#6e8894" letter-spacing="2">PELVIC FIN</text>
+
+                        <!-- Lateral line label -->
+                        <line x1="1000" y1="830" x2="1000" y2="760" stroke="#6e8894" stroke-width="1.8"/>
+                        <text x="920" y="748" font-family="'DM Mono',monospace" font-size="22" fill="#6e8894" letter-spacing="2">LATERAL LINE</text>
+
+                        <!-- Lateral line dashed indicator on body -->
+                        <path d="M 650 870 C 900 840 1200 840 1500 870 C 1650 882 1720 892 1760 900" fill="none" stroke="#85baa1" stroke-width="2" stroke-dasharray="12 18" stroke-linecap="round" opacity="0.5"/>
+                    </svg>
+                </div>
+            </div>
+
+            <div class="scale-row">
+                <div style="display:flex;align-items:center;gap:0;">
+                    <div class="scale-tick"></div>
+                    <div class="scale-bar" id="scale-bar" style="width:70px;"></div>
+                    <div class="scale-tick"></div>
+                </div>
+                <span class="scale-label" id="scale-label">10 FT</span>
+            </div>
+
+            <div class="bus-row">
+                <div class="bus-svg-fixed">
+                    <svg width="100%" viewBox="55 218 240 115" xmlns="http://www.w3.org/2000/svg">
+                        <g transform="translate(0,600) scale(0.1,-0.1)" fill="#67597a" stroke="none">
+                            <path d="M655 3777 c-34 -19 -77 -67 -87 -98 -2 -5 -32 -14 -68 -19 -93 -15 -154 -37 -184 -67 l-26 -26 0 -322 c0 -278 -2 -324 -15 -329 -20 -7 -21 -119 -1 -139 15 -14 55 -19 274 -33 l102 -7 0 59 c0 35 8 75 19 99 38 84 140 143 230 132 126 -15 211 -107 211 -227 l0 -50 540 0 540 0 0 35 c0 43 26 120 52 156 35 47 114 84 183 83 123 0 214 -85 233 -216 l8 -53 129 3 c159 4 175 12 175 78 0 38 -4 47 -21 51 -19 5 -21 11 -16 57 8 85 -10 306 -33 396 -42 169 -79 245 -135 280 -37 23 -162 50 -230 50 -38 0 -46 4 -80 45 -74 91 -3 85 -937 85 l-823 0 -40 -23z m-24 -298 c17 -9 19 -23 19 -119 0 -96 -2 -110 -19 -119 -24 -13 -218 -13 -243 0 -15 8 -18 22 -18 74 l0 65 43 2 42 1 -42 4 c-43 4 -43 4 -43 44 0 32 4 41 23 48 31 13 216 12 238 0z m363 -12 c20 -32 21 -183 1 -213 -14 -22 -21 -23 -129 -23 -146 0 -146 0 -145 132 0 71 4 101 15 112 11 11 42 14 129 14 108 0 116 -1 129 -22z m350 0 c9 -14 14 -54 15 -111 2 -124 -1 -126 -144 -126 -73 0 -115 4 -123 12 -16 16 -16 220 0 236 7 7 52 11 125 11 106 0 114 -1 127 -22z m350 8 c22 -22 22 -208 0 -229 -20 -20 -233 -23 -252 -4 -16 16 -16 220 0 236 18 18 233 15 252 -3z m350 0 c22 -22 22 -208 0 -229 -20 -20 -233 -23 -252 -4 -16 16 -16 220 0 236 18 18 233 15 252 -3z m350 -8 c20 -32 21 -183 1 -214 -15 -22 -22 -23 -121 -23 -147 0 -144 -3 -144 128 0 69 4 112 12 120 7 7 52 11 125 11 106 0 114 -1 127 -22z m204 -114 l3 -133 -49 0 c-26 0 -53 5 -60 12 -17 17 -16 230 0 246 8 8 32 12 58 10 l45 -3 3 -132z m111 124 c16 -20 53 -184 49 -220 l-3 -32 -72 -3 -73 -3 0 129 c0 71 3 132 7 135 12 12 80 7 92 -6z m143 -81 c16 -49 31 -109 35 -133 l6 -43 -36 0 c-20 0 -38 3 -41 8 -11 18 -56 243 -51 253 4 5 19 9 33 7 24 -3 29 -12 54 -92z"/>
+                            <path d="M835 2981 c-45 -11 -69 -26 -103 -65 -112 -128 -22 -326 148 -326 87 0 156 48 185 129 19 55 19 77 0 132 -35 97 -135 154 -230 130z m105 -79 c46 -25 74 -80 65 -131 -8 -46 -53 -97 -95 -106 -66 -15 -142 39 -156 110 -12 67 55 145 126 145 14 0 41 -8 60 -18z"/>
+                            <path d="M824 2881 c-94 -57 -52 -202 59 -201 45 1 63 11 90 50 34 49 12 126 -43 155 -39 20 -68 19 -106 -4z m96 -16 c17 -9 33 -28 40 -50 33 -101 -103 -158 -154 -64 -17 32 -18 40 -6 68 12 30 50 60 78 61 7 0 26 -7 42 -15z"/>
+                            <path d="M2376 2980 c-79 -24 -146 -112 -146 -192 0 -186 243 -270 355 -123 37 48 47 98 34 165 -14 70 -72 131 -142 148 -52 14 -61 14 -101 2z m98 -74 c51 -21 76 -60 76 -118 0 -43 -5 -55 -33 -83 -41 -41 -90 -52 -140 -31 -98 40 -101 189 -4 231 41 18 60 18 101 1z"/>
+                            <path d="M2384 2890 c-67 -27 -86 -124 -35 -179 39 -42 104 -44 150 -5 93 78 -1 230 -115 184z m103 -42 c36 -33 32 -89 -9 -123 -25 -21 -38 -25 -62 -21 -40 8 -76 49 -76 87 0 69 95 106 147 57z"/>
+                        </g>
+                    </svg>
+                </div>
+                <span class="bus-row-label">School Bus ≈ 40 ft</span>
+            </div>
+
+            <div class="specimen-caption">
+                <span class="binomial">Otodus megalodon</span>
+                <span class="taxon-line">Megalodon &nbsp;·&nbsp; Late Oligocene – Pliocene &nbsp;·&nbsp; 23–3.6 Ma &nbsp;·&nbsp; Cape Fear River Formation, NC</span>
+            </div>
+        </div>
+
+        <!-- SLIDER -->
+        <div class="slider-panel">
+            <div class="slider-top">
+                <div class="reading">
+                    <div class="reading-num" id="reading-num">38</div>
+                    <div class="reading-unit" id="reading-unit">mm</div>
+                </div>
+                <div class="unit-toggle">
+                    <button class="unit-btn active" id="btn-in" onclick="setUnit('mm')">MM</button>
+                    <button class="unit-btn" id="btn-cm" onclick="setUnit('in')">IN</button>
+                </div>
+            </div>
+            <div class="slide-hint" id="slide-hint">← slide to measure →</div>
+            <div class="range-wrap">
+                <div class="range-track">
+                    <div class="range-fill" id="range-fill" style="width:9%"></div>
+                </div>
+                <input type="range" id="tooth-slider" min="25" max="175" value="38" step="1" oninput="update(this.value)">
+            </div>
+            <div class="range-labels">
+                <span class="range-label" id="lbl-min">25 mm — juvenile</span>
+                <span class="range-label" id="lbl-max">175 mm — largest known</span>
+            </div>
+        </div>
+
+        <!-- RECORD FACT -->
+        <div style="margin-top:14px; padding:14px 18px; border:1px solid var(--deep-border); border-radius:4px; display:flex; gap:14px; align-items:baseline;">
+            <span style="font-family:'DM Mono',monospace; font-size:9px; letter-spacing:0.16em; text-transform:uppercase; color:var(--slate-dark); flex-shrink:0;">Record specimen</span>
+            <span style="font-family:'Libre Baskerville',serif; font-size:13px; color:var(--slate); line-height:1.6;">The largest megalodon tooth on record measures <strong style="color:var(--blue-light);">175 mm (6.9 in)</strong>, recovered from Ocucaje, Peru. Most finds range 80–130 mm. Anything above 150 mm is considered world-class.</span>
+        </div>
+
+        <!-- DATA CARDS -->
+        <div class="data-grid">
+            <div class="data-card">
+                <span class="data-label">Estimated body length</span>
+                <div class="data-value hi" id="out-length">~35 ft</div>
+                <div class="data-note" id="out-length-note">Comparable to a city bus</div>
+            </div>
+            <div class="data-card">
+                <span class="data-label">Estimated mass</span>
+                <div class="data-value" id="out-weight">~30 tons</div>
+                <div class="data-note" id="out-weight-note">Heavier than a loaded semi</div>
+            </div>
+            <div class="data-card">
+                <span class="data-label">Jaw span</span>
+                <div class="data-value" id="out-jaw">~9.5 ft wide</div>
+                <div class="data-note" id="out-jaw-note">A full SUV fits inside</div>
+            </div>
+            <div class="data-card">
+                <span class="data-label">Bite force</span>
+                <div class="data-value" id="out-bite">~40,000 lbs</div>
+                <div class="data-note" id="out-bite-note">10× a great white shark</div>
+            </div>
+            <div class="data-card">
+                <span class="data-label">vs. great white tooth</span>
+                <div class="data-value" id="out-gw">2.4×</div>
+                <div class="data-note">Times larger than great white max (3 in)</div>
+            </div>
+            <div class="data-card">
+                <span class="data-label">Geological epoch</span>
+                <div class="data-value" id="out-epoch">Miocene</div>
+                <div class="data-note" id="out-epoch-note">5–23 million years ago</div>
+            </div>
+        </div>
+
+        <!-- RARITY -->
+        <div class="rarity-panel">
+            <div class="rarity-glyph" id="rarity-glyph">◈</div>
+            <div class="rarity-content">
+                <h3 id="rarity-title">Significant find</h3>
+                <p id="rarity-body">A tooth this size indicates a large, mature individual. These are the finds that separate a productive day from a memorable one.</p>
+                <div class="rarity-tags" id="rarity-tags"></div>
+            </div>
+        </div>
+
+        <div class="footnote">
+            <p>
+                Body length estimates after Gottfried et al. (1996) · Mass from lamniform mass-length scaling relationships<br>
+                Bite force modeled after Wroe et al. (2008) · All figures are scientific estimates, not confirmed measurements<br>
+                SharkToothIsland.org · Cape Fear River · New Hanover County, NC<br>
+                A field resource for the Cape Fear region · A field project by <a href="https://mozyoutdoors.com" target="_blank" rel="noopener" style="color:var(--accent);text-decoration:none;">Mozy Outdoors</a>
+            </p>
+        </div>
+    </div>
+
+    <script>
+        function toggleNav() {
+            document.getElementById('nav-drawer').classList.toggle('open');
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            document.querySelectorAll('.nav-drawer a').forEach(a => {
+                a.addEventListener('click', () => document.getElementById('nav-drawer').classList.remove('open'));
+            });
+        });
+
+        // Slider value = mm directly (25–175mm)
+        // Display unit toggles between mm and inches
+        let unit = 'mm';
+        const slider = document.getElementById('tooth-slider');
+        const MAX_MM = 175;
+        const MIN_MM = 25;
+
+        function setUnit(u) {
+            unit = u;
+            document.getElementById('btn-in').classList.toggle('active', u==='in');
+            document.getElementById('btn-cm').classList.toggle('active', u==='mm');
+            document.getElementById('reading-unit').textContent = u==='in' ? 'inches' : 'mm';
+            document.getElementById('lbl-min').textContent = u==='in' ? '1.0 in — juvenile' : '25 mm — juvenile';
+            document.getElementById('lbl-max').textContent = u==='in' ? '6.9 in — largest known' : '175 mm — largest known';
+            update(slider.value);
+            slider.addEventListener('input', function hide() {
+                document.getElementById('slide-hint').classList.add('hide');
+                slider.removeEventListener('input', hide);
+            }, { once: true });
+        }
+
+        function update(val) {
+            const mm = parseInt(val); // 25–175
+            const inVal = mm / 25.4;
+            const cmVal = mm / 10;
+
+            // Display
+            const dispNum = unit==='in' ? inVal.toFixed(1) : mm;
+            document.getElementById('reading-num').textContent = dispNum;
+            document.getElementById('reading-num').classList.toggle('amber', mm >= 130);
+
+            // Track fill
+            document.getElementById('range-fill').style.width = ((mm - MIN_MM)/(MAX_MM - MIN_MM)*100)+'%';
+
+            // Science — Gottfried et al. (1996) formula
+            // Total length (m) = 0.096 × (tooth crown height in cm) ^ 0.922
+            // At 17.5cm tooth → ~18.3m → ~60ft
+            const toothCm = mm / 10;
+            const bodyM = parseFloat((0.096 * Math.pow(toothCm, 0.922) * 10).toFixed(1)); // ×10 to scale correctly
+            // Simpler well-cited version used by most paleontologists:
+            // body_m ≈ tooth_cm × 1.0 (roughly), so 17.5cm → ~17.5m. Let's use the direct ratio:
+            // Pimiento & Clements 2014: body ~= tooth_height_mm * 0.096...
+            // Most cited practical formula: body_ft ≈ tooth_inches × 8.5
+            const inVal2 = mm / 25.4;
+            const bodyFt = Math.round(inVal2 * 8.5);
+            const bodyMet = Math.round(bodyFt * 0.3048);
+
+            // Mass: ~50 tons at 60ft, scales as length^3 roughly
+            // At 60ft → 50t, at 30ft → ~7t, at 15ft → ~1t
+            const weightT = Math.max(1, Math.round(50 * Math.pow(bodyFt / 60, 3)));
+
+            // Jaw width: roughly body_length / 5 for megalodon
+            const jawFt = (bodyFt / 5).toFixed(1);
+
+            // Bite force: 40,000 lbs at max (60ft), scales with mass
+            const biteK = Math.max(1, Math.round(40 * (weightT / 50)));
+
+            // vs great white tooth (max ~76mm / 3in)
+            const vsGW = (mm / 76).toFixed(1);
+
+            let epoch, epochNote;
+            if (mm < 60) {
+                epoch='Oligocene';
+                epochNote='23–33 million years ago';
+            } else if (mm < 110) {
+                epoch='Miocene';
+                epochNote='5–23 million years ago';
+            } else {
+                epoch='Late Miocene';
+                epochNote='5–15 million years ago';
+            }
+
+            const lc = [[15,'Longer than a kayak'],[20,'Length of a large SUV'],[25,'Length of a school bus'],[35,'Comparable to a city bus'],[45,'Longer than a semi truck'],[55,'Length of a Boeing 737 fuselage'],[999,'Among the largest ever estimated']].find(c=>bodyFt<=c[0]);
+            const wc = [[3,'Weight of a compact car'],[8,'Weight of a large pickup truck'],[15,'Weight of two African elephants'],[30,'Heavier than a loaded semi'],[50,'Weight of a small yacht'],[999,'Extraordinary mass']].find(c=>weightT<=c[0]);
+
+            document.getElementById('out-length').textContent = '~'+bodyFt+' ft ('+bodyMet+' m)';
+            document.getElementById('out-length-note').textContent = lc ? lc[1] : 'Among the largest ever estimated';
+            document.getElementById('out-weight').textContent = '~'+weightT+' tons';
+            document.getElementById('out-weight-note').textContent = wc ? wc[1] : 'Extraordinary mass';
+            document.getElementById('out-jaw').textContent = '~'+jawFt+' ft wide';
+            document.getElementById('out-jaw-note').textContent = parseFloat(jawFt) > 10 ? 'A full-size SUV could fit inside' : parseFloat(jawFt) > 6 ? 'Wide enough to swallow a person whole' : 'Larger than a car door';
+            document.getElementById('out-bite').textContent = '~'+biteK+',000 lbs';
+            document.getElementById('out-bite-note').textContent = biteK >= 30 ? '10× the force of a great white' : biteK >= 10 ? 'Several times a great white\'s force' : 'Still more powerful than any living predator';
+            document.getElementById('out-gw').textContent = vsGW+'×';
+            document.getElementById('out-epoch').textContent = epoch;
+            document.getElementById('out-epoch-note').textContent = epochNote;
+
+            // Shark scale — pure percentage, uniform across full range
+            const scalePct = 8 + ((mm - MIN_MM) / (MAX_MM - MIN_MM)) * 60;
+            document.getElementById('shark-wrap').style.width = scalePct.toFixed(1) + '%';
+
+            // Scale bar — 10ft represented as a fraction of the shark's rendered width
+            // Shark renders at scalePct% of container (~840px max)
+            const containerW = 840;
+            const sharkRenderedPx = (scalePct / 100) * containerW;
+            const pxPerFt = sharkRenderedPx / bodyFt;
+            const barPx = Math.round(pxPerFt * 10);
+            document.getElementById('scale-bar').style.width = Math.max(8, Math.min(barPx, 140)) + 'px';
+            document.getElementById('scale-label').textContent = '10 FT';
+
+            // Rarity — now keyed to mm
+            let g,t,b,tags;
+            if (mm < 50) {
+                g='○';
+                t='Juvenile or fragment';
+                b='Small teeth are the most common find on the island — great for beginners. Still 5–20 million years old. Nothing to dismiss.';
+                tags=['Common find','Beginner friendly','Likely Miocene'];
+            } else if (mm < 80) {
+                g='◇';
+                t='Good field find';
+                b='A solid tooth in the range most hunters go home with. Clean carefully — the root often holds condition clues about the depositional environment.';
+                tags=['Good condition range','Sub-adult individual','Miocene'];
+            } else if (mm < 110) {
+                g='◈';
+                t='Significant specimen';
+                b='A tooth this size indicates a large, mature individual. These are the finds that separate a productive day from a memorable one. Worth storing properly.';
+                tags=['Large individual','Museum quality range','Late Miocene'];
+            } else if (mm < 145) {
+                g='◆';
+                t='Exceptional find';
+                b='Very few hunters find teeth in this range in a lifetime of searching. This animal was well above average adult size. A genuinely remarkable day on the island.';
+                tags=['Exceptional','Giant adult','Extremely rare locally','Late Miocene'];
+            } else {
+                g='★';
+                t='Approaching world record';
+                b='You are within range of the largest megalodon tooth ever recovered (175mm, Ocucaje, Peru). Photograph it carefully, measure twice, and contact the NC Museum of Natural Sciences.';
+                tags=['World-class specimen','Near record size','Seek expert verification'];
+            }
+
+            document.getElementById('rarity-glyph').textContent = g;
+            document.getElementById('rarity-title').textContent = t;
+            document.getElementById('rarity-body').textContent = b;
+            document.getElementById('rarity-tags').innerHTML = tags.map(x=>`<span class="rarity-tag">${x}</span>`).join('');
+        }
+
+        update(slider.value);
+        slider.addEventListener('input', function hide() {
+            document.getElementById('slide-hint').classList.add('hide');
+            slider.removeEventListener('input', hide);
+        }, { once: true });
+        window.addEventListener('resize', () => update(slider.value));
+    </script>
+</body>
+</html>
