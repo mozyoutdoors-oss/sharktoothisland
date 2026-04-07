@@ -223,8 +223,15 @@ renderer.setSize(W, H);
 const scene = new THREE.Scene();
 scene.fog = new THREE.FogExp2(0x1A2535, 0.02);
 
-const camera = new THREE.PerspectiveCamera(42, W/H, 0.1, 200);
-camera.position.set(-3.2, 7.4, 10.5);
+function getCameraParams(){
+  const w=window.innerWidth;
+  if(w<520)  return {y:11.5, z:15, baseX:-3.2, fov:55, driftX:0.3, driftZ:0.2};
+  if(w<768)  return {y:10, z:13.5, baseX:-3.2, fov:50, driftX:0.35, driftZ:0.25};
+  return {y:7.4, z:10.5, baseX:-3.2, fov:42, driftX:0.45, driftZ:0.30};
+}
+const cp0=getCameraParams();
+const camera = new THREE.PerspectiveCamera(cp0.fov, W/H, 0.1, 200);
+camera.position.set(cp0.baseX, cp0.y, cp0.z);
 camera.lookAt(0, 0.35, 0);
 
 // ── NOISE ──────────────────────────────────────────────────
@@ -809,10 +816,12 @@ function animate(t){
   wireMat.opacity=0.52-n*0.22;
   wireMat.color.setHSL(0.55-n*0.08,1.0,0.58-n*0.1);
 
-  // Slow camera drift
+  // Slow camera drift — responsive to viewport
   const dr=t*0.00007;
-  camera.position.x=-3.2+Math.sin(dr)*0.45;
-  camera.position.z=10.5+Math.cos(dr*0.65)*0.30;
+  const cp=getCameraParams();
+  camera.position.x=cp.baseX+Math.sin(dr)*cp.driftX;
+  camera.position.y=cp.y;
+  camera.position.z=cp.z+Math.cos(dr*0.65)*cp.driftZ;
   camera.lookAt(0,0.2,0);
 
   readouts(n,rising,realFt);
@@ -823,7 +832,9 @@ function animate(t){
 
 function onResize(){
   W=container.offsetWidth||window.innerWidth; H=container.offsetHeight||window.innerHeight;
-  renderer.setSize(W,H); camera.aspect=W/H; camera.updateProjectionMatrix();
+  renderer.setSize(W,H);
+  const cp=getCameraParams();
+  camera.fov=cp.fov; camera.aspect=W/H; camera.updateProjectionMatrix();
 }
 window.addEventListener('resize',onResize);
 requestAnimationFrame(animate);
