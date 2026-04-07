@@ -8,34 +8,34 @@
   <style>
   :root {
     --deep: #6e8894;
-    --deep-mid: #60797f;
-    --deep-card: #ceeddb;
-    --deep-border: rgba(84,78,97,0.20);
-    --blue: #85baa1;
-    --blue-mid: #85baa1;
-    --blue-light: #ceeddb;
-    --blue-pale: #ceeddb;
-    --slate: #ceeddb;
-    --slate-dark: rgba(255,255,255,0.6);
-    --slate-light: #ceeddb;
-    --white: #ffffff;
-    --white-dim: rgba(255,255,255,0.9);
-    --accent: #85baa1;
-    --accent-pale: rgba(133,186,161,0.15);
-    --muted: rgba(255,255,255,0.7);
-    --gold: #C8A96A;
+    --deep-mid: #5d747f;
+    --deep-card: #f7f7ff;
+    --deep-border: rgba(43,45,66,0.12);
+    --blue: #fc7a1e;
+    --blue-mid: #fc7a1e;
+    --blue-light: #fc7a1e;
+    --blue-pale: #f7f7ff;
+    --slate: rgba(247,247,255,0.8);
+    --slate-dark: rgba(247,247,255,0.5);
+    --slate-light: #f7f7ff;
+    --white: #f7f7ff;
+    --white-dim: rgba(247,247,255,0.9);
+    --accent: #fc7a1e;
+    --accent-pale: rgba(252,122,30,0.12);
+    --muted: rgba(247,247,255,0.7);
+    --gold: #cd8987;
   }
 
-  /* Card-interior text: dark on honeydew surfaces */
+  /* Card-interior text: dark on ghost white surfaces */
   .h-stat, .visit-card, .condition-item, .epoch-cell, .guide-card {
-    --white: #544e61;
-    --white-dim: #67597a;
-    --muted: #67597a;
+    --white: #2b2d42;
+    --white-dim: #3d4055;
+    --muted: #6e8894;
     --slate: #6e8894;
-    --slate-dark: #544e61;
-    --slate-light: #67597a;
-    --blue-light: #85baa1;
-    --deep-border: rgba(84,78,97,0.15);
+    --slate-dark: #2b2d42;
+    --slate-light: #6e8894;
+    --blue-light: #fc7a1e;
+    --deep-border: rgba(43,45,66,0.10);
   }
 
   * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -95,8 +95,8 @@
   }
   .hero-bg {
     position: absolute; inset: 0;
-    background: radial-gradient(ellipse 80% 60% at 50% 100%, rgba(133,186,161,0.15) 0%, transparent 70%),
-                radial-gradient(ellipse 40% 30% at 20% 40%, rgba(206,237,219,0.06) 0%, transparent 60%);
+    background: radial-gradient(ellipse 80% 60% at 50% 100%, rgba(252,122,30,0.1) 0%, transparent 70%),
+                radial-gradient(ellipse 40% 30% at 20% 40%, rgba(205,137,135,0.06) 0%, transparent 60%);
     pointer-events: none;
   }
   .hero-grid-lines {
@@ -197,7 +197,7 @@
     border-radius: 12px; padding: 28px;
     box-shadow: 0 1px 3px rgba(0,0,0,0.06);
   }
-  .visit-card.highlight { border-color: rgba(133,186,161,0.4); background: rgba(133,186,161,0.12); }
+  .visit-card.highlight { border-color: rgba(252,122,30,0.3); background: rgba(252,122,30,0.05); }
   .visit-card h3 {
     font-family: 'Libre Baskerville', serif; font-size: 17px;
     color: var(--white); margin-bottom: 14px;
@@ -235,7 +235,7 @@
     color: var(--white); margin-bottom: 8px;
   }
   .cond-body { font-size: 13px; color: var(--muted); line-height: 1.65; }
-  .cond-bar { height: 3px; background: rgba(84,78,97,0.12); border-radius: 2px; margin-top: 16px; overflow: hidden; }
+  .cond-bar { height: 3px; background: rgba(43,45,66,0.1); border-radius: 2px; margin-top: 16px; overflow: hidden; }
   .cond-fill { height: 100%; border-radius: 2px; }
 
   /* EPOCH TEASER */
@@ -269,7 +269,7 @@
     box-shadow: 0 1px 3px rgba(0,0,0,0.06);
     transition: border-color 0.2s, background 0.2s; cursor: default;
   }
-  .guide-card:hover { border-color: rgba(84,78,97,0.3); background: rgba(133,186,161,0.12); }
+  .guide-card:hover { border-color: rgba(252,122,30,0.3); background: rgba(252,122,30,0.04); }
   .guide-top { display: flex; align-items: flex-start; justify-content: space-between; margin-bottom: 12px; }
   .guide-name { font-family: 'Libre Baskerville', serif; font-size: 15px; color: var(--white); line-height: 1.3; }
   .rarity-badge {
@@ -277,8 +277,8 @@
     letter-spacing: 0.1em; padding: 3px 8px; border-radius: 10px;
     white-space: nowrap; margin-left: 8px; flex-shrink: 0;
   }
-  .r-common { background: rgba(133,186,161,0.18); color: #4a8a6e; border: 1px solid rgba(133,186,161,0.35); }
-  .r-rare { background: rgba(200,169,106,0.15); color: #a0844a; border: 1px solid rgba(200,169,106,0.3); }
+  .r-common { background: rgba(252,122,30,0.1); color: #d06a15; border: 1px solid rgba(252,122,30,0.25); }
+  .r-rare { background: rgba(205,137,135,0.15); color: #b06a68; border: 1px solid rgba(205,137,135,0.3); }
   .guide-body { font-size: 13px; color: var(--muted); line-height: 1.65; }
 
   /* SECTION LINK */
@@ -317,7 +317,7 @@
     background: var(--deep-card); color: var(--accent);
     border: 1px solid var(--deep-border);
   }
-  .cta-btn.secondary:hover { border-color: rgba(84,78,97,0.3); background: rgba(133,186,161,0.15); }
+  .cta-btn.secondary:hover { border-color: rgba(252,122,30,0.3); background: rgba(252,122,30,0.06); }
 
   /* FOOTER */
   .site-footer {
@@ -333,8 +333,8 @@
   .section-note {
     font-size: 13px; color: var(--muted); line-height: 1.65;
     margin-top: 28px; padding: 16px 20px;
-    background: rgba(206,237,219,0.1);
-    border-left: 2px solid rgba(133,186,161,0.4);
+    background: rgba(252,122,30,0.06);
+    border-left: 2px solid rgba(252,122,30,0.4);
     border-radius: 0 8px 8px 0;
   }
 
