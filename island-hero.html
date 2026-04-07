@@ -148,9 +148,24 @@ input[type=range]#tide-slider::-webkit-slider-thumb {
 }
 
 @media (max-width:640px) {
-  .data-overlay { top:14px; right:14px; min-width:150px; }
-  .station-id   { top:14px; left:14px; }
-  .tide-control { bottom:14px; }
+  .station-id {
+    top:12px; left:14px; right:14px;
+  }
+  .station-name { font-size:16px; }
+  .data-overlay {
+    top:68px; left:14px; right:14px;
+    flex-direction:row; flex-wrap:wrap;
+    min-width:auto; gap:2px;
+  }
+  .data-block {
+    flex:1 1 calc(50% - 2px); min-width:calc(50% - 2px);
+    padding:6px 10px;
+  }
+  .data-block:nth-child(n+5) { display:none; }
+  .hero-center { bottom:68px; }
+  .hero-title { font-size:clamp(18px,4.5vw,28px); }
+  .hero-sub { font-size:9px; }
+  .tide-control { bottom:12px; }
   input[type=range]#tide-slider { width:120px; }
   .coord-readout,.tick-label { display:none; }
   .fossil-msg { display:none; }
