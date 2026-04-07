@@ -149,19 +149,25 @@ input[type=range]#tide-slider::-webkit-slider-thumb {
 
 @media (max-width:640px) {
   .station-id {
-    top:12px; left:14px; right:14px;
+    top:12px; left:14px; right:auto;
   }
   .station-name { font-size:16px; }
   .data-overlay {
-    top:68px; left:14px; right:14px;
-    flex-direction:row; flex-wrap:wrap;
-    min-width:auto; gap:2px;
+    top:68px; right:auto; left:14px;
+    width:calc(100% - 28px);
+    flex-direction:row !important; flex-wrap:wrap !important;
+    min-width:0; gap:2px;
   }
   .data-block {
-    flex:1 1 calc(50% - 2px); min-width:calc(50% - 2px);
+    flex:1 1 calc(50% - 1px) !important;
+    min-width:calc(50% - 1px) !important;
+    max-width:calc(50% - 1px);
     padding:6px 10px;
+    border-left-width:2px;
   }
-  .data-block:nth-child(n+5) { display:none; }
+  .data-block:nth-child(n+5) { display:none !important; }
+  .data-key { font-size:7px; }
+  .data-val { font-size:12px; }
   .hero-center { bottom:68px; }
   .hero-title { font-size:clamp(18px,4.5vw,28px); }
   .hero-sub { font-size:9px; }
