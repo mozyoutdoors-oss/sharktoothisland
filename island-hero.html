@@ -166,6 +166,7 @@ input[type=range]#tide-slider::-webkit-slider-thumb {
     border-left-width:2px;
   }
   .data-block:nth-child(n+5) { display:none !important; }
+  .wx-block { display:none !important; }
   .data-key { font-size:7px; }
   .data-val { font-size:12px; }
   .hero-center { bottom:68px; }
@@ -194,9 +195,9 @@ input[type=range]#tide-slider::-webkit-slider-thumb {
     <div class="data-block"><div class="data-key">Exposed Area</div><div class="data-val" id="disp-exposed">—</div></div>
     <div class="data-block"><div class="data-key">Hunt Conditions</div><div class="data-val" id="disp-conditions">—</div></div>
     <div class="data-block" id="win-block"><div class="data-key">Best Window</div><div class="data-val" id="disp-window">—</div></div>
-    <div class="data-block"><div class="data-key">Wind</div><div class="data-val" id="disp-wind">—</div></div>
-    <div class="data-block"><div class="data-key">Temperature</div><div class="data-val" id="disp-temp">—</div></div>
-    <div class="data-block"><div class="data-key">Conditions</div><div class="data-val" id="disp-wx">—</div></div>
+    <div class="data-block wx-block" style="display:none;"><div class="data-key">Wind</div><div class="data-val" id="disp-wind">—</div></div>
+    <div class="data-block wx-block" style="display:none;"><div class="data-key">Temperature</div><div class="data-val" id="disp-temp">—</div></div>
+    <div class="data-block wx-block" style="display:none;"><div class="data-key">Conditions</div><div class="data-val" id="disp-wx">—</div></div>
   </div>
 
   <div class="tick-label" id="tick-0">0 ft</div>
@@ -744,15 +745,17 @@ async function initLiveData(){
     const wxEl=document.getElementById('disp-wx');
     wxEl.textContent=wxCodeToText(weatherData.code);
     if(weatherData.precip>0) wxEl.textContent+=' ('+weatherData.precip+' mm)';
+    document.querySelectorAll('.wx-block').forEach(b=>b.style.display='');
   }
   // Refresh every 10 minutes
   setInterval(async()=>{
     await fetchTidePredictions();
     await fetchWeather();
-    if(wxOk&&weatherData){
+    if(weatherData){
       document.getElementById('disp-wind').textContent=weatherData.wind+' mph '+windDirToArrow(weatherData.windDir);
       document.getElementById('disp-temp').textContent=weatherData.temp+'°F';
       document.getElementById('disp-wx').textContent=wxCodeToText(weatherData.code);
+      document.querySelectorAll('.wx-block').forEach(b=>b.style.display='');
     }
   },600000);
 }

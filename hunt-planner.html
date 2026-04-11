@@ -1,258 +1,289 @@
 <!DOCTYPE html>
-<html lang="en">
+<html class="light" lang="en">
 <head>
-<meta charset="UTF-8">
+<meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Hunt Planner — Shark Tooth Island</title>
-<link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=DM+Mono:wght@400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<title>Hunt Planner | SharkToothIsland.org</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Public+Sans:ital,wght@0,300;0,400;0,600;0,700;0,800;1,400&family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet">
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script>
+tailwind.config = {
+  theme: {
+    extend: {
+      colors: {
+        "surface": "#f9f9f9",
+        "surface-bright": "#f9f9f9",
+        "surface-container-lowest": "#ffffff",
+        "surface-container-low": "#f3f3f3",
+        "surface-container": "#eeeeee",
+        "surface-container-high": "#e8e8e8",
+        "surface-container-highest": "#e2e2e2",
+        "on-surface": "#1a1c1c",
+        "on-surface-variant": "#414750",
+        "outline": "#717781",
+        "outline-variant": "#c1c7d2",
+        "primary": "#085f9e",
+        "primary-container": "#3478b8",
+        "primary-fixed": "#d1e4ff",
+        "primary-fixed-dim": "#9ecaff",
+        "on-primary": "#ffffff",
+        "on-primary-fixed": "#001d36",
+        "on-primary-fixed-variant": "#00497c",
+        "secondary": "#5e5e5e",
+        "tertiary": "#435c86",
+        "error-container": "#ffdad6",
+        "on-error-container": "#93000a"
+      },
+      borderRadius: { DEFAULT: "0.125rem", lg: "0.25rem", xl: "0.5rem", full: "0.75rem" },
+      fontFamily: { headline: ["Public Sans"], body: ["Public Sans"], label: ["Space Grotesk"] }
+    }
+  }
+}
+</script>
 <style>
-:root {
-  --deep: #6e8894;
-  --deep-mid: #5d747f;
-  --deep-card: #f7f7ff;
-  --deep-border: rgba(43,45,66,0.12);
-  --blue: #fc7a1e;
-  --blue-mid: #fc7a1e;
-  --blue-light: #fc7a1e;
-  --blue-pale: #f7f7ff;
-  --slate: rgba(247,247,255,0.8);
-  --slate-dark: rgba(247,247,255,0.5);
-  --slate-light: #f7f7ff;
-  --white: #f7f7ff;
-  --white-dim: rgba(247,247,255,0.9);
-  --accent: #fc7a1e;
-  --accent-pale: rgba(252,122,30,0.12);
-  --muted: rgba(247,247,255,0.7);
-  --gold: #cd8987;
-  --success: #3ABEA0;
-}
+  .material-symbols-outlined { font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24; vertical-align: middle; }
+  .archival-grain {
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+    opacity: 0.03; pointer-events: none;
+  }
 
-/* Card-interior text: dark on ghost white surfaces */
-.day-pill, .verdict, .data-cell, .tide-section, .briefing {
-  --white: #2b2d42;
-  --white-dim: #3d4055;
-  --muted: #6e8894;
-  --slate: #6e8894;
-  --slate-dark: #2b2d42;
-  --slate-light: #6e8894;
-  --blue-light: #fc7a1e;
-  --deep-border: rgba(43,45,66,0.10);
-}
-* { box-sizing: border-box; margin: 0; padding: 0; }
-html { scroll-behavior: smooth; overflow-x: hidden; }
-body { font-family: 'DM Sans', sans-serif; background: var(--deep); color: var(--white-dim); min-height: 100vh; line-height: 1.6; overflow-x: hidden; }
+  /* ─── Legacy render-target classes (retargeted to new light palette) ───
+     These classes are emitted by renderBriefing() / loadWeekStrip() in JS.
+     Styles are tuned to match the Stitch design system.               */
 
-/* NAV — exact from index */
-nav { position:sticky; top:0; z-index:100; background:rgba(93,116,127,0.94); backdrop-filter:blur(12px); border-bottom:1px solid var(--deep-border); padding:0 40px; display:flex; align-items:center; justify-content:space-between; height:56px; }
-a.nav-logo { display:flex; flex-direction:column; gap:1px; text-decoration:none; }
-.nav-wordmark { font-family:'Libre Baskerville',serif; font-size:14px; font-weight:700; color:var(--white); letter-spacing:0.01em; line-height:1; }
-.nav-sub { font-family:'DM Mono',monospace; font-size:9px; letter-spacing:0.14em; text-transform:uppercase; color:var(--muted); }
-.nav-links { display:flex; gap:28px; list-style:none; align-items:center; }
-.nav-links a { font-family:'DM Mono',monospace; font-size:10px; letter-spacing:0.1em; text-transform:uppercase; color:var(--muted); text-decoration:none; transition:color 0.2s; }
-.nav-links a:hover { color:var(--white); }
-.nav-links a.nav-active { color:var(--accent); }
-.nav-links a.nav-soon { color:rgba(247,247,255,0.3); cursor:default; pointer-events:none; }
-.soon-tag { font-size:8px; background:rgba(252,122,30,0.12); border:1px solid rgba(252,122,30,0.25); color:var(--accent); padding:1px 5px; border-radius:3px; margin-left:5px; vertical-align:middle; letter-spacing:0.08em; }
-.nav-burger { display:none; flex-direction:column; gap:5px; cursor:pointer; padding:6px; background:none; border:none; }
-.nav-burger span { display:block; width:22px; height:1.5px; background:var(--muted); border-radius:1px; transition:all 0.2s; }
-.nav-drawer { display:none; position:fixed; top:56px; left:0; right:0; z-index:99; background:rgba(93,116,127,0.97); backdrop-filter:blur(16px); border-bottom:1px solid var(--deep-border); flex-direction:column; padding:12px 0; }
-.nav-drawer.open { display:flex; }
-.nav-drawer a { font-family:'DM Mono',monospace; font-size:11px; letter-spacing:0.14em; text-transform:uppercase; color:var(--muted); text-decoration:none; padding:14px 28px; border-bottom:1px solid rgba(255,255,255,0.06); transition:color 0.15s; }
-.nav-drawer a:last-child { border-bottom:none; }
-.nav-drawer a:hover { color:var(--white); }
-.nav-drawer a.nav-active { color:var(--accent); }
-.nav-drawer a.nav-soon { color:rgba(247,247,255,0.3); pointer-events:none; }
-@media (max-width:680px) { nav { padding:0 20px; } .nav-links { display:none; } .nav-burger { display:flex; } }
+  :root {
+    --stp-ink:        #1a1c1c;
+    --stp-ink-2:      #414750;
+    --stp-muted:      #717781;
+    --stp-line:       #e2e2e2;
+    --stp-line-soft:  #eeeeee;
+    --stp-surface:    #ffffff;
+    --stp-surface-2:  #f9f9f9;
+    --stp-primary:    #085f9e;
+    --stp-primary-2:  #3478b8;
+    --stp-good:       #0f7d63;
+    --stp-warn:       #b07a16;
+    --stp-bad:        #a23a2e;
+  }
 
-/* PAGE */
-.container { max-width: 900px; margin: 0 auto; padding: 52px 40px 80px; }
+  /* Week strip */
+  .week-strip { display:flex; gap:8px; overflow-x:auto; padding-bottom:4px; }
+  .day-pill {
+    flex:1; min-width:72px;
+    background:var(--stp-surface); border:1px solid var(--stp-line);
+    border-radius:0.5rem; padding:14px 10px; text-align:center; cursor:pointer;
+    transition:border-color .15s, background .15s, transform .15s;
+    font-family:'Public Sans', sans-serif;
+  }
+  .day-pill:hover { border-color:var(--stp-primary); transform:translateY(-1px); }
+  .day-pill.selected {
+    border-color:var(--stp-primary);
+    background:#eaf2fa;
+    box-shadow:0 0 0 1px var(--stp-primary) inset;
+  }
+  .day-pill.green  { border-color:rgba(15,125,99,0.35); }
+  .day-pill.yellow { border-color:rgba(176,122,22,0.35); }
+  .day-pill.red    { border-color:rgba(162,58,46,0.25); }
+  .day-name { font-family:'Space Grotesk', sans-serif; font-size:10px; letter-spacing:0.14em; text-transform:uppercase; color:var(--stp-muted); margin-bottom:6px; }
+  .day-date { font-family:'Public Sans', sans-serif; font-weight:800; font-size:22px; color:var(--stp-ink); line-height:1; margin-bottom:8px; }
+  .day-dot  { width:8px; height:8px; border-radius:50%; margin:0 auto 8px; }
+  .dot-green  { background:var(--stp-good); }
+  .dot-yellow { background:var(--stp-warn); }
+  .dot-red    { background:var(--stp-bad); }
+  .dot-gray   { background:var(--stp-line); }
+  .day-low    { font-family:'Space Grotesk', sans-serif; font-size:10px; color:var(--stp-muted); }
 
-/* HEADER */
-.header { margin-bottom: 40px; }
-.header-tag { font-family:'DM Mono',monospace; font-size:10px; letter-spacing:0.2em; text-transform:uppercase; color:var(--accent); margin-bottom:16px; display:flex; align-items:center; gap:10px; }
-.header-tag::after { content:''; width:48px; height:1px; background:var(--accent); opacity:0.3; }
-.header h1 { font-family:'Libre Baskerville',serif; font-size:clamp(28px,5vw,44px); color:var(--white); font-weight:700; letter-spacing:-0.02em; line-height:1.08; margin-bottom:8px; }
-.header h1 em { font-style:italic; font-weight:400; color:var(--blue-light); }
-.header-sub { font-size:13px; color:var(--muted); font-family:'DM Mono',monospace; letter-spacing:0.06em; }
+  /* Verdict block */
+  .verdict {
+    background:var(--stp-surface); border:1px solid var(--stp-line); border-radius:0.5rem;
+    padding:26px 28px; margin-bottom:16px;
+    display:flex; gap:20px; align-items:flex-start;
+    font-family:'Public Sans', sans-serif;
+  }
+  .verdict.go      { border-left:3px solid var(--stp-good); }
+  .verdict.maybe   { border-left:3px solid var(--stp-warn); }
+  .verdict.pass    { border-left:3px solid var(--stp-bad); }
+  .verdict.loading { border-left:3px solid var(--stp-line); }
+  .verdict-icon    { font-family:'Public Sans', sans-serif; font-size:30px; flex-shrink:0; line-height:1; width:40px; text-align:center; margin-top:2px; color:var(--stp-ink-2); }
+  .verdict.go    .verdict-icon { color:var(--stp-good); }
+  .verdict.maybe .verdict-icon { color:var(--stp-warn); }
+  .verdict.pass  .verdict-icon { color:var(--stp-bad); }
+  .verdict-label   { font-family:'Space Grotesk', sans-serif; font-size:10px; letter-spacing:0.22em; text-transform:uppercase; color:var(--stp-muted); margin-bottom:6px; }
+  .verdict-title   { font-family:'Public Sans', sans-serif; font-size:24px; color:var(--stp-ink); font-weight:800; letter-spacing:-0.01em; margin-bottom:10px; }
+  .verdict.go    .verdict-title { color:var(--stp-good); }
+  .verdict.maybe .verdict-title { color:var(--stp-warn); }
+  .verdict.pass  .verdict-title { color:var(--stp-bad); }
+  .verdict-summary { font-size:15px; color:var(--stp-ink-2); line-height:1.7; max-width:660px; }
 
-/* 7-DAY STRIP */
-.week-strip { display:flex; gap:8px; margin-bottom:20px; overflow-x:auto; padding-bottom:4px; }
-.day-pill { flex:1; min-width:70px; background:var(--deep-card); border:1px solid var(--deep-border); border-radius:10px; padding:12px 8px; text-align:center; cursor:pointer; transition:border-color 0.15s,background 0.15s; box-shadow:0 1px 3px rgba(0,0,0,0.06); }
-.day-pill:hover { border-color:var(--blue-mid); }
-.day-pill.selected { border-color:rgba(252,122,30,0.35); background:rgba(252,122,30,0.06); }
-.day-pill.green { border-color:rgba(58,190,160,0.35); }
-.day-pill.yellow { border-color:rgba(200,168,106,0.35); }
-.day-pill.red { border-color:rgba(180,80,80,0.25); }
-.day-name { font-family:'DM Mono',monospace; font-size:9px; letter-spacing:0.12em; color:var(--muted); margin-bottom:4px; }
-.day-date { font-family:'Libre Baskerville',serif; font-size:18px; color:var(--white); margin-bottom:6px; }
-.day-dot { width:8px; height:8px; border-radius:50%; margin:0 auto 6px; }
-.dot-green { background:#3ABEA0; }
-.dot-yellow { background:var(--gold); }
-.dot-red { background:rgba(200,80,80,0.7); }
-.dot-gray { background:var(--slate-dark); }
-.day-low { font-family:'DM Mono',monospace; font-size:9px; color:var(--muted); }
+  /* Stat grid */
+  .data-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:10px; margin-bottom:16px; }
+  @media (min-width:900px) { .data-grid { grid-template-columns:repeat(6,1fr); } }
+  .data-cell {
+    background:var(--stp-surface); border:1px solid var(--stp-line); border-radius:0.5rem;
+    padding:18px 14px; text-align:center;
+  }
+  .cell-label { font-family:'Space Grotesk', sans-serif; font-size:9px; letter-spacing:0.16em; text-transform:uppercase; color:var(--stp-muted); margin-bottom:8px; display:block; }
+  .cell-value { font-family:'Public Sans', sans-serif; font-size:22px; font-weight:800; color:var(--stp-primary); line-height:1.1; margin-bottom:4px; }
+  .cell-value.good { color:var(--stp-good); }
+  .cell-value.warn { color:var(--stp-warn); }
+  .cell-value.bad  { color:var(--stp-bad); }
+  .cell-note  { font-size:11px; color:var(--stp-muted); line-height:1.4; }
 
-/* DATE ROW */
-.date-row { display:flex; align-items:center; gap:12px; margin-bottom:24px; flex-wrap:wrap; }
-.date-label { font-family:'DM Mono',monospace; font-size:10px; letter-spacing:0.14em; text-transform:uppercase; color:var(--muted); }
-input[type=date] { background:var(--deep-card); border:1px solid var(--deep-border); color:var(--white); font-family:'DM Sans',sans-serif; font-size:14px; padding:8px 14px; border-radius:6px; outline:none; cursor:pointer; }
-input[type=date]:focus { border-color:var(--blue-mid); }
-.load-btn { background:rgba(252,122,30,0.15); border:1px solid rgba(252,122,30,0.30); color:var(--accent); font-family:'DM Mono',monospace; font-size:10px; letter-spacing:0.14em; text-transform:uppercase; padding:8px 18px; border-radius:6px; cursor:pointer; transition:background 0.15s,color 0.15s; min-height:36px; }
-.load-btn:hover { background:rgba(252,122,30,0.28); color:var(--white); }
+  /* Tide section */
+  .tide-section {
+    background:var(--stp-surface); border:1px solid var(--stp-line); border-radius:0.5rem;
+    padding:26px 28px; margin-bottom:16px;
+  }
+  .tide-section h3 { font-family:'Public Sans', sans-serif; font-size:18px; font-weight:800; color:var(--stp-ink); margin-bottom:16px; letter-spacing:-0.01em; }
+  .tide-table { width:100%; border-collapse:collapse; margin-top:16px; }
+  .tide-table th { font-family:'Space Grotesk', sans-serif; font-size:9px; letter-spacing:0.16em; text-transform:uppercase; color:var(--stp-muted); padding:0 0 10px; text-align:left; border-bottom:1px solid var(--stp-line); }
+  .tide-table td { font-size:14px; color:var(--stp-ink-2); padding:10px 0; border-top:1px solid var(--stp-line-soft); }
+  .tide-table td.hl { color:var(--stp-primary); font-weight:600; }
+  .tide-table .low  td.hl { color:var(--stp-good); }
+  .tide-table .low  { background:rgba(15,125,99,0.03); }
 
-/* VERDICT */
-.verdict { background:var(--deep-card); border:1px solid var(--deep-border); border-radius:12px; padding:24px 28px; margin-bottom:16px; display:flex; gap:20px; align-items:flex-start; box-shadow:0 1px 3px rgba(0,0,0,0.06); }
-.verdict.go { border-color:rgba(58,190,160,0.35); }
-.verdict.maybe { border-color:rgba(200,168,106,0.35); }
-.verdict.pass { border-color:rgba(200,80,80,0.25); }
-.verdict.loading { border-color:var(--deep-border); }
-.verdict-icon { font-family:'Libre Baskerville',serif; font-size:28px; flex-shrink:0; line-height:1; width:36px; text-align:center; margin-top:2px; }
-.verdict.go .verdict-icon { color:#3ABEA0; }
-.verdict.maybe .verdict-icon { color:var(--gold); }
-.verdict.pass .verdict-icon { color:rgba(200,80,80,0.8); }
-.verdict.loading .verdict-icon { color:var(--slate-dark); }
-.verdict-label { font-family:'DM Mono',monospace; font-size:9px; letter-spacing:0.2em; text-transform:uppercase; color:var(--muted); margin-bottom:4px; }
-.verdict-title { font-family:'Libre Baskerville',serif; font-size:20px; color:var(--white); font-weight:700; margin-bottom:8px; }
-.verdict.go .verdict-title { color:#3ABEA0; }
-.verdict.maybe .verdict-title { color:var(--gold); }
-.verdict.pass .verdict-title { color:rgba(200,80,80,0.85); }
-.verdict-summary { font-size:14px; color:var(--muted); line-height:1.75; max-width:600px; }
+  /* Briefing block */
+  .briefing {
+    background:var(--stp-surface); border:1px solid var(--stp-line); border-radius:0.5rem;
+    padding:26px 28px; margin-bottom:16px;
+  }
+  .briefing h3 { font-family:'Public Sans', sans-serif; font-size:18px; font-weight:800; color:var(--stp-ink); margin-bottom:16px; letter-spacing:-0.01em; }
+  .briefing-item { display:flex; gap:14px; padding:14px 0; border-top:1px solid var(--stp-line-soft); }
+  .briefing-item:first-of-type { border-top:none; padding-top:4px; }
+  .b-icon { font-family:'Public Sans', sans-serif; font-size:16px; color:var(--stp-primary); flex-shrink:0; width:20px; margin-top:1px; }
+  .b-text { font-size:14px; color:var(--stp-ink-2); line-height:1.7; }
+  .b-text strong { color:var(--stp-ink); font-weight:700; }
 
-/* STAT GRID */
-.data-grid { display:grid; grid-template-columns:repeat(4,1fr); gap:10px; margin-bottom:16px; }
-.data-cell { background:var(--deep-card); border:1px solid var(--deep-border); border-radius:10px; padding:16px 14px; text-align:center; box-shadow:0 1px 3px rgba(0,0,0,0.06); }
-.cell-label { font-family:'DM Mono',monospace; font-size:8px; letter-spacing:0.16em; text-transform:uppercase; color:var(--muted); margin-bottom:6px; }
-.cell-value { font-family:'Libre Baskerville',serif; font-size:20px; color:var(--blue-light); line-height:1.1; margin-bottom:3px; }
-.cell-value.good { color: var(--success); }
-.cell-value.warn { color: var(--gold); }
-.cell-value.bad  { color: rgba(200,80,80,0.85); }
-.cell-note { font-size:11px; color:var(--muted); line-height:1.4; }
+  /* Empty / loading */
+  .empty-state { text-align:center; padding:60px 20px; font-family:'Space Grotesk', sans-serif; font-size:11px; letter-spacing:0.14em; text-transform:uppercase; color:var(--stp-muted); background:var(--stp-surface); border:1px dashed var(--stp-line); border-radius:0.5rem; }
+  @keyframes loadpulse { 0%,100%{opacity:.4;} 50%{opacity:1;} }
+  .loading-pulse { animation:loadpulse 1.4s ease-in-out infinite; }
 
-/* TIDE SECTION */
-.tide-section { background:var(--deep-card); border:1px solid var(--deep-border); border-radius:12px; padding:24px 28px; margin-bottom:16px; box-shadow:0 1px 3px rgba(0,0,0,0.06); }
-.tide-section h3 { font-family:'Libre Baskerville',serif; font-size:15px; font-style:italic; color:var(--white); margin-bottom:16px; }
-.tide-table { width:100%; border-collapse:collapse; margin-top:16px; }
-.tide-table th { font-family:'DM Mono',monospace; font-size:9px; letter-spacing:0.16em; text-transform:uppercase; color:var(--muted); padding:0 0 10px; text-align:left; border-bottom:1px solid var(--deep-border); }
-.tide-table td.hl { color: var(--blue-light); font-weight: 500; }
-.tide-table td { font-size:13px; color:var(--white-dim); padding:8px 0; border-top:1px solid var(--deep-border); }
-.tide-table .low { color:var(--blue-light); font-weight:500; }
-.tide-table .high { color:var(--muted); }
-
-/* BRIEFING */
-.briefing { background:var(--deep-card); border:1px solid var(--deep-border); border-radius:12px; padding:24px 28px; margin-bottom:16px; box-shadow:0 1px 3px rgba(0,0,0,0.06); }
-.briefing h3 { font-family:'Libre Baskerville',serif; font-size:15px; font-style:italic; color:var(--white); margin-bottom:16px; }
-.briefing-item { display:flex; gap:14px; padding:10px 0; border-top:1px solid var(--deep-border); }
-.briefing-item:first-of-type { border-top:none; }
-.b-icon { font-family:'DM Mono',monospace; font-size:14px; color:var(--accent); flex-shrink:0; width:20px; margin-top:1px; }
-.b-text { font-size:13px; color:var(--muted); line-height:1.7; }
-.b-text strong { color:var(--white); font-weight:500; }
-
-/* EMPTY STATE */
-.empty-state { text-align:center; padding:52px 20px; font-family:'DM Mono',monospace; font-size:11px; letter-spacing:0.12em; color:var(--slate-dark); }
-
-/* PLANNER NOTE */
-.planner-note { margin-top:40px; padding-top:20px; border-top:1px solid var(--deep-border); font-family:'DM Mono',monospace; font-size:9px; color:var(--slate-dark); letter-spacing:0.08em; line-height:2; text-align:center; }
-
-/* LOADING PULSE */
-@keyframes loadpulse { 0%,100%{opacity:0.4;}50%{opacity:1;} }
-.loading-pulse { animation:loadpulse 1.4s ease-in-out infinite; }
-
-/* FOOTER */
-.site-footer { border-top:1px solid var(--deep-border); padding:36px 40px; display:flex; align-items:center; justify-content:space-between; }
-.footer-left { line-height:1.8; }
-.footer-right a { color:var(--accent); text-decoration:none; }
-.footer-left { font-family:'DM Mono',monospace; font-size:11px; color:var(--muted); letter-spacing:0.08em; }
-.footer-right { font-family:'DM Mono',monospace; font-size:11px; color:var(--muted); }
-.footer-right a { color:var(--accent); text-decoration:none; }
-
-@media (max-width:640px) {
-  .container { padding:32px 20px 60px; }
-  .data-grid { grid-template-columns:1fr 1fr; }
-  .week-strip { gap:6px; }
-  .day-pill { min-width:44px; padding:10px 4px; }
-  .date-row { gap:8px; }
-  .verdict { flex-direction:column; gap:12px; padding:18px 16px; }
-  .site-footer { flex-direction:column; gap:8px; text-align:center; padding:28px 20px; }
-}
+  /* Date picker input */
+  input[type=date] {
+    background:var(--stp-surface); border:1px solid var(--stp-line); color:var(--stp-ink);
+    font-family:'Public Sans', sans-serif; font-size:14px; padding:10px 14px; border-radius:0.25rem; outline:none; cursor:pointer;
+  }
+  input[type=date]:focus { border-color:var(--stp-primary); box-shadow:0 0 0 3px rgba(8,95,158,0.12); }
 </style>
 </head>
-<body>
+<body class="bg-surface text-on-surface font-body selection:bg-primary-fixed selection:text-on-primary-fixed">
 
-<nav>
-  <a href="index.html" class="nav-logo">
-    <span class="nav-wordmark">Shark Tooth Island</span>
-    <span class="nav-sub">Cape Fear River · NC</span>
-  </a>
-  <ul class="nav-links">
-    <li><a href="index.html">Field Guide</a></li>
-    <li><a href="megalodon-calculator-v5.html">Size Calculator</a></li>
-    <li><a href="hunt-planner.html" class="nav-active">Hunt Planner</a></li>
-    <li><a href="#" class="nav-soon">Depth of Time <span class="soon-tag">Soon</span></a></li>
-  </ul>
-  <button class="nav-burger" onclick="toggleNav()" aria-label="Menu">
-    <span></span><span></span><span></span>
-  </button>
-</nav>
-<div class="nav-drawer" id="nav-drawer">
-  <a href="index.html">Field Guide</a>
-  <a href="megalodon-calculator-v5.html">Size Calculator</a>
-  <a href="hunt-planner.html" class="nav-active">Hunt Planner</a>
-  <a href="#" class="nav-soon">Depth of Time — Coming Soon</a>
-</div>
+<!-- NAV -->
+<header class="sticky top-0 z-50 bg-white/80 backdrop-blur-xl shadow-sm shadow-blue-900/5">
+  <nav class="flex justify-between items-center max-w-7xl mx-auto px-6 md:px-8 h-20">
+    <a href="index.html" class="text-xl font-bold tracking-tight text-blue-900 font-headline">SharkToothIsland.org</a>
+    <div class="hidden md:flex items-center gap-8">
+      <a href="index.html" class="text-slate-600 hover:text-blue-600 font-label text-sm uppercase tracking-widest transition-colors">Field Guide</a>
+      <a href="megalodon-calculator-v5.html" class="text-slate-600 hover:text-blue-600 font-label text-sm uppercase tracking-widest transition-colors">Size Calculator</a>
+      <a href="hunt-planner.html" class="text-blue-700 border-b-2 border-blue-700 font-medium pb-1 font-label text-sm uppercase tracking-widest">Hunt Planner</a>
+      <a href="depth-of-time.html" class="text-slate-600 hover:text-blue-600 font-label text-sm uppercase tracking-widest transition-colors">Depth of Time</a>
+    </div>
+    <div class="flex items-center gap-3">
+      <a href="index.html" class="hidden md:inline-flex bg-primary text-on-primary px-4 md:px-5 py-2 rounded font-label text-xs font-bold uppercase tracking-widest hover:bg-primary-container transition-all">Field Guide</a>
+    </div>
+  </nav>
+</header>
 
-<div class="container">
+<main class="relative min-h-screen">
+  <div class="archival-grain fixed inset-0"></div>
 
-  <div class="header">
-    <div class="header-tag">Shark Tooth Island · Cape Fear River, NC</div>
-    <h1>Hunt Planner —<br><em>Is it worth going?</em></h1>
-    <p class="header-sub">Real tide data · Federal Point Station · Open-Meteo weather · No guessing</p>
-  </div>
+  <!-- HERO -->
+  <section class="max-w-7xl mx-auto px-6 md:px-8 pt-16 md:pt-20 pb-10">
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-10">
+      <div class="lg:col-span-8">
+        <span class="font-label text-primary text-xs font-bold uppercase tracking-[0.3em] mb-4 block">Tide · Weather · Moon · Decision</span>
+        <h1 class="font-headline text-5xl md:text-6xl lg:text-7xl font-extrabold tracking-tighter text-on-surface leading-[0.95] mb-6">
+          Hunt <span class="text-outline italic font-light">Planner.</span>
+        </h1>
+        <p class="font-body text-lg md:text-xl text-on-surface-variant max-w-2xl leading-relaxed">
+          Real NOAA tide predictions from Federal Point Station on the Cape Fear River, cross-checked against live weather and moon phase — so you know if it's worth the trip before you load the truck.
+        </p>
+      </div>
+      <div class="lg:col-span-4 flex flex-col justify-end">
+        <div class="bg-surface-container-low p-6 border-l-2 border-primary">
+          <p class="font-label text-[10px] uppercase tracking-widest text-outline mb-2">Data Sources</p>
+          <div class="space-y-2">
+            <p class="font-headline text-sm font-bold">NOAA CO-OPS · Station 8658715</p>
+            <p class="font-body text-xs text-on-surface-variant">Federal Point · Cape Fear River</p>
+            <p class="font-headline text-sm font-bold mt-3">Open-Meteo Forecast API</p>
+            <p class="font-body text-xs text-on-surface-variant">Updated every 3 hours</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
 
-  <!-- 7-DAY STRIP -->
-  <div class="week-strip" id="week-strip">
-    <div class="day-pill"><div class="day-name">—</div><div class="day-date loading-pulse">—</div><div class="day-dot dot-gray"></div><div class="day-low">loading</div></div>
-    <div class="day-pill"><div class="day-name">—</div><div class="day-date loading-pulse">—</div><div class="day-dot dot-gray"></div><div class="day-low">loading</div></div>
-    <div class="day-pill"><div class="day-name">—</div><div class="day-date loading-pulse">—</div><div class="day-dot dot-gray"></div><div class="day-low">loading</div></div>
-    <div class="day-pill"><div class="day-name">—</div><div class="day-date loading-pulse">—</div><div class="day-dot dot-gray"></div><div class="day-low">loading</div></div>
-    <div class="day-pill"><div class="day-name">—</div><div class="day-date loading-pulse">—</div><div class="day-dot dot-gray"></div><div class="day-low">loading</div></div>
-    <div class="day-pill"><div class="day-name">—</div><div class="day-date loading-pulse">—</div><div class="day-dot dot-gray"></div><div class="day-low">loading</div></div>
-    <div class="day-pill"><div class="day-name">—</div><div class="day-date loading-pulse">—</div><div class="day-dot dot-gray"></div><div class="day-low">loading</div></div>
-  </div>
+  <!-- PLANNER BODY -->
+  <section class="max-w-7xl mx-auto px-6 md:px-8 pb-20">
 
-  <!-- DATE PICKER -->
-  <div class="date-row">
-    <span class="date-label">Plan a date</span>
-    <input type="date" id="date-picker">
-    <button class="load-btn" onclick="loadDate(document.getElementById('date-picker').value)">Load Briefing</button>
-  </div>
+    <!-- 7-DAY STRIP -->
+    <div class="mb-6">
+      <div class="flex items-end justify-between mb-4">
+        <div>
+          <span class="font-label text-primary text-xs font-bold uppercase tracking-[0.3em] block">This Week</span>
+          <h2 class="font-headline text-2xl md:text-3xl font-extrabold tracking-tight">7-Day Outlook</h2>
+        </div>
+        <p class="hidden md:block font-label text-[10px] uppercase tracking-widest text-outline">Tap a day to load its briefing</p>
+      </div>
+      <div class="week-strip" id="week-strip">
+        <div class="day-pill"><div class="day-name">—</div><div class="day-date loading-pulse">—</div><div class="day-dot dot-gray"></div><div class="day-low">loading</div></div>
+        <div class="day-pill"><div class="day-name">—</div><div class="day-date loading-pulse">—</div><div class="day-dot dot-gray"></div><div class="day-low">loading</div></div>
+        <div class="day-pill"><div class="day-name">—</div><div class="day-date loading-pulse">—</div><div class="day-dot dot-gray"></div><div class="day-low">loading</div></div>
+        <div class="day-pill"><div class="day-name">—</div><div class="day-date loading-pulse">—</div><div class="day-dot dot-gray"></div><div class="day-low">loading</div></div>
+        <div class="day-pill"><div class="day-name">—</div><div class="day-date loading-pulse">—</div><div class="day-dot dot-gray"></div><div class="day-low">loading</div></div>
+        <div class="day-pill"><div class="day-name">—</div><div class="day-date loading-pulse">—</div><div class="day-dot dot-gray"></div><div class="day-low">loading</div></div>
+        <div class="day-pill"><div class="day-name">—</div><div class="day-date loading-pulse">—</div><div class="day-dot dot-gray"></div><div class="day-low">loading</div></div>
+      </div>
+    </div>
 
-  <!-- MAIN BRIEFING AREA -->
-  <div id="briefing-area">
-    <div class="empty-state">Select a day above to load the full briefing.</div>
-  </div>
+    <!-- DATE PICKER ROW -->
+    <div class="flex flex-wrap items-center gap-3 mb-8 pb-6 border-b border-outline-variant/40">
+      <span class="font-label text-[10px] uppercase tracking-widest text-outline">Plan a specific date</span>
+      <input type="date" id="date-picker">
+      <button
+        onclick="loadDate(document.getElementById('date-picker').value)"
+        class="bg-primary text-on-primary px-5 py-2 rounded font-label text-xs font-bold uppercase tracking-widest hover:bg-primary-container transition-all">
+        Load Briefing
+      </button>
+    </div>
 
-  <div class="planner-note">
-    Tides: NOAA CO-OPS Station 8658715 · Federal Point, Cape Fear River, NC<br>
-    Weather: Open-Meteo · Forecast data updated every 3 hours<br>
-    SharkToothIsland.org · For educational and planning purposes · Always check conditions before launching
-  </div>
+    <!-- BRIEFING AREA (renderBriefing writes into this) -->
+    <div id="briefing-area">
+      <div class="empty-state">Select a day above to load the full briefing.</div>
+    </div>
 
-</div>
+    <!-- FOOTNOTE -->
+    <div class="mt-12 pt-6 border-t border-outline-variant/40 font-label text-[10px] uppercase tracking-widest text-outline leading-loose text-center">
+      Tides: NOAA CO-OPS Station 8658715 · Federal Point · Cape Fear River, NC<br>
+      Weather: Open-Meteo · Forecast updated every 3 hours<br>
+      For educational and planning purposes · Always check conditions before launching
+    </div>
 
-<footer class="site-footer">
-  <div class="footer-left">SharkToothIsland.org · Cape Fear River · New Hanover County, NC<br>A field resource for the Cape Fear region</div>
-  <div class="footer-right">A field project by <a href="https://mozyoutdoors.com" target="_blank" rel="noopener">Mozy Outdoors</a></div>
-</footer>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="border-t border-outline-variant/40 bg-surface-container-low">
+    <div class="max-w-7xl mx-auto px-6 md:px-8 py-10 flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
+      <div class="font-label text-[11px] uppercase tracking-widest text-outline leading-relaxed">
+        SharkToothIsland.org · Cape Fear River · New Hanover County, NC<br>
+        A field resource for the Cape Fear region
+      </div>
+      <div class="font-label text-[11px] uppercase tracking-widest text-outline">
+        A field project by
+        <a href="https://mozyoutdoors.com" target="_blank" rel="noopener" class="text-primary hover:text-primary-container">Mozy Outdoors</a>
+      </div>
+    </div>
+  </footer>
+</main>
 
 <script>
-function toggleNav() { document.getElementById('nav-drawer').classList.toggle('open'); }
-document.querySelectorAll('.nav-drawer a').forEach(a => {
-  a.addEventListener('click', () => document.getElementById('nav-drawer').classList.remove('open'));
-});
-
 // ─── CONFIG ───────────────────────────────────────────────────
 const NOAA_STATION = '8658715'; // Federal Point, Cape Fear River
-const LAT = 33.9465;   // Shark Tooth Island approx
+const LAT = 33.9465;
 const LON = -77.9421;
 
 // ─── DATE HELPERS ─────────────────────────────────────────────
@@ -301,12 +332,10 @@ async function fetchTides(dateStr) {
 // Generate smooth tide curve from hi/lo points using cosine interpolation
 function generateTideCurve(tides, dateStr) {
   if (!tides.length) return [];
-  // Convert tide points to {min, val} format
   const points = tides.map(t => {
     const [hh, mm] = t.t.split(' ')[1].split(':').map(Number);
     return { min: hh * 60 + mm, val: parseFloat(t.v) };
   });
-  // Extend with synthetic points at midnight boundaries for smooth edges
   if (points[0].min > 0) {
     const avg = (points[0].val + points[points.length-1].val) / 2;
     points.unshift({ min: 0, val: avg });
@@ -315,7 +344,6 @@ function generateTideCurve(tides, dateStr) {
     const avg = (points[0].val + points[points.length-1].val) / 2;
     points.push({ min: 1440, val: avg });
   }
-  // Generate curve points every 10 minutes using cosine interpolation
   const curve = [];
   for (let m = 0; m <= 1440; m += 10) {
     let seg = 0;
@@ -325,7 +353,7 @@ function generateTideCurve(tides, dateStr) {
     if (seg === 0) seg = points.length - 1;
     const p0 = points[seg - 1], p1 = points[seg];
     const t = (m - p0.min) / (p1.min - p0.min || 1);
-    const cosT = (1 - Math.cos(t * Math.PI)) / 2; // smooth S-curve
+    const cosT = (1 - Math.cos(t * Math.PI)) / 2;
     const v = p0.val + (p1.val - p0.val) * cosT;
     curve.push({ t: dateStr + ' ' + String(Math.floor(m/60)).padStart(2,'0') + ':' + String(m%60).padStart(2,'0'), v: v.toFixed(3) });
   }
@@ -363,7 +391,7 @@ function scoreDay(tides, weather, date) {
   if (lowHour >= 6 && lowHour <= 12) score += 25;
   else if (lowHour >= 13 && lowHour <= 16) score += 18;
   else if (lowHour >= 5 || (lowHour >= 17 && lowHour <= 18)) score += 10;
-  else score += 0; // pre-dawn (0-4) or after dark (19+) — not huntable
+  else score += 0;
 
   let rain = 0, wind = 0, wcode = 0;
   if (weather && weather.daily) {
@@ -460,24 +488,24 @@ function renderBriefing(dateStr, tides, curve, weather) {
       const x = (totalMins / (24*60)) * W;
       const v = parseFloat(t.v);
       const y = H - ((v - minV) / range) * (H * 0.85) - 8;
-      return `<circle cx="${x}" cy="${y}" r="5" fill="#6e8894" opacity="0.8"/>
-              <text x="${x}" y="${y-12}" text-anchor="middle" font-family="DM Mono, monospace" font-size="11" fill="#6e8894">${fmtTime(t.t)}</text>`;
+      return `<circle cx="${x}" cy="${y}" r="5" fill="#085f9e" opacity="0.85"/>
+              <text x="${x}" y="${y-12}" text-anchor="middle" font-family="Space Grotesk, monospace" font-size="11" fill="#085f9e">${fmtTime(t.t)}</text>`;
     }).join('');
 
     const timeLabels = ['12am','3am','6am','9am','12pm','3pm','6pm','9pm','12am'].map((label,i) => {
       const x = (i/8) * W;
-      return `<text x="${x}" y="${H+14}" text-anchor="middle" font-family="DM Mono, monospace" font-size="10" fill="#6e8894">${label}</text>`;
+      return `<text x="${x}" y="${H+14}" text-anchor="middle" font-family="Space Grotesk, monospace" font-size="10" fill="#717781">${label}</text>`;
     }).join('');
 
     curveSVG = `
-      <svg viewBox="0 0 ${W} ${H+20}" preserveAspectRatio="none" style="width:100%;height:130px;overflow:visible;">
+      <svg viewBox="0 0 ${W} ${H+20}" preserveAspectRatio="none" style="width:100%;height:150px;overflow:visible;">
         <defs>
           <linearGradient id="waveGrad" x1="0" y1="0" x2="0" y2="1">
-            <stop offset="0%" stop-color="#6e8894" stop-opacity="0.25"/>
-            <stop offset="100%" stop-color="#6e8894" stop-opacity="0.02"/>
+            <stop offset="0%" stop-color="#085f9e" stop-opacity="0.25"/>
+            <stop offset="100%" stop-color="#085f9e" stop-opacity="0.02"/>
           </linearGradient>
         </defs>
-        <polyline points="${pts}" fill="none" stroke="#6e8894" stroke-width="2" stroke-linejoin="round"/>
+        <polyline points="${pts}" fill="none" stroke="#085f9e" stroke-width="2" stroke-linejoin="round"/>
         <polygon points="0,${H} ${pts} ${W},${H}" fill="url(#waveGrad)"/>
         ${lowMarkers}
         ${timeLabels}
@@ -547,7 +575,7 @@ function renderBriefing(dateStr, tides, curve, weather) {
     <!-- TIDE CURVE -->
     <div class="tide-section">
       <h3>Tide curve \u00B7 ${dateObj.toLocaleDateString('en-US',{month:'short',day:'numeric'})}</h3>
-      ${curveSVG || '<div style="color:var(--slate-dark);font-size:12px;padding:20px 0;text-align:center;">Curve data unavailable</div>'}
+      ${curveSVG || '<div style="color:#717781;font-size:12px;padding:20px 0;text-align:center;">Curve data unavailable</div>'}
       <table class="tide-table">
         <thead><tr><th>Type</th><th>Time</th><th>Height</th><th>Notes</th></tr></thead>
         <tbody>${tideRows}</tbody>
@@ -602,7 +630,7 @@ async function loadDate(dateStr) {
       <div>
         <div class="verdict-label">Fetching conditions...</div>
         <div class="verdict-title loading-pulse">Pulling tides from NOAA \u00B7 Federal Point Station</div>
-        <div class="verdict-summary" style="color:var(--muted);">Contacting Open-Meteo for weather forecast...</div>
+        <div class="verdict-summary">Contacting Open-Meteo for weather forecast...</div>
       </div>
     </div>`;
 
@@ -630,7 +658,6 @@ async function loadDate(dateStr) {
 // ─── LOAD 7-DAY STRIP ─────────────────────────────────────────
 async function loadWeekStrip() {
   const strip = document.getElementById('week-strip');
-  const days = [];
   const t = today();
 
   const startDate = fmtNoaa(t);
