@@ -51,17 +51,20 @@ tailwind.config = {
     <div class="mb-16">
       <p class="font-headline text-base font-bold text-blue-900 tracking-tight">SharkToothIsland.org</p>
       <p class="font-label text-[10px] uppercase tracking-[0.22em] text-outline mt-1">Cape Fear River · New Hanover County, NC</p>
+      <p class="font-label text-[10px] uppercase tracking-[0.22em] text-outline mt-0.5">Accessible by small boat, kayak, or paddlecraft at low tide</p>
     </div>
 
     <!-- HEADLINE -->
-    <span class="font-label text-primary text-xs font-bold uppercase tracking-[0.3em] mb-4 block slow-pulse">Coming Soon</span>
-    <h1 class="font-headline text-5xl md:text-7xl font-extrabold tracking-tighter text-on-surface leading-[0.9] mb-8">
-      Something's <br><span class="text-outline italic font-light">coming.</span>
+    <h1 class="font-headline text-3xl md:text-5xl font-extrabold tracking-tighter text-on-surface leading-[0.95] mb-8">
+      A Field Resource for<br>Shark Tooth Island
     </h1>
 
-    <p class="font-body text-base md:text-lg text-on-surface-variant leading-relaxed max-w-md mx-auto mb-12">
-      SharkToothIsland.org is a public field station and educational resource for Shark Tooth Island in the Cape Fear River. Drop your email and we'll let you know when the full field guide goes live.
-    </p>
+    <div class="font-body text-base text-on-surface-variant leading-relaxed max-w-lg mx-auto mb-6 text-left space-y-4">
+      <p>SharkToothIsland.org documents a well-known fossil site in the Cape Fear River near Wilmington, North Carolina. This public field station is being developed as a guide to help visitors understand where to go, what to look for, and how to explore the island responsibly.</p>
+      <p>The full field guide is launching soon.</p>
+    </div>
+
+    <p class="font-label text-[10px] uppercase tracking-widest text-outline mb-10">Get notified when the full field guide goes live.</p>
 
     <!-- SIGNUP FORM -->
     <form id="signup-form" onsubmit="return submitEmail(event)" class="max-w-md mx-auto">
@@ -80,7 +83,7 @@ tailwind.config = {
           Notify Me
         </button>
       </div>
-      <p class="font-label text-[10px] uppercase tracking-widest text-outline mt-3">We'll only email you at launch. No spam.</p>
+      <p class="font-label text-[10px] uppercase tracking-widest text-outline mt-3">We'll email you once when the guide launches. No spam.</p>
       <p id="signup-error" class="hidden font-label text-[10px] uppercase tracking-widest text-red-700 mt-3">Something went wrong — please try again.</p>
     </form>
 
