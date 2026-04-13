@@ -3,380 +3,151 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Size Calculator | SharkToothIsland.org</title>
+<title>Size Calculator — Coming Soon | SharkToothIsland.org</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@300;400;500;700;800&family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Public+Sans:ital,wght@0,300;0,400;0,600;0,700;0,800;1,400&family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet">
 <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
 <script>
 tailwind.config = {
-  theme: { extend: {
-    colors: {
-      "surface": "#f9f9f9", "surface-bright": "#f9f9f9",
-      "surface-container-lowest": "#ffffff", "surface-container-low": "#f3f3f3",
-      "surface-container": "#eeeeee", "surface-container-high": "#e8e8e8", "surface-container-highest": "#e2e2e2",
-      "on-surface": "#1a1c1c", "on-surface-variant": "#414750",
-      "outline": "#717781", "outline-variant": "#c1c7d2",
-      "primary": "#085f9e", "primary-container": "#3478b8",
-      "primary-fixed": "#d1e4ff", "primary-fixed-dim": "#9ecaff",
-      "on-primary": "#ffffff", "on-primary-fixed": "#001d36",
-      "secondary": "#5e5e5e"
-    },
-    borderRadius: { DEFAULT: "0.125rem", lg: "0.25rem", xl: "0.5rem", full: "0.75rem" },
-    fontFamily: { headline: ["Public Sans"], body: ["Public Sans"], label: ["Space Grotesk"] }
-  }}
+  theme: {
+    extend: {
+      colors: {
+        "surface": "#f9f9f9",
+        "surface-bright": "#f9f9f9",
+        "surface-container-lowest": "#ffffff",
+        "surface-container-low": "#f3f3f3",
+        "surface-container": "#eeeeee",
+        "surface-container-high": "#e8e8e8",
+        "surface-container-highest": "#e2e2e2",
+        "on-surface": "#1a1c1c",
+        "on-surface-variant": "#414750",
+        "outline": "#717781",
+        "outline-variant": "#c1c7d2",
+        "primary": "#085f9e",
+        "primary-container": "#3478b8",
+        "primary-fixed": "#d1e4ff",
+        "primary-fixed-dim": "#9ecaff",
+        "on-primary": "#ffffff",
+        "on-primary-fixed": "#001d36",
+        "secondary": "#5e5e5e",
+        "tertiary": "#435c86",
+        "error-container": "#ffdad6",
+        "on-error-container": "#93000a"
+      },
+      borderRadius: { DEFAULT: "0.125rem", lg: "0.25rem", xl: "0.5rem", full: "0.75rem" },
+      fontFamily: { headline: ["Public Sans"], body: ["Public Sans"], label: ["Space Grotesk"] }
+    }
+  }
 }
 </script>
 <style>
-  .material-symbols-outlined { font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24; }
-  .archival-grid { background-image: radial-gradient(circle, #c1c7d2 0.5px, transparent 0.5px); background-size: 24px 24px; }
-  input[type=range] { -webkit-appearance: none; background: transparent; width: 100%; }
-  input[type=range]::-webkit-slider-runnable-track { height: 4px; background: #c1c7d2; border-radius: 0; }
-  input[type=range]::-webkit-slider-thumb { height: 28px; width: 14px; background: #085f9e; cursor: pointer; -webkit-appearance: none; margin-top: -12px; border-radius: 2px; }
-  input[type=range]::-moz-range-track { height: 4px; background: #c1c7d2; border-radius: 0; }
-  input[type=range]::-moz-range-thumb { height: 28px; width: 14px; background: #085f9e; cursor: pointer; border: none; border-radius: 2px; }
-  .rarity-tag { display: inline-block; font-family: 'Space Grotesk', monospace; font-size: 10px; letter-spacing: 0.08em; text-transform: uppercase; padding: 4px 10px; background: #eeeeee; color: #414750; margin: 2px; }
-  .amber { color: #b86a00 !important; }
-  .hide { opacity: 0; pointer-events: none; }
-  #slide-hint { transition: opacity 0.3s; }
-  #shark-wrap { transition: width 0.3s ease-out; }
-  #scale-bar { transition: width 0.3s ease-out; }
+  .material-symbols-outlined { font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24; vertical-align: middle; }
+  .archival-grain {
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+    opacity: 0.03; pointer-events: none;
+  }
+  @keyframes slowpulse { 0%,100%{opacity:.5;} 50%{opacity:1;} }
+  .slow-pulse { animation: slowpulse 3s ease-in-out infinite; }
 </style>
 </head>
 <body class="bg-surface text-on-surface font-body selection:bg-primary-fixed selection:text-on-primary-fixed">
 
-<nav class="sticky top-0 w-full z-50 bg-white/80 backdrop-blur-xl border-b border-outline-variant/30 h-20">
-  <div class="flex justify-between items-center px-6 md:px-8 h-full max-w-7xl mx-auto">
+<!-- NAV -->
+<header class="sticky top-0 z-50 bg-white/80 backdrop-blur-xl shadow-sm shadow-blue-900/5">
+  <nav class="flex justify-between items-center max-w-7xl mx-auto px-6 md:px-8 h-20">
     <a href="field-guide.html" class="text-xl font-bold tracking-tight text-blue-900 font-headline">SharkToothIsland.org</a>
-    <div class="hidden md:flex items-center gap-8 font-label text-sm uppercase tracking-widest">
-      <a href="field-guide.html" class="text-slate-600 hover:text-blue-600 transition-colors">Field Guide</a>
-      <a href="megalodon-calculator-v5.html" class="text-blue-700 border-b-2 border-blue-700 font-medium pb-1">Size Calculator</a>
-      <a href="hunt-planner.html" class="text-slate-600 hover:text-blue-600 transition-colors">Hunt Planner</a>
-      <a href="depth-of-time.html" class="text-slate-600 hover:text-blue-600 transition-colors">Depth of Time</a>
+    <div class="hidden md:flex items-center gap-8">
+      <a href="field-guide.html" class="text-slate-600 hover:text-blue-600 font-label text-sm uppercase tracking-widest transition-colors">Field Guide</a>
+      <a href="megalodon-calculator-v5.html" class="text-blue-700 border-b-2 border-blue-700 font-medium pb-1 font-label text-sm uppercase tracking-widest">Size Calculator</a>
+      <a href="hunt-planner.html" class="text-slate-600 hover:text-blue-600 font-label text-sm uppercase tracking-widest transition-colors">Hunt Planner</a>
+      <a href="depth-of-time.html" class="text-slate-600 hover:text-blue-600 font-label text-sm uppercase tracking-widest transition-colors">Depth of Time</a>
     </div>
-  </div>
-</nav>
-
-<main class="pt-16 pb-24 px-6 md:px-8 max-w-7xl mx-auto archival-grid min-h-screen">
-
-  <!-- HEADER -->
-  <header class="mb-12 grid grid-cols-1 lg:grid-cols-12 gap-8 items-end">
-    <div class="lg:col-span-8">
-      <span class="font-label text-xs tracking-[0.3em] uppercase text-primary mb-4 block">Megalodon Size Tool</span>
-      <h1 class="text-4xl md:text-6xl lg:text-7xl font-extrabold tracking-tighter text-on-surface leading-[0.95]">
-        Measure a Tooth.<br>Reconstruct the Shark.
-      </h1>
+    <div class="flex items-center gap-3">
+      <a href="hunt-planner.html" class="hidden md:inline-flex bg-primary text-on-primary px-4 md:px-5 py-2 rounded font-label text-xs font-bold uppercase tracking-widest hover:bg-primary-container transition-all">Current Conditions</a>
     </div>
-    <div class="lg:col-span-4 pb-2 border-l border-outline-variant pl-6">
-      <p class="font-label text-sm text-on-surface-variant leading-relaxed">
-        Enter the slant height of a megalodon tooth and this tool reconstructs body length, mass, jaw width and bite force using the widely cited Pimiento &amp; Clements scaling (~8.5 ft of body per inch of tooth).
-      </p>
-    </div>
-  </header>
+  </nav>
+</header>
 
-  <!-- INPUT + RESULTS BENTO -->
-  <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 md:gap-8">
+<main class="relative min-h-[calc(100vh-80px)] flex items-center">
+  <div class="archival-grain fixed inset-0"></div>
 
-    <!-- INPUT PANEL -->
-    <section class="lg:col-span-5 space-y-6">
-      <div class="bg-surface-container-lowest p-8 shadow-[0_20px_40px_rgba(0,29,54,0.04)] relative">
-        <div class="absolute top-4 right-4 flex gap-1">
-          <button id="btn-cm" onclick="setUnit('mm')" class="font-label text-[10px] uppercase tracking-widest px-3 py-1.5 bg-primary text-on-primary">mm</button>
-          <button id="btn-in" onclick="setUnit('in')" class="font-label text-[10px] uppercase tracking-widest px-3 py-1.5 bg-surface-container-high text-on-surface-variant hover:bg-surface-container-highest">in</button>
-        </div>
-        <label class="font-label text-xs uppercase tracking-widest text-primary mb-6 block">Tooth Slant Height</label>
-        <div class="flex items-end justify-between mb-6">
-          <span id="reading-num" class="text-6xl md:text-7xl font-bold font-headline tracking-tighter text-on-surface">90</span>
-          <span class="font-label text-xl text-outline mb-2 uppercase"><span id="reading-unit">mm</span></span>
-        </div>
-        <div class="relative mb-3">
-          <div class="absolute top-[10px] left-0 h-1 bg-outline-variant/40 w-full"></div>
-          <div id="range-fill" class="absolute top-[10px] left-0 h-1 bg-primary" style="width: 43%;"></div>
-          <input type="range" id="tooth-slider" min="25" max="175" step="1" value="90" oninput="update(this.value)" class="relative z-10">
-        </div>
-        <p id="slide-hint" class="font-label text-[10px] uppercase tracking-widest text-primary text-center mb-3">← Drag the slider →</p>
-        <div class="flex justify-between font-label text-[9px] text-outline uppercase tracking-wider">
-          <span id="lbl-min">25 mm — juvenile</span>
-          <span id="lbl-max">175 mm — largest known</span>
+  <section class="max-w-5xl mx-auto px-6 md:px-8 py-20 md:py-28 w-full">
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+
+      <!-- LEFT: headline + copy -->
+      <div class="lg:col-span-7">
+        <span class="font-label text-primary text-xs font-bold uppercase tracking-[0.3em] mb-4 block slow-pulse">Coming Soon · Being Rebuilt</span>
+        <h1 class="font-headline text-5xl md:text-7xl font-extrabold tracking-tighter text-on-surface leading-[0.9] mb-8">
+          Size <span class="text-outline italic font-light">Calculator.</span>
+        </h1>
+        <p class="font-body text-lg md:text-xl text-on-surface-variant max-w-xl leading-relaxed mb-6">
+          Measure a megalodon tooth. Reconstruct the shark. Body length, mass, jaw width and bite force — all from a single slant-height measurement using the Pimiento & Clements field formula.
+        </p>
+        <p class="font-body text-base text-on-surface-variant max-w-xl leading-relaxed mb-10">
+          This tool is being rebuilt for the new field guide. It'll be back shortly.
+        </p>
+
+        <div class="flex flex-wrap items-center gap-4">
+          <a href="field-guide.html" class="inline-flex items-center gap-2 bg-primary text-on-primary px-6 py-3 rounded font-label text-xs font-bold uppercase tracking-widest hover:bg-primary-container transition-all">
+            <span class="material-symbols-outlined text-base">arrow_back</span>
+            Back to Field Guide
+          </a>
+          <a href="hunt-planner.html" class="inline-flex items-center gap-2 border border-outline-variant text-on-surface-variant hover:text-primary hover:border-primary px-6 py-3 rounded font-label text-xs font-bold uppercase tracking-widest transition-all">
+            Hunt Planner
+            <span class="material-symbols-outlined text-base">arrow_forward</span>
+          </a>
         </div>
       </div>
 
-      <!-- RARITY CARD -->
-      <div class="bg-surface-container-low p-8 space-y-4 border-l-2 border-primary">
-        <div class="flex items-center gap-4">
-          <span id="rarity-glyph" class="text-4xl font-headline text-primary">◇</span>
-          <div>
-            <span class="font-label text-[10px] uppercase tracking-widest text-secondary block">Specimen Significance</span>
-            <span id="rarity-title" class="font-headline font-bold text-lg tracking-tight">Good field find</span>
+      <!-- RIGHT: preview card -->
+      <div class="lg:col-span-5">
+        <div class="bg-surface-container-lowest border border-outline-variant/30 rounded-xl overflow-hidden shadow-sm">
+          <div class="bg-primary p-8">
+            <span class="font-label text-xs uppercase tracking-[0.2em] text-white/70 block mb-4">Preview</span>
+            <span class="text-4xl font-extrabold tracking-tighter text-white block">~30 ft (9 m)</span>
+            <span class="font-label text-[11px] uppercase tracking-widest text-white/60 mt-2 block">Length of a large SUV</span>
           </div>
-        </div>
-        <p id="rarity-body" class="text-sm text-on-surface-variant leading-relaxed">A solid tooth in the range most hunters go home with.</p>
-        <div id="rarity-tags" class="pt-2"></div>
-      </div>
-    </section>
-
-    <!-- RESULTS PANEL -->
-    <section class="lg:col-span-7 grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8">
-
-      <!-- BODY LENGTH (primary) -->
-      <div class="bg-primary text-on-primary p-8 flex flex-col justify-between min-h-[240px]">
-        <span class="font-label text-xs uppercase tracking-[0.2em] opacity-80">Estimated Body Length</span>
-        <div class="mt-6">
-          <span id="out-length" class="text-4xl md:text-5xl font-extrabold tracking-tighter block">—</span>
-          <span id="out-length-note" class="font-label text-[11px] uppercase tracking-widest opacity-70 mt-2 block">—</span>
-        </div>
-        <div class="mt-6 flex items-center gap-2">
-          <span class="material-symbols-outlined text-sm">straighten</span>
-          <span class="font-label text-[10px] uppercase tracking-widest">Pimiento &amp; Clements 2014</span>
-        </div>
-      </div>
-
-      <!-- MASS -->
-      <div class="bg-surface-container-lowest p-8 border-l-[4px] border-primary flex flex-col justify-between min-h-[240px]">
-        <span class="font-label text-xs uppercase tracking-[0.2em] text-primary">Estimated Mass</span>
-        <div class="mt-6">
-          <span id="out-weight" class="text-4xl md:text-5xl font-extrabold tracking-tighter text-on-surface block">—</span>
-          <span id="out-weight-note" class="font-label text-[11px] uppercase tracking-widest text-outline mt-2 block">—</span>
-        </div>
-        <div class="mt-6 flex items-center gap-2 text-outline">
-          <span class="material-symbols-outlined text-sm">weight</span>
-          <span class="font-label text-[10px] uppercase tracking-widest">Allometric scaling (length³)</span>
-        </div>
-      </div>
-
-      <!-- JAW WIDTH -->
-      <div class="bg-surface-container-lowest p-8 border-l-[4px] border-outline flex flex-col justify-between min-h-[200px]">
-        <span class="font-label text-xs uppercase tracking-[0.2em] text-on-surface-variant">Jaw Width</span>
-        <div class="mt-6">
-          <span id="out-jaw" class="text-3xl md:text-4xl font-extrabold tracking-tighter text-on-surface block">—</span>
-          <span id="out-jaw-note" class="font-label text-[11px] uppercase tracking-widest text-outline mt-2 block">—</span>
-        </div>
-      </div>
-
-      <!-- BITE FORCE -->
-      <div class="bg-surface-container-lowest p-8 border-l-[4px] border-outline flex flex-col justify-between min-h-[200px]">
-        <span class="font-label text-xs uppercase tracking-[0.2em] text-on-surface-variant">Bite Force</span>
-        <div class="mt-6">
-          <span id="out-bite" class="text-3xl md:text-4xl font-extrabold tracking-tighter text-on-surface block">—</span>
-          <span id="out-bite-note" class="font-label text-[11px] uppercase tracking-widest text-outline mt-2 block">—</span>
-        </div>
-      </div>
-
-      <!-- COMPARATIVE SCALE -->
-      <div class="md:col-span-2 bg-surface-container-low p-8 overflow-hidden relative min-h-[280px]">
-        <div class="flex justify-between items-start mb-6">
-          <span class="font-label text-xs uppercase tracking-widest text-secondary">Comparative Scale</span>
-          <div class="text-right">
-            <span class="font-label text-[10px] uppercase tracking-widest text-outline block">vs. Great White Max</span>
-            <span id="out-gw" class="font-headline text-2xl font-bold text-primary">—</span>
-          </div>
-        </div>
-        <div class="relative w-full flex items-end gap-6 md:gap-10 mb-4">
-          <!-- Human -->
-          <div class="flex flex-col items-center flex-shrink-0">
-            <div class="h-8 w-2 bg-on-surface-variant opacity-50"></div>
-            <span class="font-label text-[9px] uppercase mt-2 text-outline">6 ft</span>
-          </div>
-          <!-- Shark scale -->
-          <div class="flex-1 relative">
-            <div id="shark-wrap" class="relative" style="width: 35%;">
-              <svg viewBox="0 0 400 90" class="w-full h-auto">
-                <path d="M10 45 Q 40 15 120 25 Q 220 20 330 30 L 395 10 L 390 50 L 395 80 L 330 60 Q 220 70 120 65 Q 40 75 10 45 Z" fill="#1a1c1c"/>
-                <circle cx="60" cy="40" r="3" fill="#f9f9f9"/>
-              </svg>
+          <div class="divide-y divide-outline-variant/30">
+            <div class="p-6 flex justify-between items-center">
+              <span class="font-label text-[10px] uppercase tracking-widest text-outline">Tooth Input</span>
+              <span class="font-headline text-lg font-bold">90 mm</span>
             </div>
-            <div class="mt-3 flex items-center gap-3">
-              <div id="scale-bar" class="h-1 bg-primary" style="width: 40px;"></div>
-              <span id="scale-label" class="font-label text-[9px] uppercase tracking-widest text-outline">10 FT</span>
+            <div class="p-6 flex justify-between items-center">
+              <span class="font-label text-[10px] uppercase tracking-widest text-outline">Estimated Mass</span>
+              <span class="font-headline text-lg font-bold">~8 tons</span>
+            </div>
+            <div class="p-6 flex justify-between items-center">
+              <span class="font-label text-[10px] uppercase tracking-widest text-outline">Jaw Width</span>
+              <span class="font-headline text-lg font-bold">~6.0 ft</span>
+            </div>
+            <div class="p-6 flex justify-between items-center">
+              <span class="font-label text-[10px] uppercase tracking-widest text-outline">Bite Force</span>
+              <span class="font-headline text-lg font-bold">~6,000 lbs</span>
             </div>
           </div>
-        </div>
-        <!-- EPOCH -->
-        <div class="mt-6 pt-6 border-t border-outline-variant/20 flex items-baseline justify-between">
-          <div>
-            <span class="font-label text-[10px] uppercase tracking-widest text-outline block mb-1">Most Likely Epoch</span>
-            <span id="out-epoch" class="font-headline text-xl font-bold">—</span>
+          <div class="p-4 bg-surface-container-low">
+            <p class="font-label text-[9px] uppercase tracking-widest text-outline text-center">Pimiento & Clements 2014 · ~8.5 ft per inch of tooth</p>
           </div>
-          <span id="out-epoch-note" class="font-label text-[11px] text-on-surface-variant">—</span>
         </div>
       </div>
 
-    </section>
-  </div>
-
-  <!-- SCIENCE NOTES -->
-  <section class="mt-20 border-t border-outline-variant/40 pt-12">
-    <div class="grid grid-cols-1 md:grid-cols-12 gap-12">
-      <div class="md:col-span-4">
-        <h3 class="font-headline font-bold text-2xl tracking-tight mb-3">The Math Behind<br>the Numbers</h3>
-        <div class="w-12 h-1 bg-primary"></div>
-      </div>
-      <div class="md:col-span-8 grid grid-cols-1 sm:grid-cols-2 gap-8">
-        <div class="space-y-3">
-          <h4 class="font-label text-xs uppercase tracking-[0.2em] text-primary">Body Length</h4>
-          <p class="text-on-surface-variant leading-relaxed text-sm">
-            Practical field formula: body length in feet ≈ tooth slant height in inches × 8.5. This is the approximation most commonly used by collectors and paleontologists in the field.
-          </p>
-        </div>
-        <div class="space-y-3">
-          <h4 class="font-label text-xs uppercase tracking-[0.2em] text-primary">Mass</h4>
-          <p class="text-on-surface-variant leading-relaxed text-sm">
-            Mass scales roughly with the cube of length. An adult at ~60 ft lands near 50 metric tons; a juvenile at half that length is closer to 7 tons.
-          </p>
-        </div>
-        <div class="space-y-3">
-          <h4 class="font-label text-xs uppercase tracking-[0.2em] text-primary">Jaw &amp; Bite</h4>
-          <p class="text-on-surface-variant leading-relaxed text-sm">
-            Jaw width runs about 1/5 of body length for megalodon. Bite force at the adult maximum is estimated around 40,000 lbf — roughly ten times the great white.
-          </p>
-        </div>
-        <div class="space-y-3">
-          <h4 class="font-label text-xs uppercase tracking-[0.2em] text-primary">World Record</h4>
-          <p class="text-on-surface-variant leading-relaxed text-sm">
-            The largest verified megalodon tooth is ~175 mm (Ocucaje, Peru). Finds on Shark Tooth Island rarely exceed 110 mm — most recovered teeth are from juveniles.
-          </p>
-        </div>
-      </div>
     </div>
   </section>
 </main>
 
-<footer class="bg-slate-100 py-16 mt-12">
-  <div class="max-w-7xl mx-auto px-6 md:px-8 flex flex-col md:flex-row gap-6 md:items-end md:justify-between">
-    <div>
-      <div class="text-lg font-semibold text-slate-800 font-headline mb-2">Shark Tooth Island Coastal Field Station</div>
-      <p class="font-label text-[10px] uppercase tracking-widest text-slate-400">34.0522° N · 77.9067° W · Cape Fear River · New Hanover County, NC</p>
+<!-- FOOTER -->
+<footer class="border-t border-outline-variant/40 bg-surface-container-low">
+  <div class="max-w-7xl mx-auto px-6 md:px-8 py-10 flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
+    <div class="font-label text-[11px] uppercase tracking-widest text-outline leading-relaxed">
+      SharkToothIsland.org · Cape Fear River · New Hanover County, NC
     </div>
-    <div class="flex gap-6 flex-wrap">
-      <a href="mailto:Station@sharktoothisland.org" class="font-label text-xs uppercase tracking-widest text-slate-600 hover:text-blue-800">Station@sharktoothisland.org</a>
+    <div class="font-label text-[11px] uppercase tracking-widest text-outline">
+      <a href="mailto:Station@sharktoothisland.org" class="text-primary hover:text-primary-container">Station@sharktoothisland.org</a>
     </div>
   </div>
 </footer>
 
-<script>
-// ─── Preserved calculator logic (Pimiento & Clements 2014 field formula) ───
-let unit = 'mm';
-const slider = document.getElementById('tooth-slider');
-const MAX_MM = 175;
-const MIN_MM = 25;
-
-function setUnit(u) {
-  unit = u;
-  document.getElementById('btn-in').classList.toggle('bg-primary', u==='in');
-  document.getElementById('btn-in').classList.toggle('text-on-primary', u==='in');
-  document.getElementById('btn-in').classList.toggle('bg-surface-container-high', u!=='in');
-  document.getElementById('btn-in').classList.toggle('text-on-surface-variant', u!=='in');
-  document.getElementById('btn-cm').classList.toggle('bg-primary', u==='mm');
-  document.getElementById('btn-cm').classList.toggle('text-on-primary', u==='mm');
-  document.getElementById('btn-cm').classList.toggle('bg-surface-container-high', u!=='mm');
-  document.getElementById('btn-cm').classList.toggle('text-on-surface-variant', u!=='mm');
-  document.getElementById('reading-unit').textContent = u==='in' ? 'inches' : 'mm';
-  document.getElementById('lbl-min').textContent = u==='in' ? '1.0 in — juvenile' : '25 mm — juvenile';
-  document.getElementById('lbl-max').textContent = u==='in' ? '6.9 in — largest known' : '175 mm — largest known';
-  update(slider.value);
-}
-
-function update(val) {
-  const mm = parseInt(val);
-  const inVal = mm / 25.4;
-
-  // Reading display
-  const dispNum = unit==='in' ? inVal.toFixed(1) : mm;
-  const readEl = document.getElementById('reading-num');
-  readEl.textContent = dispNum;
-  readEl.classList.toggle('amber', mm >= 130);
-
-  // Track fill
-  document.getElementById('range-fill').style.width = ((mm - MIN_MM)/(MAX_MM - MIN_MM)*100)+'%';
-
-  // Practical field formula: body_ft ≈ tooth_inches × 8.5
-  const inVal2 = mm / 25.4;
-  const bodyFt = Math.round(inVal2 * 8.5);
-  const bodyMet = Math.round(bodyFt * 0.3048);
-
-  // Mass: ~50 tons at 60ft, cubic scaling
-  const weightT = Math.max(1, Math.round(50 * Math.pow(bodyFt / 60, 3)));
-
-  // Jaw width: body / 5
-  const jawFt = (bodyFt / 5).toFixed(1);
-
-  // Bite force: 40,000 lbf at max
-  const biteK = Math.max(1, Math.round(40 * (weightT / 50)));
-
-  // vs great white max tooth (~76mm)
-  const vsGW = (mm / 76).toFixed(1);
-
-  let epoch, epochNote;
-  if (mm < 60) { epoch='Oligocene'; epochNote='23–33 million years ago'; }
-  else if (mm < 110) { epoch='Miocene'; epochNote='5–23 million years ago'; }
-  else { epoch='Late Miocene'; epochNote='5–15 million years ago'; }
-
-  const lc = [[15,'Longer than a kayak'],[20,'Length of a large SUV'],[25,'Length of a school bus'],[35,'Comparable to a city bus'],[45,'Longer than a semi truck'],[55,'Length of a Boeing 737 fuselage'],[999,'Among the largest ever estimated']].find(c=>bodyFt<=c[0]);
-  const wc = [[3,'Weight of a compact car'],[8,'Weight of a large pickup truck'],[15,'Weight of two African elephants'],[30,'Heavier than a loaded semi'],[50,'Weight of a small yacht'],[999,'Extraordinary mass']].find(c=>weightT<=c[0]);
-
-  document.getElementById('out-length').textContent = '~'+bodyFt+' ft ('+bodyMet+' m)';
-  document.getElementById('out-length-note').textContent = lc ? lc[1] : 'Among the largest ever estimated';
-  document.getElementById('out-weight').textContent = '~'+weightT+' tons';
-  document.getElementById('out-weight-note').textContent = wc ? wc[1] : 'Extraordinary mass';
-  document.getElementById('out-jaw').textContent = '~'+jawFt+' ft wide';
-  document.getElementById('out-jaw-note').textContent = parseFloat(jawFt) > 10 ? 'A full-size SUV could fit inside' : parseFloat(jawFt) > 6 ? 'Wide enough to swallow a person whole' : 'Larger than a car door';
-  document.getElementById('out-bite').textContent = '~'+biteK+',000 lbs';
-  document.getElementById('out-bite-note').textContent = biteK >= 30 ? '10× the force of a great white' : biteK >= 10 ? 'Several times a great white\'s force' : 'Still more powerful than any living predator';
-  document.getElementById('out-gw').textContent = vsGW+'×';
-  document.getElementById('out-epoch').textContent = epoch;
-  document.getElementById('out-epoch-note').textContent = epochNote;
-
-  // Shark scale: 8% at min → 68% at max
-  const scalePct = 8 + ((mm - MIN_MM) / (MAX_MM - MIN_MM)) * 60;
-  document.getElementById('shark-wrap').style.width = scalePct.toFixed(1) + '%';
-
-  // Scale bar: 10 ft reference against rendered shark
-  const containerW = 840;
-  const sharkRenderedPx = (scalePct / 100) * containerW;
-  const pxPerFt = sharkRenderedPx / bodyFt;
-  const barPx = Math.round(pxPerFt * 10);
-  document.getElementById('scale-bar').style.width = Math.max(8, Math.min(barPx, 140)) + 'px';
-  document.getElementById('scale-label').textContent = '10 FT';
-
-  // Rarity tier
-  let g,t,b,tags;
-  if (mm < 50) {
-    g='○'; t='Juvenile or fragment';
-    b='Small teeth are the most common find on the island — great for beginners. Still 5–20 million years old. Nothing to dismiss.';
-    tags=['Common find','Beginner friendly','Likely Miocene'];
-  } else if (mm < 80) {
-    g='◇'; t='Good field find';
-    b='A solid tooth in the range most hunters go home with. Clean carefully — the root often holds condition clues about the depositional environment.';
-    tags=['Good condition range','Sub-adult individual','Miocene'];
-  } else if (mm < 110) {
-    g='◈'; t='Significant specimen';
-    b='A tooth this size indicates a large, mature individual. These are the finds that separate a productive day from a memorable one. Worth storing properly.';
-    tags=['Large individual','Museum quality range','Late Miocene'];
-  } else if (mm < 145) {
-    g='◆'; t='Exceptional find';
-    b='Very few hunters find teeth in this range in a lifetime of searching. This animal was well above average adult size. A genuinely remarkable day on the island.';
-    tags=['Exceptional','Giant adult','Extremely rare locally','Late Miocene'];
-  } else {
-    g='★'; t='Approaching world record';
-    b='You are within range of the largest megalodon tooth ever recovered (175mm, Ocucaje, Peru). Photograph it carefully, measure twice, and contact the NC Museum of Natural Sciences.';
-    tags=['World-class specimen','Near record size','Seek expert verification'];
-  }
-
-  document.getElementById('rarity-glyph').textContent = g;
-  document.getElementById('rarity-title').textContent = t;
-  document.getElementById('rarity-body').textContent = b;
-  document.getElementById('rarity-tags').innerHTML = tags.map(x=>`<span class="rarity-tag">${x}</span>`).join('');
-}
-
-// Slide hint fades on first interaction
-slider.addEventListener('input', function hide() {
-  document.getElementById('slide-hint').classList.add('hide');
-  slider.removeEventListener('input', hide);
-}, { once: true });
-
-update(slider.value);
-window.addEventListener('resize', () => update(slider.value));
-</script>
 </body>
 </html>
