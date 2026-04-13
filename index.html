@@ -3,19 +3,24 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Shark Tooth Island — Coming Soon</title>
+<title>Field Guide | SharkToothIsland.org</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Public+Sans:ital,wght@0,300;0,400;0,600;0,700;0,800;1,400&family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-<script src="https://cdn.tailwindcss.com?plugins=forms"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet">
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
 <script>
 tailwind.config = {
   theme: {
     extend: {
       colors: {
         "surface": "#f9f9f9",
+        "surface-bright": "#f9f9f9",
         "surface-container-lowest": "#ffffff",
         "surface-container-low": "#f3f3f3",
+        "surface-container": "#eeeeee",
+        "surface-container-high": "#e8e8e8",
+        "surface-container-highest": "#e2e2e2",
         "on-surface": "#1a1c1c",
         "on-surface-variant": "#414750",
         "outline": "#717781",
@@ -23,7 +28,19 @@ tailwind.config = {
         "primary": "#085f9e",
         "primary-container": "#3478b8",
         "primary-fixed": "#d1e4ff",
-        "on-primary": "#ffffff"
+        "primary-fixed-dim": "#9ecaff",
+        "on-primary": "#ffffff",
+        "on-primary-fixed": "#001d36",
+        "on-primary-fixed-variant": "#00497c",
+        "secondary": "#5e5e5e",
+        "secondary-fixed": "#e4e2e2",
+        "secondary-fixed-dim": "#c7c6c6",
+        "on-secondary-fixed": "#1b1c1c",
+        "tertiary": "#435c86",
+        "tertiary-fixed": "#d6e3ff",
+        "on-tertiary-fixed": "#001b3d",
+        "error-container": "#ffdad6",
+        "on-error-container": "#93000a"
       },
       borderRadius: { DEFAULT: "0.125rem", lg: "0.25rem", xl: "0.5rem", full: "0.75rem" },
       fontFamily: { headline: ["Public Sans"], body: ["Public Sans"], label: ["Space Grotesk"] }
@@ -32,114 +49,567 @@ tailwind.config = {
 }
 </script>
 <style>
+  .material-symbols-outlined { font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24; vertical-align: middle; }
   .archival-grain {
     background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
     opacity: 0.03; pointer-events: none;
   }
-  @keyframes slowpulse { 0%,100%{opacity:.5;} 50%{opacity:1;} }
-  .slow-pulse { animation: slowpulse 3s ease-in-out infinite; }
 </style>
 </head>
-<body class="bg-surface text-on-surface font-body selection:bg-primary-fixed">
+<body class="bg-surface text-on-surface font-body selection:bg-primary-fixed selection:text-on-primary-fixed">
 
-<main class="relative min-h-screen flex items-center justify-center px-6 md:px-8 py-20">
+<!-- NAV -->
+<header class="sticky top-0 z-50 bg-white/80 backdrop-blur-xl shadow-sm shadow-blue-900/5">
+  <nav class="flex justify-between items-center max-w-7xl mx-auto px-6 md:px-8 h-20">
+    <a href="field-guide.html" class="text-xl font-bold tracking-tight text-blue-900 font-headline">SharkToothIsland.org</a>
+    <div class="hidden md:flex items-center gap-8">
+      <a href="field-guide.html" class="text-blue-700 border-b-2 border-blue-700 font-medium pb-1 font-label text-sm uppercase tracking-widest">Field Guide</a>
+      <a href="megalodon-calculator-v5.html" class="text-slate-600 hover:text-blue-600 font-label text-sm uppercase tracking-widest transition-colors">Size Calculator</a>
+      <a href="hunt-planner.html" class="text-slate-600 hover:text-blue-600 font-label text-sm uppercase tracking-widest transition-colors">Hunt Planner</a>
+      <a href="depth-of-time.html" class="text-slate-600 hover:text-blue-600 font-label text-sm uppercase tracking-widest transition-colors">Depth of Time</a>
+    </div>
+    <div class="flex items-center gap-3">
+      <a href="hunt-planner.html" class="bg-primary text-on-primary px-4 md:px-5 py-2 rounded font-label text-xs font-bold uppercase tracking-widest hover:bg-primary-container transition-all">Current Conditions</a>
+    </div>
+  </nav>
+</header>
+
+<main class="relative min-h-screen">
   <div class="archival-grain fixed inset-0"></div>
 
-  <div class="relative max-w-xl w-full text-center">
-
-    <!-- WORDMARK -->
-    <div class="mb-16">
-      <p class="font-headline text-base font-bold text-blue-900 tracking-tight">SharkToothIsland.org</p>
-      <p class="font-label text-[10px] uppercase tracking-[0.22em] text-outline mt-1">Cape Fear River · New Hanover County, NC</p>
-      <p class="font-label text-[10px] uppercase tracking-[0.22em] text-outline mt-0.5">Accessible by small boat, kayak, or paddlecraft</p>
-    </div>
-
-    <!-- HEADLINE -->
-    <h1 class="font-headline text-3xl md:text-5xl font-extrabold tracking-tighter text-on-surface leading-[0.95] mb-8">
-      A Field Resource for<br>Shark Tooth Island
-    </h1>
-
-    <div class="font-body text-base text-on-surface-variant leading-relaxed max-w-lg mx-auto mb-6 text-left space-y-4">
-      <p>SharkToothIsland.org documents a well-known fossil site in the Cape Fear River near Wilmington, North Carolina. This public field station is being developed as a guide to help visitors understand where to go, what to look for, and how to explore the island responsibly.</p>
-      <p>The full field guide is launching soon.</p>
-    </div>
-
-    <p class="font-label text-[10px] uppercase tracking-widest text-outline mb-10">Get notified when the full field guide goes live.</p>
-
-    <!-- SIGNUP FORM -->
-    <form id="signup-form" onsubmit="return submitEmail(event)" class="max-w-md mx-auto">
-      <div class="flex flex-col sm:flex-row gap-2">
-        <input
-          type="email"
-          id="email-input"
-          placeholder="your@email.com"
-          required
-          autocomplete="email"
-          class="flex-1 bg-surface-container-lowest border border-outline-variant/60 rounded px-4 py-3 text-sm text-on-surface placeholder:text-outline/60 focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/20 transition-all">
-        <button
-          type="submit"
-          id="signup-btn"
-          class="bg-primary text-on-primary px-6 py-3 rounded font-label text-xs font-bold uppercase tracking-widest hover:bg-primary-container transition-all whitespace-nowrap disabled:opacity-50 disabled:cursor-not-allowed">
-          Notify Me
-        </button>
+  <!-- HERO (typography) -->
+  <section class="max-w-7xl mx-auto px-6 md:px-8 pt-16 md:pt-20 pb-12">
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-12">
+      <div class="lg:col-span-8">
+        <span class="font-label text-primary text-xs font-bold uppercase tracking-[0.3em] mb-4 block">Coastal Field Station · Cape Fear River</span>
+        <h1 class="font-headline text-5xl md:text-7xl lg:text-8xl font-extrabold tracking-tighter text-on-surface leading-[0.9] mb-8">
+          The Field <br><span class="text-outline italic font-light">Guide.</span>
+        </h1>
+        <p class="font-body text-lg md:text-xl text-on-surface-variant max-w-2xl leading-relaxed">
+          A community catalog of fossilized shark teeth and coastal finds recovered from Shark Tooth Island — a working sandbar in the Cape Fear River where Miocene and Pliocene deposits continue to surface with every tide.
+        </p>
       </div>
-      <p class="font-label text-[10px] uppercase tracking-widest text-outline mt-3">We'll email you once when the guide launches. No spam.</p>
-      <p id="signup-error" class="hidden font-label text-[10px] uppercase tracking-widest text-red-700 mt-3">Something went wrong — please try again.</p>
-    </form>
-
-    <div id="signup-success" class="hidden max-w-md mx-auto">
-      <div class="bg-primary-fixed border border-primary/20 rounded px-6 py-4">
-        <p class="font-label text-xs font-bold uppercase tracking-widest text-primary">✓ You're on the list</p>
-        <p class="font-body text-sm text-on-surface-variant mt-1">We'll let you know when the field guide goes live.</p>
+      <div class="lg:col-span-4 flex flex-col justify-end">
+        <div class="bg-surface-container-low p-6 border-l-2 border-primary">
+          <p class="font-label text-[10px] uppercase tracking-widest text-outline mb-2">Station Coordinates</p>
+          <div class="space-y-1">
+            <p class="font-headline text-xl font-bold">34.0522° N</p>
+            <p class="font-headline text-xl font-bold">77.9067° W</p>
+            <p class="font-label text-[10px] text-primary uppercase tracking-widest mt-3">New Hanover County, NC</p>
+          </div>
+        </div>
       </div>
     </div>
+  </section>
 
-    <!-- FOOTER NOTE -->
-    <div class="mt-20 pt-8 border-t border-outline-variant/30 font-label text-[10px] uppercase tracking-widest text-outline leading-loose">
-      SharkToothIsland.org
-    </div>
-
+  <!-- BREAK 1 — Aerial drone -->
+  <div class="my-16 md:my-24">
+    <img src="images/hero-island.jpg" alt="Aerial view of Shark Tooth Island in the Cape Fear River" class="w-full object-cover object-[center_60%] h-[240px] md:h-[56vh]" loading="lazy">
   </div>
+
+  <!-- HOW TO VISIT -->
+<section class="py-24 bg-surface-container-low">
+  <div class="max-w-7xl mx-auto px-8">
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 mb-16">
+      <div class="lg:col-span-8">
+        <span class="font-label text-xs uppercase tracking-[0.3em] text-primary mb-4 block">Getting There</span>
+        <h2 class="font-headline text-4xl md:text-5xl font-extrabold tracking-tight text-on-surface leading-tight mb-6">
+          Getting there and <br/><span class="text-outline italic">doing it right.</span>
+        </h2>
+        <p class="text-on-surface-variant font-body text-lg max-w-2xl leading-relaxed">
+          There's no bridge, no ferry, no launch from the island itself. You need a boat or kayak. The experience rewards preparation — the right tide, the right gear, enough time to actually hunt.
+        </p>
+      </div>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+
+      <!-- Access -->
+      <div class="bg-surface-container-lowest p-8 border-t-2 border-primary">
+        <div class="flex items-center gap-3 mb-6">
+          <span class="material-symbols-outlined text-primary">sailing</span>
+          <h3 class="font-label text-sm font-bold uppercase tracking-widest">Access</h3>
+        </div>
+        <ul class="space-y-4">
+          <li class="flex gap-3 text-sm text-on-surface-variant leading-relaxed">
+            <span class="text-primary mt-0.5 flex-shrink-0">—</span>
+            Boat or kayak only — no land access from shore
+          </li>
+          <li class="flex gap-3 text-sm text-on-surface-variant leading-relaxed">
+            <span class="text-primary mt-0.5 flex-shrink-0">—</span>
+            River Road Park is the most common launch point
+          </li>
+          <li class="flex gap-3 text-sm text-on-surface-variant leading-relaxed">
+            <span class="text-primary mt-0.5 flex-shrink-0">—</span>
+            Short paddle from the park to the island cluster
+          </li>
+          <li class="flex gap-3 text-sm text-on-surface-variant leading-relaxed">
+            <span class="text-primary mt-0.5 flex-shrink-0">—</span>
+            Schedule your launch around low tide, not convenience
+          </li>
+          <li class="flex gap-3 text-sm text-on-surface-variant leading-relaxed">
+            <span class="text-primary mt-0.5 flex-shrink-0">—</span>
+            Allow 3–4 hours minimum for a real hunt
+          </li>
+          <li class="flex gap-3 text-sm text-on-surface-variant leading-relaxed">
+            <span class="text-primary mt-0.5 flex-shrink-0">—</span>
+            Check Cape Fear River tide tables, not beach tables
+          </li>
+        </ul>
+      </div>
+
+      <!-- What to Bring -->
+      <div class="bg-surface-container-lowest p-8 border-t-2 border-outline-variant">
+        <div class="flex items-center gap-3 mb-6">
+          <span class="material-symbols-outlined text-outline">backpack</span>
+          <h3 class="font-label text-sm font-bold uppercase tracking-widest">What to Bring</h3>
+        </div>
+        <ul class="space-y-4">
+          <li class="flex gap-3 text-sm text-on-surface-variant leading-relaxed">
+            <span class="text-outline mt-0.5 flex-shrink-0">—</span>
+            Water shoes or old sneakers — the sediment is rough
+          </li>
+          <li class="flex gap-3 text-sm text-on-surface-variant leading-relaxed">
+            <span class="text-outline mt-0.5 flex-shrink-0">—</span>
+            A mesh strainer or sifter (old colander works)
+          </li>
+          <li class="flex gap-3 text-sm text-on-surface-variant leading-relaxed">
+            <span class="text-outline mt-0.5 flex-shrink-0">—</span>
+            Bug spray — shade is available in the island interior but bugs can be worse there
+          </li>
+          <li class="flex gap-3 text-sm text-on-surface-variant leading-relaxed">
+            <span class="text-outline mt-0.5 flex-shrink-0">—</span>
+            A small dry bag for your phone and finds
+          </li>
+          <li class="flex gap-3 text-sm text-on-surface-variant leading-relaxed">
+            <span class="text-outline mt-0.5 flex-shrink-0">—</span>
+            More water than you think you need
+          </li>
+        </ul>
+      </div>
+
+      <!-- How to Search -->
+      <div class="bg-surface-container-lowest p-8 border-t-2 border-outline-variant">
+        <div class="flex items-center gap-3 mb-6">
+          <span class="material-symbols-outlined text-outline">search</span>
+          <h3 class="font-label text-sm font-bold uppercase tracking-widest">How to Search</h3>
+        </div>
+        <ul class="space-y-4">
+          <li class="flex gap-3 text-sm text-on-surface-variant leading-relaxed">
+            <span class="text-outline mt-0.5 flex-shrink-0">—</span>
+            Work the waterline at low tide — fossils concentrate there
+          </li>
+          <li class="flex gap-3 text-sm text-on-surface-variant leading-relaxed">
+            <span class="text-outline mt-0.5 flex-shrink-0">—</span>
+            Scoop sediment and sift rather than surface scanning
+          </li>
+          <li class="flex gap-3 text-sm text-on-surface-variant leading-relaxed">
+            <span class="text-outline mt-0.5 flex-shrink-0">—</span>
+            Look for the triangular silhouette and flat, smooth surface
+          </li>
+          <li class="flex gap-3 text-sm text-on-surface-variant leading-relaxed">
+            <span class="text-outline mt-0.5 flex-shrink-0">—</span>
+            Black is the color — ignore brown, tan, or white fragments
+          </li>
+          <li class="flex gap-3 text-sm text-on-surface-variant leading-relaxed">
+            <span class="text-outline mt-0.5 flex-shrink-0">—</span>
+            Dense and heavy is a good sign; shell is light
+          </li>
+          <li class="flex gap-3 text-sm text-on-surface-variant leading-relaxed">
+            <span class="text-outline mt-0.5 flex-shrink-0">—</span>
+            Explore the other islands in the cluster — Keg Island too
+          </li>
+        </ul>
+      </div>
+
+      <!-- Leave It Right -->
+      <div class="bg-surface-container-lowest p-8 border-t-2 border-outline-variant">
+        <div class="flex items-center gap-3 mb-6">
+          <span class="material-symbols-outlined text-outline">eco</span>
+          <h3 class="font-label text-sm font-bold uppercase tracking-widest">Leave It Right</h3>
+        </div>
+        <ul class="space-y-4 mb-6">
+          <li class="flex gap-3 text-sm text-on-surface-variant leading-relaxed">
+            <span class="text-outline mt-0.5 flex-shrink-0">—</span>
+            Pack out everything you bring in
+          </li>
+          <li class="flex gap-3 text-sm text-on-surface-variant leading-relaxed">
+            <span class="text-outline mt-0.5 flex-shrink-0">—</span>
+            Verify before collecting at scale
+          </li>
+          <li class="flex gap-3 text-sm text-on-surface-variant leading-relaxed">
+            <span class="text-outline mt-0.5 flex-shrink-0">—</span>
+            Respect the wildlife — fiddler crabs, shorebirds, and gators are present
+          </li>
+          <li class="flex gap-3 text-sm text-on-surface-variant leading-relaxed">
+            <span class="text-outline mt-0.5 flex-shrink-0">—</span>
+            Leave it better than you found it
+          </li>
+        </ul>
+
+        <!-- PRPA Callout -->
+        <div class="bg-primary/5 border-l-4 border-primary p-4 rounded-sm">
+          <p class="font-label text-[10px] uppercase tracking-widest text-primary mb-2">Know Before You Go</p>
+          <p class="text-xs text-on-surface-variant leading-relaxed">
+            Personal fossil collecting is generally permitted on dredge spoil islands.
+            Vertebrate fossils and commercial collection are governed by the
+            <a href="https://www.nps.gov/subjects/fossils/fossil-protection.htm"
+               target="_blank"
+               class="text-primary underline underline-offset-2 hover:text-primary-container transition-colors">Paleontological Resources Preservation Act</a>.
+            For site-specific guidance, check with the
+            <a href="https://www.deq.nc.gov/about/divisions/coastal-management"
+               target="_blank"
+               class="text-primary underline underline-offset-2 hover:text-primary-container transition-colors">NC Division of Coastal Management</a>
+            or the
+            <a href="https://www.saw.usace.army.mil"
+               target="_blank"
+               class="text-primary underline underline-offset-2 hover:text-primary-container transition-colors">Wilmington District Army Corps of Engineers</a>.
+            When in doubt — photograph it, note the location, leave it in place.
+          </p>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+  <!-- LIVE TIDAL VISUALIZATION (iframe to island-hero.html) -->
+  <section class="max-w-7xl mx-auto px-6 md:px-8 mb-16">
+    <div class="flex justify-between items-end mb-6">
+      <div>
+        <span class="font-label text-primary text-xs font-bold uppercase tracking-[0.3em] mb-2 block">Live Environmental Window</span>
+        <h2 class="font-headline text-3xl md:text-4xl font-extrabold tracking-tight">The Island, Right Now</h2>
+      </div>
+      <a href="hunt-planner.html" class="hidden md:inline-flex items-center gap-2 text-primary font-label text-xs font-bold uppercase tracking-widest hover:gap-4 transition-all">
+        Plan a Hunt
+        <span class="material-symbols-outlined text-sm">arrow_forward</span>
+      </a>
+    </div>
+    <div class="bg-[#080F1A] rounded-xl overflow-hidden border border-outline-variant/30 shadow-sm">
+      <iframe src="island-hero.html" class="w-full block" style="height:min(78vh,720px);border:0;" scrolling="no" title="Live tidal visualization of Shark Tooth Island"></iframe>
+    </div>
+    <p class="mt-3 font-label text-[10px] uppercase tracking-widest text-outline">Real NOAA predictions for NOAA Station 8658715 (Federal Point) · Cape Fear River · Updates every 10 minutes</p>
+  </section>
+
+  <!-- CATALOG GRID -->
+  <section class="max-w-7xl mx-auto px-6 md:px-8">
+    <div class="flex justify-between items-end mb-10">
+      <div>
+        <span class="font-label text-primary text-xs font-bold uppercase tracking-[0.3em] mb-2 block">Species Catalog</span>
+        <h2 class="font-headline text-3xl md:text-4xl font-extrabold tracking-tight">What You're Likely to Find</h2>
+      </div>
+    </div>
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
+
+      <!-- Megalodon -->
+      <div class="group flex flex-col bg-surface-container-lowest transition-all hover:bg-surface-bright">
+        <div class="aspect-[4/5] overflow-hidden bg-white flex items-center justify-center p-8 border-b border-outline-variant/10">
+          <img src="images/tooth-megalodon.webp" alt="Megalodon tooth illustration" class="max-w-full max-h-full object-contain group-hover:scale-105 transition-transform duration-700">
+        </div>
+        <div class="p-6 md:p-8 flex flex-col gap-4">
+          <div class="flex justify-between items-start">
+            <span class="font-label text-[10px] bg-secondary-fixed-dim text-on-secondary-fixed px-2 py-1 uppercase font-bold tracking-widest">Extinct</span>
+            <span class="font-label text-[10px] text-outline uppercase tracking-widest">Apex Find</span>
+          </div>
+          <div>
+            <h3 class="font-headline text-2xl md:text-3xl font-bold tracking-tight mb-1">Megalodon</h3>
+            <p class="font-label text-sm italic text-primary">Otodus megalodon</p>
+          </div>
+          <div class="grid grid-cols-2 gap-4 py-4 border-t border-b border-outline-variant/20">
+            <div>
+              <p class="font-label text-[9px] uppercase tracking-widest text-outline mb-1">Epoch</p>
+              <p class="font-body text-xs font-semibold">Miocene–Pliocene</p>
+            </div>
+            <div>
+              <p class="font-label text-[9px] uppercase tracking-widest text-outline mb-1">Tooth Size</p>
+              <p class="font-body text-xs font-semibold">25–175 mm</p>
+            </div>
+          </div>
+          <p class="font-body text-sm text-on-surface-variant leading-relaxed">
+            Massive triangular blade with a distinct bourlette and fine serrations. The island's signature find — most are juveniles under 60mm, but adults over 100mm surface occasionally.
+          </p>
+          <a href="megalodon-calculator-v5.html" class="mt-2 inline-flex items-center gap-2 text-primary font-label text-xs font-bold uppercase tracking-widest group-hover:gap-4 transition-all">
+            Size a Tooth
+            <span class="material-symbols-outlined text-sm">arrow_forward</span>
+          </a>
+        </div>
+      </div>
+
+      <!-- Great White -->
+      <div class="group flex flex-col bg-surface-container-lowest transition-all hover:bg-surface-bright">
+        <div class="aspect-[4/5] overflow-hidden bg-white flex items-center justify-center p-8 border-b border-outline-variant/10">
+          <img src="images/tooth-great-white.webp" alt="Great White shark tooth illustration" class="max-w-full max-h-full object-contain group-hover:scale-105 transition-transform duration-700">
+        </div>
+        <div class="p-6 md:p-8 flex flex-col gap-4">
+          <div class="flex justify-between items-start">
+            <span class="font-label text-[10px] bg-secondary-fixed text-on-secondary-fixed px-2 py-1 uppercase font-bold tracking-widest">Common</span>
+            <span class="font-label text-[10px] text-outline uppercase tracking-widest">Field Find</span>
+          </div>
+          <div>
+            <h3 class="font-headline text-2xl md:text-3xl font-bold tracking-tight mb-1">Great White</h3>
+            <p class="font-label text-sm italic text-primary">Carcharodon carcharias</p>
+          </div>
+          <div class="grid grid-cols-2 gap-4 py-4 border-t border-b border-outline-variant/20">
+            <div>
+              <p class="font-label text-[9px] uppercase tracking-widest text-outline mb-1">Epoch</p>
+              <p class="font-body text-xs font-semibold">Pliocene–Recent</p>
+            </div>
+            <div>
+              <p class="font-label text-[9px] uppercase tracking-widest text-outline mb-1">Tooth Size</p>
+              <p class="font-body text-xs font-semibold">30–65 mm</p>
+            </div>
+          </div>
+          <p class="font-body text-sm text-on-surface-variant leading-relaxed">
+            Coarsely serrated margins and no bourlette. Found in the upper layers and often confused with a small megalodon at first glance.
+          </p>
+        </div>
+      </div>
+
+      <!-- Tiger Shark -->
+      <div class="group flex flex-col bg-surface-container-lowest transition-all hover:bg-surface-bright">
+        <div class="aspect-[4/5] overflow-hidden bg-white flex items-center justify-center p-8 border-b border-outline-variant/10">
+          <img src="images/tooth-tiger.webp" alt="Tiger shark tooth illustration" class="max-w-full max-h-full object-contain group-hover:scale-105 transition-transform duration-700">
+        </div>
+        <div class="p-6 md:p-8 flex flex-col gap-4">
+          <div class="flex justify-between items-start">
+            <span class="font-label text-[10px] bg-secondary-fixed text-on-secondary-fixed px-2 py-1 uppercase font-bold tracking-widest">Common</span>
+            <span class="font-label text-[10px] text-outline uppercase tracking-widest">Field Find</span>
+          </div>
+          <div>
+            <h3 class="font-headline text-2xl md:text-3xl font-bold tracking-tight mb-1">Tiger Shark</h3>
+            <p class="font-label text-sm italic text-primary">Galeocerdo cuvier</p>
+          </div>
+          <div class="grid grid-cols-2 gap-4 py-4 border-t border-b border-outline-variant/20">
+            <div>
+              <p class="font-label text-[9px] uppercase tracking-widest text-outline mb-1">Epoch</p>
+              <p class="font-body text-xs font-semibold">Miocene–Recent</p>
+            </div>
+            <div>
+              <p class="font-label text-[9px] uppercase tracking-widest text-outline mb-1">Tooth Size</p>
+              <p class="font-body text-xs font-semibold">20–40 mm</p>
+            </div>
+          </div>
+          <p class="font-body text-sm text-on-surface-variant leading-relaxed">
+            Unmistakable hooked, notched profile with secondary serrations. A shearing tooth built for turtles and large prey.
+          </p>
+        </div>
+      </div>
+
+      <!-- Mako (Isurus hastalis) -->
+      <div class="group flex flex-col bg-surface-container-lowest transition-all hover:bg-surface-bright">
+        <div class="aspect-[4/5] overflow-hidden bg-white flex items-center justify-center p-10 border-b border-outline-variant/10">
+          <img src="images/tooth-mako.webp" alt="Broad-Tooth Mako fossil illustration" class="max-w-full max-h-full object-contain group-hover:scale-105 transition-transform duration-700">
+        </div>
+        <div class="p-6 md:p-8 flex flex-col gap-4">
+          <div class="flex justify-between items-start">
+            <span class="font-label text-[10px] bg-tertiary-fixed text-on-tertiary-fixed px-2 py-1 uppercase font-bold tracking-widest">Uncommon</span>
+            <span class="font-label text-[10px] text-outline uppercase tracking-widest">Ancestor</span>
+          </div>
+          <div>
+            <h3 class="font-headline text-2xl md:text-3xl font-bold tracking-tight mb-1">Broad-Tooth Mako</h3>
+            <p class="font-label text-sm italic text-primary">Cosmopolitodus hastalis</p>
+          </div>
+          <div class="grid grid-cols-2 gap-4 py-4 border-t border-b border-outline-variant/20">
+            <div>
+              <p class="font-label text-[9px] uppercase tracking-widest text-outline mb-1">Epoch</p>
+              <p class="font-body text-xs font-semibold">Miocene–Pliocene</p>
+            </div>
+            <div>
+              <p class="font-label text-[9px] uppercase tracking-widest text-outline mb-1">Tooth Size</p>
+              <p class="font-body text-xs font-semibold">40–75 mm</p>
+            </div>
+          </div>
+          <p class="font-body text-sm text-on-surface-variant leading-relaxed">
+            Broad, smooth-edged blade with no serrations. Widely regarded as the transitional ancestor of the modern great white.
+          </p>
+        </div>
+      </div>
+
+      <!-- Bull Shark -->
+      <div class="group flex flex-col bg-surface-container-lowest transition-all hover:bg-surface-bright">
+        <div class="aspect-[4/5] overflow-hidden bg-white flex items-center justify-center p-8 border-b border-outline-variant/10">
+          <img src="images/tooth-bull.webp" alt="Bull shark tooth illustration" class="max-w-full max-h-full object-contain group-hover:scale-105 transition-transform duration-700">
+        </div>
+        <div class="p-6 md:p-8 flex flex-col gap-4">
+          <div class="flex justify-between items-start">
+            <span class="font-label text-[10px] bg-secondary-fixed text-on-secondary-fixed px-2 py-1 uppercase font-bold tracking-widest">Common</span>
+            <span class="font-label text-[10px] text-outline uppercase tracking-widest">Field Find</span>
+          </div>
+          <div>
+            <h3 class="font-headline text-2xl md:text-3xl font-bold tracking-tight mb-1">Bull Shark</h3>
+            <p class="font-label text-sm italic text-primary">Carcharhinus leucas</p>
+          </div>
+          <div class="grid grid-cols-2 gap-4 py-4 border-t border-b border-outline-variant/20">
+            <div>
+              <p class="font-label text-[9px] uppercase tracking-widest text-outline mb-1">Epoch</p>
+              <p class="font-body text-xs font-semibold">Pliocene–Recent</p>
+            </div>
+            <div>
+              <p class="font-label text-[9px] uppercase tracking-widest text-outline mb-1">Tooth Size</p>
+              <p class="font-body text-xs font-semibold">15–25 mm</p>
+            </div>
+          </div>
+          <p class="font-body text-sm text-on-surface-variant leading-relaxed">
+            Broadly triangular with heavy serrations. Easy to confuse with dusky and sandbar shark teeth — check the cusplets on the side.
+          </p>
+        </div>
+      </div>
+
+      <!-- Snaggletooth -->
+      <div class="group flex flex-col bg-surface-container-lowest transition-all hover:bg-surface-bright">
+        <div class="aspect-[4/5] overflow-hidden bg-white flex items-center justify-center p-8 border-b border-outline-variant/10">
+          <img src="images/tooth-snaggletooth.webp" alt="Snaggletooth shark tooth illustration" class="max-w-full max-h-full object-contain group-hover:scale-105 transition-transform duration-700">
+        </div>
+        <div class="p-6 md:p-8 flex flex-col gap-4">
+          <div class="flex justify-between items-start">
+            <span class="font-label text-[10px] bg-error-container text-on-error-container px-2 py-1 uppercase font-bold tracking-widest">Rare</span>
+            <span class="font-label text-[10px] text-outline uppercase tracking-widest">Trophy Find</span>
+          </div>
+          <div>
+            <h3 class="font-headline text-2xl md:text-3xl font-bold tracking-tight mb-1">Snaggletooth</h3>
+            <p class="font-label text-sm italic text-primary">Hemipristis serra</p>
+          </div>
+          <div class="grid grid-cols-2 gap-4 py-4 border-t border-b border-outline-variant/20">
+            <div>
+              <p class="font-label text-[9px] uppercase tracking-widest text-outline mb-1">Epoch</p>
+              <p class="font-body text-xs font-semibold">Miocene</p>
+            </div>
+            <div>
+              <p class="font-label text-[9px] uppercase tracking-widest text-outline mb-1">Tooth Size</p>
+              <p class="font-body text-xs font-semibold">30–50 mm</p>
+            </div>
+          </div>
+          <p class="font-body text-sm text-on-surface-variant leading-relaxed">
+            Curved blade with large, distinctive coarse serrations. The most-wanted trophy tooth after megalodon.
+          </p>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- BREAK 2 — Kayaker approaching the island -->
+  <div class="my-16 md:my-24">
+    <img src="images/break-approach.webp" alt="Kayaker paddling toward Shark Tooth Island on the Cape Fear River" class="w-full object-cover h-[240px] md:h-[56vh]" loading="lazy">
+  </div>
+
+  <!-- TOOLS CALLOUT -->
+  <section class="max-w-7xl mx-auto px-6 md:px-8 mt-24 grid grid-cols-1 md:grid-cols-3 gap-6">
+    <a href="megalodon-calculator-v5.html" class="group bg-surface-container-lowest p-8 border-l-2 border-primary hover:bg-surface-bright transition-colors">
+      <span class="material-symbols-outlined text-primary text-3xl mb-4">straighten</span>
+      <h3 class="font-headline text-2xl font-bold mb-2">Size Calculator</h3>
+      <p class="text-on-surface-variant text-sm leading-relaxed mb-4">Estimate body length, mass, jaw width and bite force from a tooth measurement. Based on the Pimiento &amp; Clements formula.</p>
+      <span class="font-label text-xs uppercase tracking-widest text-primary font-bold inline-flex items-center gap-2 group-hover:gap-4 transition-all">Open Tool <span class="material-symbols-outlined text-sm">arrow_forward</span></span>
+    </a>
+    <a href="hunt-planner.html" class="group bg-surface-container-lowest p-8 border-l-2 border-primary hover:bg-surface-bright transition-colors">
+      <span class="material-symbols-outlined text-primary text-3xl mb-4">waves</span>
+      <h3 class="font-headline text-2xl font-bold mb-2">Hunt Planner</h3>
+      <p class="text-on-surface-variant text-sm leading-relaxed mb-4">Pulls real NOAA tide predictions and Open-Meteo weather to score the next seven days. Find your window.</p>
+      <span class="font-label text-xs uppercase tracking-widest text-primary font-bold inline-flex items-center gap-2 group-hover:gap-4 transition-all">Open Tool <span class="material-symbols-outlined text-sm">arrow_forward</span></span>
+    </a>
+    <a href="depth-of-time.html" class="group bg-surface-container-lowest p-8 border-l-2 border-outline-variant hover:bg-surface-bright transition-colors">
+      <span class="material-symbols-outlined text-outline text-3xl mb-4">history_edu</span>
+      <h3 class="font-headline text-2xl font-bold mb-2">Depth of Time</h3>
+      <p class="text-on-surface-variant text-sm leading-relaxed mb-4">A walk through the geological layers that produced what washes up today. Currently in progress.</p>
+      <span class="font-label text-xs uppercase tracking-widest text-outline font-bold">Coming Soon</span>
+    </a>
+  </section>
+
+  <!-- BREAK 3 — On the island, hunting fossils -->
+  <div class="my-16 md:my-24">
+    <img src="images/break-hunting.webp" alt="Fossil hunting on the exposed surface of Shark Tooth Island at low tide" class="w-full object-cover h-[240px] md:h-[56vh]" loading="lazy">
+  </div>
+
+  <!-- NEWSLETTER (Web3Forms → Station@sharktoothisland.org) -->
+  <section class="max-w-7xl mx-auto px-6 md:px-8 mt-24 pb-24">
+    <div class="bg-primary p-10 md:p-16 lg:p-20 relative overflow-hidden flex flex-col md:flex-row items-center justify-between gap-10">
+      <div class="relative z-10 max-w-lg">
+        <h2 class="font-headline text-3xl md:text-4xl font-bold text-on-primary mb-4">Field Notes, Delivered.</h2>
+        <p class="text-primary-fixed-dim font-body leading-relaxed">Occasional updates from the station — tidal windows, new finds, and field notes from the Cape Fear River. No spam.</p>
+      </div>
+      <form class="relative z-10 w-full md:w-auto" id="signup-form" onsubmit="return submitEmail(event)">
+        <div class="flex flex-col sm:flex-row gap-2">
+          <input type="email" id="email-input" required autocomplete="email" placeholder="your@email.com" class="bg-primary-container/40 border-none text-white placeholder:text-white/60 px-6 py-4 font-label text-sm w-full sm:w-80 focus:ring-1 focus:ring-white/30">
+          <button type="submit" id="signup-btn" class="bg-on-primary text-primary px-8 py-4 font-label text-xs font-bold uppercase tracking-widest hover:bg-surface-bright transition-all whitespace-nowrap">Subscribe</button>
+        </div>
+        <p class="mt-3 font-label text-[10px] uppercase tracking-widest text-white/60" id="signup-status">&nbsp;</p>
+      </form>
+      <div class="absolute -right-20 -bottom-20 w-96 h-96 border border-white/5 rounded-full pointer-events-none"></div>
+      <div class="absolute -right-40 -bottom-40 w-96 h-96 border border-white/5 rounded-full pointer-events-none"></div>
+    </div>
+  </section>
 </main>
+
+<!-- FOOTER -->
+<footer class="bg-slate-100 py-16">
+  <div class="grid grid-cols-1 md:grid-cols-4 gap-12 max-w-7xl mx-auto px-6 md:px-8">
+    <div class="md:col-span-2">
+      <div class="text-lg font-semibold text-slate-800 font-headline mb-4">Shark Tooth Island Coastal Field Station</div>
+      <p class="text-slate-500 font-body text-sm max-w-md leading-relaxed mb-4">
+        A public field station and educational resource for Shark Tooth Island in the Cape Fear River.
+      </p>
+      <p class="font-label text-[10px] uppercase tracking-widest text-slate-400">
+        34.0522° N · 77.9067° W · New Hanover County, NC
+      </p>
+    </div>
+    <div>
+      <h5 class="font-label text-xs uppercase tracking-widest text-blue-900 font-bold mb-6">Tools</h5>
+      <ul class="space-y-3">
+        <li><a href="megalodon-calculator-v5.html" class="text-slate-500 font-body text-sm hover:text-blue-800 transition-colors">Size Calculator</a></li>
+        <li><a href="hunt-planner.html" class="text-slate-500 font-body text-sm hover:text-blue-800 transition-colors">Hunt Planner</a></li>
+        <li><a href="depth-of-time.html" class="text-slate-500 font-body text-sm hover:text-blue-800 transition-colors">Depth of Time</a></li>
+      </ul>
+    </div>
+    <div>
+      <h5 class="font-label text-xs uppercase tracking-widest text-blue-900 font-bold mb-6">Contact</h5>
+      <ul class="space-y-3">
+        <li><a href="mailto:Station@sharktoothisland.org" class="text-slate-500 font-body text-sm hover:text-blue-800 transition-colors">Station@sharktoothisland.org</a></li>
+      </ul>
+    </div>
+  </div>
+  <p class="max-w-7xl mx-auto px-6 md:px-8 mt-12 pt-6 border-t border-slate-200 font-label text-[10px] uppercase tracking-widest text-slate-400">
+    © 2026 Shark Tooth Island Coastal Field Station
+  </p>
+</footer>
 
 <script>
 async function submitEmail(e) {
   e.preventDefault();
   const btn = document.getElementById('signup-btn');
   const input = document.getElementById('email-input');
-  const errEl = document.getElementById('signup-error');
+  const status = document.getElementById('signup-status');
   const email = input.value.trim();
   if (!email) return false;
-
   btn.disabled = true;
+  const originalText = btn.textContent;
   btn.textContent = 'Sending...';
-  errEl.classList.add('hidden');
-
+  status.textContent = '';
   try {
     const res = await fetch('https://api.web3forms.com/submit', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
         access_key: '73d66afa-44b1-46ce-8ee0-e116abf70068',
-        subject: 'SharkToothIsland.org — Email Signup: ' + email,
-        from_name: 'Shark Tooth Island Coming Soon',
+        subject: 'SharkToothIsland.org — Field Notes Signup: ' + email,
+        from_name: 'SharkToothIsland.org Newsletter',
         email: email,
-        message: 'New coming-soon signup from sharktoothisland.org: ' + email
+        message: 'New newsletter signup from sharktoothisland.org: ' + email
       })
     });
     const data = await res.json();
     if (data.success) {
-      document.getElementById('signup-form').classList.add('hidden');
-      document.getElementById('signup-success').classList.remove('hidden');
+      document.getElementById('signup-form').style.display = 'none';
+      status.textContent = '✓ You\'re on the list.';
+      status.style.display = 'block';
     } else {
       btn.disabled = false;
-      btn.textContent = 'Notify Me';
-      errEl.classList.remove('hidden');
+      btn.textContent = originalText;
+      status.textContent = 'Something went wrong — try again.';
     }
   } catch (err) {
     btn.disabled = false;
-    btn.textContent = 'Notify Me';
-    errEl.classList.remove('hidden');
+    btn.textContent = originalText;
+    status.textContent = 'Network error — try again.';
   }
   return false;
 }
