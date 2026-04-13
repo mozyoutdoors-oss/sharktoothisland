@@ -379,16 +379,17 @@ function update(val) {
   document.getElementById('out-epoch').textContent = epoch;
   document.getElementById('out-epoch-note').textContent = epochNote;
 
-  // Shark scale: 8% at min → 68% at max
-  const scalePct = 8 + ((mm - MIN_MM) / (MAX_MM - MIN_MM)) * 60;
+  // Shark scale: 6% at min → 95% at max
+  const scalePct = 6 + ((mm - MIN_MM) / (MAX_MM - MIN_MM)) * 89;
   document.getElementById('shark-wrap').style.width = scalePct.toFixed(1) + '%';
 
-  // Scale bar: 10 ft reference against rendered shark
-  const containerW = 840;
+  // Scale bar: 10 ft reference against actual rendered shark width
+  const sharkEl = document.getElementById('shark-wrap');
+  const containerW = sharkEl.parentElement.offsetWidth || 840;
   const sharkRenderedPx = (scalePct / 100) * containerW;
   const pxPerFt = sharkRenderedPx / bodyFt;
   const barPx = Math.round(pxPerFt * 10);
-  document.getElementById('scale-bar').style.width = Math.max(8, Math.min(barPx, 140)) + 'px';
+  document.getElementById('scale-bar').style.width = Math.max(8, Math.min(barPx, 200)) + 'px';
   document.getElementById('scale-label').textContent = '10 FT';
 
   // Rarity tier
