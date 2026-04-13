@@ -90,51 +90,128 @@ tailwind.config = {
   </div>
 </header>
 
-<main class="pt-16 pb-24 px-6 md:px-8 max-w-7xl mx-auto archival-grid min-h-screen relative">
+<main class="pt-6 md:pt-10 pb-24 px-6 md:px-8 max-w-7xl mx-auto archival-grid min-h-screen relative">
   <div class="archival-grain fixed inset-0"></div>
 
-  <!-- HEADER -->
-  <header class="mb-12 grid grid-cols-1 lg:grid-cols-12 gap-8 items-end relative z-10">
-    <div class="lg:col-span-8">
-      <span class="font-label text-xs tracking-[0.3em] uppercase text-primary mb-4 block">Megalodon Size Tool</span>
-      <h1 class="text-4xl md:text-6xl lg:text-7xl font-extrabold tracking-tighter text-on-surface leading-[0.95]">
-        Measure a Tooth.<br>Reconstruct the Shark.
-      </h1>
+  <!-- COMPARATIVE SCALE — HERO POSITION -->
+  <section class="bg-surface-container-low p-6 md:p-8 overflow-visible relative z-10 mb-6">
+    <div class="flex justify-between items-start mb-4 md:mb-6">
+      <div>
+        <span class="font-label text-xs tracking-[0.3em] uppercase text-primary block mb-1">Megalodon Size Tool</span>
+        <span class="font-label text-xs uppercase tracking-widest text-secondary">Comparative Scale</span>
+      </div>
+      <div class="text-right">
+        <span class="font-label text-[10px] uppercase tracking-widest text-outline block">vs. Great White Max</span>
+        <span id="out-gw" class="font-headline text-2xl font-bold text-primary">—</span>
+      </div>
     </div>
-    <div class="lg:col-span-4 pb-2 border-l border-outline-variant pl-6">
-      <p class="font-label text-sm text-on-surface-variant leading-relaxed">
-        Enter the slant height of a megalodon tooth and this tool reconstructs body length, mass, jaw width and bite force using the widely cited Pimiento &amp; Clements scaling (~8.5 ft of body per inch of tooth).
-      </p>
+    <div class="relative w-full flex items-end gap-6 md:gap-10 mb-4">
+      <!-- Human -->
+      <div class="flex flex-col items-center flex-shrink-0">
+        <div class="h-8 w-2 bg-on-surface-variant opacity-50"></div>
+        <span class="font-label text-[9px] uppercase mt-2 text-outline">6 ft</span>
+      </div>
+      <!-- Shark scale -->
+      <div class="flex-1 relative">
+        <div id="shark-wrap" class="relative" style="width: 35%;">
+          <svg viewBox="40 100 950 370" class="w-full h-auto" style="transform:scaleX(-1)">
+            <path d="M75.743874,193.390106 C65.924805,194.587830 65.267563,194.341003 63.141422,185.047531 C61.257244,176.811661 57.948822,169.274139 53.636459,162.083527 C52.746567,160.599686 51.298508,158.923706 52.748112,157.065628 C54.040699,155.408829 56.058681,155.567200 57.853371,155.860031 C65.136833,157.048416 72.074951,159.366318 78.605774,162.795013 C118.332848,183.651871 154.382309,209.258942 183.373459,243.981018 C186.467804,247.687042 189.729004,251.254517 192.938141,254.863739 C201.305099,264.273865 211.828568,267.663055 224.054901,265.445740 C241.232925,262.330414 258.369781,258.982941 275.499908,255.611130 C283.277130,254.080292 288.889160,250.220154 290.432129,241.667831 C291.430603,236.133469 293.895966,234.724884 299.360840,236.015457 C305.380280,237.436981 311.066498,239.904861 316.525970,242.760712 C320.458923,244.818054 324.268066,245.073639 328.555878,244.101334 C378.509949,232.773819 428.454437,221.391861 478.818695,211.986328 C484.476349,210.929764 490.233765,210.383606 496.360596,208.104370 C494.420135,207.272888 493.140320,206.724503 491.889740,206.188644 C491.547180,203.658218 493.537781,202.876556 494.806610,201.760284 C499.453339,197.672333 503.489044,193.058823 507.426270,188.291595 C514.878174,179.268677 515.174500,168.019760 517.702515,157.415726 C520.727417,144.727295 521.435974,131.780136 522.640259,118.878090 C523.254700,112.295242 525.462646,110.555840 532.156006,111.465302 C545.139648,113.229469 555.263977,120.449127 564.696716,128.842422 C577.660156,140.377289 586.873962,154.938065 596.812561,168.917587 C600.186157,173.662872 603.776489,178.270691 607.506775,182.741913 C613.527649,189.958618 621.605164,193.154709 630.777161,193.697083 C654.036011,195.072403 677.331482,195.793640 700.559204,197.735428 C752.350830,202.065125 803.627869,209.406158 854.048157,222.423462 C883.386230,229.997849 912.579834,238.000565 941.434265,247.237991 C950.322815,250.083557 959.177307,253.065659 967.351440,257.646088 C975.257751,262.076416 976.433044,266.883850 970.591187,273.752655 C957.124878,289.586182 939.713867,298.689636 919.362549,302.317932 C917.036133,302.732697 914.675293,302.593933 914.274231,305.856445 C913.165100,314.877533 907.339294,320.288086 899.806519,324.314697 C882.955200,333.322449 864.966553,339.351868 846.587830,344.221375 C814.476624,352.729370 781.798767,357.680054 748.614014,359.429657 C735.819763,360.104187 723.059814,361.410522 710.272156,362.242432 C707.267883,362.437897 705.963440,364.376251 704.454163,366.358093 C689.469543,386.034485 673.122681,404.462921 653.795471,419.998230 C637.813904,432.844238 620.401855,443.164703 600.070984,447.611816 C596.306091,448.435364 591.778687,450.577698 588.822693,446.901825 C585.765076,443.099548 588.629456,438.916046 590.299622,435.201263 C595.086304,424.554443 602.766296,415.481293 607.074402,404.554993 C611.287598,393.869293 615.613098,383.211090 618.060242,371.949524 C619.206421,366.674805 617.221680,364.373688 611.890564,364.368652 C558.077087,364.317688 504.988892,357.930420 452.560333,345.982666 C445.463531,344.365387 439.451630,346.263641 433.509308,349.628601 C426.110443,353.818390 418.522522,357.634735 410.660675,360.878387 C408.206116,361.891052 405.694305,362.853607 403.120300,363.469604 C397.891663,364.720886 394.271057,362.538330 393.861603,357.307251 C393.251099,349.507904 389.455017,344.397949 382.591522,340.988556 C379.032623,339.220734 375.753265,336.863770 372.441284,334.633881 C370.039459,333.016754 368.072021,330.885529 367.656189,327.897339 C367.132935,324.137543 365.072540,322.742035 361.383057,322.171967 C342.985748,319.329529 324.614258,316.308167 306.275269,313.111084 C302.862305,312.516083 300.091400,313.062073 297.322754,314.885956 C291.872925,318.476074 286.082764,321.416962 279.846588,323.368286 C273.064941,325.490265 270.634613,323.575226 271.516876,316.663177 C272.066986,312.353210 270.350525,309.757599 266.594727,307.892090 C261.200043,305.212402 255.288147,305.273865 249.574753,304.383667 C240.537872,302.975586 231.408508,302.148193 222.386307,300.662170 C210.776642,298.750000 201.547729,301.998291 194.289368,311.519073 C184.294449,324.629425 174.182434,337.668457 163.194199,349.977997 C152.309753,362.171234 140.960266,373.903168 127.871681,383.801727 C118.416725,390.952209 107.809845,395.592255 96.242844,398.043182 C94.303909,398.454010 92.094193,398.794708 90.547829,397.193481 C89.071709,395.665009 90.244041,393.888672 91.147789,392.635101 C104.380058,374.280914 107.914948,352.720093 111.649849,331.208252 C113.450211,320.838715 117.398544,311.060181 120.192726,300.961578 C122.707535,291.872742 121.832756,283.227081 118.300781,274.628571 C108.087555,249.764709 96.006821,225.875336 81.350594,203.317688 C79.980469,201.208893 78.644386,199.124847 78.757050,196.437943 C78.830208,194.693344 77.946106,193.612915 75.743874,193.390106z" fill="#1a1c1c"/>
+          </svg>
+        </div>
+        <div class="mt-3 flex items-center gap-3">
+          <div id="scale-bar" class="h-1 bg-primary" style="width: 40px;"></div>
+          <span id="scale-label" class="font-label text-[9px] uppercase tracking-widest text-outline">10 FT</span>
+        </div>
+      </div>
     </div>
-  </header>
+    <!-- EPOCH -->
+    <div class="mt-4 pt-4 border-t border-outline-variant/20 flex items-baseline justify-between">
+      <div>
+        <span class="font-label text-[10px] uppercase tracking-widest text-outline block mb-1">Most Likely Epoch</span>
+        <span id="out-epoch" class="font-headline text-xl font-bold">—</span>
+      </div>
+      <span id="out-epoch-note" class="font-label text-[11px] text-on-surface-variant">—</span>
+    </div>
+  </section>
 
-  <!-- INPUT + RESULTS BENTO -->
+  <!-- SLIDER — directly under shark -->
+  <section class="bg-surface-container-lowest p-6 md:p-8 shadow-[0_20px_40px_rgba(0,29,54,0.04)] relative z-10 mb-8">
+    <div class="flex items-center justify-between mb-4">
+      <label class="font-label text-xs uppercase tracking-widest text-primary">Tooth Slant Height</label>
+      <div class="flex gap-1">
+        <button id="btn-cm" onclick="setUnit('mm')" class="font-label text-[10px] uppercase tracking-widest px-3 py-1.5 bg-primary text-on-primary">mm</button>
+        <button id="btn-in" onclick="setUnit('in')" class="font-label text-[10px] uppercase tracking-widest px-3 py-1.5 bg-surface-container-high text-on-surface-variant hover:bg-surface-container-highest">in</button>
+      </div>
+    </div>
+    <div class="flex items-end justify-between mb-4">
+      <span id="reading-num" class="text-5xl md:text-7xl font-bold font-headline tracking-tighter text-on-surface">90</span>
+      <span class="font-label text-xl text-outline mb-2 uppercase"><span id="reading-unit">mm</span></span>
+    </div>
+    <div class="relative mb-3">
+      <div class="absolute top-[10px] left-0 h-1 bg-outline-variant/40 w-full"></div>
+      <div id="range-fill" class="absolute top-[10px] left-0 h-1 bg-primary" style="width: 43%;"></div>
+      <input type="range" id="tooth-slider" min="25" max="175" step="1" value="90" oninput="update(this.value)" class="relative z-10">
+    </div>
+    <p id="slide-hint" class="font-label text-[10px] uppercase tracking-widest text-primary text-center mb-3">← Drag the slider →</p>
+    <div class="flex justify-between font-label text-[9px] text-outline uppercase tracking-wider">
+      <span id="lbl-min">25 mm — juvenile</span>
+      <span id="lbl-max">175 mm — largest known</span>
+    </div>
+  </section>
+
+  <!-- RESULTS + DETAILS -->
   <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 md:gap-8 relative z-10">
 
-    <!-- INPUT PANEL -->
-    <section class="lg:col-span-5 space-y-6">
-      <div class="bg-surface-container-lowest p-8 shadow-[0_20px_40px_rgba(0,29,54,0.04)] relative">
-        <div class="absolute top-4 right-4 flex gap-1">
-          <button id="btn-cm" onclick="setUnit('mm')" class="font-label text-[10px] uppercase tracking-widest px-3 py-1.5 bg-primary text-on-primary">mm</button>
-          <button id="btn-in" onclick="setUnit('in')" class="font-label text-[10px] uppercase tracking-widest px-3 py-1.5 bg-surface-container-high text-on-surface-variant hover:bg-surface-container-highest">in</button>
+    <!-- RESULTS PANEL -->
+    <section class="lg:col-span-7 grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8">
+
+      <!-- BODY LENGTH (primary) -->
+      <div class="bg-primary text-on-primary p-8 flex flex-col justify-between min-h-[200px]">
+        <span class="font-label text-xs uppercase tracking-[0.2em] opacity-80">Estimated Body Length</span>
+        <div class="mt-4">
+          <span id="out-length" class="text-4xl md:text-5xl font-extrabold tracking-tighter block">—</span>
+          <span id="out-length-note" class="font-label text-[11px] uppercase tracking-widest opacity-70 mt-2 block">—</span>
         </div>
-        <label class="font-label text-xs uppercase tracking-widest text-primary mb-6 block">Tooth Slant Height</label>
-        <div class="flex items-end justify-between mb-6">
-          <span id="reading-num" class="text-6xl md:text-7xl font-bold font-headline tracking-tighter text-on-surface">90</span>
-          <span class="font-label text-xl text-outline mb-2 uppercase"><span id="reading-unit">mm</span></span>
-        </div>
-        <div class="relative mb-3">
-          <div class="absolute top-[10px] left-0 h-1 bg-outline-variant/40 w-full"></div>
-          <div id="range-fill" class="absolute top-[10px] left-0 h-1 bg-primary" style="width: 43%;"></div>
-          <input type="range" id="tooth-slider" min="25" max="175" step="1" value="90" oninput="update(this.value)" class="relative z-10">
-        </div>
-        <p id="slide-hint" class="font-label text-[10px] uppercase tracking-widest text-primary text-center mb-3">← Drag the slider →</p>
-        <div class="flex justify-between font-label text-[9px] text-outline uppercase tracking-wider">
-          <span id="lbl-min">25 mm — juvenile</span>
-          <span id="lbl-max">175 mm — largest known</span>
+        <div class="mt-4 flex items-center gap-2">
+          <span class="material-symbols-outlined text-sm">straighten</span>
+          <span class="font-label text-[10px] uppercase tracking-widest">Pimiento &amp; Clements 2014</span>
         </div>
       </div>
 
+      <!-- MASS -->
+      <div class="bg-surface-container-lowest p-8 border-l-[4px] border-primary flex flex-col justify-between min-h-[200px]">
+        <span class="font-label text-xs uppercase tracking-[0.2em] text-primary">Estimated Mass</span>
+        <div class="mt-4">
+          <span id="out-weight" class="text-4xl md:text-5xl font-extrabold tracking-tighter text-on-surface block">—</span>
+          <span id="out-weight-note" class="font-label text-[11px] uppercase tracking-widest text-outline mt-2 block">—</span>
+        </div>
+        <div class="mt-4 flex items-center gap-2 text-outline">
+          <span class="material-symbols-outlined text-sm">weight</span>
+          <span class="font-label text-[10px] uppercase tracking-widest">Allometric scaling (length³)</span>
+        </div>
+      </div>
+
+      <!-- JAW WIDTH -->
+      <div class="bg-surface-container-lowest p-8 border-l-[4px] border-outline flex flex-col justify-between min-h-[160px]">
+        <span class="font-label text-xs uppercase tracking-[0.2em] text-on-surface-variant">Jaw Width</span>
+        <div class="mt-4">
+          <span id="out-jaw" class="text-3xl md:text-4xl font-extrabold tracking-tighter text-on-surface block">—</span>
+          <span id="out-jaw-note" class="font-label text-[11px] uppercase tracking-widest text-outline mt-2 block">—</span>
+        </div>
+      </div>
+
+      <!-- BITE FORCE -->
+      <div class="bg-surface-container-lowest p-8 border-l-[4px] border-outline flex flex-col justify-between min-h-[160px]">
+        <span class="font-label text-xs uppercase tracking-[0.2em] text-on-surface-variant">Bite Force</span>
+        <div class="mt-4">
+          <span id="out-bite" class="text-3xl md:text-4xl font-extrabold tracking-tighter text-on-surface block">—</span>
+          <span id="out-bite-note" class="font-label text-[11px] uppercase tracking-widest text-outline mt-2 block">—</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- RARITY + HEADER INFO -->
+    <section class="lg:col-span-5 space-y-6">
       <!-- RARITY CARD -->
       <div class="bg-surface-container-low p-8 space-y-4 border-l-2 border-primary">
         <div class="flex items-center gap-4">
@@ -147,93 +224,16 @@ tailwind.config = {
         <p id="rarity-body" class="text-sm text-on-surface-variant leading-relaxed">A solid tooth in the range most hunters go home with.</p>
         <div id="rarity-tags" class="pt-2"></div>
       </div>
-    </section>
 
-    <!-- RESULTS PANEL -->
-    <section class="lg:col-span-7 grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8">
-
-      <!-- BODY LENGTH (primary) -->
-      <div class="bg-primary text-on-primary p-8 flex flex-col justify-between min-h-[240px]">
-        <span class="font-label text-xs uppercase tracking-[0.2em] opacity-80">Estimated Body Length</span>
-        <div class="mt-6">
-          <span id="out-length" class="text-4xl md:text-5xl font-extrabold tracking-tighter block">—</span>
-          <span id="out-length-note" class="font-label text-[11px] uppercase tracking-widest opacity-70 mt-2 block">—</span>
-        </div>
-        <div class="mt-6 flex items-center gap-2">
-          <span class="material-symbols-outlined text-sm">straighten</span>
-          <span class="font-label text-[10px] uppercase tracking-widest">Pimiento &amp; Clements 2014</span>
-        </div>
+      <!-- ABOUT THIS TOOL -->
+      <div class="border-l border-outline-variant pl-6 py-2">
+        <h2 class="font-headline text-2xl md:text-3xl font-extrabold tracking-tighter text-on-surface leading-tight mb-3">
+          Measure a Tooth.<br>Reconstruct the Shark.
+        </h2>
+        <p class="font-label text-sm text-on-surface-variant leading-relaxed">
+          Enter the slant height of a megalodon tooth and this tool reconstructs body length, mass, jaw width and bite force using the widely cited Pimiento &amp; Clements scaling (~8.5 ft of body per inch of tooth).
+        </p>
       </div>
-
-      <!-- MASS -->
-      <div class="bg-surface-container-lowest p-8 border-l-[4px] border-primary flex flex-col justify-between min-h-[240px]">
-        <span class="font-label text-xs uppercase tracking-[0.2em] text-primary">Estimated Mass</span>
-        <div class="mt-6">
-          <span id="out-weight" class="text-4xl md:text-5xl font-extrabold tracking-tighter text-on-surface block">—</span>
-          <span id="out-weight-note" class="font-label text-[11px] uppercase tracking-widest text-outline mt-2 block">—</span>
-        </div>
-        <div class="mt-6 flex items-center gap-2 text-outline">
-          <span class="material-symbols-outlined text-sm">weight</span>
-          <span class="font-label text-[10px] uppercase tracking-widest">Allometric scaling (length³)</span>
-        </div>
-      </div>
-
-      <!-- JAW WIDTH -->
-      <div class="bg-surface-container-lowest p-8 border-l-[4px] border-outline flex flex-col justify-between min-h-[200px]">
-        <span class="font-label text-xs uppercase tracking-[0.2em] text-on-surface-variant">Jaw Width</span>
-        <div class="mt-6">
-          <span id="out-jaw" class="text-3xl md:text-4xl font-extrabold tracking-tighter text-on-surface block">—</span>
-          <span id="out-jaw-note" class="font-label text-[11px] uppercase tracking-widest text-outline mt-2 block">—</span>
-        </div>
-      </div>
-
-      <!-- BITE FORCE -->
-      <div class="bg-surface-container-lowest p-8 border-l-[4px] border-outline flex flex-col justify-between min-h-[200px]">
-        <span class="font-label text-xs uppercase tracking-[0.2em] text-on-surface-variant">Bite Force</span>
-        <div class="mt-6">
-          <span id="out-bite" class="text-3xl md:text-4xl font-extrabold tracking-tighter text-on-surface block">—</span>
-          <span id="out-bite-note" class="font-label text-[11px] uppercase tracking-widest text-outline mt-2 block">—</span>
-        </div>
-      </div>
-
-      <!-- COMPARATIVE SCALE -->
-      <div class="md:col-span-2 bg-surface-container-low p-8 overflow-hidden relative min-h-[280px]">
-        <div class="flex justify-between items-start mb-6">
-          <span class="font-label text-xs uppercase tracking-widest text-secondary">Comparative Scale</span>
-          <div class="text-right">
-            <span class="font-label text-[10px] uppercase tracking-widest text-outline block">vs. Great White Max</span>
-            <span id="out-gw" class="font-headline text-2xl font-bold text-primary">—</span>
-          </div>
-        </div>
-        <div class="relative w-full flex items-end gap-6 md:gap-10 mb-4">
-          <!-- Human -->
-          <div class="flex flex-col items-center flex-shrink-0">
-            <div class="h-8 w-2 bg-on-surface-variant opacity-50"></div>
-            <span class="font-label text-[9px] uppercase mt-2 text-outline">6 ft</span>
-          </div>
-          <!-- Shark scale -->
-          <div class="flex-1 relative">
-            <div id="shark-wrap" class="relative" style="width: 35%;">
-              <svg viewBox="40 150 950 310" class="w-full h-auto" style="transform:scaleX(-1)">
-                <path d="M75.743874,193.390106 C65.924805,194.587830 65.267563,194.341003 63.141422,185.047531 C61.257244,176.811661 57.948822,169.274139 53.636459,162.083527 C52.746567,160.599686 51.298508,158.923706 52.748112,157.065628 C54.040699,155.408829 56.058681,155.567200 57.853371,155.860031 C65.136833,157.048416 72.074951,159.366318 78.605774,162.795013 C118.332848,183.651871 154.382309,209.258942 183.373459,243.981018 C186.467804,247.687042 189.729004,251.254517 192.938141,254.863739 C201.305099,264.273865 211.828568,267.663055 224.054901,265.445740 C241.232925,262.330414 258.369781,258.982941 275.499908,255.611130 C283.277130,254.080292 288.889160,250.220154 290.432129,241.667831 C291.430603,236.133469 293.895966,234.724884 299.360840,236.015457 C305.380280,237.436981 311.066498,239.904861 316.525970,242.760712 C320.458923,244.818054 324.268066,245.073639 328.555878,244.101334 C378.509949,232.773819 428.454437,221.391861 478.818695,211.986328 C484.476349,210.929764 490.233765,210.383606 496.360596,208.104370 C494.420135,207.272888 493.140320,206.724503 491.889740,206.188644 C491.547180,203.658218 493.537781,202.876556 494.806610,201.760284 C499.453339,197.672333 503.489044,193.058823 507.426270,188.291595 C514.878174,179.268677 515.174500,168.019760 517.702515,157.415726 C520.727417,144.727295 521.435974,131.780136 522.640259,118.878090 C523.254700,112.295242 525.462646,110.555840 532.156006,111.465302 C545.139648,113.229469 555.263977,120.449127 564.696716,128.842422 C577.660156,140.377289 586.873962,154.938065 596.812561,168.917587 C600.186157,173.662872 603.776489,178.270691 607.506775,182.741913 C613.527649,189.958618 621.605164,193.154709 630.777161,193.697083 C654.036011,195.072403 677.331482,195.793640 700.559204,197.735428 C752.350830,202.065125 803.627869,209.406158 854.048157,222.423462 C883.386230,229.997849 912.579834,238.000565 941.434265,247.237991 C950.322815,250.083557 959.177307,253.065659 967.351440,257.646088 C975.257751,262.076416 976.433044,266.883850 970.591187,273.752655 C957.124878,289.586182 939.713867,298.689636 919.362549,302.317932 C917.036133,302.732697 914.675293,302.593933 914.274231,305.856445 C913.165100,314.877533 907.339294,320.288086 899.806519,324.314697 C882.955200,333.322449 864.966553,339.351868 846.587830,344.221375 C814.476624,352.729370 781.798767,357.680054 748.614014,359.429657 C735.819763,360.104187 723.059814,361.410522 710.272156,362.242432 C707.267883,362.437897 705.963440,364.376251 704.454163,366.358093 C689.469543,386.034485 673.122681,404.462921 653.795471,419.998230 C637.813904,432.844238 620.401855,443.164703 600.070984,447.611816 C596.306091,448.435364 591.778687,450.577698 588.822693,446.901825 C585.765076,443.099548 588.629456,438.916046 590.299622,435.201263 C595.086304,424.554443 602.766296,415.481293 607.074402,404.554993 C611.287598,393.869293 615.613098,383.211090 618.060242,371.949524 C619.206421,366.674805 617.221680,364.373688 611.890564,364.368652 C558.077087,364.317688 504.988892,357.930420 452.560333,345.982666 C445.463531,344.365387 439.451630,346.263641 433.509308,349.628601 C426.110443,353.818390 418.522522,357.634735 410.660675,360.878387 C408.206116,361.891052 405.694305,362.853607 403.120300,363.469604 C397.891663,364.720886 394.271057,362.538330 393.861603,357.307251 C393.251099,349.507904 389.455017,344.397949 382.591522,340.988556 C379.032623,339.220734 375.753265,336.863770 372.441284,334.633881 C370.039459,333.016754 368.072021,330.885529 367.656189,327.897339 C367.132935,324.137543 365.072540,322.742035 361.383057,322.171967 C342.985748,319.329529 324.614258,316.308167 306.275269,313.111084 C302.862305,312.516083 300.091400,313.062073 297.322754,314.885956 C291.872925,318.476074 286.082764,321.416962 279.846588,323.368286 C273.064941,325.490265 270.634613,323.575226 271.516876,316.663177 C272.066986,312.353210 270.350525,309.757599 266.594727,307.892090 C261.200043,305.212402 255.288147,305.273865 249.574753,304.383667 C240.537872,302.975586 231.408508,302.148193 222.386307,300.662170 C210.776642,298.750000 201.547729,301.998291 194.289368,311.519073 C184.294449,324.629425 174.182434,337.668457 163.194199,349.977997 C152.309753,362.171234 140.960266,373.903168 127.871681,383.801727 C118.416725,390.952209 107.809845,395.592255 96.242844,398.043182 C94.303909,398.454010 92.094193,398.794708 90.547829,397.193481 C89.071709,395.665009 90.244041,393.888672 91.147789,392.635101 C104.380058,374.280914 107.914948,352.720093 111.649849,331.208252 C113.450211,320.838715 117.398544,311.060181 120.192726,300.961578 C122.707535,291.872742 121.832756,283.227081 118.300781,274.628571 C108.087555,249.764709 96.006821,225.875336 81.350594,203.317688 C79.980469,201.208893 78.644386,199.124847 78.757050,196.437943 C78.830208,194.693344 77.946106,193.612915 75.743874,193.390106z" fill="#1a1c1c"/>
-              </svg>
-            </div>
-            <div class="mt-3 flex items-center gap-3">
-              <div id="scale-bar" class="h-1 bg-primary" style="width: 40px;"></div>
-              <span id="scale-label" class="font-label text-[9px] uppercase tracking-widest text-outline">10 FT</span>
-            </div>
-          </div>
-        </div>
-        <!-- EPOCH -->
-        <div class="mt-6 pt-6 border-t border-outline-variant/20 flex items-baseline justify-between">
-          <div>
-            <span class="font-label text-[10px] uppercase tracking-widest text-outline block mb-1">Most Likely Epoch</span>
-            <span id="out-epoch" class="font-headline text-xl font-bold">—</span>
-          </div>
-          <span id="out-epoch-note" class="font-label text-[11px] text-on-surface-variant">—</span>
-        </div>
-      </div>
-
     </section>
   </div>
 
