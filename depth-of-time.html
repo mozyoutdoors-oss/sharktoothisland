@@ -57,17 +57,27 @@ tailwind.config = {
 <!-- NAV -->
 <header class="sticky top-0 z-50 bg-white/80 backdrop-blur-xl shadow-sm shadow-blue-900/5">
   <nav class="flex justify-between items-center max-w-7xl mx-auto px-6 md:px-8 h-20">
-    <a href="field-guide.html" class="text-xl font-bold tracking-tight text-blue-900 font-headline">SharkToothIsland.org</a>
+    <a href="index.html" class="text-xl font-bold tracking-tight text-blue-900 font-headline">SharkToothIsland.org</a>
     <div class="hidden md:flex items-center gap-8">
-      <a href="field-guide.html" class="text-slate-600 hover:text-blue-600 font-label text-sm uppercase tracking-widest transition-colors">Field Guide</a>
+      <a href="index.html" class="text-slate-600 hover:text-blue-600 font-label text-sm uppercase tracking-widest transition-colors">Field Guide</a>
       <a href="megalodon-calculator-v5.html" class="text-slate-600 hover:text-blue-600 font-label text-sm uppercase tracking-widest transition-colors">Size Calculator</a>
       <a href="hunt-planner.html" class="text-slate-600 hover:text-blue-600 font-label text-sm uppercase tracking-widest transition-colors">Hunt Planner</a>
       <a href="depth-of-time.html" class="text-blue-700 border-b-2 border-blue-700 font-medium pb-1 font-label text-sm uppercase tracking-widest">Depth of Time</a>
     </div>
     <div class="flex items-center gap-3">
-      <a href="hunt-planner.html" class="hidden md:inline-flex bg-primary text-on-primary px-4 md:px-5 py-2 rounded font-label text-xs font-bold uppercase tracking-widest hover:bg-primary-container transition-all">Current Conditions</a>
+      <a href="hunt-planner.html" class="bg-primary text-on-primary px-3 md:px-5 py-2 rounded font-label text-xs font-bold uppercase tracking-widest hover:bg-primary-container transition-all"><span class="hidden md:inline">Current </span>Conditions</a>
+      <button onclick="document.getElementById('mobile-menu').classList.toggle('hidden')" class="md:hidden flex items-center justify-center w-10 h-10">
+        <span class="material-symbols-outlined text-on-surface">menu</span>
+      </button>
     </div>
   </nav>
+  <!-- Mobile menu -->
+  <div id="mobile-menu" class="hidden md:hidden bg-white/95 backdrop-blur-xl border-t border-outline-variant/30 px-6 pb-6 pt-4 space-y-4">
+    <a href="index.html" class="block text-slate-600 font-label text-sm uppercase tracking-widest py-2">Field Guide</a>
+    <a href="megalodon-calculator-v5.html" class="block text-slate-600 font-label text-sm uppercase tracking-widest py-2">Size Calculator</a>
+    <a href="hunt-planner.html" class="block text-slate-600 font-label text-sm uppercase tracking-widest py-2">Hunt Planner</a>
+    <a href="depth-of-time.html" class="block text-blue-700 font-bold font-label text-sm uppercase tracking-widest py-2">Depth of Time</a>
+  </div>
 </header>
 
 <main class="relative min-h-[calc(100vh-80px)] flex items-center">
