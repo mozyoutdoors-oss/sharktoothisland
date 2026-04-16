@@ -1,0 +1,576 @@
+<!DOCTYPE html>
+<html class="light" lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Free Field Guide Download | SharkToothIsland.org</title>
+<meta name="description" content="Download the free Shark Tooth Island Field Guide — launch info, tide timing, what to bring, how to search, and how to leave the place better than you found it.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Public+Sans:ital,wght@0,300;0,400;0,600;0,700;0,800;1,400&family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet">
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script>
+tailwind.config = {
+  theme: {
+    extend: {
+      colors: {
+        "surface": "#f9f9f9",
+        "surface-bright": "#f9f9f9",
+        "surface-container-lowest": "#ffffff",
+        "surface-container-low": "#f3f3f3",
+        "surface-container": "#eeeeee",
+        "surface-container-high": "#e8e8e8",
+        "surface-container-highest": "#e2e2e2",
+        "on-surface": "#1a1c1c",
+        "on-surface-variant": "#414750",
+        "outline": "#717781",
+        "outline-variant": "#c1c7d2",
+        "primary": "#085f9e",
+        "primary-container": "#3478b8",
+        "primary-fixed": "#d1e4ff",
+        "primary-fixed-dim": "#9ecaff",
+        "on-primary": "#ffffff",
+        "on-primary-fixed": "#001d36",
+        "secondary": "#5e5e5e",
+        "tertiary": "#435c86",
+        "tertiary-fixed": "#d6e3ff",
+        "on-tertiary-fixed": "#001b3d",
+        "error-container": "#ffdad6",
+        "on-error-container": "#93000a"
+      },
+      borderRadius: { DEFAULT: "0.125rem", lg: "0.25rem", xl: "0.5rem", full: "0.75rem" },
+      fontFamily: { headline: ["Public Sans"], body: ["Public Sans"], label: ["Space Grotesk"] }
+    }
+  }
+}
+</script>
+<style>
+  .material-symbols-outlined { font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24; vertical-align: middle; }
+  .archival-grain {
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+    opacity: 0.03; pointer-events: none;
+  }
+  /* Popup transitions */
+  #popup-overlay { transition: opacity 0.3s ease; }
+  #popup-overlay.hidden { opacity: 0; pointer-events: none; }
+  #popup-card { transition: transform 0.3s ease, opacity 0.3s ease; }
+  #popup-overlay.hidden #popup-card { transform: translateY(20px) scale(0.97); opacity: 0; }
+</style>
+</head>
+<body class="bg-surface text-on-surface font-body selection:bg-primary-fixed selection:text-on-primary-fixed">
+
+<!-- NAV -->
+<header class="sticky top-0 z-50 bg-white/80 backdrop-blur-xl shadow-sm shadow-blue-900/5">
+  <nav class="flex justify-between items-center max-w-7xl mx-auto px-6 md:px-8 h-20">
+    <a href="index.html" class="text-xl font-bold tracking-tight text-blue-900 font-headline">SharkToothIsland.org</a>
+    <div class="hidden md:flex items-center gap-8">
+      <a href="index.html" class="text-slate-600 hover:text-blue-600 font-label text-sm uppercase tracking-widest transition-colors">Field Guide</a>
+      <a href="megalodon-calculator-v5.html" class="text-slate-600 hover:text-blue-600 font-label text-sm uppercase tracking-widest transition-colors">Size Calculator</a>
+      <a href="hunt-planner.html" class="text-slate-600 hover:text-blue-600 font-label text-sm uppercase tracking-widest transition-colors">Hunt Planner</a>
+      <a href="depth-of-time.html" class="text-slate-600 hover:text-blue-600 font-label text-sm uppercase tracking-widest transition-colors">Depth of Time</a>
+    </div>
+    <div class="flex items-center gap-3">
+      <a href="hunt-planner.html" class="bg-primary text-on-primary px-3 md:px-5 py-2 rounded font-label text-xs font-bold uppercase tracking-widest hover:bg-primary-container transition-all"><span class="md:hidden">Tides</span><span class="hidden md:inline">Current Conditions</span></a>
+      <button onclick="document.getElementById('mobile-menu').classList.toggle('hidden')" class="md:hidden flex items-center justify-center w-10 h-10">
+        <span class="material-symbols-outlined text-on-surface">menu</span>
+      </button>
+    </div>
+  </nav>
+  <div id="mobile-menu" class="hidden md:hidden bg-white/95 backdrop-blur-xl border-t border-outline-variant/30 px-6 pb-6 pt-4 space-y-4">
+    <a href="index.html" class="block text-slate-600 font-label text-sm uppercase tracking-widest py-2">Field Guide</a>
+    <a href="megalodon-calculator-v5.html" class="block text-slate-600 font-label text-sm uppercase tracking-widest py-2">Size Calculator</a>
+    <a href="hunt-planner.html" class="block text-slate-600 font-label text-sm uppercase tracking-widest py-2">Hunt Planner</a>
+    <a href="depth-of-time.html" class="block text-slate-600 font-label text-sm uppercase tracking-widest py-2">Depth of Time</a>
+  </div>
+</header>
+
+<main class="relative min-h-screen">
+  <div class="archival-grain fixed inset-0"></div>
+
+  <!-- ═══════════════════════════════════════════════════════ -->
+  <!-- HERO -->
+  <!-- ═══════════════════════════════════════════════════════ -->
+  <section class="max-w-7xl mx-auto px-6 md:px-8 pt-16 md:pt-24 pb-16 md:pb-20">
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-center">
+      <div class="lg:col-span-7">
+        <span class="font-label text-primary text-xs font-bold uppercase tracking-[0.3em] mb-4 block">Free Download</span>
+        <h1 class="font-headline text-4xl md:text-6xl lg:text-7xl font-extrabold tracking-tighter text-on-surface leading-[0.92] mb-6">
+          Get the Free<br>Shark Tooth Island<br><span class="text-primary">Field Guide.</span>
+        </h1>
+        <p class="font-body text-lg md:text-xl text-on-surface-variant leading-relaxed max-w-xl mb-8">
+          A practical guide to visiting Shark Tooth Island the right way, including launch info, tide timing, what to bring, how to search, and how to leave the place better than you found it.
+        </p>
+        <form class="flex flex-col sm:flex-row gap-3 max-w-lg" id="hero-form" onsubmit="return submitGuideEmail(event, 'hero')">
+          <input type="email" required autocomplete="email" placeholder="your@email.com" class="flex-1 border border-outline-variant px-5 py-4 font-label text-sm bg-white focus:ring-2 focus:ring-primary/30 focus:border-primary">
+          <button type="submit" class="bg-primary text-on-primary px-8 py-4 font-label text-xs font-bold uppercase tracking-widest hover:bg-primary-container transition-all whitespace-nowrap">Send Me the Guide</button>
+        </form>
+        <p class="mt-3 font-label text-[10px] uppercase tracking-widest text-outline" id="hero-status">&nbsp;</p>
+      </div>
+      <div class="lg:col-span-5 flex justify-center">
+        <!-- Guide preview mockup -->
+        <div class="relative">
+          <div class="w-64 md:w-72 bg-white shadow-[0_30px_80px_rgba(0,29,54,0.12)] border border-outline-variant/20 p-6 transform rotate-2 hover:rotate-0 transition-transform duration-500">
+            <div class="bg-primary/5 border border-primary/10 p-5 mb-4">
+              <span class="font-label text-[9px] uppercase tracking-[0.3em] text-primary block mb-2">SharkToothIsland.org</span>
+              <span class="font-headline text-lg font-bold text-on-surface block leading-tight">Shark Tooth Island Field Guide</span>
+            </div>
+            <div class="space-y-2.5">
+              <div class="h-2 bg-outline-variant/20 w-full"></div>
+              <div class="h-2 bg-outline-variant/20 w-4/5"></div>
+              <div class="h-2 bg-outline-variant/20 w-full"></div>
+              <div class="h-2 bg-outline-variant/20 w-3/5"></div>
+              <div class="h-8 bg-primary/5 w-full mt-4"></div>
+              <div class="h-2 bg-outline-variant/20 w-full"></div>
+              <div class="h-2 bg-outline-variant/20 w-4/5"></div>
+            </div>
+            <div class="mt-6 pt-4 border-t border-outline-variant/20">
+              <span class="font-label text-[8px] uppercase tracking-widest text-outline">By Mozy Outdoors</span>
+            </div>
+          </div>
+          <div class="absolute -bottom-4 -right-4 w-64 md:w-72 h-full bg-surface-container-high border border-outline-variant/10 -z-10 transform -rotate-3"></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════════════ -->
+  <!-- INTRO -->
+  <!-- ═══════════════════════════════════════════════════════ -->
+  <section class="max-w-7xl mx-auto px-6 md:px-8 py-16 md:py-24">
+    <div class="max-w-3xl">
+      <p class="font-body text-xl md:text-2xl text-on-surface leading-relaxed font-light mb-6">
+        Shark Tooth Island is one of those places that feels simple until you actually try to do it well.
+      </p>
+      <div class="border-l-2 border-primary pl-6 space-y-4">
+        <p class="font-body text-base text-on-surface-variant leading-relaxed">
+          You can absolutely paddle out and look for teeth, but the difference between a random trip and a really good one usually comes down to a few things: where you launch, when the tide is moving, how long to give yourself, what kind of shoreline to focus on, and what you bring with you.
+        </p>
+        <p class="font-body text-base text-on-surface-variant leading-relaxed">
+          That is why we made this field guide.
+        </p>
+        <p class="font-body text-base text-on-surface-variant leading-relaxed">
+          Created by Mozy Outdoors, this guide is designed to help first-timers and returning explorers alike have a better, smarter, more rewarding trip to Shark Tooth Island.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- BREAK IMAGE -->
+  <div class="my-4 md:my-8">
+    <img src="images/break-approach.webp" alt="Kayaker paddling toward Shark Tooth Island on the Cape Fear River" class="w-full object-cover h-[240px] md:h-[56vh]" loading="lazy">
+  </div>
+
+  <!-- ═══════════════════════════════════════════════════════ -->
+  <!-- WHAT'S INSIDE -->
+  <!-- ═══════════════════════════════════════════════════════ -->
+  <section class="max-w-7xl mx-auto px-6 md:px-8 py-20 md:py-28">
+    <div class="mb-12">
+      <span class="font-label text-primary text-xs font-bold uppercase tracking-[0.3em] mb-3 block">What's Inside</span>
+      <h2 class="font-headline text-3xl md:text-5xl font-extrabold tracking-tighter">Everything You Need<br>Before You Launch.</h2>
+    </div>
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
+
+      <div class="bg-surface-container-lowest p-8 border-l-2 border-primary">
+        <span class="material-symbols-outlined text-primary text-3xl mb-4">kayaking</span>
+        <h3 class="font-headline text-xl font-bold mb-3">Launch Info &amp; Trip Planning</h3>
+        <p class="text-on-surface-variant text-sm leading-relaxed">Where to put in, how to get there, what the paddle is like, and how long to plan for a real trip.</p>
+      </div>
+
+      <div class="bg-surface-container-lowest p-8 border-l-2 border-primary">
+        <span class="material-symbols-outlined text-primary text-3xl mb-4">tide</span>
+        <h3 class="font-headline text-xl font-bold mb-3">Why Tide Timing Matters</h3>
+        <p class="text-on-surface-variant text-sm leading-relaxed">The difference between an exposed shoreline full of finds and a flooded sandbar. Timing is everything out there.</p>
+      </div>
+
+      <div class="bg-surface-container-lowest p-8 border-l-2 border-primary">
+        <span class="material-symbols-outlined text-primary text-3xl mb-4">backpack</span>
+        <h3 class="font-headline text-xl font-bold mb-3">What to Bring</h3>
+        <p class="text-on-surface-variant text-sm leading-relaxed">The real packing list. Not the obvious stuff — the things you'll wish you had once you're already on the water.</p>
+      </div>
+
+      <div class="bg-surface-container-lowest p-8 border-l-2 border-primary">
+        <span class="material-symbols-outlined text-primary text-3xl mb-4">search</span>
+        <h3 class="font-headline text-xl font-bold mb-3">Hunting Tips for Beginners</h3>
+        <p class="text-on-surface-variant text-sm leading-relaxed">How to actually look for shark teeth. Where on the shoreline to focus, what to scan for, and what most people miss.</p>
+      </div>
+
+      <div class="bg-surface-container-lowest p-8 border-l-2 border-outline">
+        <span class="material-symbols-outlined text-outline text-3xl mb-4">landscape</span>
+        <h3 class="font-headline text-xl font-bold mb-3">Understanding the Place</h3>
+        <p class="text-on-surface-variant text-sm leading-relaxed">A dredge spoil island in the Cape Fear River with Miocene-era fossils. Context makes the experience richer.</p>
+      </div>
+
+      <div class="bg-surface-container-lowest p-8 border-l-2 border-outline">
+        <span class="material-symbols-outlined text-outline text-3xl mb-4">eco</span>
+        <h3 class="font-headline text-xl font-bold mb-3">Leave It Right</h3>
+        <p class="text-on-surface-variant text-sm leading-relaxed">Stewardship basics. How to enjoy the island without degrading it for the people who come after you.</p>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════════════ -->
+  <!-- PREVIEW / GALLERY -->
+  <!-- ═══════════════════════════════════════════════════════ -->
+  <section class="bg-surface-container-low py-20 md:py-28">
+    <div class="max-w-7xl mx-auto px-6 md:px-8">
+      <div class="mb-12 text-center">
+        <span class="font-label text-primary text-xs font-bold uppercase tracking-[0.3em] mb-3 block">Preview</span>
+        <h2 class="font-headline text-3xl md:text-4xl font-extrabold tracking-tighter">A Look Inside the Guide</h2>
+      </div>
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-4xl mx-auto">
+        <!-- Page preview 1 -->
+        <div class="bg-white shadow-lg border border-outline-variant/10 overflow-hidden">
+          <div class="bg-primary p-4">
+            <span class="font-label text-[9px] uppercase tracking-[0.2em] text-on-primary/60">Page 1</span>
+            <p class="font-headline text-sm font-bold text-on-primary mt-1">Getting There</p>
+          </div>
+          <div class="p-5 space-y-2">
+            <div class="h-2 bg-outline-variant/15 w-full"></div>
+            <div class="h-2 bg-outline-variant/15 w-11/12"></div>
+            <div class="h-2 bg-outline-variant/15 w-4/5"></div>
+            <div class="h-10 bg-primary/5 w-full mt-3 mb-3"></div>
+            <div class="h-2 bg-outline-variant/15 w-full"></div>
+            <div class="h-2 bg-outline-variant/15 w-3/4"></div>
+            <div class="h-2 bg-outline-variant/15 w-5/6"></div>
+          </div>
+        </div>
+        <!-- Page preview 2 -->
+        <div class="bg-white shadow-lg border border-outline-variant/10 overflow-hidden">
+          <div class="bg-on-surface p-4">
+            <span class="font-label text-[9px] uppercase tracking-[0.2em] text-white/50">Page 4</span>
+            <p class="font-headline text-sm font-bold text-white mt-1">Reading the Tide</p>
+          </div>
+          <div class="p-5 space-y-2">
+            <div class="h-2 bg-outline-variant/15 w-full"></div>
+            <div class="h-2 bg-outline-variant/15 w-3/4"></div>
+            <div class="h-16 bg-primary/5 w-full mt-3 mb-3 flex items-center justify-center">
+              <span class="material-symbols-outlined text-primary/30 text-2xl">show_chart</span>
+            </div>
+            <div class="h-2 bg-outline-variant/15 w-full"></div>
+            <div class="h-2 bg-outline-variant/15 w-5/6"></div>
+          </div>
+        </div>
+        <!-- Page preview 3 -->
+        <div class="bg-white shadow-lg border border-outline-variant/10 overflow-hidden">
+          <div class="bg-primary/10 p-4">
+            <span class="font-label text-[9px] uppercase tracking-[0.2em] text-primary/60">Page 7</span>
+            <p class="font-headline text-sm font-bold text-on-surface mt-1">How to Search</p>
+          </div>
+          <div class="p-5 space-y-2">
+            <div class="h-2 bg-outline-variant/15 w-full"></div>
+            <div class="h-2 bg-outline-variant/15 w-11/12"></div>
+            <div class="h-2 bg-outline-variant/15 w-4/5"></div>
+            <div class="h-2 bg-outline-variant/15 w-full"></div>
+            <div class="h-8 bg-primary/5 w-full mt-3 mb-3"></div>
+            <div class="h-2 bg-outline-variant/15 w-3/4"></div>
+            <div class="h-2 bg-outline-variant/15 w-full"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════════════ -->
+  <!-- EMAIL SIGNUP (mid-page) -->
+  <!-- ═══════════════════════════════════════════════════════ -->
+  <section class="max-w-7xl mx-auto px-6 md:px-8 py-20 md:py-28">
+    <div class="bg-primary p-10 md:p-16 lg:p-20 relative overflow-hidden">
+      <div class="relative z-10 max-w-2xl mx-auto text-center">
+        <span class="material-symbols-outlined text-on-primary/40 text-5xl mb-4">download</span>
+        <h2 class="font-headline text-3xl md:text-4xl font-bold text-on-primary mb-4">Get the Guide. Plan a Better Trip.</h2>
+        <p class="text-primary-fixed-dim font-body leading-relaxed mb-8 max-w-lg mx-auto">Enter your email below and we'll send you the Shark Tooth Island Field Guide. Free, no strings.</p>
+        <form class="flex flex-col sm:flex-row gap-3 max-w-md mx-auto" id="mid-form" onsubmit="return submitGuideEmail(event, 'mid')">
+          <input type="email" required autocomplete="email" placeholder="your@email.com" class="flex-1 bg-primary-container/40 border-none text-white placeholder:text-white/60 px-6 py-4 font-label text-sm focus:ring-1 focus:ring-white/30">
+          <button type="submit" class="bg-on-primary text-primary px-8 py-4 font-label text-xs font-bold uppercase tracking-widest hover:bg-surface-bright transition-all whitespace-nowrap">Send Me the Guide</button>
+        </form>
+        <p class="mt-3 font-label text-[10px] uppercase tracking-widest text-white/50" id="mid-status">&nbsp;</p>
+      </div>
+      <div class="absolute -right-20 -bottom-20 w-96 h-96 border border-white/5 rounded-full pointer-events-none"></div>
+      <div class="absolute -left-20 -top-20 w-72 h-72 border border-white/5 rounded-full pointer-events-none"></div>
+    </div>
+  </section>
+
+  <!-- BREAK IMAGE -->
+  <div class="my-4 md:my-8">
+    <img src="images/hero-island.jpg" alt="Aerial view of Shark Tooth Island in the Cape Fear River" class="w-full object-cover object-[center_60%] h-[240px] md:h-[56vh]" loading="lazy">
+  </div>
+
+  <!-- ═══════════════════════════════════════════════════════ -->
+  <!-- ABOUT MOZY OUTDOORS -->
+  <!-- ═══════════════════════════════════════════════════════ -->
+  <section class="max-w-7xl mx-auto px-6 md:px-8 py-20 md:py-28">
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-start">
+      <div class="lg:col-span-5">
+        <span class="font-label text-primary text-xs font-bold uppercase tracking-[0.3em] mb-3 block">About This Project</span>
+        <h2 class="font-headline text-3xl md:text-4xl font-extrabold tracking-tighter mb-3">A Mozy Outdoors<br>Field Project.</h2>
+        <div class="w-12 h-1 bg-primary"></div>
+      </div>
+      <div class="lg:col-span-7 space-y-4">
+        <p class="font-body text-base text-on-surface-variant leading-relaxed">
+          SharkToothIsland.org is part of a broader effort by Mozy Outdoors to make coastal exploration more understandable, practical, and engaging.
+        </p>
+        <p class="font-body text-base text-on-surface-variant leading-relaxed">
+          We are interested in more than just the find. We care about access, context, stewardship, and helping people enjoy places like this with a little more confidence.
+        </p>
+        <p class="font-body text-base text-on-surface-variant leading-relaxed">
+          This field guide is one part of that effort. The site itself is another — with live tide data, a species identification catalog, a megalodon size calculator, and more in the works.
+        </p>
+        <div class="pt-4 flex flex-wrap gap-4">
+          <a href="index.html" class="inline-flex items-center gap-2 text-primary font-label text-xs font-bold uppercase tracking-widest hover:gap-4 transition-all">
+            Explore the Field Guide <span class="material-symbols-outlined text-sm">arrow_forward</span>
+          </a>
+          <a href="hunt-planner.html" class="inline-flex items-center gap-2 text-primary font-label text-xs font-bold uppercase tracking-widest hover:gap-4 transition-all">
+            Check Today's Conditions <span class="material-symbols-outlined text-sm">arrow_forward</span>
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════════════ -->
+  <!-- FAQ -->
+  <!-- ═══════════════════════════════════════════════════════ -->
+  <section class="bg-surface-container-low py-20 md:py-28">
+    <div class="max-w-3xl mx-auto px-6 md:px-8">
+      <div class="mb-12">
+        <span class="font-label text-primary text-xs font-bold uppercase tracking-[0.3em] mb-3 block">Common Questions</span>
+        <h2 class="font-headline text-3xl md:text-4xl font-extrabold tracking-tighter">FAQ</h2>
+      </div>
+      <div class="space-y-6">
+
+        <details class="group bg-surface-container-lowest border-l-2 border-outline-variant">
+          <summary class="cursor-pointer p-6 flex justify-between items-center font-headline font-bold text-base hover:text-primary transition-colors">
+            Is this actually free?
+            <span class="material-symbols-outlined text-outline group-open:rotate-180 transition-transform">expand_more</span>
+          </summary>
+          <div class="px-6 pb-6 text-on-surface-variant text-sm leading-relaxed">
+            Yes. No catch, no upsell, no paywall. We built this guide because we wanted it to exist and thought others would find it useful too.
+          </div>
+        </details>
+
+        <details class="group bg-surface-container-lowest border-l-2 border-outline-variant">
+          <summary class="cursor-pointer p-6 flex justify-between items-center font-headline font-bold text-base hover:text-primary transition-colors">
+            What format is the guide?
+            <span class="material-symbols-outlined text-outline group-open:rotate-180 transition-transform">expand_more</span>
+          </summary>
+          <div class="px-6 pb-6 text-on-surface-variant text-sm leading-relaxed">
+            It's a downloadable PDF. Works on any device — phone, tablet, or printed out and tossed in a dry bag.
+          </div>
+        </details>
+
+        <details class="group bg-surface-container-lowest border-l-2 border-outline-variant">
+          <summary class="cursor-pointer p-6 flex justify-between items-center font-headline font-bold text-base hover:text-primary transition-colors">
+            Will you spam me after I sign up?
+            <span class="material-symbols-outlined text-outline group-open:rotate-180 transition-transform">expand_more</span>
+          </summary>
+          <div class="px-6 pb-6 text-on-surface-variant text-sm leading-relaxed">
+            No. You'll get the guide and occasional field notes from the station — tidal windows, new finds, and updates. That's it. No spam.
+          </div>
+        </details>
+
+        <details class="group bg-surface-container-lowest border-l-2 border-outline-variant">
+          <summary class="cursor-pointer p-6 flex justify-between items-center font-headline font-bold text-base hover:text-primary transition-colors">
+            Can I visit Shark Tooth Island right now?
+            <span class="material-symbols-outlined text-outline group-open:rotate-180 transition-transform">expand_more</span>
+          </summary>
+          <div class="px-6 pb-6 text-on-surface-variant text-sm leading-relaxed">
+            The island is accessible year-round by small boat, kayak, or paddlecraft. There's no ferry or public dock — you need your own way out there. The guide covers all the details.
+          </div>
+        </details>
+
+        <details class="group bg-surface-container-lowest border-l-2 border-outline-variant">
+          <summary class="cursor-pointer p-6 flex justify-between items-center font-headline font-bold text-base hover:text-primary transition-colors">
+            Who made this?
+            <span class="material-symbols-outlined text-outline group-open:rotate-180 transition-transform">expand_more</span>
+          </summary>
+          <div class="px-6 pb-6 text-on-surface-variant text-sm leading-relaxed">
+            Mozy Outdoors, based in the Cape Fear region of North Carolina. We build tools and resources for people who want to explore coastal environments with more confidence.
+          </div>
+        </details>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════════════ -->
+  <!-- FOOTER CTA -->
+  <!-- ═══════════════════════════════════════════════════════ -->
+  <section class="max-w-7xl mx-auto px-6 md:px-8 py-20 md:py-28">
+    <div class="text-center max-w-2xl mx-auto">
+      <h2 class="font-headline text-3xl md:text-5xl font-extrabold tracking-tighter mb-4">Plan a Better Trip.</h2>
+      <p class="text-on-surface-variant text-lg leading-relaxed mb-8">The guide is free. The island is waiting. All you need is a paddle and a plan.</p>
+      <form class="flex flex-col sm:flex-row gap-3 max-w-md mx-auto" id="footer-form" onsubmit="return submitGuideEmail(event, 'footer')">
+        <input type="email" required autocomplete="email" placeholder="your@email.com" class="flex-1 border border-outline-variant px-5 py-4 font-label text-sm bg-white focus:ring-2 focus:ring-primary/30 focus:border-primary">
+        <button type="submit" class="bg-primary text-on-primary px-8 py-4 font-label text-xs font-bold uppercase tracking-widest hover:bg-primary-container transition-all whitespace-nowrap">Send Me the Guide</button>
+      </form>
+      <p class="mt-3 font-label text-[10px] uppercase tracking-widest text-outline" id="footer-status">&nbsp;</p>
+      <p class="mt-6 font-label text-[10px] uppercase tracking-widest text-outline">Free download from SharkToothIsland.org by Mozy Outdoors.</p>
+    </div>
+  </section>
+
+</main>
+
+<!-- FOOTER -->
+<footer class="bg-slate-100 py-16">
+  <div class="grid grid-cols-1 md:grid-cols-4 gap-12 max-w-7xl mx-auto px-6 md:px-8">
+    <div class="md:col-span-2">
+      <div class="text-lg font-semibold text-slate-800 font-headline mb-4">Shark Tooth Island Coastal Field Station</div>
+      <p class="text-slate-500 font-body text-sm max-w-md leading-relaxed mb-4">
+        A public field station and educational resource for Shark Tooth Island in the Cape Fear River.
+      </p>
+      <p class="font-label text-[10px] uppercase tracking-widest text-slate-400">
+        34.0522° N · 77.9067° W · New Hanover County, NC
+      </p>
+    </div>
+    <div>
+      <h5 class="font-label text-xs uppercase tracking-widest text-blue-900 font-bold mb-6">Tools</h5>
+      <ul class="space-y-3">
+        <li><a href="megalodon-calculator-v5.html" class="text-slate-500 font-body text-sm hover:text-blue-800 transition-colors">Size Calculator</a></li>
+        <li><a href="hunt-planner.html" class="text-slate-500 font-body text-sm hover:text-blue-800 transition-colors">Hunt Planner</a></li>
+        <li><a href="depth-of-time.html" class="text-slate-500 font-body text-sm hover:text-blue-800 transition-colors">Depth of Time</a></li>
+      </ul>
+    </div>
+    <div>
+      <h5 class="font-label text-xs uppercase tracking-widest text-blue-900 font-bold mb-6">Contact</h5>
+      <ul class="space-y-3">
+        <li><a href="mailto:Station@sharktoothisland.org" class="text-slate-500 font-body text-sm hover:text-blue-800 transition-colors">Station@sharktoothisland.org</a></li>
+      </ul>
+    </div>
+  </div>
+  <p class="max-w-7xl mx-auto px-6 md:px-8 mt-12 pt-6 border-t border-slate-200 font-label text-[10px] uppercase tracking-widest text-slate-400">
+    © 2026 Shark Tooth Island Coastal Field Station
+  </p>
+</footer>
+
+<!-- ═══════════════════════════════════════════════════════ -->
+<!-- POPUP OVERLAY -->
+<!-- ═══════════════════════════════════════════════════════ -->
+<div id="popup-overlay" class="hidden fixed inset-0 z-[100] flex items-center justify-center p-6 bg-black/40 backdrop-blur-sm" onclick="if(event.target===this)dismissPopup()">
+  <div id="popup-card" class="bg-white w-full max-w-md shadow-2xl relative">
+    <button onclick="dismissPopup()" class="absolute top-4 right-4 w-8 h-8 flex items-center justify-center text-outline hover:text-on-surface transition-colors" aria-label="Close">
+      <span class="material-symbols-outlined text-xl">close</span>
+    </button>
+    <div class="p-8 md:p-10">
+      <span class="material-symbols-outlined text-primary text-4xl mb-4">auto_stories</span>
+      <h3 class="font-headline text-2xl md:text-3xl font-extrabold tracking-tight mb-3">Get the Free Shark Tooth Island Field Guide</h3>
+      <p class="text-on-surface-variant text-sm leading-relaxed mb-6">
+        Planning a trip out there? We made a practical guide covering launch info, tide timing, what to bring, and how to search smarter.
+      </p>
+      <form id="popup-form" onsubmit="return submitGuideEmail(event, 'popup')">
+        <input type="email" required autocomplete="email" placeholder="your@email.com" class="w-full border border-outline-variant px-5 py-4 font-label text-sm bg-white focus:ring-2 focus:ring-primary/30 focus:border-primary mb-3">
+        <button type="submit" class="w-full bg-primary text-on-primary px-8 py-4 font-label text-xs font-bold uppercase tracking-widest hover:bg-primary-container transition-all">Send Me the Guide</button>
+      </form>
+      <p class="mt-3 font-label text-[10px] uppercase tracking-widest text-outline text-center" id="popup-status">&nbsp;</p>
+      <p class="mt-4 font-label text-[10px] uppercase tracking-widest text-outline/60 text-center">Free download from SharkToothIsland.org by Mozy Outdoors.</p>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════ -->
+<!-- SCRIPTS -->
+<!-- ═══════════════════════════════════════════════════════ -->
+<script>
+// ─── Email submission (Web3Forms) ───
+async function submitGuideEmail(e, formId) {
+  e.preventDefault();
+  const form = e.target;
+  const input = form.querySelector('input[type="email"]');
+  const btn = form.querySelector('button[type="submit"]');
+  const status = document.getElementById(formId + '-status');
+  const email = input.value.trim();
+  if (!email) return false;
+
+  btn.disabled = true;
+  const orig = btn.textContent;
+  btn.textContent = 'Sending...';
+  status.textContent = '';
+
+  try {
+    const res = await fetch('https://api.web3forms.com/submit', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        access_key: '8ca6fa3e-a04a-4261-8937-e214a48f785f',
+        subject: 'SharkToothIsland.org — Field Guide Download: ' + email,
+        from_name: 'SharkToothIsland.org Field Guide',
+        email: email,
+        message: 'Field Guide download request from sharktoothisland.org/field-guide-download: ' + email
+      })
+    });
+    const data = await res.json();
+    if (data.success) {
+      form.style.display = 'none';
+      status.textContent = '\u2713 Check your email — the guide is on its way.';
+      status.style.display = 'block';
+      sessionStorage.setItem('sti_guide_submitted', '1');
+      // Close popup if it was the popup form
+      if (formId === 'popup') {
+        setTimeout(() => dismissPopup(), 2000);
+      }
+    } else {
+      btn.disabled = false;
+      btn.textContent = orig;
+      status.textContent = 'Something went wrong — try again.';
+    }
+  } catch (err) {
+    btn.disabled = false;
+    btn.textContent = orig;
+    status.textContent = 'Network error — try again.';
+  }
+  return false;
+}
+
+// ─── Popup logic ───
+let popupShown = false;
+
+function showPopup() {
+  if (popupShown) return;
+  if (sessionStorage.getItem('sti_popup_dismissed')) return;
+  if (sessionStorage.getItem('sti_guide_submitted')) return;
+  popupShown = true;
+  const overlay = document.getElementById('popup-overlay');
+  overlay.classList.remove('hidden');
+  // Force reflow for transition
+  overlay.offsetHeight;
+  overlay.style.opacity = '1';
+}
+
+function dismissPopup() {
+  const overlay = document.getElementById('popup-overlay');
+  overlay.style.opacity = '0';
+  setTimeout(() => overlay.classList.add('hidden'), 300);
+  sessionStorage.setItem('sti_popup_dismissed', '1');
+}
+
+// Desktop: exit-intent (mouse leaves viewport top)
+if (window.matchMedia('(pointer: fine)').matches) {
+  document.addEventListener('mouseout', function(e) {
+    if (e.clientY <= 0 && !popupShown) {
+      showPopup();
+    }
+  });
+}
+
+// Mobile: scroll-triggered (after scrolling 40% of page)
+if (window.matchMedia('(pointer: coarse)').matches || window.innerWidth < 768) {
+  let scrollTriggered = false;
+  window.addEventListener('scroll', function() {
+    if (scrollTriggered) return;
+    const scrollPct = window.scrollY / (document.body.scrollHeight - window.innerHeight);
+    if (scrollPct > 0.4) {
+      scrollTriggered = true;
+      // Delay slightly so it doesn't feel jarring
+      setTimeout(showPopup, 1500);
+    }
+  });
+}
+
+// Fallback: timed trigger after 45 seconds on page
+setTimeout(function() {
+  if (!popupShown) showPopup();
+}, 45000);
+</script>
+</body>
+</html>
