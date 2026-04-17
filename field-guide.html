@@ -4,9 +4,9 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Field Guide | SharkToothIsland.org</title>
-<meta name="description" content="The complete Shark Tooth Island field guide — how to visit, what to bring, a full species catalog, live tidal conditions, and answers to common questions.">
+<meta name="description" content="The complete Shark Tooth Island field guide — how to visit, species identification, live tidal conditions, and every evergreen resource for planning a trip.">
 <meta property="og:title" content="Shark Tooth Island Field Guide">
-<meta property="og:description" content="Everything you need to plan a trip to Shark Tooth Island — access, tide timing, species identification, and live conditions.">
+<meta property="og:description" content="The resource hub for visiting Shark Tooth Island — access, identification, history, and live conditions.">
 <meta property="og:image" content="https://sharktoothisland.org/images/hero-island.jpg">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -24,7 +24,6 @@ tailwind.config = {
         "surface-container-low": "#f3f3f3",
         "surface-container": "#eeeeee",
         "surface-container-high": "#e8e8e8",
-        "surface-container-highest": "#e2e2e2",
         "on-surface": "#1a1c1c",
         "on-surface-variant": "#414750",
         "outline": "#717781",
@@ -53,13 +52,30 @@ tailwind.config = {
 </script>
 <style>
   .material-symbols-outlined { font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24; vertical-align: middle; }
+  details summary::-webkit-details-marker { display: none; }
+  details summary::marker { display: none; }
   .archival-grain {
     background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
     opacity: 0.03; pointer-events: none;
   }
-  details summary::-webkit-details-marker { display: none; }
-  details summary::marker { display: none; }
   html { scroll-behavior: smooth; }
+
+  /* Topic card */
+  .topic-card {
+    transition: all 0.25s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  .topic-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 25px rgba(8, 95, 158, 0.08);
+  }
+  .topic-card.coming-soon {
+    cursor: default;
+    opacity: 0.7;
+  }
+  .topic-card.coming-soon:hover {
+    transform: none;
+    box-shadow: none;
+  }
 </style>
 </head>
 <body class="bg-surface text-on-surface font-body selection:bg-primary-fixed selection:text-on-primary-fixed">
@@ -92,28 +108,19 @@ tailwind.config = {
 <main class="relative min-h-screen">
   <div class="archival-grain fixed inset-0"></div>
 
+  <!-- ═══════════════════════════════════════════════════════ -->
   <!-- HERO -->
+  <!-- ═══════════════════════════════════════════════════════ -->
   <section class="max-w-7xl mx-auto px-6 md:px-8 pt-16 md:pt-20 pb-12">
     <div class="grid grid-cols-1 lg:grid-cols-12 gap-12">
       <div class="lg:col-span-8">
-        <span class="font-label text-primary text-xs font-bold uppercase tracking-[0.3em] mb-4 block">The Field Guide &middot; Cape Fear River</span>
+        <span class="font-label text-primary text-xs font-bold uppercase tracking-[0.3em] mb-4 block">The Field Guide &middot; Evergreen Resource Hub</span>
         <h1 class="font-headline text-5xl md:text-7xl lg:text-8xl font-extrabold tracking-tighter text-on-surface leading-[0.9] mb-8">
           The Field <br><span class="text-outline italic font-light">Guide.</span>
         </h1>
         <p class="font-body text-lg md:text-xl text-on-surface-variant max-w-2xl leading-relaxed">
-          Everything you need to plan a trip to Shark Tooth Island &mdash; access, tide timing, species identification, live river conditions, and answers to the most common questions. A working document, updated with every trip.
+          The complete resource for visiting Shark Tooth Island. Evergreen guides on access, identification, ethics, and history &mdash; plus live tidal conditions and a full species catalog. Built from field notes and updated as the site grows.
         </p>
-        <div class="mt-8 flex flex-wrap gap-3">
-          <a href="#visit" class="inline-flex items-center gap-2 bg-primary text-on-primary px-5 py-3 font-label text-xs font-bold uppercase tracking-widest hover:bg-primary-container transition-all">
-            <span class="material-symbols-outlined text-sm">sailing</span> How to Visit
-          </a>
-          <a href="#catalog" class="inline-flex items-center gap-2 border border-outline-variant text-on-surface px-5 py-3 font-label text-xs font-bold uppercase tracking-widest hover:bg-surface-container-low transition-all">
-            <span class="material-symbols-outlined text-sm">collections_bookmark</span> Species Catalog
-          </a>
-          <a href="#faq" class="inline-flex items-center gap-2 border border-outline-variant text-on-surface px-5 py-3 font-label text-xs font-bold uppercase tracking-widest hover:bg-surface-container-low transition-all">
-            <span class="material-symbols-outlined text-sm">help</span> FAQ
-          </a>
-        </div>
       </div>
       <div class="lg:col-span-4 flex flex-col justify-end">
         <div class="bg-surface-container-low p-6 border-l-2 border-primary">
@@ -128,133 +135,139 @@ tailwind.config = {
     </div>
   </section>
 
-  <!-- BREAK — Aerial drone -->
-  <div class="my-16 md:my-20">
+  <!-- ═══════════════════════════════════════════════════════ -->
+  <!-- TOPIC CARDS — THE EVERGREEN GUIDE PILLARS -->
+  <!-- ═══════════════════════════════════════════════════════ -->
+  <section id="guides" class="max-w-7xl mx-auto px-6 md:px-8 py-12 md:py-16 scroll-mt-24">
+    <div class="flex flex-wrap justify-between items-end gap-6 mb-10">
+      <div>
+        <span class="font-label text-primary text-xs font-bold uppercase tracking-[0.3em] mb-3 block">Evergreen Guides</span>
+        <h2 class="font-headline text-3xl md:text-4xl font-extrabold tracking-tight">The Core Resources.</h2>
+        <p class="text-on-surface-variant mt-3 leading-relaxed max-w-xl">Stable, deep reference pages. Each one is written to be the most useful public resource on its topic.</p>
+      </div>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-5">
+
+      <!-- LIVE: How to Visit -->
+      <a href="how-to-visit.html" class="topic-card group bg-surface-container-lowest p-7 border-l-2 border-primary block">
+        <div class="flex items-start justify-between mb-5">
+          <span class="material-symbols-outlined text-primary text-2xl">sailing</span>
+          <span class="font-label text-[9px] font-bold uppercase tracking-[0.2em] text-primary bg-primary/5 px-2 py-1">Guide</span>
+        </div>
+        <h3 class="font-headline text-lg font-bold mb-2 group-hover:text-primary transition-colors">How to Visit</h3>
+        <p class="text-on-surface-variant text-sm leading-relaxed mb-4">Access, what to bring, how to search, and how to leave it right. The complete practical trip-planning guide.</p>
+        <span class="inline-flex items-center gap-1.5 text-primary font-label text-[11px] font-bold uppercase tracking-widest group-hover:gap-3 transition-all">Read Guide <span class="material-symbols-outlined text-sm">arrow_forward</span></span>
+      </a>
+
+      <!-- LIVE: History -->
+      <a href="how-shark-tooth-island-was-made.html" class="topic-card group bg-surface-container-lowest p-7 border-l-2 border-primary block">
+        <div class="flex items-start justify-between mb-5">
+          <span class="material-symbols-outlined text-primary text-2xl">history_edu</span>
+          <span class="font-label text-[9px] font-bold uppercase tracking-[0.2em] text-primary bg-primary/5 px-2 py-1">Pillar</span>
+        </div>
+        <h3 class="font-headline text-lg font-bold mb-2 group-hover:text-primary transition-colors">How Shark Tooth Island Was Made</h3>
+        <p class="text-on-surface-variant text-sm leading-relaxed mb-4">The fossils are ancient. The island is newer. Dredging, navigation, and the Cape Fear River's working history.</p>
+        <span class="inline-flex items-center gap-1.5 text-primary font-label text-[11px] font-bold uppercase tracking-widest group-hover:gap-3 transition-all">Read Story <span class="material-symbols-outlined text-sm">arrow_forward</span></span>
+      </a>
+
+      <!-- LIVE: Field Guide PDF -->
+      <a href="field-guide-download.html" class="topic-card group bg-surface-container-lowest p-7 border-l-2 border-primary block">
+        <div class="flex items-start justify-between mb-5">
+          <span class="material-symbols-outlined text-primary text-2xl">download</span>
+          <span class="font-label text-[9px] font-bold uppercase tracking-[0.2em] text-primary bg-primary/5 px-2 py-1">PDF</span>
+        </div>
+        <h3 class="font-headline text-lg font-bold mb-2 group-hover:text-primary transition-colors">Free Field Guide Download</h3>
+        <p class="text-on-surface-variant text-sm leading-relaxed mb-4">A 15-page illustrated expedition logbook. Launch info, tide timing, hunting technique, and stewardship in one PDF.</p>
+        <span class="inline-flex items-center gap-1.5 text-primary font-label text-[11px] font-bold uppercase tracking-widest group-hover:gap-3 transition-all">Get the PDF <span class="material-symbols-outlined text-sm">arrow_forward</span></span>
+      </a>
+
+      <!-- COMING SOON: What Is STI -->
+      <div class="topic-card coming-soon group bg-surface-container-lowest p-7 border-l-2 border-outline-variant/30 block">
+        <div class="flex items-start justify-between mb-5">
+          <span class="material-symbols-outlined text-outline text-2xl">location_on</span>
+          <span class="font-label text-[9px] font-bold uppercase tracking-[0.2em] text-outline bg-surface-container px-2 py-1">Soon</span>
+        </div>
+        <h3 class="font-headline text-lg font-bold mb-2 text-on-surface-variant">What Is Shark Tooth Island?</h3>
+        <p class="text-on-surface-variant text-sm leading-relaxed mb-4">A plain-English overview of the island, its location, and why it matters. Good starting point for first-timers.</p>
+        <span class="font-label text-[11px] font-bold uppercase tracking-widest text-outline">In Development</span>
+      </div>
+
+      <!-- COMING SOON: How to Find Shark Teeth -->
+      <div class="topic-card coming-soon group bg-surface-container-lowest p-7 border-l-2 border-outline-variant/30 block">
+        <div class="flex items-start justify-between mb-5">
+          <span class="material-symbols-outlined text-outline text-2xl">search</span>
+          <span class="font-label text-[9px] font-bold uppercase tracking-[0.2em] text-outline bg-surface-container px-2 py-1">Soon</span>
+        </div>
+        <h3 class="font-headline text-lg font-bold mb-2 text-on-surface-variant">How to Find Shark Teeth</h3>
+        <p class="text-on-surface-variant text-sm leading-relaxed mb-4">Technique, timing, and shoreline reading. What beginners miss and what experienced hunters look for.</p>
+        <span class="font-label text-[11px] font-bold uppercase tracking-widest text-outline">In Development</span>
+      </div>
+
+      <!-- COMING SOON: Fossil vs Shell -->
+      <div class="topic-card coming-soon group bg-surface-container-lowest p-7 border-l-2 border-outline-variant/30 block">
+        <div class="flex items-start justify-between mb-5">
+          <span class="material-symbols-outlined text-outline text-2xl">compare</span>
+          <span class="font-label text-[9px] font-bold uppercase tracking-[0.2em] text-outline bg-surface-container px-2 py-1">Soon</span>
+        </div>
+        <h3 class="font-headline text-lg font-bold mb-2 text-on-surface-variant">Fossil vs Shell</h3>
+        <p class="text-on-surface-variant text-sm leading-relaxed mb-4">How to tell real fossil material from beach shell at a glance. Weight, color, texture, and visual cues.</p>
+        <span class="font-label text-[11px] font-bold uppercase tracking-widest text-outline">In Development</span>
+      </div>
+
+      <!-- COMING SOON: Shark Tooth Anatomy -->
+      <div class="topic-card coming-soon group bg-surface-container-lowest p-7 border-l-2 border-outline-variant/30 block">
+        <div class="flex items-start justify-between mb-5">
+          <span class="material-symbols-outlined text-outline text-2xl">dentistry</span>
+          <span class="font-label text-[9px] font-bold uppercase tracking-[0.2em] text-outline bg-surface-container px-2 py-1">Soon</span>
+        </div>
+        <h3 class="font-headline text-lg font-bold mb-2 text-on-surface-variant">Shark Tooth Anatomy</h3>
+        <p class="text-on-surface-variant text-sm leading-relaxed mb-4">Crown, bourlette, root, cusplets, serrations. A labeled guide to the parts of a fossil tooth.</p>
+        <span class="font-label text-[11px] font-bold uppercase tracking-widest text-outline">In Development</span>
+      </div>
+
+      <!-- COMING SOON: Can You Keep What You Find -->
+      <div class="topic-card coming-soon group bg-surface-container-lowest p-7 border-l-2 border-outline-variant/30 block">
+        <div class="flex items-start justify-between mb-5">
+          <span class="material-symbols-outlined text-outline text-2xl">gavel</span>
+          <span class="font-label text-[9px] font-bold uppercase tracking-[0.2em] text-outline bg-surface-container px-2 py-1">Soon</span>
+        </div>
+        <h3 class="font-headline text-lg font-bold mb-2 text-on-surface-variant">Can You Keep What You Find?</h3>
+        <p class="text-on-surface-variant text-sm leading-relaxed mb-4">Legal and ethical context for collecting. What applies where, and when to leave something in place.</p>
+        <span class="font-label text-[11px] font-bold uppercase tracking-widest text-outline">In Development</span>
+      </div>
+
+      <!-- LIVE: FAQ -->
+      <a href="faq.html" class="topic-card group bg-surface-container-lowest p-7 border-l-2 border-primary block">
+        <div class="flex items-start justify-between mb-5">
+          <span class="material-symbols-outlined text-primary text-2xl">help</span>
+          <span class="font-label text-[9px] font-bold uppercase tracking-[0.2em] text-primary bg-primary/5 px-2 py-1">FAQ</span>
+        </div>
+        <h3 class="font-headline text-lg font-bold mb-2 group-hover:text-primary transition-colors">Frequently Asked Questions</h3>
+        <p class="text-on-surface-variant text-sm leading-relaxed mb-4">Ten answers to the most common trip-planning and identification questions from first-time visitors.</p>
+        <span class="inline-flex items-center gap-1.5 text-primary font-label text-[11px] font-bold uppercase tracking-widest group-hover:gap-3 transition-all">Read FAQ <span class="material-symbols-outlined text-sm">arrow_forward</span></span>
+      </a>
+
+    </div>
+  </section>
+
+  <!-- BREAK -->
+  <div class="my-16 md:my-24">
     <img src="images/hero-island.jpg" alt="Aerial view of Shark Tooth Island in the Cape Fear River" class="w-full object-cover object-[center_60%] h-[240px] md:h-[56vh]" loading="lazy">
   </div>
 
-  <!-- HOW TO VISIT -->
-  <section id="visit" class="py-24 bg-surface-container-low scroll-mt-24">
-    <div class="max-w-7xl mx-auto px-8">
-      <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 mb-16">
-        <div class="lg:col-span-8">
-          <span class="font-label text-xs uppercase tracking-[0.3em] text-primary mb-4 block">Getting There</span>
-          <h2 class="font-headline text-4xl md:text-5xl font-extrabold tracking-tight text-on-surface leading-tight mb-6">
-            Getting there and <br/><span class="text-outline italic">doing it right.</span>
-          </h2>
-          <p class="text-on-surface-variant font-body text-lg max-w-2xl leading-relaxed">
-            There's no bridge, no ferry, no launch from the island itself. You need a boat or kayak. The experience rewards preparation &mdash; the right tide, the right gear, enough time to actually hunt.
-          </p>
-        </div>
-      </div>
-
-      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-
-        <!-- Access -->
-        <div class="bg-surface-container-lowest p-8 border-t-2 border-primary">
-          <div class="flex items-center gap-3 mb-6">
-            <span class="material-symbols-outlined text-primary">sailing</span>
-            <h3 class="font-label text-sm font-bold uppercase tracking-widest">Access</h3>
-          </div>
-          <ul class="space-y-4">
-            <li class="flex gap-3 text-sm text-on-surface-variant leading-relaxed"><span class="text-primary mt-0.5 flex-shrink-0">&mdash;</span>Boat or kayak only &mdash; no land access from shore</li>
-            <li class="flex gap-3 text-sm text-on-surface-variant leading-relaxed"><span class="text-primary mt-0.5 flex-shrink-0">&mdash;</span>River Road Park is the most common launch point</li>
-            <li class="flex gap-3 text-sm text-on-surface-variant leading-relaxed"><span class="text-primary mt-0.5 flex-shrink-0">&mdash;</span>Short paddle from the park to the island cluster</li>
-            <li class="flex gap-3 text-sm text-on-surface-variant leading-relaxed"><span class="text-primary mt-0.5 flex-shrink-0">&mdash;</span>Schedule your launch around low tide, not convenience</li>
-            <li class="flex gap-3 text-sm text-on-surface-variant leading-relaxed"><span class="text-primary mt-0.5 flex-shrink-0">&mdash;</span>Allow 3&ndash;4 hours minimum for a real hunt</li>
-            <li class="flex gap-3 text-sm text-on-surface-variant leading-relaxed"><span class="text-primary mt-0.5 flex-shrink-0">&mdash;</span>Check Cape Fear River tide tables, not beach tables</li>
-          </ul>
-        </div>
-
-        <!-- What to Bring -->
-        <div class="bg-surface-container-lowest p-8 border-t-2 border-outline-variant">
-          <div class="flex items-center gap-3 mb-6">
-            <span class="material-symbols-outlined text-outline">backpack</span>
-            <h3 class="font-label text-sm font-bold uppercase tracking-widest">What to Bring</h3>
-          </div>
-          <ul class="space-y-4">
-            <li class="flex gap-3 text-sm text-on-surface-variant leading-relaxed"><span class="text-outline mt-0.5 flex-shrink-0">&mdash;</span>Water shoes or old sneakers &mdash; the sediment is rough</li>
-            <li class="flex gap-3 text-sm text-on-surface-variant leading-relaxed"><span class="text-outline mt-0.5 flex-shrink-0">&mdash;</span>A mesh strainer or sifter (old colander works)</li>
-            <li class="flex gap-3 text-sm text-on-surface-variant leading-relaxed"><span class="text-outline mt-0.5 flex-shrink-0">&mdash;</span>Bug spray &mdash; shade is available in the island interior but bugs can be worse there</li>
-            <li class="flex gap-3 text-sm text-on-surface-variant leading-relaxed"><span class="text-outline mt-0.5 flex-shrink-0">&mdash;</span>A small dry bag for your phone and finds</li>
-            <li class="flex gap-3 text-sm text-on-surface-variant leading-relaxed"><span class="text-outline mt-0.5 flex-shrink-0">&mdash;</span>More water than you think you need</li>
-          </ul>
-        </div>
-
-        <!-- How to Search -->
-        <div class="bg-surface-container-lowest p-8 border-t-2 border-outline-variant">
-          <div class="flex items-center gap-3 mb-6">
-            <span class="material-symbols-outlined text-outline">search</span>
-            <h3 class="font-label text-sm font-bold uppercase tracking-widest">How to Search</h3>
-          </div>
-          <ul class="space-y-4">
-            <li class="flex gap-3 text-sm text-on-surface-variant leading-relaxed"><span class="text-outline mt-0.5 flex-shrink-0">&mdash;</span>Work the waterline at low tide &mdash; fossils concentrate there</li>
-            <li class="flex gap-3 text-sm text-on-surface-variant leading-relaxed"><span class="text-outline mt-0.5 flex-shrink-0">&mdash;</span>Scoop sediment and sift rather than surface scanning</li>
-            <li class="flex gap-3 text-sm text-on-surface-variant leading-relaxed"><span class="text-outline mt-0.5 flex-shrink-0">&mdash;</span>Look for the triangular silhouette and flat, smooth surface</li>
-            <li class="flex gap-3 text-sm text-on-surface-variant leading-relaxed"><span class="text-outline mt-0.5 flex-shrink-0">&mdash;</span>Black is the color &mdash; ignore brown, tan, or white fragments</li>
-            <li class="flex gap-3 text-sm text-on-surface-variant leading-relaxed"><span class="text-outline mt-0.5 flex-shrink-0">&mdash;</span>Dense and heavy is a good sign; shell is light</li>
-            <li class="flex gap-3 text-sm text-on-surface-variant leading-relaxed"><span class="text-outline mt-0.5 flex-shrink-0">&mdash;</span>Explore the other islands in the cluster &mdash; Keg Island too</li>
-          </ul>
-        </div>
-
-        <!-- Leave It Right -->
-        <div class="bg-surface-container-lowest p-8 border-t-2 border-outline-variant">
-          <div class="flex items-center gap-3 mb-6">
-            <span class="material-symbols-outlined text-outline">eco</span>
-            <h3 class="font-label text-sm font-bold uppercase tracking-widest">Leave It Right</h3>
-          </div>
-          <ul class="space-y-4 mb-6">
-            <li class="flex gap-3 text-sm text-on-surface-variant leading-relaxed"><span class="text-outline mt-0.5 flex-shrink-0">&mdash;</span>Pack out everything you bring in</li>
-            <li class="flex gap-3 text-sm text-on-surface-variant leading-relaxed"><span class="text-outline mt-0.5 flex-shrink-0">&mdash;</span>Verify before collecting at scale</li>
-            <li class="flex gap-3 text-sm text-on-surface-variant leading-relaxed"><span class="text-outline mt-0.5 flex-shrink-0">&mdash;</span>Respect the wildlife &mdash; fiddler crabs, shorebirds, and gators are present</li>
-            <li class="flex gap-3 text-sm text-on-surface-variant leading-relaxed"><span class="text-outline mt-0.5 flex-shrink-0">&mdash;</span>Leave it better than you found it</li>
-          </ul>
-
-          <div class="bg-primary/5 border-l-4 border-primary p-4 rounded-sm">
-            <p class="font-label text-[10px] uppercase tracking-widest text-primary mb-2">Know Before You Go</p>
-            <p class="text-xs text-on-surface-variant leading-relaxed">
-              Personal fossil collecting is generally permitted on dredge spoil islands.
-              Vertebrate fossils and commercial collection are governed by the
-              <a href="https://www.nps.gov/subjects/fossils/fossil-protection.htm" target="_blank" class="text-primary underline underline-offset-2 hover:text-primary-container transition-colors">Paleontological Resources Preservation Act</a>.
-              For site-specific guidance, check with the
-              <a href="https://www.deq.nc.gov/about/divisions/coastal-management" target="_blank" class="text-primary underline underline-offset-2 hover:text-primary-container transition-colors">NC Division of Coastal Management</a>
-              or the
-              <a href="https://www.saw.usace.army.mil" target="_blank" class="text-primary underline underline-offset-2 hover:text-primary-container transition-colors">Wilmington District Army Corps of Engineers</a>.
-              When in doubt &mdash; photograph it, note the location, leave it in place.
-            </p>
-          </div>
-        </div>
-
-      </div>
-    </div>
-  </section>
-
-  <!-- LIVE TIDAL VISUALIZATION -->
-  <section class="max-w-7xl mx-auto px-6 md:px-8 my-16 md:my-24">
-    <div class="flex justify-between items-end mb-6">
+  <!-- ═══════════════════════════════════════════════════════ -->
+  <!-- SPECIES CATALOG (preview) -->
+  <!-- ═══════════════════════════════════════════════════════ -->
+  <section id="catalog" class="max-w-7xl mx-auto px-6 md:px-8 py-12 md:py-16 scroll-mt-24">
+    <div class="flex flex-wrap justify-between items-end gap-6 mb-10">
       <div>
-        <span class="font-label text-primary text-xs font-bold uppercase tracking-[0.3em] mb-2 block">Live Environmental Window</span>
-        <h2 class="font-headline text-3xl md:text-4xl font-extrabold tracking-tight">The Island, Right Now</h2>
+        <span class="font-label text-primary text-xs font-bold uppercase tracking-[0.3em] mb-3 block">Species Catalog</span>
+        <h2 class="font-headline text-3xl md:text-4xl font-extrabold tracking-tight">What You're Likely to Find.</h2>
+        <p class="text-on-surface-variant mt-3 leading-relaxed max-w-xl">Six species that surface regularly on Shark Tooth Island &mdash; from the common to the apex.</p>
       </div>
-      <a href="hunt-planner.html" class="hidden md:inline-flex items-center gap-2 text-primary font-label text-xs font-bold uppercase tracking-widest hover:gap-4 transition-all">
-        Plan a Hunt
-        <span class="material-symbols-outlined text-sm">arrow_forward</span>
-      </a>
     </div>
-    <div class="bg-[#080F1A] rounded-xl overflow-hidden border border-outline-variant/30 shadow-sm">
-      <iframe src="island-hero.html" class="w-full block" style="height:min(78vh,720px);border:0;" scrolling="no" title="Live tidal visualization of Shark Tooth Island"></iframe>
-    </div>
-    <p class="mt-3 font-label text-[10px] uppercase tracking-widest text-outline">Real NOAA predictions for NOAA Station 8658715 (Federal Point) &middot; Cape Fear River &middot; Updates every 10 minutes</p>
-  </section>
 
-  <!-- CATALOG GRID -->
-  <section id="catalog" class="max-w-7xl mx-auto px-6 md:px-8 scroll-mt-24">
-    <div class="flex justify-between items-end mb-10">
-      <div>
-        <span class="font-label text-primary text-xs font-bold uppercase tracking-[0.3em] mb-2 block">Species Catalog</span>
-        <h2 class="font-headline text-3xl md:text-4xl font-extrabold tracking-tight">What You're Likely to Find</h2>
-      </div>
-    </div>
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
 
       <!-- Megalodon -->
@@ -408,99 +421,82 @@ tailwind.config = {
     </div>
   </section>
 
-  <!-- BREAK — Kayaker -->
-  <div class="my-16 md:my-24">
-    <img src="images/break-approach.webp" alt="Kayaker paddling toward Shark Tooth Island on the Cape Fear River" class="w-full object-cover h-[240px] md:h-[56vh]" loading="lazy">
-  </div>
+  <!-- ═══════════════════════════════════════════════════════ -->
+  <!-- LIVE TIDAL UTILITY -->
+  <!-- ═══════════════════════════════════════════════════════ -->
+  <section class="max-w-7xl mx-auto px-6 md:px-8 my-16 md:my-24">
+    <div class="flex justify-between items-end mb-6">
+      <div>
+        <span class="font-label text-primary text-xs font-bold uppercase tracking-[0.3em] mb-2 block">Live Environmental Window</span>
+        <h2 class="font-headline text-3xl md:text-4xl font-extrabold tracking-tight">The Island, Right Now</h2>
+      </div>
+      <a href="hunt-planner.html" class="hidden md:inline-flex items-center gap-2 text-primary font-label text-xs font-bold uppercase tracking-widest hover:gap-4 transition-all">
+        Plan a Hunt
+        <span class="material-symbols-outlined text-sm">arrow_forward</span>
+      </a>
+    </div>
+    <div class="bg-[#080F1A] rounded-xl overflow-hidden border border-outline-variant/30 shadow-sm">
+      <iframe src="island-hero.html" class="w-full block" style="height:min(78vh,720px);border:0;" scrolling="no" title="Live tidal visualization of Shark Tooth Island"></iframe>
+    </div>
+    <p class="mt-3 font-label text-[10px] uppercase tracking-widest text-outline">Real NOAA predictions for NOAA Station 8658715 (Federal Point) &middot; Cape Fear River &middot; Updates every 10 minutes</p>
+  </section>
 
-  <!-- FAQ -->
-  <section id="faq" class="max-w-4xl mx-auto px-6 md:px-8 mt-8 mb-24 scroll-mt-24">
-    <div class="mb-12 md:mb-14">
-      <span class="font-label text-primary text-xs font-bold uppercase tracking-[0.3em] mb-3 block">Frequently Asked</span>
-      <h2 class="font-headline text-3xl md:text-4xl font-extrabold tracking-tight">Questions About Shark Tooth Island</h2>
-      <p class="text-on-surface-variant mt-3 leading-relaxed max-w-2xl">Common questions from first-time visitors and returning explorers. Built from field notes and trip feedback.</p>
+  <!-- ═══════════════════════════════════════════════════════ -->
+  <!-- SHORT FAQ (top 5) -->
+  <!-- ═══════════════════════════════════════════════════════ -->
+  <section id="faq" class="max-w-4xl mx-auto px-6 md:px-8 mt-16 md:mt-24 mb-24 scroll-mt-24">
+    <div class="mb-10 md:mb-12 flex flex-wrap items-end justify-between gap-6">
+      <div>
+        <span class="font-label text-primary text-xs font-bold uppercase tracking-[0.3em] mb-3 block">Frequently Asked</span>
+        <h2 class="font-headline text-3xl md:text-4xl font-extrabold tracking-tight">Top Questions.</h2>
+        <p class="text-on-surface-variant mt-3 leading-relaxed max-w-xl">A quick primer. See the full FAQ for all ten questions and expanded context.</p>
+      </div>
+      <a href="faq.html" class="inline-flex items-center gap-2 text-primary font-label text-xs font-bold uppercase tracking-widest hover:gap-4 transition-all whitespace-nowrap">
+        See All 10 Questions
+        <span class="material-symbols-outlined text-sm">arrow_forward</span>
+      </a>
     </div>
 
-    <div class="space-y-3" data-faq-list>
+    <div class="space-y-3">
 
       <details class="group bg-surface-container-lowest border-l-2 border-outline-variant/30 hover:border-primary transition-colors">
         <summary class="cursor-pointer p-6 flex justify-between items-center font-headline font-bold text-base hover:text-primary transition-colors list-none">
-          <span data-faq-q>What is Shark Tooth Island?</span>
+          What is Shark Tooth Island?
           <span class="material-symbols-outlined text-outline group-open:rotate-180 transition-transform text-xl ml-4 flex-shrink-0">expand_more</span>
         </summary>
-        <div class="px-6 pb-6 text-on-surface-variant text-sm md:text-[15px] leading-relaxed" data-faq-a>Shark Tooth Island is a water-access fossil hunting destination in the Cape Fear River known for fossilized shark teeth, shell-rich shoreline, and reworked sediment that can produce a wide range of finds.</div>
+        <div class="px-6 pb-6 text-on-surface-variant text-sm md:text-[15px] leading-relaxed">Shark Tooth Island is a water-access fossil hunting destination in the Cape Fear River known for fossilized shark teeth, shell-rich shoreline, and reworked sediment that can produce a wide range of finds.</div>
       </details>
 
       <details class="group bg-surface-container-lowest border-l-2 border-outline-variant/30 hover:border-primary transition-colors">
         <summary class="cursor-pointer p-6 flex justify-between items-center font-headline font-bold text-base hover:text-primary transition-colors list-none">
-          <span data-faq-q>How do you get to Shark Tooth Island?</span>
+          How do you get to Shark Tooth Island?
           <span class="material-symbols-outlined text-outline group-open:rotate-180 transition-transform text-xl ml-4 flex-shrink-0">expand_more</span>
         </summary>
-        <div class="px-6 pb-6 text-on-surface-variant text-sm md:text-[15px] leading-relaxed" data-faq-a>Shark Tooth Island is generally accessed by kayak or small boat. It is not a standard walk-up destination, so launch planning is part of the trip.</div>
+        <div class="px-6 pb-6 text-on-surface-variant text-sm md:text-[15px] leading-relaxed">Shark Tooth Island is generally accessed by kayak or small boat. It is not a standard walk-up destination, so launch planning is part of the trip.</div>
       </details>
 
       <details class="group bg-surface-container-lowest border-l-2 border-outline-variant/30 hover:border-primary transition-colors">
         <summary class="cursor-pointer p-6 flex justify-between items-center font-headline font-bold text-base hover:text-primary transition-colors list-none">
-          <span data-faq-q>Where do people launch for Shark Tooth Island?</span>
+          When is the best time to visit Shark Tooth Island?
           <span class="material-symbols-outlined text-outline group-open:rotate-180 transition-transform text-xl ml-4 flex-shrink-0">expand_more</span>
         </summary>
-        <div class="px-6 pb-6 text-on-surface-variant text-sm md:text-[15px] leading-relaxed" data-faq-a>A common public launch reference is River Road Park. Visitors should always verify current access, conditions, and local safety considerations before heading out.</div>
+        <div class="px-6 pb-6 text-on-surface-variant text-sm md:text-[15px] leading-relaxed">Low tide is typically the best time to search because more productive shoreline and darker fossil-bearing material may be exposed.</div>
       </details>
 
       <details class="group bg-surface-container-lowest border-l-2 border-outline-variant/30 hover:border-primary transition-colors">
         <summary class="cursor-pointer p-6 flex justify-between items-center font-headline font-bold text-base hover:text-primary transition-colors list-none">
-          <span data-faq-q>When is the best time to visit Shark Tooth Island?</span>
+          Why are there so many fossils at Shark Tooth Island?
           <span class="material-symbols-outlined text-outline group-open:rotate-180 transition-transform text-xl ml-4 flex-shrink-0">expand_more</span>
         </summary>
-        <div class="px-6 pb-6 text-on-surface-variant text-sm md:text-[15px] leading-relaxed" data-faq-a>Low tide is typically the best time to search because more productive shoreline and darker fossil-bearing material may be exposed.</div>
+        <div class="px-6 pb-6 text-on-surface-variant text-sm md:text-[15px] leading-relaxed">The site is associated with dredged and reworked material in the Cape Fear River system, which helps explain why older fossil-bearing sediments and finds can be concentrated there. <a href="how-shark-tooth-island-was-made.html" class="text-primary underline underline-offset-2 hover:text-primary-container">Read the full history.</a></div>
       </details>
 
       <details class="group bg-surface-container-lowest border-l-2 border-outline-variant/30 hover:border-primary transition-colors">
         <summary class="cursor-pointer p-6 flex justify-between items-center font-headline font-bold text-base hover:text-primary transition-colors list-none">
-          <span data-faq-q>How long should I plan for a trip?</span>
+          How do you spot a real shark tooth?
           <span class="material-symbols-outlined text-outline group-open:rotate-180 transition-transform text-xl ml-4 flex-shrink-0">expand_more</span>
         </summary>
-        <div class="px-6 pb-6 text-on-surface-variant text-sm md:text-[15px] leading-relaxed" data-faq-a>A real trip usually takes more time than people expect. Between launch, paddling, searching, and returning, giving yourself several hours is the safer and more rewarding approach.</div>
-      </details>
-
-      <details class="group bg-surface-container-lowest border-l-2 border-outline-variant/30 hover:border-primary transition-colors">
-        <summary class="cursor-pointer p-6 flex justify-between items-center font-headline font-bold text-base hover:text-primary transition-colors list-none">
-          <span data-faq-q>What should I bring to Shark Tooth Island?</span>
-          <span class="material-symbols-outlined text-outline group-open:rotate-180 transition-transform text-xl ml-4 flex-shrink-0">expand_more</span>
-        </summary>
-        <div class="px-6 pb-6 text-on-surface-variant text-sm md:text-[15px] leading-relaxed" data-faq-a>Most visitors should bring water, sun protection, footwear that can handle shells and mud, a bag or container for finds, and anything needed for a safe paddle or boat outing.</div>
-      </details>
-
-      <details class="group bg-surface-container-lowest border-l-2 border-outline-variant/30 hover:border-primary transition-colors">
-        <summary class="cursor-pointer p-6 flex justify-between items-center font-headline font-bold text-base hover:text-primary transition-colors list-none">
-          <span data-faq-q>Why are there so many fossils at Shark Tooth Island?</span>
-          <span class="material-symbols-outlined text-outline group-open:rotate-180 transition-transform text-xl ml-4 flex-shrink-0">expand_more</span>
-        </summary>
-        <div class="px-6 pb-6 text-on-surface-variant text-sm md:text-[15px] leading-relaxed" data-faq-a>The site is associated with dredged and reworked material in the Cape Fear River system, which helps explain why older fossil-bearing sediments and finds can be concentrated there.</div>
-      </details>
-
-      <details class="group bg-surface-container-lowest border-l-2 border-outline-variant/30 hover:border-primary transition-colors">
-        <summary class="cursor-pointer p-6 flex justify-between items-center font-headline font-bold text-base hover:text-primary transition-colors list-none">
-          <span data-faq-q>Can you keep what you find at Shark Tooth Island?</span>
-          <span class="material-symbols-outlined text-outline group-open:rotate-180 transition-transform text-xl ml-4 flex-shrink-0">expand_more</span>
-        </summary>
-        <div class="px-6 pb-6 text-on-surface-variant text-sm md:text-[15px] leading-relaxed" data-faq-a>Visitors should check current rules and use common-sense ethics. Casual collecting of common surface finds may be treated differently from protected resources or significant finds. Avoid disturbing sensitive material and follow current laws and guidance.</div>
-      </details>
-
-      <details class="group bg-surface-container-lowest border-l-2 border-outline-variant/30 hover:border-primary transition-colors">
-        <summary class="cursor-pointer p-6 flex justify-between items-center font-headline font-bold text-base hover:text-primary transition-colors list-none">
-          <span data-faq-q>How do you spot a real shark tooth?</span>
-          <span class="material-symbols-outlined text-outline group-open:rotate-180 transition-transform text-xl ml-4 flex-shrink-0">expand_more</span>
-        </summary>
-        <div class="px-6 pb-6 text-on-surface-variant text-sm md:text-[15px] leading-relaxed" data-faq-a>Real fossil shark teeth are often darker, denser, and smoother than the shell fragments around them. Beginners usually do better when they slow down and focus on shape, weight, and surface texture.</div>
-      </details>
-
-      <details class="group bg-surface-container-lowest border-l-2 border-outline-variant/30 hover:border-primary transition-colors">
-        <summary class="cursor-pointer p-6 flex justify-between items-center font-headline font-bold text-base hover:text-primary transition-colors list-none">
-          <span data-faq-q>Why does Shark Tooth Island matter beyond fossil hunting?</span>
-          <span class="material-symbols-outlined text-outline group-open:rotate-180 transition-transform text-xl ml-4 flex-shrink-0">expand_more</span>
-        </summary>
-        <div class="px-6 pb-6 text-on-surface-variant text-sm md:text-[15px] leading-relaxed" data-faq-a>Shark Tooth Island is interesting not only for fossils, but also for its connection to the Cape Fear River's dredging history, spoil-island formation, habitat value, and broader coastal story. <a href="how-shark-tooth-island-was-made.html" class="text-primary underline underline-offset-2 hover:text-primary-container">Read the full history.</a></div>
+        <div class="px-6 pb-6 text-on-surface-variant text-sm md:text-[15px] leading-relaxed">Real fossil shark teeth are often darker, denser, and smoother than the shell fragments around them. Beginners usually do better when they slow down and focus on shape, weight, and surface texture.</div>
       </details>
 
     </div>
@@ -523,10 +519,13 @@ tailwind.config = {
     <div>
       <h5 class="font-label text-xs uppercase tracking-widest text-blue-900 font-bold mb-6">Tools &amp; Resources</h5>
       <ul class="space-y-3">
+        <li><a href="field-guide.html" class="text-slate-500 font-body text-sm hover:text-blue-800 transition-colors">Field Guide</a></li>
+        <li><a href="how-to-visit.html" class="text-slate-500 font-body text-sm hover:text-blue-800 transition-colors">How to Visit</a></li>
         <li><a href="megalodon-calculator-v5.html" class="text-slate-500 font-body text-sm hover:text-blue-800 transition-colors">Size Calculator</a></li>
         <li><a href="hunt-planner.html" class="text-slate-500 font-body text-sm hover:text-blue-800 transition-colors">Hunt Planner</a></li>
         <li><a href="depth-of-time.html" class="text-slate-500 font-body text-sm hover:text-blue-800 transition-colors">Depth of Time</a></li>
         <li><a href="how-shark-tooth-island-was-made.html" class="text-slate-500 font-body text-sm hover:text-blue-800 transition-colors">History of the Island</a></li>
+        <li><a href="faq.html" class="text-slate-500 font-body text-sm hover:text-blue-800 transition-colors">FAQ</a></li>
         <li><a href="field-guide-download.html" class="text-slate-500 font-body text-sm hover:text-blue-800 transition-colors">Free Field Guide PDF</a></li>
       </ul>
     </div>
@@ -541,39 +540,5 @@ tailwind.config = {
     &copy; 2026 Shark Tooth Island Coastal Field Station
   </p>
 </footer>
-
-<script>
-// ─── FAQPage JSON-LD schema generated from visible FAQ ───
-(function() {
-  try {
-    var items = document.querySelectorAll('[data-faq-list] details');
-    if (!items.length) return;
-    var mainEntity = [];
-    items.forEach(function(d) {
-      var qEl = d.querySelector('[data-faq-q]');
-      var aEl = d.querySelector('[data-faq-a]');
-      if (!qEl || !aEl) return;
-      mainEntity.push({
-        "@type": "Question",
-        "name": qEl.textContent.trim().replace(/\s+/g, ' '),
-        "acceptedAnswer": {
-          "@type": "Answer",
-          "text": aEl.textContent.trim().replace(/\s+/g, ' ')
-        }
-      });
-    });
-    if (!mainEntity.length) return;
-    var schema = {
-      "@context": "https://schema.org",
-      "@type": "FAQPage",
-      "mainEntity": mainEntity
-    };
-    var s = document.createElement('script');
-    s.type = 'application/ld+json';
-    s.textContent = JSON.stringify(schema);
-    document.head.appendChild(s);
-  } catch (e) { /* silent */ }
-})();
-</script>
 </body>
 </html>

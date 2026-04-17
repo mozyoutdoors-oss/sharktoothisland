@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html class="light" lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FAQ | SharkToothIsland.org</title>
+<meta name="description" content="Answers to the most common questions about Shark Tooth Island — access, timing, what to bring, identification, ethics, and history.">
+<meta property="og:title" content="Shark Tooth Island FAQ">
+<meta property="og:description" content="Common questions from first-time visitors and returning explorers.">
+<meta property="og:image" content="https://sharktoothisland.org/images/hero-island.jpg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Public+Sans:ital,wght@0,300;0,400;0,600;0,700;0,800;1,400&family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet">
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script>
+tailwind.config = {
+  theme: {
+    extend: {
+      colors: {
+        "surface": "#f9f9f9",
+        "surface-bright": "#f9f9f9",
+        "surface-container-lowest": "#ffffff",
+        "surface-container-low": "#f3f3f3",
+        "surface-container": "#eeeeee",
+        "on-surface": "#1a1c1c",
+        "on-surface-variant": "#414750",
+        "outline": "#717781",
+        "outline-variant": "#c1c7d2",
+        "primary": "#085f9e",
+        "primary-container": "#3478b8",
+        "primary-fixed": "#d1e4ff",
+        "on-primary": "#ffffff"
+      },
+      borderRadius: { DEFAULT: "0.125rem", lg: "0.25rem", xl: "0.5rem", full: "0.75rem" },
+      fontFamily: { headline: ["Public Sans"], body: ["Public Sans"], label: ["Space Grotesk"] }
+    }
+  }
+}
+</script>
+<style>
+  .material-symbols-outlined { font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24; vertical-align: middle; }
+  details summary::-webkit-details-marker { display: none; }
+  details summary::marker { display: none; }
+  .archival-grain {
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+    opacity: 0.03; pointer-events: none;
+  }
+</style>
+</head>
+<body class="bg-surface text-on-surface font-body selection:bg-primary-fixed selection:text-on-primary">
+
+<!-- NAV -->
+<header class="sticky top-0 z-50 bg-white/80 backdrop-blur-xl shadow-sm shadow-blue-900/5">
+  <nav class="flex justify-between items-center max-w-7xl mx-auto px-6 md:px-8 h-20">
+    <a href="index.html" class="text-xl font-bold tracking-tight text-blue-900 font-headline">SharkToothIsland.org</a>
+    <div class="hidden md:flex items-center gap-8">
+      <a href="field-guide.html" class="text-slate-600 hover:text-blue-600 font-label text-sm uppercase tracking-widest transition-colors">Field Guide</a>
+      <a href="megalodon-calculator-v5.html" class="text-slate-600 hover:text-blue-600 font-label text-sm uppercase tracking-widest transition-colors">Size Calculator</a>
+      <a href="hunt-planner.html" class="text-slate-600 hover:text-blue-600 font-label text-sm uppercase tracking-widest transition-colors">Hunt Planner</a>
+      <a href="depth-of-time.html" class="text-slate-600 hover:text-blue-600 font-label text-sm uppercase tracking-widest transition-colors">Depth of Time</a>
+    </div>
+    <div class="flex items-center gap-3">
+      <a href="hunt-planner.html" class="bg-primary text-on-primary px-3 md:px-5 py-2 rounded font-label text-xs font-bold uppercase tracking-widest hover:bg-primary-container transition-all"><span class="md:hidden">Tides</span><span class="hidden md:inline">Current Conditions</span></a>
+      <button onclick="document.getElementById('mobile-menu').classList.toggle('hidden')" class="md:hidden flex items-center justify-center w-10 h-10">
+        <span class="material-symbols-outlined text-on-surface">menu</span>
+      </button>
+    </div>
+  </nav>
+  <div id="mobile-menu" class="hidden md:hidden bg-white/95 backdrop-blur-xl border-t border-outline-variant/30 px-6 pb-6 pt-4 space-y-4">
+    <a href="field-guide.html" class="block text-slate-600 font-label text-sm uppercase tracking-widest py-2">Field Guide</a>
+    <a href="megalodon-calculator-v5.html" class="block text-slate-600 font-label text-sm uppercase tracking-widest py-2">Size Calculator</a>
+    <a href="hunt-planner.html" class="block text-slate-600 font-label text-sm uppercase tracking-widest py-2">Hunt Planner</a>
+    <a href="depth-of-time.html" class="block text-slate-600 font-label text-sm uppercase tracking-widest py-2">Depth of Time</a>
+  </div>
+</header>
+
+<main class="relative min-h-screen">
+  <div class="archival-grain fixed inset-0"></div>
+
+  <!-- HERO -->
+  <section class="max-w-4xl mx-auto px-6 md:px-8 pt-16 md:pt-24 pb-12">
+    <nav class="font-label text-[10px] uppercase tracking-[0.25em] text-outline mb-6" aria-label="Breadcrumb">
+      <a href="index.html" class="hover:text-primary">Home</a>
+      <span class="mx-2">&middot;</span>
+      <a href="field-guide.html" class="hover:text-primary">Field Guide</a>
+      <span class="mx-2">&middot;</span>
+      <span class="text-primary">FAQ</span>
+    </nav>
+    <span class="font-label text-primary text-xs font-bold uppercase tracking-[0.3em] mb-4 block">Frequently Asked</span>
+    <h1 class="font-headline text-4xl md:text-6xl font-extrabold tracking-tight text-on-surface leading-[1.05] mb-6">
+      Questions About<br>Shark Tooth Island.
+    </h1>
+    <p class="font-body text-lg text-on-surface-variant leading-relaxed max-w-2xl">
+      Common questions from first-time visitors and returning explorers. Built from field notes and trip feedback. If something's missing, <a href="mailto:Station@sharktoothisland.org" class="text-primary underline underline-offset-2 hover:text-primary-container">ask</a>.
+    </p>
+  </section>
+
+  <!-- FAQ LIST -->
+  <section class="max-w-4xl mx-auto px-6 md:px-8 pb-24">
+    <div class="space-y-3" data-faq-list>
+
+      <details class="group bg-surface-container-lowest border-l-2 border-outline-variant/30 hover:border-primary transition-colors">
+        <summary class="cursor-pointer p-6 flex justify-between items-center font-headline font-bold text-base hover:text-primary transition-colors list-none">
+          <span data-faq-q>What is Shark Tooth Island?</span>
+          <span class="material-symbols-outlined text-outline group-open:rotate-180 transition-transform text-xl ml-4 flex-shrink-0">expand_more</span>
+        </summary>
+        <div class="px-6 pb-6 text-on-surface-variant text-sm md:text-[15px] leading-relaxed" data-faq-a>Shark Tooth Island is a water-access fossil hunting destination in the Cape Fear River known for fossilized shark teeth, shell-rich shoreline, and reworked sediment that can produce a wide range of finds.</div>
+      </details>
+
+      <details class="group bg-surface-container-lowest border-l-2 border-outline-variant/30 hover:border-primary transition-colors">
+        <summary class="cursor-pointer p-6 flex justify-between items-center font-headline font-bold text-base hover:text-primary transition-colors list-none">
+          <span data-faq-q>How do you get to Shark Tooth Island?</span>
+          <span class="material-symbols-outlined text-outline group-open:rotate-180 transition-transform text-xl ml-4 flex-shrink-0">expand_more</span>
+        </summary>
+        <div class="px-6 pb-6 text-on-surface-variant text-sm md:text-[15px] leading-relaxed" data-faq-a>Shark Tooth Island is generally accessed by kayak or small boat. It is not a standard walk-up destination, so launch planning is part of the trip.</div>
+      </details>
+
+      <details class="group bg-surface-container-lowest border-l-2 border-outline-variant/30 hover:border-primary transition-colors">
+        <summary class="cursor-pointer p-6 flex justify-between items-center font-headline font-bold text-base hover:text-primary transition-colors list-none">
+          <span data-faq-q>Where do people launch for Shark Tooth Island?</span>
+          <span class="material-symbols-outlined text-outline group-open:rotate-180 transition-transform text-xl ml-4 flex-shrink-0">expand_more</span>
+        </summary>
+        <div class="px-6 pb-6 text-on-surface-variant text-sm md:text-[15px] leading-relaxed" data-faq-a>A common public launch reference is River Road Park. Visitors should always verify current access, conditions, and local safety considerations before heading out.</div>
+      </details>
+
+      <details class="group bg-surface-container-lowest border-l-2 border-outline-variant/30 hover:border-primary transition-colors">
+        <summary class="cursor-pointer p-6 flex justify-between items-center font-headline font-bold text-base hover:text-primary transition-colors list-none">
+          <span data-faq-q>When is the best time to visit Shark Tooth Island?</span>
+          <span class="material-symbols-outlined text-outline group-open:rotate-180 transition-transform text-xl ml-4 flex-shrink-0">expand_more</span>
+        </summary>
+        <div class="px-6 pb-6 text-on-surface-variant text-sm md:text-[15px] leading-relaxed" data-faq-a>Low tide is typically the best time to search because more productive shoreline and darker fossil-bearing material may be exposed.</div>
+      </details>
+
+      <details class="group bg-surface-container-lowest border-l-2 border-outline-variant/30 hover:border-primary transition-colors">
+        <summary class="cursor-pointer p-6 flex justify-between items-center font-headline font-bold text-base hover:text-primary transition-colors list-none">
+          <span data-faq-q>How long should I plan for a trip?</span>
+          <span class="material-symbols-outlined text-outline group-open:rotate-180 transition-transform text-xl ml-4 flex-shrink-0">expand_more</span>
+        </summary>
+        <div class="px-6 pb-6 text-on-surface-variant text-sm md:text-[15px] leading-relaxed" data-faq-a>A real trip usually takes more time than people expect. Between launch, paddling, searching, and returning, giving yourself several hours is the safer and more rewarding approach.</div>
+      </details>
+
+      <details class="group bg-surface-container-lowest border-l-2 border-outline-variant/30 hover:border-primary transition-colors">
+        <summary class="cursor-pointer p-6 flex justify-between items-center font-headline font-bold text-base hover:text-primary transition-colors list-none">
+          <span data-faq-q>What should I bring to Shark Tooth Island?</span>
+          <span class="material-symbols-outlined text-outline group-open:rotate-180 transition-transform text-xl ml-4 flex-shrink-0">expand_more</span>
+        </summary>
+        <div class="px-6 pb-6 text-on-surface-variant text-sm md:text-[15px] leading-relaxed" data-faq-a>Most visitors should bring water, sun protection, footwear that can handle shells and mud, a bag or container for finds, and anything needed for a safe paddle or boat outing.</div>
+      </details>
+
+      <details class="group bg-surface-container-lowest border-l-2 border-outline-variant/30 hover:border-primary transition-colors">
+        <summary class="cursor-pointer p-6 flex justify-between items-center font-headline font-bold text-base hover:text-primary transition-colors list-none">
+          <span data-faq-q>Why are there so many fossils at Shark Tooth Island?</span>
+          <span class="material-symbols-outlined text-outline group-open:rotate-180 transition-transform text-xl ml-4 flex-shrink-0">expand_more</span>
+        </summary>
+        <div class="px-6 pb-6 text-on-surface-variant text-sm md:text-[15px] leading-relaxed" data-faq-a>The site is associated with dredged and reworked material in the Cape Fear River system, which helps explain why older fossil-bearing sediments and finds can be concentrated there. <a href="how-shark-tooth-island-was-made.html" class="text-primary underline underline-offset-2 hover:text-primary-container">Read the full history.</a></div>
+      </details>
+
+      <details class="group bg-surface-container-lowest border-l-2 border-outline-variant/30 hover:border-primary transition-colors">
+        <summary class="cursor-pointer p-6 flex justify-between items-center font-headline font-bold text-base hover:text-primary transition-colors list-none">
+          <span data-faq-q>Can you keep what you find at Shark Tooth Island?</span>
+          <span class="material-symbols-outlined text-outline group-open:rotate-180 transition-transform text-xl ml-4 flex-shrink-0">expand_more</span>
+        </summary>
+        <div class="px-6 pb-6 text-on-surface-variant text-sm md:text-[15px] leading-relaxed" data-faq-a>Visitors should check current rules and use common-sense ethics. Casual collecting of common surface finds may be treated differently from protected resources or significant finds. Avoid disturbing sensitive material and follow current laws and guidance.</div>
+      </details>
+
+      <details class="group bg-surface-container-lowest border-l-2 border-outline-variant/30 hover:border-primary transition-colors">
+        <summary class="cursor-pointer p-6 flex justify-between items-center font-headline font-bold text-base hover:text-primary transition-colors list-none">
+          <span data-faq-q>How do you spot a real shark tooth?</span>
+          <span class="material-symbols-outlined text-outline group-open:rotate-180 transition-transform text-xl ml-4 flex-shrink-0">expand_more</span>
+        </summary>
+        <div class="px-6 pb-6 text-on-surface-variant text-sm md:text-[15px] leading-relaxed" data-faq-a>Real fossil shark teeth are often darker, denser, and smoother than the shell fragments around them. Beginners usually do better when they slow down and focus on shape, weight, and surface texture.</div>
+      </details>
+
+      <details class="group bg-surface-container-lowest border-l-2 border-outline-variant/30 hover:border-primary transition-colors">
+        <summary class="cursor-pointer p-6 flex justify-between items-center font-headline font-bold text-base hover:text-primary transition-colors list-none">
+          <span data-faq-q>Why does Shark Tooth Island matter beyond fossil hunting?</span>
+          <span class="material-symbols-outlined text-outline group-open:rotate-180 transition-transform text-xl ml-4 flex-shrink-0">expand_more</span>
+        </summary>
+        <div class="px-6 pb-6 text-on-surface-variant text-sm md:text-[15px] leading-relaxed" data-faq-a>Shark Tooth Island is interesting not only for fossils, but also for its connection to the Cape Fear River's dredging history, spoil-island formation, habitat value, and broader coastal story. <a href="how-shark-tooth-island-was-made.html" class="text-primary underline underline-offset-2 hover:text-primary-container">Read the full history.</a></div>
+      </details>
+
+    </div>
+
+    <!-- Related -->
+    <div class="mt-16 pt-10 border-t border-outline-variant/30">
+      <p class="font-label text-[11px] uppercase tracking-[0.3em] text-primary font-bold mb-6">Continue Exploring</p>
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+        <a href="field-guide.html" class="group flex items-start gap-4 p-5 bg-surface-container-lowest border-l-2 border-outline-variant/30 hover:border-primary transition-colors">
+          <span class="material-symbols-outlined text-primary text-xl mt-0.5">auto_stories</span>
+          <div>
+            <p class="font-headline font-bold text-sm mb-1 group-hover:text-primary transition-colors">Field Guide Hub</p>
+            <p class="text-xs text-on-surface-variant leading-relaxed">All guide topics in one place.</p>
+          </div>
+        </a>
+        <a href="how-shark-tooth-island-was-made.html" class="group flex items-start gap-4 p-5 bg-surface-container-lowest border-l-2 border-outline-variant/30 hover:border-primary transition-colors">
+          <span class="material-symbols-outlined text-primary text-xl mt-0.5">history_edu</span>
+          <div>
+            <p class="font-headline font-bold text-sm mb-1 group-hover:text-primary transition-colors">How the Island Was Made</p>
+            <p class="text-xs text-on-surface-variant leading-relaxed">The dredging history behind the fossils.</p>
+          </div>
+        </a>
+        <a href="field-guide-download.html" class="group flex items-start gap-4 p-5 bg-surface-container-lowest border-l-2 border-outline-variant/30 hover:border-primary transition-colors">
+          <span class="material-symbols-outlined text-primary text-xl mt-0.5">download</span>
+          <div>
+            <p class="font-headline font-bold text-sm mb-1 group-hover:text-primary transition-colors">Free Field Guide PDF</p>
+            <p class="text-xs text-on-surface-variant leading-relaxed">15-page illustrated logbook.</p>
+          </div>
+        </a>
+      </div>
+    </div>
+  </section>
+</main>
+
+<!-- FOOTER -->
+<footer class="bg-slate-100 py-16">
+  <div class="grid grid-cols-1 md:grid-cols-4 gap-12 max-w-7xl mx-auto px-6 md:px-8">
+    <div class="md:col-span-2">
+      <div class="text-lg font-semibold text-slate-800 font-headline mb-4">Shark Tooth Island Coastal Field Station</div>
+      <p class="text-slate-500 font-body text-sm max-w-md leading-relaxed mb-4">
+        A public field station and educational resource for Shark Tooth Island in the Cape Fear River.
+      </p>
+      <p class="font-label text-[10px] uppercase tracking-widest text-slate-400">
+        34.0522&deg; N &middot; 77.9067&deg; W &middot; New Hanover County, NC
+      </p>
+    </div>
+    <div>
+      <h5 class="font-label text-xs uppercase tracking-widest text-blue-900 font-bold mb-6">Tools &amp; Resources</h5>
+      <ul class="space-y-3">
+        <li><a href="field-guide.html" class="text-slate-500 font-body text-sm hover:text-blue-800 transition-colors">Field Guide</a></li>
+        <li><a href="megalodon-calculator-v5.html" class="text-slate-500 font-body text-sm hover:text-blue-800 transition-colors">Size Calculator</a></li>
+        <li><a href="hunt-planner.html" class="text-slate-500 font-body text-sm hover:text-blue-800 transition-colors">Hunt Planner</a></li>
+        <li><a href="depth-of-time.html" class="text-slate-500 font-body text-sm hover:text-blue-800 transition-colors">Depth of Time</a></li>
+        <li><a href="how-shark-tooth-island-was-made.html" class="text-slate-500 font-body text-sm hover:text-blue-800 transition-colors">History of the Island</a></li>
+        <li><a href="faq.html" class="text-slate-500 font-body text-sm hover:text-blue-800 transition-colors">FAQ</a></li>
+        <li><a href="field-guide-download.html" class="text-slate-500 font-body text-sm hover:text-blue-800 transition-colors">Free Field Guide PDF</a></li>
+      </ul>
+    </div>
+    <div>
+      <h5 class="font-label text-xs uppercase tracking-widest text-blue-900 font-bold mb-6">Contact</h5>
+      <ul class="space-y-3">
+        <li><a href="mailto:Station@sharktoothisland.org" class="text-slate-500 font-body text-sm hover:text-blue-800 transition-colors">Station@sharktoothisland.org</a></li>
+      </ul>
+    </div>
+  </div>
+  <p class="max-w-7xl mx-auto px-6 md:px-8 mt-12 pt-6 border-t border-slate-200 font-label text-[10px] uppercase tracking-widest text-slate-400">
+    &copy; 2026 Shark Tooth Island Coastal Field Station
+  </p>
+</footer>
+
+<script>
+// ─── FAQPage JSON-LD schema generated from visible FAQ ───
+(function() {
+  try {
+    var items = document.querySelectorAll('[data-faq-list] details');
+    if (!items.length) return;
+    var mainEntity = [];
+    items.forEach(function(d) {
+      var qEl = d.querySelector('[data-faq-q]');
+      var aEl = d.querySelector('[data-faq-a]');
+      if (!qEl || !aEl) return;
+      mainEntity.push({
+        "@type": "Question",
+        "name": qEl.textContent.trim().replace(/\s+/g, ' '),
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": aEl.textContent.trim().replace(/\s+/g, ' ')
+        }
+      });
+    });
+    if (!mainEntity.length) return;
+    var schema = {
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      "mainEntity": mainEntity
+    };
+    var s = document.createElement('script');
+    s.type = 'application/ld+json';
+    s.textContent = JSON.stringify(schema);
+    document.head.appendChild(s);
+  } catch (e) { /* silent */ }
+})();
+</script>
+</body>
+</html>
