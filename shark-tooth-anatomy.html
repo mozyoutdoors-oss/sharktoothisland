@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html class="light" lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Shark Tooth Anatomy | SharkToothIsland.org</title>
+<meta name="description" content="The parts of a fossil shark tooth — crown, bourlette, serrations, root, cusplets — and how to use them for identification in the field.">
+<meta property="og:title" content="Shark Tooth Anatomy">
+<meta property="og:description" content="The parts of a fossil shark tooth and how to use them for identification.">
+<meta property="og:image" content="https://sharktoothisland.org/images/guide-anatomy.jpg">
+<meta property="og:type" content="article">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Public+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,300;1,400&family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet">
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script>
+tailwind.config = {
+  theme: {
+    extend: {
+      colors: {
+        "field-dark":    "#0f2e3d",
+        "field-teal":    "#1a4f5e",
+        "field-accent":  "#d97b2b",
+        "field-accent-light": "#f0a050",
+        "field-cream":   "#f5f0e8",
+        "field-paper":   "#ede7db",
+        "field-ink":     "#1c1a17",
+        "field-ink-mid": "#4a4640",
+        "field-ink-light":"#7a756d",
+        "field-rule":    "#d5cfc5"
+      },
+      borderRadius: { DEFAULT: "0.125rem", lg: "0.25rem", xl: "0.5rem", full: "0.75rem" },
+      fontFamily: { headline: ["Public Sans"], body: ["Public Sans"], label: ["Space Grotesk"] }
+    }
+  }
+}
+</script>
+<style>
+  .material-symbols-outlined { font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24; vertical-align: middle; }
+  .paper-grain::before {
+    content: '';
+    position: absolute; inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+    opacity: 0.025; pointer-events: none; z-index: 1;
+  }
+  .article-body p {
+    font-size: 1.0625rem; line-height: 1.8;
+    color: #4a4640; margin-bottom: 1.5rem;
+  }
+  .article-body p:last-child { margin-bottom: 0; }
+  .article-body strong { color: #1c1a17; font-weight: 600; }
+  .section-rule { width: 3rem; height: 1px; background: #d5cfc5; margin: 3rem 0; }
+  @media (min-width: 768px) { .section-rule { margin: 4rem 0; } }
+
+  .part-row {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 0.75rem 2rem;
+    padding: 1.5rem 0;
+    border-bottom: 1px solid #d5cfc5;
+  }
+  @media (min-width: 768px) {
+    .part-row { grid-template-columns: 1fr 2fr; padding: 2rem 0; }
+  }
+  .part-row:last-child { border-bottom: none; }
+  .part-label {
+    display: flex; flex-direction: column; gap: 0.35rem;
+  }
+  .part-label .num {
+    font-family: "Space Grotesk", sans-serif;
+    font-size: 10px; font-weight: 700;
+    text-transform: uppercase; letter-spacing: 0.25em;
+    color: #d97b2b;
+  }
+  .part-label .name {
+    font-family: "Public Sans", sans-serif;
+    font-weight: 800; font-size: 1.25rem;
+    color: #0f2e3d; letter-spacing: -0.01em;
+  }
+  .part-label .alias {
+    font-family: "Space Grotesk", sans-serif;
+    font-size: 11px;
+    color: #7a756d;
+    font-style: italic;
+  }
+  .part-desc {
+    font-size: 0.9375rem; line-height: 1.75; color: #4a4640;
+  }
+  .part-desc strong { color: #1c1a17; font-weight: 600; }
+</style>
+</head>
+<body class="bg-field-cream text-field-ink font-body selection:bg-field-accent/20 selection:text-field-ink">
+
+<!-- NAV -->
+<header class="sticky top-0 z-50 bg-field-cream/85 backdrop-blur-xl border-b border-field-paper">
+  <nav class="flex justify-between items-center max-w-7xl mx-auto px-6 md:px-8 h-16">
+    <a href="index.html" class="text-lg font-bold tracking-tight text-field-dark font-headline">SharkToothIsland.org</a>
+    <div class="hidden md:flex items-center gap-8">
+      <a href="field-guide.html" class="text-field-ink-light hover:text-field-dark font-label text-[11px] uppercase tracking-[0.2em] transition-colors">Field Guide</a>
+      <a href="field-notes/" class="text-field-ink-light hover:text-field-dark font-label text-[11px] uppercase tracking-[0.2em] transition-colors">Field Notes</a>
+      <a href="megalodon-calculator-v5.html" class="text-field-ink-light hover:text-field-dark font-label text-[11px] uppercase tracking-[0.2em] transition-colors">Size Calculator</a>
+      <a href="hunt-planner.html" class="text-field-ink-light hover:text-field-dark font-label text-[11px] uppercase tracking-[0.2em] transition-colors">Hunt Planner</a>
+      <a href="depth-of-time.html" class="text-field-ink-light hover:text-field-dark font-label text-[11px] uppercase tracking-[0.2em] transition-colors">Depth of Time</a>
+    </div>
+    <div class="flex items-center gap-3">
+      <a href="hunt-planner.html" class="bg-field-dark text-field-cream px-3 md:px-5 py-2 rounded font-label text-[11px] font-bold uppercase tracking-widest hover:bg-field-teal transition-all">
+        <span class="md:hidden">Tides</span><span class="hidden md:inline">Current Conditions</span>
+      </a>
+      <button onclick="document.getElementById('mobile-menu').classList.toggle('hidden')" class="md:hidden flex items-center justify-center w-10 h-10" aria-label="Menu">
+        <span class="material-symbols-outlined text-field-dark">menu</span>
+      </button>
+    </div>
+  </nav>
+  <div id="mobile-menu" class="hidden md:hidden bg-field-cream/95 backdrop-blur-xl border-t border-field-paper px-6 pb-6 pt-4 space-y-4">
+    <a href="field-guide.html" class="block text-field-ink-mid font-label text-sm uppercase tracking-widest py-2">Field Guide</a>
+    <a href="field-notes/" class="block text-field-ink-mid font-label text-sm uppercase tracking-widest py-2">Field Notes</a>
+    <a href="megalodon-calculator-v5.html" class="block text-field-ink-mid font-label text-sm uppercase tracking-widest py-2">Size Calculator</a>
+    <a href="hunt-planner.html" class="block text-field-ink-mid font-label text-sm uppercase tracking-widest py-2">Hunt Planner</a>
+    <a href="depth-of-time.html" class="block text-field-ink-mid font-label text-sm uppercase tracking-widest py-2">Depth of Time</a>
+  </div>
+</header>
+
+<main class="relative">
+
+  <!-- HERO -->
+  <section class="relative overflow-hidden paper-grain">
+    <div class="max-w-3xl mx-auto px-6 md:px-8 pt-14 md:pt-20 pb-8 relative z-10">
+      <nav class="font-label text-[10px] uppercase tracking-[0.25em] text-field-ink-light mb-6" aria-label="Breadcrumb">
+        <a href="index.html" class="hover:text-field-accent">Home</a>
+        <span class="mx-2 text-field-rule">&middot;</span>
+        <a href="field-guide.html" class="hover:text-field-accent">Field Guide</a>
+        <span class="mx-2 text-field-rule">&middot;</span>
+        <span class="text-field-accent">Shark Tooth Anatomy</span>
+      </nav>
+      <span class="font-label text-field-accent text-[11px] font-bold uppercase tracking-[0.3em] mb-4 block">Evergreen Guide</span>
+      <h1 class="font-headline text-3xl md:text-5xl lg:text-[3rem] font-extrabold tracking-tight text-field-dark leading-[1.05] mb-5">
+        Shark Tooth<br>Anatomy.
+      </h1>
+      <p class="font-body text-lg md:text-xl text-field-ink-mid leading-relaxed max-w-2xl font-light">
+        The parts of a fossil shark tooth &mdash; crown, bourlette, serrations, root, cusplets &mdash; and how to use them to identify what you find.
+      </p>
+    </div>
+  </section>
+
+  <!-- Rule separator -->
+  <div class="max-w-3xl mx-auto px-6 md:px-8">
+    <div class="border-t border-field-rule"></div>
+  </div>
+
+  <!-- ARTICLE -->
+  <article class="max-w-3xl mx-auto px-6 md:px-8 pt-10 md:pt-14 pb-12 md:pb-16">
+
+    <!-- INTRO -->
+    <section class="article-body">
+      <p>Most shark teeth share the same basic architecture. Once you can name the parts, identification gets easier &mdash; because what separates one species from another usually comes down to the presence, absence, or shape of a specific feature.</p>
+      <p>A serrated edge or not. A chevron-shaped band at the base or not. Side cusplets or not. Five or six details, and you can usually narrow a find to a handful of possibilities.</p>
+    </section>
+
+    <!-- FIGURE -->
+    <figure class="mt-10 md:mt-12 mb-10 md:mb-12">
+      <div class="bg-white border border-field-rule p-2 md:p-3 shadow-[0_20px_50px_rgba(15,46,61,0.10)]">
+        <img src="images/guide-anatomy.jpg"
+          alt="Labeled diagram of extinct shark tooth anatomy showing crown, bourlette, serrations, root, and cusplets"
+          class="w-full h-auto block"
+          loading="lazy"
+          width="2752" height="1536">
+      </div>
+      <figcaption class="mt-3 font-label text-[10px] uppercase tracking-[0.15em] text-field-ink-light leading-relaxed">
+        <span class="text-field-accent font-bold">Fig. 1</span> &mdash; Labeled anatomy of an extinct shark tooth. Plate from the Shark Tooth Island Field Guide.
+      </figcaption>
+    </figure>
+
+    <div class="section-rule"></div>
+
+    <!-- THE PARTS -->
+    <section>
+      <h2 class="font-headline text-xl md:text-2xl font-extrabold tracking-tight text-field-dark mb-5">The Parts</h2>
+      <p class="text-field-ink-mid leading-relaxed mb-8">Five features do most of the identification work. Here they are, from tip to base.</p>
+
+      <div>
+        <!-- 1. Crown -->
+        <div class="part-row">
+          <div class="part-label">
+            <span class="num">01</span>
+            <span class="name">Crown</span>
+            <span class="alias">aka the Blade</span>
+          </div>
+          <div class="part-desc">
+            The main enameled cutting surface &mdash; the triangular blade that does the work. On a fossil, the crown is smooth, slightly glossy, and usually darker than the root. Look for a <strong>flat, uniform texture</strong> across the surface. Chips and wear show up easily here, and the shape of the crown (triangular, curved, hooked) is one of the fastest ID signals.
+          </div>
+        </div>
+
+        <!-- 2. Bourlette -->
+        <div class="part-row">
+          <div class="part-label">
+            <span class="num">02</span>
+            <span class="name">Bourlette</span>
+            <span class="alias">the dark band</span>
+          </div>
+          <div class="part-desc">
+            A dark, chevron-shaped band of dense tissue between the crown and the root. Sometimes called the neck. Its presence or absence is a major ID cue &mdash; <strong>megalodon has a prominent bourlette</strong>, great white does not. When it's there, it's often a richer dark color than the surrounding tooth, and it curves inward in a v-shape.
+          </div>
+        </div>
+
+        <!-- 3. Serrations -->
+        <div class="part-row">
+          <div class="part-label">
+            <span class="num">03</span>
+            <span class="name">Serrations</span>
+            <span class="alias">the saw-edge</span>
+          </div>
+          <div class="part-desc">
+            The jagged, saw-like edge running up the sides of the crown. Presence, absence, or coarseness is key for ID. <strong>Megalodon and great white have fine, regular serrations.</strong> <strong>Snaggletooth has large, coarse serrations on the lower half only.</strong> <strong>Makos have none.</strong> If you can see or feel them, you've narrowed the field immediately.
+          </div>
+        </div>
+
+        <!-- 4. Root -->
+        <div class="part-row">
+          <div class="part-label">
+            <span class="num">04</span>
+            <span class="name">Root</span>
+            <span class="alias">the base</span>
+          </div>
+          <div class="part-desc">
+            The porous, often v-shaped base that anchored the tooth in the jaw. Matte rather than glossy. Usually lighter in color than the crown because the root material is less densely mineralized. The root shape matters &mdash; deeply forked roots suggest large predators like megalodon or great white; flatter, squarer roots suggest different species.
+          </div>
+        </div>
+
+        <!-- 5. Cusplets -->
+        <div class="part-row">
+          <div class="part-label">
+            <span class="num">05</span>
+            <span class="name">Cusplets</span>
+            <span class="alias">the side teeth</span>
+          </div>
+          <div class="part-desc">
+            Small, secondary mini-teeth sitting at the base of the main blade, one on each side. Many species have them; some don't, and some lost them over evolutionary time. <strong>Sand tiger teeth have pronounced, pointed cusplets.</strong> <strong>Juvenile megalodon can have small cusplets that adults lost.</strong> When you're stuck between two similar-looking finds, checking for cusplets often settles it.
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <div class="section-rule"></div>
+
+    <!-- ID STRATEGY -->
+    <section class="article-body">
+      <h2 class="font-headline text-xl md:text-2xl font-extrabold tracking-tight text-field-dark mb-5">Using Anatomy for Identification</h2>
+      <p>A simple decision tree works surprisingly well once you know the parts:</p>
+
+      <ol class="space-y-3 mb-6 text-field-ink-mid leading-relaxed list-decimal pl-5">
+        <li><strong>Check the edge.</strong> Serrated or smooth? Fine or coarse? Full length or partial?</li>
+        <li><strong>Check for a bourlette.</strong> If yes &mdash; narrow to megalodon or close relatives. If no &mdash; broader field.</li>
+        <li><strong>Check the crown shape.</strong> Triangular, curved, hooked, or broad?</li>
+        <li><strong>Check for cusplets.</strong> Present? Pointed or rounded? Absent?</li>
+        <li><strong>Check the root.</strong> Forked or flat? Complete or worn?</li>
+      </ol>
+
+      <p>Five questions. Most finds narrow down in under a minute. For the species most common at Shark Tooth Island, see the <a href="field-guide.html#catalog" class="text-field-accent underline underline-offset-2 hover:text-field-accent-light">species catalog</a>.</p>
+    </section>
+
+    <div class="section-rule"></div>
+
+    <!-- BROKEN TEETH -->
+    <section class="article-body">
+      <h2 class="font-headline text-xl md:text-2xl font-extrabold tracking-tight text-field-dark mb-5">What About Broken Teeth?</h2>
+      <p>Most of what surfaces at Shark Tooth Island is partial. Roots break off. Tips wear away. The blade can fracture. This is normal, and a broken tooth is still worth keeping &mdash; the remaining anatomy is often enough for ID.</p>
+      <p>Priority of clues when something's missing: <strong>serrations first</strong> (they identify fast), <strong>bourlette second</strong> (if the base is intact), <strong>crown shape third</strong>. Root alone can be tough to ID, but pair it with other visible detail and you can usually get there.</p>
+      <p>If the tooth is worn smooth and you can't see any of these features clearly, photograph it next to a ruler and post it somewhere with ID expertise. Worn teeth aren't worthless &mdash; they're just harder.</p>
+    </section>
+
+    <div class="section-rule"></div>
+
+    <!-- BYLINE -->
+    <div class="flex items-center gap-4 py-4">
+      <div class="w-10 h-10 bg-field-dark rounded-full flex items-center justify-center">
+        <span class="font-label text-field-cream text-[10px] font-bold tracking-wider">STI</span>
+      </div>
+      <div>
+        <p class="font-label text-[11px] font-bold text-field-dark tracking-wide">SharkToothIsland.org</p>
+        <p class="font-label text-[10px] text-field-ink-light tracking-wide">A Mozy Outdoors field project &middot; Cape Fear Region, NC</p>
+      </div>
+    </div>
+
+  </article>
+
+  <!-- CONTINUE -->
+  <section class="bg-white relative paper-grain">
+    <div class="max-w-3xl mx-auto px-6 md:px-8 py-16 md:py-20 relative z-10">
+      <p class="font-label text-[11px] uppercase tracking-[0.3em] text-field-accent font-bold mb-6">Continue Exploring</p>
+      <div class="space-y-3">
+        <a href="fossil-vs-shell.html" class="group flex items-start gap-4 p-5 -mx-5 hover:bg-field-cream/50 transition-colors rounded">
+          <span class="material-symbols-outlined text-field-teal text-xl mt-0.5 group-hover:text-field-accent transition-colors">compare</span>
+          <div>
+            <p class="font-headline text-sm font-bold text-field-dark group-hover:text-field-accent transition-colors">Fossil vs. Shell</p>
+            <p class="text-field-ink-mid text-xs leading-relaxed">Quick-compare guide to telling them apart in the field.</p>
+          </div>
+        </a>
+        <a href="how-to-find-shark-teeth.html" class="group flex items-start gap-4 p-5 -mx-5 hover:bg-field-cream/50 transition-colors rounded">
+          <span class="material-symbols-outlined text-field-teal text-xl mt-0.5 group-hover:text-field-accent transition-colors">search</span>
+          <div>
+            <p class="font-headline text-sm font-bold text-field-dark group-hover:text-field-accent transition-colors">How to Find Shark Teeth</p>
+            <p class="text-field-ink-mid text-xs leading-relaxed">Technique, timing, and what beginners miss.</p>
+          </div>
+        </a>
+        <a href="megalodon-calculator-v5.html" class="group flex items-start gap-4 p-5 -mx-5 hover:bg-field-cream/50 transition-colors rounded">
+          <span class="material-symbols-outlined text-field-teal text-xl mt-0.5 group-hover:text-field-accent transition-colors">straighten</span>
+          <div>
+            <p class="font-headline text-sm font-bold text-field-dark group-hover:text-field-accent transition-colors">Megalodon Size Calculator</p>
+            <p class="text-field-ink-mid text-xs leading-relaxed">Estimate body length from a tooth measurement.</p>
+          </div>
+        </a>
+        <a href="field-guide.html#catalog" class="group flex items-start gap-4 p-5 -mx-5 hover:bg-field-cream/50 transition-colors rounded">
+          <span class="material-symbols-outlined text-field-teal text-xl mt-0.5 group-hover:text-field-accent transition-colors">collections_bookmark</span>
+          <div>
+            <p class="font-headline text-sm font-bold text-field-dark group-hover:text-field-accent transition-colors">Species Catalog</p>
+            <p class="text-field-ink-mid text-xs leading-relaxed">Six species you're likely to find, with identification notes.</p>
+          </div>
+        </a>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<!-- FOOTER -->
+<footer class="bg-field-dark text-white/70 py-16">
+  <div class="grid grid-cols-1 md:grid-cols-4 gap-12 max-w-7xl mx-auto px-6 md:px-8">
+    <div class="md:col-span-2">
+      <div class="text-lg font-semibold text-white font-headline mb-4">Shark Tooth Island Coastal Field Station</div>
+      <p class="text-white/50 font-body text-sm max-w-md leading-relaxed mb-4">A public field station and educational resource for Shark Tooth Island in the Cape Fear River.</p>
+      <p class="font-label text-[10px] uppercase tracking-widest text-white/30">34.0522&deg; N &middot; 77.9067&deg; W &middot; New Hanover County, NC</p>
+    </div>
+    <div>
+      <h5 class="font-label text-[11px] uppercase tracking-widest text-field-accent font-bold mb-6">Tools &amp; Resources</h5>
+      <ul class="space-y-3">
+        <li><a href="field-guide.html" class="text-white/50 font-body text-sm hover:text-white transition-colors">Field Guide</a></li>
+        <li><a href="field-notes/" class="text-white/50 font-body text-sm hover:text-white transition-colors">Field Notes</a></li>
+        <li><a href="how-to-visit.html" class="text-white/50 font-body text-sm hover:text-white transition-colors">How to Visit</a></li>
+        <li><a href="megalodon-calculator-v5.html" class="text-white/50 font-body text-sm hover:text-white transition-colors">Size Calculator</a></li>
+        <li><a href="hunt-planner.html" class="text-white/50 font-body text-sm hover:text-white transition-colors">Hunt Planner</a></li>
+        <li><a href="how-shark-tooth-island-was-made.html" class="text-white/50 font-body text-sm hover:text-white transition-colors">History of the Island</a></li>
+        <li><a href="faq.html" class="text-white/50 font-body text-sm hover:text-white transition-colors">FAQ</a></li>
+        <li><a href="field-guide-download.html" class="text-white/50 font-body text-sm hover:text-white transition-colors">Free Field Guide PDF</a></li>
+      </ul>
+    </div>
+    <div>
+      <h5 class="font-label text-[11px] uppercase tracking-widest text-field-accent font-bold mb-6">Contact</h5>
+      <ul class="space-y-3">
+        <li><a href="mailto:Station@sharktoothisland.org" class="text-white/50 font-body text-sm hover:text-white transition-colors">Station@sharktoothisland.org</a></li>
+      </ul>
+    </div>
+  </div>
+  <p class="max-w-7xl mx-auto px-6 md:px-8 mt-12 pt-6 border-t border-white/10 font-label text-[10px] uppercase tracking-widest text-white/25">&copy; 2026 Shark Tooth Island Coastal Field Station</p>
+</footer>
+
+</body>
+</html>
