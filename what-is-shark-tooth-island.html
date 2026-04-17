@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html class="light" lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>What Is Shark Tooth Island? | SharkToothIsland.org</title>
+<meta name="description" content="A plain-English overview of Shark Tooth Island — where it is, what makes it unusual, and why it's one of the more productive publicly accessible fossil sites on the North Carolina coast.">
+<meta property="og:title" content="What Is Shark Tooth Island?">
+<meta property="og:description" content="A plain-English overview of the island and why people go there.">
+<meta property="og:image" content="https://sharktoothisland.org/images/hero-island.jpg">
+<meta property="og:type" content="article">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Public+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,300;1,400&family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet">
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script>
+tailwind.config = {
+  theme: {
+    extend: {
+      colors: {
+        "field-dark":    "#0f2e3d",
+        "field-teal":    "#1a4f5e",
+        "field-accent":  "#d97b2b",
+        "field-accent-light": "#f0a050",
+        "field-cream":   "#f5f0e8",
+        "field-paper":   "#ede7db",
+        "field-ink":     "#1c1a17",
+        "field-ink-mid": "#4a4640",
+        "field-ink-light":"#7a756d",
+        "field-rule":    "#d5cfc5"
+      },
+      borderRadius: { DEFAULT: "0.125rem", lg: "0.25rem", xl: "0.5rem", full: "0.75rem" },
+      fontFamily: { headline: ["Public Sans"], body: ["Public Sans"], label: ["Space Grotesk"] }
+    }
+  }
+}
+</script>
+<style>
+  .material-symbols-outlined { font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24; vertical-align: middle; }
+  .paper-grain::before {
+    content: '';
+    position: absolute; inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+    opacity: 0.025; pointer-events: none; z-index: 1;
+  }
+  .article-body p {
+    font-size: 1.0625rem; line-height: 1.8;
+    color: #4a4640; margin-bottom: 1.5rem;
+  }
+  .article-body p:last-child { margin-bottom: 0; }
+  .article-body strong { color: #1c1a17; font-weight: 600; }
+  .section-rule { width: 3rem; height: 1px; background: #d5cfc5; margin: 3rem 0; }
+  @media (min-width: 768px) { .section-rule { margin: 4rem 0; } }
+  .callout-box {
+    background: #0f2e3d; color: #f5f0e8;
+    padding: 2rem; margin: 2.5rem 0;
+  }
+  @media (min-width: 768px) { .callout-box { padding: 2.5rem 3rem; } }
+  .fact-row {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 1rem 2rem;
+    border-bottom: 1px solid #d5cfc5;
+    padding: 1rem 0;
+  }
+  .fact-row:last-child { border-bottom: none; }
+  .fact-key {
+    font-family: "Space Grotesk", sans-serif;
+    font-size: 10px; font-weight: 700;
+    text-transform: uppercase; letter-spacing: 0.2em;
+    color: #7a756d;
+    white-space: nowrap;
+    padding-top: 0.15rem;
+  }
+  .fact-val { font-size: 0.9375rem; color: #1c1a17; }
+</style>
+</head>
+<body class="bg-field-cream text-field-ink font-body selection:bg-field-accent/20 selection:text-field-ink">
+
+<!-- NAV -->
+<header class="sticky top-0 z-50 bg-field-cream/85 backdrop-blur-xl border-b border-field-paper">
+  <nav class="flex justify-between items-center max-w-7xl mx-auto px-6 md:px-8 h-16">
+    <a href="index.html" class="text-lg font-bold tracking-tight text-field-dark font-headline">SharkToothIsland.org</a>
+    <div class="hidden md:flex items-center gap-8">
+      <a href="field-guide.html" class="text-field-ink-light hover:text-field-dark font-label text-[11px] uppercase tracking-[0.2em] transition-colors">Field Guide</a>
+      <a href="field-notes/" class="text-field-ink-light hover:text-field-dark font-label text-[11px] uppercase tracking-[0.2em] transition-colors">Field Notes</a>
+      <a href="megalodon-calculator-v5.html" class="text-field-ink-light hover:text-field-dark font-label text-[11px] uppercase tracking-[0.2em] transition-colors">Size Calculator</a>
+      <a href="hunt-planner.html" class="text-field-ink-light hover:text-field-dark font-label text-[11px] uppercase tracking-[0.2em] transition-colors">Hunt Planner</a>
+      <a href="depth-of-time.html" class="text-field-ink-light hover:text-field-dark font-label text-[11px] uppercase tracking-[0.2em] transition-colors">Depth of Time</a>
+    </div>
+    <div class="flex items-center gap-3">
+      <a href="hunt-planner.html" class="bg-field-dark text-field-cream px-3 md:px-5 py-2 rounded font-label text-[11px] font-bold uppercase tracking-widest hover:bg-field-teal transition-all">
+        <span class="md:hidden">Tides</span><span class="hidden md:inline">Current Conditions</span>
+      </a>
+      <button onclick="document.getElementById('mobile-menu').classList.toggle('hidden')" class="md:hidden flex items-center justify-center w-10 h-10" aria-label="Menu">
+        <span class="material-symbols-outlined text-field-dark">menu</span>
+      </button>
+    </div>
+  </nav>
+  <div id="mobile-menu" class="hidden md:hidden bg-field-cream/95 backdrop-blur-xl border-t border-field-paper px-6 pb-6 pt-4 space-y-4">
+    <a href="field-guide.html" class="block text-field-ink-mid font-label text-sm uppercase tracking-widest py-2">Field Guide</a>
+    <a href="field-notes/" class="block text-field-ink-mid font-label text-sm uppercase tracking-widest py-2">Field Notes</a>
+    <a href="megalodon-calculator-v5.html" class="block text-field-ink-mid font-label text-sm uppercase tracking-widest py-2">Size Calculator</a>
+    <a href="hunt-planner.html" class="block text-field-ink-mid font-label text-sm uppercase tracking-widest py-2">Hunt Planner</a>
+    <a href="depth-of-time.html" class="block text-field-ink-mid font-label text-sm uppercase tracking-widest py-2">Depth of Time</a>
+  </div>
+</header>
+
+<main class="relative">
+
+  <!-- HERO -->
+  <section class="relative overflow-hidden paper-grain">
+    <div class="relative h-[280px] md:h-[420px] overflow-hidden">
+      <img src="images/hero-island.jpg" alt="Aerial view of Shark Tooth Island in the Cape Fear River" class="w-full h-full object-cover object-[center_60%]">
+      <div class="absolute inset-0 bg-gradient-to-b from-field-dark/20 via-transparent to-field-cream"></div>
+    </div>
+
+    <div class="max-w-3xl mx-auto px-6 md:px-8 -mt-20 md:-mt-24 relative z-10 pb-12 md:pb-16">
+      <nav class="font-label text-[10px] uppercase tracking-[0.25em] text-field-ink-light mb-6" aria-label="Breadcrumb">
+        <a href="index.html" class="hover:text-field-accent">Home</a>
+        <span class="mx-2 text-field-rule">&middot;</span>
+        <a href="field-guide.html" class="hover:text-field-accent">Field Guide</a>
+        <span class="mx-2 text-field-rule">&middot;</span>
+        <span class="text-field-accent">What Is Shark Tooth Island?</span>
+      </nav>
+      <span class="font-label text-field-accent text-[11px] font-bold uppercase tracking-[0.3em] mb-5 block">Evergreen Guide</span>
+      <h1 class="font-headline text-3xl md:text-5xl lg:text-[3rem] font-extrabold tracking-tight text-field-dark leading-[1.05] mb-6">
+        What Is Shark<br>Tooth Island?
+      </h1>
+      <p class="font-body text-lg md:text-xl text-field-ink-mid leading-relaxed max-w-2xl font-light">
+        A plain-English overview of the island, where it is, and why it's one of the more unusual publicly accessible fossil sites on the North Carolina coast.
+      </p>
+    </div>
+  </section>
+
+  <!-- ARTICLE -->
+  <article class="max-w-3xl mx-auto px-6 md:px-8 py-8 md:py-12">
+
+    <section class="article-body">
+      <p>Shark Tooth Island is a small, water-access island in the lower Cape Fear River near Wilmington, North Carolina. It sits in a tidal stretch of the river just west of the city, part of a cluster of low, sandy islands that people have been hunting fossils on for decades.</p>
+
+      <p>What makes it worth visiting is simple. The teeth actually show up. At low tide you can walk exposed shoreline and find fossilized shark teeth in publicly accessible shell beds and sediment &mdash; megalodon, great white, tiger, bull, mako, and others.</p>
+
+      <p>What makes it worth understanding is that the place is stranger than it looks.</p>
+    </section>
+
+    <!-- Callout -->
+    <div class="callout-box">
+      <p class="font-headline text-lg md:text-xl font-bold leading-snug text-field-cream mb-2">The fossils are ancient.<br>The island is newer.</p>
+      <p class="text-field-cream/60 text-sm font-body leading-relaxed">Shark Tooth Island is part of a chain of dredge spoil islands tied to the Cape Fear River's navigation history. The teeth washing up are millions of years old &mdash; but the landform you're standing on is comparatively modern.</p>
+    </div>
+
+    <section class="article-body">
+      <p>The short version: material dredged from the Cape Fear shipping channel was placed in nearby disposal areas, reshaping the lower river and forming a series of spoil islands. Shark Tooth Island is associated with that story. Older fossil-bearing sediments got brought up and redeposited in a place you can actually paddle to.</p>
+      <p>That's a different kind of fossil site than most. It's part natural, part engineered, and still part working estuary. <a href="how-shark-tooth-island-was-made.html" class="text-field-accent underline underline-offset-2 hover:text-field-accent-light">Read the full history.</a></p>
+    </section>
+
+    <div class="section-rule"></div>
+
+    <!-- FAST FACTS -->
+    <section>
+      <h2 class="font-headline text-xl md:text-2xl font-extrabold tracking-tight text-field-dark mb-6">The Fast Facts</h2>
+      <div>
+        <div class="fact-row">
+          <div class="fact-key">Location</div>
+          <div class="fact-val">Lower Cape Fear River, near Wilmington, North Carolina</div>
+        </div>
+        <div class="fact-row">
+          <div class="fact-key">Coordinates</div>
+          <div class="fact-val">34.0522&deg; N &middot; 77.9067&deg; W</div>
+        </div>
+        <div class="fact-row">
+          <div class="fact-key">County</div>
+          <div class="fact-val">New Hanover County, NC</div>
+        </div>
+        <div class="fact-row">
+          <div class="fact-key">Access</div>
+          <div class="fact-val">Water access only &mdash; kayak or small boat. Commonly launched from River Road Park.</div>
+        </div>
+        <div class="fact-row">
+          <div class="fact-key">Typical Finds</div>
+          <div class="fact-val">Fossilized shark teeth (Miocene and Pliocene), shell, occasional bone material</div>
+        </div>
+        <div class="fact-row">
+          <div class="fact-key">Origin</div>
+          <div class="fact-val">Associated with dredge spoil islands created from Cape Fear River channel maintenance</div>
+        </div>
+        <div class="fact-row">
+          <div class="fact-key">Best Conditions</div>
+          <div class="fact-val">Low tide, exposed shoreline, patient searching</div>
+        </div>
+      </div>
+    </section>
+
+    <div class="section-rule"></div>
+
+    <!-- WHY TEETH -->
+    <section class="article-body">
+      <h2 class="font-headline text-xl md:text-2xl font-extrabold tracking-tight text-field-dark mb-5">Why the Teeth Are There</h2>
+      <p>The sediments around the island include Miocene and Pliocene material &mdash; roughly 5 to 20+ million years old. In that time, warm, shallow seas covered what is now coastal North Carolina, and big sharks lived in them. When they shed or lost teeth, those teeth settled into the mud. The teeth preserve well because enamel is hard and mineralizes cleanly over deep time.</p>
+
+      <p>Dredging brought a lot of that older material up and moved it. Tides and currents then did what they always do &mdash; sorted the material, concentrating the heavy stuff (including fossil teeth) at the waterline and in specific pockets along the shoreline.</p>
+
+      <p>That's why a visit rewards timing and patience. You're not searching a random beach. You're reading a tidal sorting machine.</p>
+    </section>
+
+    <div class="section-rule"></div>
+
+    <!-- WHO -->
+    <section class="article-body">
+      <h2 class="font-headline text-xl md:text-2xl font-extrabold tracking-tight text-field-dark mb-5">Who Should Visit</h2>
+      <p>People who want a real experience with fossil hunting, not a theme-park version of it. The island rewards people who know how to read a shoreline, or who are willing to learn. First-timers can have a great trip &mdash; many do &mdash; but the best days happen when you've planned around the tide and given yourself enough time.</p>
+
+      <p>It's also worth visiting if you're curious about coastal North Carolina more broadly. The island is a window into how the Cape Fear River has been shaped by navigation, commerce, and tidal forces for a century and a half. The fossils are a bonus.</p>
+
+      <p>What it is not: a kid-friendly scavenger hunt with guaranteed results, or a place you can walk to from a parking lot. Plan accordingly.</p>
+    </section>
+
+    <div class="section-rule"></div>
+
+    <!-- BYLINE -->
+    <div class="flex items-center gap-4 py-4">
+      <div class="w-10 h-10 bg-field-dark rounded-full flex items-center justify-center">
+        <span class="font-label text-field-cream text-[10px] font-bold tracking-wider">STI</span>
+      </div>
+      <div>
+        <p class="font-label text-[11px] font-bold text-field-dark tracking-wide">SharkToothIsland.org</p>
+        <p class="font-label text-[10px] text-field-ink-light tracking-wide">A Mozy Outdoors field project &middot; Cape Fear Region, NC</p>
+      </div>
+    </div>
+
+  </article>
+
+  <!-- CONTINUE EXPLORING -->
+  <section class="bg-white relative paper-grain mt-4">
+    <div class="max-w-3xl mx-auto px-6 md:px-8 py-16 md:py-20 relative z-10">
+      <p class="font-label text-[11px] uppercase tracking-[0.3em] text-field-accent font-bold mb-6">Continue Exploring</p>
+      <div class="space-y-3">
+        <a href="how-to-visit.html" class="group flex items-start gap-4 p-5 -mx-5 hover:bg-field-cream/50 transition-colors rounded">
+          <span class="material-symbols-outlined text-field-teal text-xl mt-0.5 group-hover:text-field-accent transition-colors">sailing</span>
+          <div>
+            <p class="font-headline text-sm font-bold text-field-dark group-hover:text-field-accent transition-colors">How to Visit</p>
+            <p class="text-field-ink-mid text-xs leading-relaxed">Access, what to bring, how to search, and how to leave it right.</p>
+          </div>
+        </a>
+        <a href="how-shark-tooth-island-was-made.html" class="group flex items-start gap-4 p-5 -mx-5 hover:bg-field-cream/50 transition-colors rounded">
+          <span class="material-symbols-outlined text-field-teal text-xl mt-0.5 group-hover:text-field-accent transition-colors">history_edu</span>
+          <div>
+            <p class="font-headline text-sm font-bold text-field-dark group-hover:text-field-accent transition-colors">How Shark Tooth Island Was Made</p>
+            <p class="text-field-ink-mid text-xs leading-relaxed">The dredging history behind the fossils.</p>
+          </div>
+        </a>
+        <a href="how-to-find-shark-teeth.html" class="group flex items-start gap-4 p-5 -mx-5 hover:bg-field-cream/50 transition-colors rounded">
+          <span class="material-symbols-outlined text-field-teal text-xl mt-0.5 group-hover:text-field-accent transition-colors">search</span>
+          <div>
+            <p class="font-headline text-sm font-bold text-field-dark group-hover:text-field-accent transition-colors">How to Find Shark Teeth</p>
+            <p class="text-field-ink-mid text-xs leading-relaxed">Technique, timing, and what beginners miss.</p>
+          </div>
+        </a>
+        <a href="faq.html" class="group flex items-start gap-4 p-5 -mx-5 hover:bg-field-cream/50 transition-colors rounded">
+          <span class="material-symbols-outlined text-field-teal text-xl mt-0.5 group-hover:text-field-accent transition-colors">help</span>
+          <div>
+            <p class="font-headline text-sm font-bold text-field-dark group-hover:text-field-accent transition-colors">Frequently Asked Questions</p>
+            <p class="text-field-ink-mid text-xs leading-relaxed">Ten answers to the most common visitor questions.</p>
+          </div>
+        </a>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<!-- FOOTER -->
+<footer class="bg-field-dark text-white/70 py-16">
+  <div class="grid grid-cols-1 md:grid-cols-4 gap-12 max-w-7xl mx-auto px-6 md:px-8">
+    <div class="md:col-span-2">
+      <div class="text-lg font-semibold text-white font-headline mb-4">Shark Tooth Island Coastal Field Station</div>
+      <p class="text-white/50 font-body text-sm max-w-md leading-relaxed mb-4">A public field station and educational resource for Shark Tooth Island in the Cape Fear River.</p>
+      <p class="font-label text-[10px] uppercase tracking-widest text-white/30">34.0522&deg; N &middot; 77.9067&deg; W &middot; New Hanover County, NC</p>
+    </div>
+    <div>
+      <h5 class="font-label text-[11px] uppercase tracking-widest text-field-accent font-bold mb-6">Tools &amp; Resources</h5>
+      <ul class="space-y-3">
+        <li><a href="field-guide.html" class="text-white/50 font-body text-sm hover:text-white transition-colors">Field Guide</a></li>
+        <li><a href="field-notes/" class="text-white/50 font-body text-sm hover:text-white transition-colors">Field Notes</a></li>
+        <li><a href="how-to-visit.html" class="text-white/50 font-body text-sm hover:text-white transition-colors">How to Visit</a></li>
+        <li><a href="megalodon-calculator-v5.html" class="text-white/50 font-body text-sm hover:text-white transition-colors">Size Calculator</a></li>
+        <li><a href="hunt-planner.html" class="text-white/50 font-body text-sm hover:text-white transition-colors">Hunt Planner</a></li>
+        <li><a href="how-shark-tooth-island-was-made.html" class="text-white/50 font-body text-sm hover:text-white transition-colors">History of the Island</a></li>
+        <li><a href="faq.html" class="text-white/50 font-body text-sm hover:text-white transition-colors">FAQ</a></li>
+        <li><a href="field-guide-download.html" class="text-white/50 font-body text-sm hover:text-white transition-colors">Free Field Guide PDF</a></li>
+      </ul>
+    </div>
+    <div>
+      <h5 class="font-label text-[11px] uppercase tracking-widest text-field-accent font-bold mb-6">Contact</h5>
+      <ul class="space-y-3">
+        <li><a href="mailto:Station@sharktoothisland.org" class="text-white/50 font-body text-sm hover:text-white transition-colors">Station@sharktoothisland.org</a></li>
+      </ul>
+    </div>
+  </div>
+  <p class="max-w-7xl mx-auto px-6 md:px-8 mt-12 pt-6 border-t border-white/10 font-label text-[10px] uppercase tracking-widest text-white/25">&copy; 2026 Shark Tooth Island Coastal Field Station</p>
+</footer>
+
+</body>
+</html>
