@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html class="light" lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Field Notes | SharkToothIsland.org</title>
+<meta name="description" content="Ongoing field notes from the Cape Fear River — observations, seasonal conditions, small finds, and short educational pieces from the Shark Tooth Island field station.">
+<meta property="og:title" content="Field Notes | SharkToothIsland.org">
+<meta property="og:description" content="Observations, seasonal conditions, short educational pieces, and notes from the field.">
+<meta property="og:image" content="https://sharktoothisland.org/images/hero-island.jpg">
+<meta property="og:type" content="website">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Public+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400&family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet">
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script>
+tailwind.config = {
+  theme: {
+    extend: {
+      colors: {
+        "field-dark":    "#0f2e3d",
+        "field-teal":    "#1a4f5e",
+        "field-mid":     "#2a6b7a",
+        "field-accent":  "#d97b2b",
+        "field-accent-light": "#f0a050",
+        "field-cream":   "#f5f0e8",
+        "field-paper":   "#ede7db",
+        "field-ink":     "#1c1a17",
+        "field-ink-mid": "#4a4640",
+        "field-ink-light":"#7a756d",
+        "field-rule":    "#d5cfc5"
+      },
+      borderRadius: { DEFAULT: "0.125rem", lg: "0.25rem", xl: "0.5rem", full: "0.75rem" },
+      fontFamily: { headline: ["Public Sans"], body: ["Public Sans"], label: ["Space Grotesk"] }
+    }
+  }
+}
+</script>
+<style>
+  .material-symbols-outlined { font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24; vertical-align: middle; }
+
+  .paper-grain::before {
+    content: '';
+    position: absolute; inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+    opacity: 0.025; pointer-events: none; z-index: 1;
+  }
+
+  /* Entry card */
+  .note-card {
+    transition: transform 0.3s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.3s ease;
+  }
+  .note-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 12px 30px rgba(15, 46, 61, 0.12);
+  }
+
+  /* Category pill */
+  .cat-pill {
+    display: inline-flex;
+    align-items: center;
+    padding: 0.35rem 0.75rem;
+    font-family: "Space Grotesk", sans-serif;
+    font-size: 10px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.2em;
+    border: 1px solid #d5cfc5;
+    color: #4a4640;
+    background: #ede7db;
+  }
+  .cat-pill.accent { border-color: #d97b2b; color: #d97b2b; background: transparent; }
+
+  html { scroll-behavior: smooth; }
+</style>
+</head>
+<body class="bg-field-cream text-field-ink font-body selection:bg-field-accent/20 selection:text-field-ink">
+
+<!-- NAV -->
+<header class="sticky top-0 z-50 bg-field-cream/85 backdrop-blur-xl border-b border-field-paper">
+  <nav class="flex justify-between items-center max-w-7xl mx-auto px-6 md:px-8 h-16">
+    <a href="../index.html" class="text-lg font-bold tracking-tight text-field-dark font-headline">SharkToothIsland.org</a>
+    <div class="hidden md:flex items-center gap-8">
+      <a href="../field-guide.html" class="text-field-ink-light hover:text-field-dark font-label text-[11px] uppercase tracking-[0.2em] transition-colors">Field Guide</a>
+      <a href="index.html" class="text-field-accent border-b border-field-accent font-label text-[11px] uppercase tracking-[0.2em] pb-1">Field Notes</a>
+      <a href="../megalodon-calculator-v5.html" class="text-field-ink-light hover:text-field-dark font-label text-[11px] uppercase tracking-[0.2em] transition-colors">Size Calculator</a>
+      <a href="../hunt-planner.html" class="text-field-ink-light hover:text-field-dark font-label text-[11px] uppercase tracking-[0.2em] transition-colors">Hunt Planner</a>
+      <a href="../depth-of-time.html" class="text-field-ink-light hover:text-field-dark font-label text-[11px] uppercase tracking-[0.2em] transition-colors">Depth of Time</a>
+    </div>
+    <div class="flex items-center gap-3">
+      <a href="../hunt-planner.html" class="bg-field-dark text-field-cream px-3 md:px-5 py-2 rounded font-label text-[11px] font-bold uppercase tracking-widest hover:bg-field-teal transition-all">
+        <span class="md:hidden">Tides</span><span class="hidden md:inline">Current Conditions</span>
+      </a>
+      <button onclick="document.getElementById('mobile-menu').classList.toggle('hidden')" class="md:hidden flex items-center justify-center w-10 h-10" aria-label="Menu">
+        <span class="material-symbols-outlined text-field-dark">menu</span>
+      </button>
+    </div>
+  </nav>
+  <div id="mobile-menu" class="hidden md:hidden bg-field-cream/95 backdrop-blur-xl border-t border-field-paper px-6 pb-6 pt-4 space-y-4">
+    <a href="../field-guide.html" class="block text-field-ink-mid font-label text-sm uppercase tracking-widest py-2">Field Guide</a>
+    <a href="index.html" class="block text-field-accent font-bold font-label text-sm uppercase tracking-widest py-2">Field Notes</a>
+    <a href="../megalodon-calculator-v5.html" class="block text-field-ink-mid font-label text-sm uppercase tracking-widest py-2">Size Calculator</a>
+    <a href="../hunt-planner.html" class="block text-field-ink-mid font-label text-sm uppercase tracking-widest py-2">Hunt Planner</a>
+    <a href="../depth-of-time.html" class="block text-field-ink-mid font-label text-sm uppercase tracking-widest py-2">Depth of Time</a>
+  </div>
+</header>
+
+<main class="relative">
+
+  <!-- ═══════════════════════════════════════════════════════ -->
+  <!-- HERO -->
+  <!-- ═══════════════════════════════════════════════════════ -->
+  <section class="relative paper-grain">
+    <div class="max-w-5xl mx-auto px-6 md:px-8 pt-16 md:pt-24 pb-12 md:pb-16 relative z-10">
+      <nav class="font-label text-[10px] uppercase tracking-[0.25em] text-field-ink-light mb-8" aria-label="Breadcrumb">
+        <a href="../index.html" class="hover:text-field-accent">Home</a>
+        <span class="mx-2 text-field-rule">&middot;</span>
+        <span class="text-field-accent">Field Notes</span>
+      </nav>
+
+      <span class="font-label text-field-accent text-[11px] font-bold uppercase tracking-[0.3em] mb-5 block">The Freshness Layer</span>
+      <h1 class="font-headline text-5xl md:text-7xl font-extrabold tracking-tight text-field-dark leading-[0.95] mb-8">
+        Field Notes.
+      </h1>
+      <p class="font-body text-lg md:text-xl text-field-ink-mid leading-relaxed max-w-2xl font-light">
+        Ongoing observations, seasonal conditions, short educational pieces, and small useful additions to the record. Not a blog &mdash; a working field journal from the Cape Fear River.
+      </p>
+
+      <div class="mt-10 flex flex-wrap items-center gap-2">
+        <span class="font-label text-[10px] uppercase tracking-[0.25em] text-field-ink-light mr-2">Topics:</span>
+        <span class="cat-pill">Observations</span>
+        <span class="cat-pill">History</span>
+        <span class="cat-pill">Finds</span>
+        <span class="cat-pill">Conditions</span>
+        <span class="cat-pill">Technique</span>
+        <span class="cat-pill">Resources</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- Rule -->
+  <div class="max-w-5xl mx-auto px-6 md:px-8">
+    <div class="border-t border-field-rule"></div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════════════ -->
+  <!-- ENTRIES -->
+  <!-- ═══════════════════════════════════════════════════════ -->
+  <section class="relative paper-grain">
+    <div class="max-w-5xl mx-auto px-6 md:px-8 py-16 md:py-20 relative z-10">
+
+      <div id="entries-grid" class="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8">
+
+        <!-- FEATURED: Welcome to Field Notes -->
+        <a href="welcome-to-field-notes.html" class="note-card group block bg-white border border-field-rule overflow-hidden md:col-span-2">
+          <div class="grid grid-cols-1 md:grid-cols-12">
+            <div class="md:col-span-5 aspect-[16/10] md:aspect-auto overflow-hidden bg-field-dark relative">
+              <img src="../images/hero-island.jpg" alt="Aerial view of Shark Tooth Island in the Cape Fear River" class="w-full h-full object-cover object-[center_60%] opacity-90 group-hover:scale-105 group-hover:opacity-100 transition-all duration-700">
+              <div class="absolute inset-0 bg-gradient-to-br from-field-dark/30 to-transparent"></div>
+              <div class="absolute top-4 left-4">
+                <span class="font-label text-[10px] uppercase tracking-[0.25em] text-field-cream bg-field-accent px-2.5 py-1 font-bold">Featured</span>
+              </div>
+            </div>
+            <div class="md:col-span-7 p-7 md:p-10 flex flex-col justify-center">
+              <div class="flex items-center gap-3 mb-4">
+                <span class="cat-pill accent">Resources</span>
+                <time class="font-label text-[10px] uppercase tracking-[0.2em] text-field-ink-light" datetime="2026-04-17">April 17, 2026</time>
+              </div>
+              <h2 class="font-headline text-2xl md:text-3xl font-extrabold tracking-tight text-field-dark leading-tight mb-3 group-hover:text-field-accent transition-colors">Welcome to Field Notes.</h2>
+              <p class="text-field-ink-mid text-sm md:text-base leading-relaxed mb-5 max-w-lg">The site is built in layers &mdash; evergreen guides alongside a working field journal. A short note on what this section is, what it isn't, and what's coming.</p>
+              <span class="inline-flex items-center gap-1.5 text-field-accent font-label text-[11px] font-bold uppercase tracking-widest group-hover:gap-3 transition-all">
+                Read Entry <span class="material-symbols-outlined text-sm">arrow_forward</span>
+              </span>
+            </div>
+          </div>
+        </a>
+
+        <!-- ═══════════════════════════════════════════════════
+             Future standard (non-featured) entry card template:
+
+             <a href="[slug].html" class="note-card group block bg-white border border-field-rule overflow-hidden">
+               <div class="aspect-[16/10] overflow-hidden">
+                 <img src="../images/[image].jpg" alt="[alt]" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700">
+               </div>
+               <div class="p-6 md:p-8">
+                 <div class="flex items-center gap-3 mb-4">
+                   <span class="cat-pill accent">Category</span>
+                   <time class="font-label text-[10px] uppercase tracking-[0.2em] text-field-ink-light" datetime="2026-04-17">April 17, 2026</time>
+                 </div>
+                 <h3 class="font-headline text-xl md:text-2xl font-bold text-field-dark leading-tight mb-3 group-hover:text-field-accent transition-colors">Entry Title</h3>
+                 <p class="text-field-ink-mid text-sm leading-relaxed mb-5">Deck / short summary for the entry, 1-2 sentences.</p>
+                 <span class="inline-flex items-center gap-1.5 text-field-accent font-label text-[11px] font-bold uppercase tracking-widest group-hover:gap-3 transition-all">
+                   Read Entry <span class="material-symbols-outlined text-sm">arrow_forward</span>
+                 </span>
+               </div>
+             </a>
+             ═══════════════════════════════════════════════════ -->
+
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════════════ -->
+  <!-- NEWSLETTER TIE-IN -->
+  <!-- ═══════════════════════════════════════════════════════ -->
+  <section class="bg-field-dark text-field-cream relative overflow-hidden">
+    <div class="absolute -right-32 -bottom-32 w-[400px] h-[400px] border border-white/5 rounded-full pointer-events-none"></div>
+    <div class="max-w-5xl mx-auto px-6 md:px-8 py-16 md:py-20 relative z-10">
+      <div class="grid grid-cols-1 md:grid-cols-12 gap-8 items-center">
+        <div class="md:col-span-7">
+          <span class="font-label text-field-accent text-[11px] font-bold uppercase tracking-[0.3em] mb-3 block">Stay in the Loop</span>
+          <h2 class="font-headline text-2xl md:text-3xl font-bold mb-3">Get new field notes in your inbox.</h2>
+          <p class="text-white/60 leading-relaxed max-w-md">Occasional updates from the station &mdash; tidal windows, new finds, and the latest entries. No spam, no filler.</p>
+        </div>
+        <form class="md:col-span-5" id="signup-form" onsubmit="return submitEmail(event)">
+          <div class="flex flex-col sm:flex-row gap-2">
+            <input type="email" id="email-input" required autocomplete="email" placeholder="your@email.com" class="flex-1 bg-white/10 border border-white/15 text-white placeholder:text-white/40 px-5 py-3.5 font-label text-sm focus:ring-1 focus:ring-field-accent/50 focus:border-field-accent rounded">
+            <button type="submit" id="signup-btn" class="bg-field-accent text-white px-6 py-3.5 font-label text-[11px] font-bold uppercase tracking-widest hover:bg-field-accent-light transition-all whitespace-nowrap rounded">Subscribe</button>
+          </div>
+          <p class="mt-3 font-label text-[10px] uppercase tracking-widest text-white/40" id="signup-status">&nbsp;</p>
+        </form>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<!-- FOOTER -->
+<footer class="bg-field-dark text-white/70 py-16 border-t border-white/5">
+  <div class="grid grid-cols-1 md:grid-cols-4 gap-12 max-w-7xl mx-auto px-6 md:px-8">
+    <div class="md:col-span-2">
+      <div class="text-lg font-semibold text-white font-headline mb-4">Shark Tooth Island Coastal Field Station</div>
+      <p class="text-white/50 font-body text-sm max-w-md leading-relaxed mb-4">
+        A public field station and educational resource for Shark Tooth Island in the Cape Fear River.
+      </p>
+      <p class="font-label text-[10px] uppercase tracking-widest text-white/30">
+        34.0522&deg; N &middot; 77.9067&deg; W &middot; New Hanover County, NC
+      </p>
+    </div>
+    <div>
+      <h5 class="font-label text-[11px] uppercase tracking-widest text-field-accent font-bold mb-6">Tools &amp; Resources</h5>
+      <ul class="space-y-3">
+        <li><a href="../field-guide.html" class="text-white/50 font-body text-sm hover:text-white transition-colors">Field Guide</a></li>
+        <li><a href="index.html" class="text-white/50 font-body text-sm hover:text-white transition-colors">Field Notes</a></li>
+        <li><a href="../how-to-visit.html" class="text-white/50 font-body text-sm hover:text-white transition-colors">How to Visit</a></li>
+        <li><a href="../megalodon-calculator-v5.html" class="text-white/50 font-body text-sm hover:text-white transition-colors">Size Calculator</a></li>
+        <li><a href="../hunt-planner.html" class="text-white/50 font-body text-sm hover:text-white transition-colors">Hunt Planner</a></li>
+        <li><a href="../depth-of-time.html" class="text-white/50 font-body text-sm hover:text-white transition-colors">Depth of Time</a></li>
+        <li><a href="../how-shark-tooth-island-was-made.html" class="text-white/50 font-body text-sm hover:text-white transition-colors">History of the Island</a></li>
+        <li><a href="../faq.html" class="text-white/50 font-body text-sm hover:text-white transition-colors">FAQ</a></li>
+        <li><a href="../field-guide-download.html" class="text-white/50 font-body text-sm hover:text-white transition-colors">Free Field Guide PDF</a></li>
+      </ul>
+    </div>
+    <div>
+      <h5 class="font-label text-[11px] uppercase tracking-widest text-field-accent font-bold mb-6">Contact</h5>
+      <ul class="space-y-3">
+        <li><a href="mailto:Station@sharktoothisland.org" class="text-white/50 font-body text-sm hover:text-white transition-colors">Station@sharktoothisland.org</a></li>
+      </ul>
+    </div>
+  </div>
+  <p class="max-w-7xl mx-auto px-6 md:px-8 mt-12 pt-6 border-t border-white/10 font-label text-[10px] uppercase tracking-widest text-white/25">
+    &copy; 2026 Shark Tooth Island Coastal Field Station
+  </p>
+</footer>
+
+<script>
+async function submitEmail(e) {
+  e.preventDefault();
+  const btn = document.getElementById('signup-btn');
+  const input = document.getElementById('email-input');
+  const status = document.getElementById('signup-status');
+  const email = input.value.trim();
+  if (!email) return false;
+  btn.disabled = true;
+  const originalText = btn.textContent;
+  btn.textContent = 'Sending...';
+  status.textContent = '';
+  try {
+    const res = await fetch('https://api.web3forms.com/submit', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        access_key: '8ca6fa3e-a04a-4261-8937-e214a48f785f',
+        subject: 'SharkToothIsland.org — Field Notes Signup: ' + email,
+        from_name: 'SharkToothIsland.org Field Notes',
+        email: email,
+        message: 'New subscriber from sharktoothisland.org/field-notes: ' + email
+      })
+    });
+    const data = await res.json();
+    if (data.success) {
+      document.getElementById('signup-form').style.display = 'none';
+      status.textContent = '\u2713 You\'re on the list.';
+      status.style.display = 'block';
+    } else {
+      btn.disabled = false;
+      btn.textContent = originalText;
+      status.textContent = 'Something went wrong — try again.';
+    }
+  } catch (err) {
+    btn.disabled = false;
+    btn.textContent = originalText;
+    status.textContent = 'Network error — try again.';
+  }
+  return false;
+}
+</script>
+</body>
+</html>
