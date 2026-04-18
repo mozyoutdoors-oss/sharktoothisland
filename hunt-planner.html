@@ -4,6 +4,11 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Hunt Planner | SharkToothIsland.org</title>
+<meta name="description" content="Live NOAA tide predictions and weather scoring for Shark Tooth Island — a seven-day planner to find the best window for a fossil-hunting trip on the Cape Fear River.">
+<meta property="og:title" content="Hunt Planner | SharkToothIsland.org">
+<meta property="og:description" content="Live tide and weather scoring for the next seven days at Shark Tooth Island.">
+<meta property="og:image" content="https://sharktoothisland.org/images/break-approach.webp">
+<meta property="og:type" content="website">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Public+Sans:ital,wght@0,300;0,400;0,600;0,700;0,800;1,400&family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
@@ -276,21 +281,45 @@ tailwind.config = {
     </div>
 
   </section>
-
-  <!-- FOOTER -->
-  <footer class="border-t border-outline-variant/40 bg-surface-container-low">
-    <div class="max-w-7xl mx-auto px-6 md:px-8 py-10 flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
-      <div class="font-label text-[11px] uppercase tracking-widest text-outline leading-relaxed">
-        SharkToothIsland.org · Cape Fear River · New Hanover County, NC<br>
-        A field resource for the Cape Fear region
-      </div>
-      <div class="font-label text-[11px] uppercase tracking-widest text-outline">
-        A field project by
-        <a href="https://mozyoutdoors.com" target="_blank" rel="noopener" class="text-primary hover:text-primary-container">Mozy Outdoors</a>
-      </div>
-    </div>
-  </footer>
 </main>
+
+<!-- FOOTER -->
+<footer class="bg-slate-100 py-16">
+  <div class="grid grid-cols-1 md:grid-cols-4 gap-12 max-w-7xl mx-auto px-6 md:px-8">
+    <div class="md:col-span-2">
+      <div class="text-lg font-semibold text-slate-800 font-headline mb-4">Shark Tooth Island Coastal Field Station</div>
+      <p class="text-slate-500 font-body text-sm max-w-md leading-relaxed mb-4">
+        A public field station and educational resource for Shark Tooth Island in the Cape Fear River.
+      </p>
+      <p class="font-label text-[10px] uppercase tracking-widest text-slate-400">
+        34.0522&deg; N &middot; 77.9067&deg; W &middot; New Hanover County, NC
+      </p>
+    </div>
+    <div>
+      <h5 class="font-label text-xs uppercase tracking-widest text-blue-900 font-bold mb-6">Tools &amp; Resources</h5>
+      <ul class="space-y-3">
+        <li><a href="field-guide.html" class="text-slate-500 font-body text-sm hover:text-blue-800 transition-colors">Field Guide</a></li>
+        <li><a href="field-notes/" class="text-slate-500 font-body text-sm hover:text-blue-800 transition-colors">Field Notes</a></li>
+        <li><a href="how-to-visit.html" class="text-slate-500 font-body text-sm hover:text-blue-800 transition-colors">How to Visit</a></li>
+        <li><a href="megalodon-calculator-v5.html" class="text-slate-500 font-body text-sm hover:text-blue-800 transition-colors">Size Calculator</a></li>
+        <li><a href="hunt-planner.html" class="text-slate-500 font-body text-sm hover:text-blue-800 transition-colors">Hunt Planner</a></li>
+        <li><a href="depth-of-time.html" class="text-slate-500 font-body text-sm hover:text-blue-800 transition-colors">Depth of Time</a></li>
+        <li><a href="how-shark-tooth-island-was-made.html" class="text-slate-500 font-body text-sm hover:text-blue-800 transition-colors">History of the Island</a></li>
+        <li><a href="faq.html" class="text-slate-500 font-body text-sm hover:text-blue-800 transition-colors">FAQ</a></li>
+        <li><a href="field-guide-download.html" class="text-slate-500 font-body text-sm hover:text-blue-800 transition-colors">Free Field Guide PDF</a></li>
+      </ul>
+    </div>
+    <div>
+      <h5 class="font-label text-xs uppercase tracking-widest text-blue-900 font-bold mb-6">Contact</h5>
+      <ul class="space-y-3">
+        <li><a href="mailto:Station@sharktoothisland.org" class="text-slate-500 font-body text-sm hover:text-blue-800 transition-colors">Station@sharktoothisland.org</a></li>
+      </ul>
+    </div>
+  </div>
+  <p class="max-w-7xl mx-auto px-6 md:px-8 mt-12 pt-6 border-t border-slate-200 font-label text-[10px] uppercase tracking-widest text-slate-400">
+    &copy; 2026 Shark Tooth Island Coastal Field Station &middot; A field project by <a href="https://mozyoutdoors.com" target="_blank" rel="noopener" class="text-blue-900 hover:text-blue-700">Mozy Outdoors</a>
+  </p>
+</footer>
 
 <script>
 // ─── CONFIG ───────────────────────────────────────────────────
