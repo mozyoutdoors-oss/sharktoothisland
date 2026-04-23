@@ -204,4 +204,4 @@ Active page gets `text-blue-700 border-b-2 border-blue-700 font-medium pb-1`.
 - **No Shopify.** This is NOT part of the Mozy Outdoors Shopify theme. Completely separate project.
 - **Field station tone.** The site reads like a research station, not a startup. Educational, archival, data-driven.
 - **PRPA compliance.** The Field Guide includes a legal callout about fossil collecting regulations with links to NPS, NC Coastal Management, and USACE Wilmington District.
-- **Two coordinate sets.** NOAA API uses 33.9465/-77.9421 (Federal Point station). Footer branding uses 34.113/-77.930 (the island itself).
+- **Two coordinate sets.** NOAA API uses 33.9465/-77.9421 (Federal Point station). Footer branding uses 34.1175/-77.93066 (the island itself).
