@@ -92,7 +92,7 @@ Minimal: `0.125rem` default, `0.75rem` max. The site is archival/editorial, not 
 | NOAA Station | `8658715` (Federal Point, Cape Fear River) | hunt-planner.html |
 | Latitude | `33.9465` | hunt-planner.html (Open-Meteo) |
 | Longitude | `-77.9421` | hunt-planner.html (Open-Meteo) |
-| Display Coords | `34.0522° N · 77.9067° W` | All footers |
+| Display Coords | `34.113° N · 77.930° W` | All footers |
 | Web3Forms Key | `8ca6fa3e-a04a-4261-8937-e214a48f785f` | index.html newsletter |
 | Body Length Formula | `tooth_inches × 8.5` | megalodon-calculator-v5.html |
 | Tooth Range | 25–175 mm | megalodon-calculator-v5.html |
@@ -204,4 +204,4 @@ Active page gets `text-blue-700 border-b-2 border-blue-700 font-medium pb-1`.
 - **No Shopify.** This is NOT part of the Mozy Outdoors Shopify theme. Completely separate project.
 - **Field station tone.** The site reads like a research station, not a startup. Educational, archival, data-driven.
 - **PRPA compliance.** The Field Guide includes a legal callout about fossil collecting regulations with links to NPS, NC Coastal Management, and USACE Wilmington District.
-- **Two coordinate sets.** NOAA API uses 33.9465/-77.9421 (Federal Point station). Footer branding uses 34.0522/-77.9067 (the island itself).
+- **Two coordinate sets.** NOAA API uses 33.9465/-77.9421 (Federal Point station). Footer branding uses 34.113/-77.930 (the island itself).
