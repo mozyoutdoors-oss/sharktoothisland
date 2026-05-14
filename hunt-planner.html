@@ -218,15 +218,15 @@ tailwind.config = {
           Hunt <span class="text-outline italic font-light">Planner.</span>
         </h1>
         <p class="font-body text-lg md:text-xl text-on-surface-variant max-w-2xl leading-relaxed">
-          Real NOAA tide predictions from Federal Point Station on the Cape Fear River, cross-checked against live weather and moon phase — so you know if it's worth the trip before you load the truck.
+          Real NOAA tide predictions from the Wilmington station on the Cape Fear River, cross-checked against live weather and moon phase — so you know if it's worth the trip before you load the truck.
         </p>
       </div>
       <div class="lg:col-span-4 flex flex-col justify-end">
         <div class="bg-surface-container-low p-6 border-l-2 border-primary">
           <p class="font-label text-[10px] uppercase tracking-widest text-outline mb-2">Data Sources</p>
           <div class="space-y-2">
-            <p class="font-headline text-sm font-bold">NOAA CO-OPS · Station 8658715</p>
-            <p class="font-body text-xs text-on-surface-variant">Federal Point · Cape Fear River</p>
+            <p class="font-headline text-sm font-bold">NOAA CO-OPS · Station 8658120</p>
+            <p class="font-body text-xs text-on-surface-variant">Wilmington · Cape Fear River</p>
             <p class="font-headline text-sm font-bold mt-3">Open-Meteo Forecast API</p>
             <p class="font-body text-xs text-on-surface-variant">Updated every 3 hours</p>
           </div>
@@ -284,8 +284,8 @@ tailwind.config = {
 
     <!-- FOOTNOTE -->
     <div class="mt-12 pt-6 border-t border-outline-variant/40 font-label text-[10px] uppercase tracking-widest text-outline leading-loose text-center">
-      Tides: NOAA CO-OPS Station 8658715 · Federal Point · Cape Fear River, NC<br>
-      Weather: Open-Meteo · Forecast updated every 3 hours<br>
+      Tides: NOAA CO-OPS Station 8658120 · Wilmington · Cape Fear River, NC (~7 mi upstream of STI; local arrival may run 5&ndash;15 min earlier)<br>
+      Weather: Open-Meteo · Forecast updated every 3 hours · Queried at 34.1175°N, 77.9306°W<br>
       For educational and planning purposes · Always check conditions before launching
     </div>
 
@@ -337,9 +337,9 @@ tailwind.config = {
 
 <script>
 // ─── CONFIG ───────────────────────────────────────────────────
-const NOAA_STATION = '8658715'; // Federal Point, Cape Fear River
-const LAT = 33.9465;
-const LON = -77.9421;
+const NOAA_STATION = '8658120'; // Wilmington, Cape Fear River (~7 mi upstream of STI)
+const LAT = 34.1175;
+const LON = -77.9306;
 
 // ─── DATE HELPERS ─────────────────────────────────────────────
 function today() { return new Date(); }
