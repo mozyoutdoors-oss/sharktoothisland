@@ -624,17 +624,14 @@ async function submitGuideEmail(e, formId) {
   if (status) status.textContent = '';
 
   try {
-    const res = await fetch('https://api.web3forms.com/submit', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        access_key: '8ca6fa3e-a04a-4261-8937-e214a48f785f',
-        subject: 'SharkToothIsland.org — Field Guide Download: ' + email,
-        from_name: 'SharkToothIsland.org Field Guide',
-        email: email,
-        message: 'Field Guide download request from sharktoothisland.org/field-guide-download: ' + email
-      })
-    });
+    // MailerLite form "SharkToothIsland.org signup" → Shark Tooth Island group (double opt-in).
+    // The guide still downloads right away; confirming the email only affects future emails.
+    const fd = new FormData();
+    fd.append('fields[email]', email);
+    fd.append('fields[signup_source]', 'sharktoothisland.org/field-guide (' + formId + ')');
+    fd.append('ml-submit', '1');
+    fd.append('anticsrf', 'true');
+    const res = await fetch('https://assets.mailerlite.com/jsonp/2702376/forms/201014095184397330/subscribe', { method: 'POST', body: fd });
     const data = await res.json();
     if (data.success) {
       sessionStorage.setItem('sti_guide_submitted', '1');

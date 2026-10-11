@@ -390,17 +390,14 @@ async function submitEmail(e) {
   btn.textContent = 'Sending...';
   status.textContent = '';
   try {
-    const res = await fetch('https://api.web3forms.com/submit', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        access_key: '8ca6fa3e-a04a-4261-8937-e214a48f785f',
-        subject: 'SharkToothIsland.org — Field Notes Signup: ' + email,
-        from_name: 'SharkToothIsland.org Newsletter',
-        email: email,
-        message: 'New newsletter signup from sharktoothisland.org: ' + email
-      })
-    });
+    // MailerLite form "SharkToothIsland.org signup" → Shark Tooth Island group (double opt-in).
+    // Account and form IDs are public by design; they only allow subscribing.
+    const fd = new FormData();
+    fd.append('fields[email]', email);
+    fd.append('fields[signup_source]', 'sharktoothisland.org/home');
+    fd.append('ml-submit', '1');
+    fd.append('anticsrf', 'true');
+    const res = await fetch('https://assets.mailerlite.com/jsonp/2702376/forms/201014095184397330/subscribe', { method: 'POST', body: fd });
     const data = await res.json();
     if (data.success) {
       document.getElementById('signup-form').style.display = 'none';
