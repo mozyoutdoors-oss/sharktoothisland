@@ -1,0 +1,9 @@
+# GitHub Pages build settings. The site is plain HTML; this file only keeps
+# internal project files in the repo without publishing them on sharktoothisland.org.
+exclude:
+  - README.md
+  - SharkToothIsland-ProjectBrief.docx
+  - build-brief.js
+  - package.json
+  - package-lock.json
+  - node_modules
