@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Size Calculator | SharkToothIsland.org</title>
 <link rel="canonical" href="https://sharktoothisland.org/megalodon-calculator-v5.html">
-<meta name="description" content="Estimate megalodon body length, mass, and bite force from a tooth measurement. Based on the Pimiento & Clements field formula — enter a measurement in inches or millimeters and see the shark that carried it.">
+<meta name="description" content="Estimate megalodon body length, mass, and bite force from a tooth measurement. Based on the Pimiento & Clements field formula. Enter a measurement in inches or millimeters and see the shark that carried it.">
 <meta property="og:title" content="Megalodon Size Calculator | SharkToothIsland.org">
 <meta property="og:description" content="Estimate body length and bite force from a fossil megalodon tooth measurement.">
 <meta property="og:image" content="https://sharktoothisland.org/images/tooth-megalodon.webp">
@@ -102,7 +102,7 @@ tailwind.config = {
 <main class="pt-6 md:pt-10 pb-24 px-6 md:px-8 max-w-7xl mx-auto archival-grid min-h-screen relative">
   <div class="archival-grain fixed inset-0"></div>
 
-  <!-- COMPARATIVE SCALE — HERO POSITION -->
+  <!-- COMPARATIVE SCALE: HERO POSITION -->
   <section class="bg-surface-container-low p-6 md:p-8 overflow-visible relative z-10 mb-6">
     <div class="flex justify-between items-start mb-4 md:mb-6">
       <div>
@@ -143,7 +143,7 @@ tailwind.config = {
     </div>
   </section>
 
-  <!-- SLIDER — directly under shark -->
+  <!-- SLIDER: directly under shark -->
   <section class="bg-surface-container-lowest p-6 md:p-8 shadow-[0_20px_40px_rgba(0,29,54,0.04)] relative z-10 mb-8">
     <div class="flex items-center justify-between mb-4">
       <label class="font-label text-xs uppercase tracking-widest text-primary">Tooth Slant Height</label>
@@ -163,8 +163,8 @@ tailwind.config = {
     </div>
     <p id="slide-hint" class="font-label text-[10px] uppercase tracking-widest text-primary text-center mb-3">← Drag the slider →</p>
     <div class="flex justify-between font-label text-[9px] text-outline uppercase tracking-wider">
-      <span id="lbl-min">25 mm — juvenile</span>
-      <span id="lbl-max">175 mm — largest known</span>
+      <span id="lbl-min">25 mm · juvenile</span>
+      <span id="lbl-max">175 mm · largest known</span>
     </div>
   </section>
 
@@ -269,13 +269,13 @@ tailwind.config = {
         <div class="space-y-3">
           <h4 class="font-label text-xs uppercase tracking-[0.2em] text-primary">Jaw &amp; Bite</h4>
           <p class="text-on-surface-variant leading-relaxed text-sm">
-            Jaw width runs about 1/5 of body length for megalodon. Bite force at the adult maximum is estimated around 40,000 lbf — roughly ten times the great white.
+            Jaw width runs about 1/5 of body length for megalodon. Bite force at the adult maximum is estimated around 40,000 lbf, roughly ten times the great white.
           </p>
         </div>
         <div class="space-y-3">
           <h4 class="font-label text-xs uppercase tracking-[0.2em] text-primary">World Record</h4>
           <p class="text-on-surface-variant leading-relaxed text-sm">
-            The largest verified megalodon tooth is ~175 mm (Ocucaje, Peru). Finds on Shark Tooth Island rarely exceed 110 mm — most recovered teeth are from juveniles.
+            The largest verified megalodon tooth is ~175 mm (Ocucaje, Peru). Finds on Shark Tooth Island rarely exceed 110 mm. Most recovered teeth are from juveniles.
           </p>
         </div>
       </div>
@@ -339,8 +339,8 @@ function setUnit(u) {
   document.getElementById('btn-cm').classList.toggle('bg-surface-container-high', u!=='mm');
   document.getElementById('btn-cm').classList.toggle('text-on-surface-variant', u!=='mm');
   document.getElementById('reading-unit').textContent = u==='in' ? 'inches' : 'mm';
-  document.getElementById('lbl-min').textContent = u==='in' ? '1.0 in — juvenile' : '25 mm — juvenile';
-  document.getElementById('lbl-max').textContent = u==='in' ? '6.9 in — largest known' : '175 mm — largest known';
+  document.getElementById('lbl-min').textContent = u==='in' ? '1.0 in · juvenile' : '25 mm · juvenile';
+  document.getElementById('lbl-max').textContent = u==='in' ? '6.9 in · largest known' : '175 mm · largest known';
   update(slider.value);
 }
 
@@ -411,11 +411,11 @@ function update(val) {
   let g,t,b,tags;
   if (mm < 50) {
     g='○'; t='Juvenile or fragment';
-    b='Small teeth are the most common find on the island — great for beginners. Still 5–20 million years old. Nothing to dismiss.';
+    b='Small teeth are the most common find on the island and great for beginners. Still 5–20 million years old. Nothing to dismiss.';
     tags=['Common find','Beginner friendly','Likely Miocene'];
   } else if (mm < 80) {
     g='◇'; t='Good field find';
-    b='A solid tooth in the range most hunters go home with. Clean carefully — the root often holds condition clues about the depositional environment.';
+    b='A solid tooth in the range most hunters go home with. Clean carefully: the root often holds condition clues about the depositional environment.';
     tags=['Good condition range','Sub-adult individual','Miocene'];
   } else if (mm < 110) {
     g='◈'; t='Significant specimen';

@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Shark Tooth Island — Field Station</title>
+<title>Shark Tooth Island | Field Station</title>
 <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@300;400&family=Libre+Baskerville:ital,wght@0,700;1,400&display=swap" rel="stylesheet">
 <style>
 * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -205,7 +205,7 @@ input[type=range]#tide-slider::-webkit-slider-thumb {
   <div class="tick-label" id="tick-2">+2 ft</div>
 
   <div class="fossil-msg" id="fossil-msg">
-    <div class="fossil-dot"></div>LOW TIDE — FOSSIL LAYER EXPOSED
+    <div class="fossil-dot"></div>LOW TIDE · FOSSIL LAYER EXPOSED
   </div>
 
   <div class="hero-center">
@@ -287,7 +287,7 @@ function islandH(wx,wz){
   const nx=rx/(ISW*0.5), nz=rz/(ISL*0.5);
 
   // ── FOOTPRINT MASK ──────────────────────────────────────
-  // Organic ellipse — asymmetric, not circular, not rectangular
+  // Organic ellipse: asymmetric, not circular, not rectangular
   const r=Math.sqrt(
     Math.pow(nx*0.82,2)+
     Math.pow(nz*0.95,2)+
@@ -299,7 +299,7 @@ function islandH(wx,wz){
   const bite2=0.10*Math.exp(-Math.pow((nx+0.65)*3.8,2)-Math.pow((nz-0.30)*3.2,2));
   const rAdj=r+bite1+bite2;
 
-  // Shoreline noise — irregular edge, not a smooth oval
+  // Shoreline noise: irregular edge, not a smooth oval
   const edgeNoise=fbm(nx*3.1+7.3,nz*3.4+2.9,3)*0.18;
   const rFinal=rAdj+edgeNoise*0.5;
 
@@ -315,14 +315,14 @@ function islandH(wx,wz){
   const PLATEAU=0.52;
 
   // ── SURFACE BUMPS ───────────────────────────────────────
-  // Three humps arranged in a triangle — not a line, not a ridge
+  // Three humps arranged in a triangle: not a line, not a ridge
   // Viewed from above: one near top-left, one near top-right, one lower-center
   const bump1=0.32*Math.exp(-Math.pow((nx+0.18)*3.8,2)-Math.pow((nz+0.20)*3.8,2));
   const bump2=0.24*Math.exp(-Math.pow((nx-0.24)*4.2,2)-Math.pow((nz-0.28)*4.2,2));
   const bump3=0.19*Math.exp(-Math.pow((nx+0.30)*4.5,2)-Math.pow((nz-0.22)*4.5,2));
   const bumps=bump1+bump2+bump3;
 
-  // Fine surface grit — sand texture, not terrain
+  // Fine surface grit: sand texture, not terrain
   const grit=fbm(wx*3.8+11.3,wz*3.5+22.1,2)*0.025;
 
   // ── FINAL HEIGHT ────────────────────────────────────────
@@ -449,7 +449,7 @@ scene.add(new THREE.Points(ptG,new THREE.PointsMaterial({color:0x006688,size:0.0
 
 // ── FOSSIL EXPOSURE LAYER ──────────────────────────────────
 
-// Zone A — left lower shelf, hugging the exposed margin
+// Zone A: left lower shelf, hugging the exposed margin
 const fossilZoneA = (function() {
   const pts = [];
   // Pushed out toward left edge, low elevation shelf
@@ -468,7 +468,7 @@ const fossilZoneA = (function() {
 })();
 scene.add(fossilZoneA);
 
-// Zone B — right shelf margin, near the water edge on the far side
+// Zone B: right shelf margin, near the water edge on the far side
 const fossilZoneB = (function() {
   const pts = [];
   const cx=2.1, cz=-0.68, rx=0.70, rz=0.50;
@@ -486,7 +486,7 @@ const fossilZoneB = (function() {
 })();
 scene.add(fossilZoneB);
 
-// Zone C — small interior secondary, clearly weaker, near tapered lower end
+// Zone C: small interior secondary, clearly weaker, near tapered lower end
 const fossilZoneC = (function() {
   const pts = [];
   const cx=0.2, cz=2.8, rx=0.35, rz=0.28;
@@ -504,13 +504,13 @@ const fossilZoneC = (function() {
 })();
 scene.add(fossilZoneC);
 
-// Shoreline band — main storytelling layer
+// Shoreline band: main storytelling layer
 // Broken irregular arcs hugging the actual low-tide margin
 const fossilBand = (function() {
   const pts = [];
   for(let i=0;i<240;i++){
     const a=(i/240)*Math.PI*2;
-    // Organic perimeter — asymmetric, follows island contour
+    // Organic perimeter: asymmetric, follows island contour
     const br=2.6
       +Math.sin(a*1.7+0.4)*0.55
       +Math.sin(a*3.2+1.1)*0.28
@@ -674,7 +674,7 @@ function bestWindowStr(predictions, now){
     if(p.type==='L'){
       const diff=nowMs-p.time.getTime();
       if(diff>=-5400000&&diff<=5400000){
-        return 'Active Now — Low at '+fmtTime(p.time);
+        return 'Active Now · Low at '+fmtTime(p.time);
       }
     }
   }
@@ -833,14 +833,14 @@ function animate(t){
   wm.opacity=0.18+n*0.28;
   updateContour(wy);
 
-  // Contour pulse — brighter when tide is actively crossing the island
+  // Contour pulse: brighter when tide is actively crossing the island
   const pulse=0.55+0.38*Math.sin(pulseT);
   cMat.opacity=pulse*Math.max(0.08,1-n*0.62);
 
   wireMat.opacity=0.52-n*0.22;
   wireMat.color.setHSL(0.55-n*0.08,1.0,0.58-n*0.1);
 
-  // Slow camera drift — responsive to viewport
+  // Slow camera drift: responsive to viewport
   const dr=t*0.00007;
   const cp=getCameraParams();
   camera.position.x=cp.baseX+Math.sin(dr)*cp.driftX;
