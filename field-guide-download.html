@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Free Field Guide Download | SharkToothIsland.org</title>
 <link rel="canonical" href="https://sharktoothisland.org/field-guide-download.html">
-<meta name="description" content="Download the free Shark Tooth Island Field Guide — launch info, tide timing, what to bring, how to search, and how to leave the place better than you found it.">
+<meta name="description" content="Download the free Shark Tooth Island Field Guide: launch info, tide timing, what to bring, how to search, and how to leave the place better than you found it.">
 <meta property="og:title" content="Free Shark Tooth Island Field Guide">
 <meta property="og:description" content="A practical guide to visiting Shark Tooth Island the right way. Launch info, tide timing, what to bring, and how to search smarter.">
 <meta property="og:image" content="https://sharktoothisland.org/images/guide-cover.jpg">
@@ -183,7 +183,7 @@ tailwind.config = {
         <div class="lg:col-span-6 xl:col-span-7 flex justify-center lg:justify-end">
           <div class="relative w-full max-w-xl">
             <img src="images/guide-cover.jpg"
-              alt="Shark Tooth Island Field Guide cover — An Expedition Logbook for the Cape Fear River by Mozy Outdoors"
+              alt="Shark Tooth Island Field Guide cover: An Expedition Logbook for the Cape Fear River by Mozy Outdoors"
               class="w-full cover-shadow rounded-sm"
               width="2752" height="1536">
           </div>
@@ -243,7 +243,7 @@ tailwind.config = {
         <div class="bg-white p-7 border-l-2 border-field-accent">
           <span class="material-symbols-outlined text-field-accent text-2xl mb-4">backpack</span>
           <h3 class="font-headline text-base font-bold mb-2 text-field-dark">What to Bring</h3>
-          <p class="text-field-ink-mid text-sm leading-relaxed">The real packing list. Not the obvious stuff — the things you'll wish you had once you're already on the water.</p>
+          <p class="text-field-ink-mid text-sm leading-relaxed">The real packing list. Not the obvious stuff. The things you'll wish you had once you're already on the water.</p>
         </div>
 
         <div class="bg-white p-7 border-l-2 border-field-teal">
@@ -399,7 +399,7 @@ tailwind.config = {
             SharkToothIsland.org is part of a broader effort by Mozy Outdoors to make coastal exploration more understandable, practical, and engaging. We are interested in more than just the find. We care about access, context, stewardship, and helping people enjoy places like this with a little more confidence.
           </p>
           <p class="font-body text-base text-field-ink-mid leading-relaxed">
-            This field guide is one part of that effort. The site itself is another — with live tide data, a species identification catalog, a megalodon size calculator, and more in the works.
+            This field guide is one part of that effort. The site itself is another, with live tide data, a species identification catalog, a megalodon size calculator, and more in the works.
           </p>
           <div class="pt-4 flex flex-wrap gap-6">
             <a href="index.html" class="inline-flex items-center gap-2 text-field-accent font-label text-[11px] font-bold uppercase tracking-widest hover:gap-4 transition-all">
@@ -675,12 +675,12 @@ async function submitGuideEmail(e, formId) {
     } else {
       btn.disabled = false;
       btn.textContent = orig;
-      if (status) status.textContent = 'Something went wrong — try again.';
+      if (status) status.textContent = 'Something went wrong. Try again.';
     }
   } catch (err) {
     btn.disabled = false;
     btn.textContent = orig;
-    if (status) status.textContent = 'Network error — try again.';
+    if (status) status.textContent = 'Network error. Try again.';
   }
   return false;
 }
