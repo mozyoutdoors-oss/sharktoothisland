@@ -92,7 +92,7 @@ Minimal: `0.125rem` default, `0.75rem` max. The site is archival/editorial, not 
 | NOAA Station | `8658715` (Federal Point, Cape Fear River) | hunt-planner.html |
 | Latitude | `33.9465` | hunt-planner.html (Open-Meteo) |
 | Longitude | `-77.9421` | hunt-planner.html (Open-Meteo) |
-| Display Coords | `34.1262° N · 77.9302° W` | All footers |
+| Display Coords | `34.1175° N · 77.9306° W` | All footers |
 | Web3Forms Key | `8ca6fa3e-a04a-4261-8937-e214a48f785f` | index.html newsletter |
 | Body Length Formula | `tooth_inches × 8.5` | megalodon-calculator-v5.html |
 | Tooth Range | 25–175 mm | megalodon-calculator-v5.html |
@@ -204,4 +204,4 @@ Active page gets `text-blue-700 border-b-2 border-blue-700 font-medium pb-1`.
 - **No Shopify.** This is NOT part of the Mozy Outdoors Shopify theme. Completely separate project.
 - **Field station tone.** The site reads like a research station, not a startup. Educational, archival, data-driven.
 - **PRPA compliance.** The Field Guide includes a legal callout about fossil collecting regulations with links to NPS, NC Coastal Management, and USACE Wilmington District.
-- **Two coordinate sets.** NOAA API uses 33.9465/-77.9421 (Federal Point station). Footer branding and weather use 34.12615/-77.93019, the center of the island. That is the state parcel "WRC North Pelican Island #1 & 2 (39-29 & 39-30)", OSM way 38583327, corrected Oct 12, 2026; the old 34.1175 pointed about 1 km south, near River Road Park.
+- **Two coordinate sets.** NOAA API uses 33.9465/-77.9421 (Federal Point station). Footer branding and weather use 34.1175/-77.93066, the island itself. Verified Oct 13, 2026 against New Hanover County parcel R07800-001-001-000, legal description "SHARK TOOTH ISLAND CAPE FEAR RIVER", owner State of NC, 7.88 ac, parcel point 34.11757/-77.93050. Not the same as "WRC North Pelican Island #1 & 2 (39-29 & 39-30)", OSM way 38583327, county parcel R07500-002-001-000, which is a separate state island about 1 km north. Coordinates were briefly moved there by mistake on Oct 12 and reverted.
