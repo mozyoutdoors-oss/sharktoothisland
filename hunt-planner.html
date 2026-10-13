@@ -365,15 +365,15 @@ function moonPhase(date) {
   const diff = (date - known) / (1000*60*60*24);
   const cycle = 29.53059;
   const phase = ((diff % cycle) + cycle) % cycle;
-  if (phase < 1.85) return { name: 'New Moon', icon: '\u{1F311}', amp: 'Spring tide \u2014 large tidal range' };
+  if (phase < 1.85) return { name: 'New Moon', icon: '\u{1F311}', amp: 'Spring tide: large tidal range' };
   if (phase < 7.38) return { name: 'Waxing Crescent', icon: '\u{1F312}', amp: 'Building tidal range' };
   if (phase < 9.22) return { name: 'First Quarter', icon: '\u{1F313}', amp: 'Moderate tidal range' };
   if (phase < 14.77) return { name: 'Waxing Gibbous', icon: '\u{1F314}', amp: 'Good tidal range' };
-  if (phase < 16.61) return { name: 'Full Moon', icon: '\u{1F315}', amp: 'Spring tide \u2014 large tidal range' };
+  if (phase < 16.61) return { name: 'Full Moon', icon: '\u{1F315}', amp: 'Spring tide: large tidal range' };
   if (phase < 22.15) return { name: 'Waning Gibbous', icon: '\u{1F316}', amp: 'Good tidal range' };
   if (phase < 23.99) return { name: 'Last Quarter', icon: '\u{1F317}', amp: 'Moderate tidal range' };
   if (phase < 29.53) return { name: 'Waning Crescent', icon: '\u{1F318}', amp: 'Diminishing tidal range' };
-  return { name: 'New Moon', icon: '\u{1F311}', amp: 'Spring tide \u2014 large tidal range' };
+  return { name: 'New Moon', icon: '\u{1F311}', amp: 'Spring tide: large tidal range' };
 }
 
 // ─── NOAA TIDES API ───────────────────────────────────────────
@@ -499,29 +499,29 @@ function renderBriefing(dateStr, tides, curve, weather) {
   const wcode = wDay?.weathercode?.[0] ?? null;
 
   const vConf = {
-    go:    { icon:'\u25B2', label:'GO \u2014 Excellent conditions', cls:'go' },
-    maybe: { icon:'\u25C8', label:'MARGINAL \u2014 Worth considering', cls:'maybe' },
-    pass:  { icon:'\u25BC', label:'PASS \u2014 Wait for better conditions', cls:'pass' },
+    go:    { icon:'\u25B2', label:'GO: Excellent conditions', cls:'go' },
+    maybe: { icon:'\u25C8', label:'MARGINAL: Worth considering', cls:'maybe' },
+    pass:  { icon:'\u25BC', label:'PASS: Wait for better conditions', cls:'pass' },
     unknown:{ icon:'\u25CB', label:'CHECKING CONDITIONS...', cls:'loading' }
   }[s.verdict];
 
   let summaryText = '';
   const preDawn = s.lowHour < 5;
   const afterDark = s.lowHour >= 19;
-  const darkWarning = preDawn ? ' Note: this low occurs before sunrise \u2014 you\'d be hunting in the dark.' : afterDark ? ' Note: this low occurs after sunset \u2014 limited visibility.' : '';
+  const darkWarning = preDawn ? ' Note: this low occurs before sunrise, so you\'d be hunting in the dark.' : afterDark ? ' Note: this low occurs after sunset, limited visibility.' : '';
 
   if (s.verdict === 'go') {
-    summaryText = `Low tide at ${s.lowTime} with a ${s.tidalRange} ft tidal range \u2014 that's solid exposure. ${s.rangeF >= 4 ? 'Strong range this day, more island surface than average.' : 'Good range for productive hunting.'} ${rain < 0.1 ? 'Dry conditions.' : `Light rain possible (${rain.toFixed(2)}")`} ${wind < 10 ? 'Calm winds.' : `Wind ${Math.round(wind)} mph.`} ${moon.amp}.${darkWarning}`;
+    summaryText = `Low tide at ${s.lowTime} with a ${s.tidalRange} ft tidal range. That's solid exposure. ${s.rangeF >= 4 ? 'Strong range this day, more island surface than average.' : 'Good range for productive hunting.'} ${rain < 0.1 ? 'Dry conditions.' : `Light rain possible (${rain.toFixed(2)}")`} ${wind < 10 ? 'Calm winds.' : `Wind ${Math.round(wind)} mph.`} ${moon.amp}.${darkWarning}`;
   } else if (s.verdict === 'maybe') {
-    summaryText = `Low tide at ${s.lowTime}, ${s.tidalRange} ft range. ${preDawn ? 'Low tide falls before sunrise, which limits the practical hunting window. ' : ''}${s.rangeF < 2.5 ? 'Modest tidal range limits how much island is exposed. ' : ''}${rain > 0.5 ? `Rain expected (${rain.toFixed(2)}") \u2014 worth watching. ` : ''}${wind > 15 ? `Wind up to ${Math.round(wind)} mph could make the river crossing uncomfortable. ` : ''}If conditions align otherwise, it could still be worth the trip. Check the week strip for stronger options.`;
+    summaryText = `Low tide at ${s.lowTime}, ${s.tidalRange} ft range. ${preDawn ? 'Low tide falls before sunrise, which limits the practical hunting window. ' : ''}${s.rangeF < 2.5 ? 'Modest tidal range limits how much island is exposed. ' : ''}${rain > 0.5 ? `Rain expected (${rain.toFixed(2)}"), worth watching. ` : ''}${wind > 15 ? `Wind up to ${Math.round(wind)} mph could make the river crossing uncomfortable. ` : ''}If conditions align otherwise, it could still be worth the trip. Check the week strip for stronger options.`;
   } else {
-    summaryText = `${preDawn ? 'Low tide is pre-dawn \u2014 not a practical hunting window. ' : ''}${rain > 0.5 ? `Rain in the forecast (${rain.toFixed(2)}"). ` : ''}${wind > 18 ? `Wind up to ${Math.round(wind)} mph \u2014 rough conditions on the river. ` : ''}${s.rangeF < 1.5 ? 'Weak tidal range, minimal island exposure. ' : ''}Better conditions likely in the coming days.`;
+    summaryText = `${preDawn ? 'Low tide is pre-dawn, not a practical hunting window. ' : ''}${rain > 0.5 ? `Rain in the forecast (${rain.toFixed(2)}"). ` : ''}${wind > 18 ? `Wind up to ${Math.round(wind)} mph, rough conditions on the river. ` : ''}${s.rangeF < 1.5 ? 'Weak tidal range, minimal island exposure. ' : ''}Better conditions likely in the coming days.`;
   }
 
-  const rangeQuality = s.rangeF >= 4 ? ['good','Excellent \u2014 strong exposure'] : s.rangeF >= 3 ? ['good','Good \u2014 solid hunting window'] : s.rangeF >= 2 ? ['warn','Moderate \u2014 limited exposure'] : ['bad','Weak \u2014 minimal island surface'];
-  const lowQuality   = s.lowHour >= 6 && s.lowHour <= 12 ? ['good','Morning low \u2014 ideal timing'] : s.lowHour >= 13 && s.lowHour <= 16 ? ['warn','Afternoon low \u2014 workable'] : (s.lowHour === 5 || (s.lowHour >= 17 && s.lowHour <= 18)) ? ['warn','Dawn/dusk low \u2014 tight window'] : s.lowHour < 5 ? ['bad','Pre-dawn low \u2014 not practical'] : ['bad','After dark \u2014 not huntable'];
-  const rainQuality  = rain === null ? ['','\u2014'] : rain < 0.1 ? ['good','Dry'] : rain < 0.4 ? ['warn',`${rain.toFixed(2)}" expected`] : ['bad',`${rain.toFixed(2)}" \u2014 significant rain`];
-  const windQuality  = wind === null ? ['','\u2014'] : wind < 10 ? ['good',`${Math.round(wind)} mph \u2014 calm`] : wind < 18 ? ['warn',`${Math.round(wind)} mph \u2014 moderate`] : ['bad',`${Math.round(wind)} mph \u2014 rough`];
+  const rangeQuality = s.rangeF >= 4 ? ['good','Excellent, strong exposure'] : s.rangeF >= 3 ? ['good','Good, solid hunting window'] : s.rangeF >= 2 ? ['warn','Moderate, limited exposure'] : ['bad','Weak, minimal island surface'];
+  const lowQuality   = s.lowHour >= 6 && s.lowHour <= 12 ? ['good','Morning low, ideal timing'] : s.lowHour >= 13 && s.lowHour <= 16 ? ['warn','Afternoon low, workable'] : (s.lowHour === 5 || (s.lowHour >= 17 && s.lowHour <= 18)) ? ['warn','Dawn/dusk low, tight window'] : s.lowHour < 5 ? ['bad','Pre-dawn low, not practical'] : ['bad','After dark, not huntable'];
+  const rainQuality  = rain === null ? ['','\u2014'] : rain < 0.1 ? ['good','Dry'] : rain < 0.4 ? ['warn',`${rain.toFixed(2)}" expected`] : ['bad',`${rain.toFixed(2)}", significant rain`];
+  const windQuality  = wind === null ? ['','\u2014'] : wind < 10 ? ['good',`${Math.round(wind)} mph, calm`] : wind < 18 ? ['warn',`${Math.round(wind)} mph, moderate`] : ['bad',`${Math.round(wind)} mph, rough`];
 
   // Build tide curve SVG
   let curveSVG = '';
@@ -573,7 +573,7 @@ function renderBriefing(dateStr, tides, curve, weather) {
       <td class="hl">${t.type==='H'?'High':'Low'}</td>
       <td>${fmtTime(t.t)}</td>
       <td>${parseFloat(t.v).toFixed(1)} ft</td>
-      <td>${t.type==='L'?`${(parseFloat(t.v)<0.5?'Very low':'Low')} \u2014 prime window`:'\u2014'}</td>
+      <td>${t.type==='L'?`${(parseFloat(t.v)<0.5?'Very low':'Low')}, prime window`:'\u2014'}</td>
     </tr>`).join('');
 
   document.getElementById('briefing-area').innerHTML = `
@@ -650,23 +650,23 @@ function renderBriefing(dateStr, tides, curve, weather) {
           const am = String(arrive.getMinutes()).padStart(2,'0');
           const ap = arrive.getHours() >= 12 ? 'pm' : 'am';
           return ah + ':' + am + ' ' + ap;
-        })()} and plan to hunt through ${s.lowTime}. ${s.rangeF >= 3.5 ? 'Strong range today \u2014 you may have nearly 2 hours of productive surface.' : s.rangeF >= 2.5 ? 'Moderate range \u2014 expect about 60\u201390 minutes of prime access.' : 'Modest range \u2014 work quickly, the window is shorter than ideal.'}</div>
+        })()} and plan to hunt through ${s.lowTime}. ${s.rangeF >= 3.5 ? 'Strong range today: you may have nearly 2 hours of productive surface.' : s.rangeF >= 2.5 ? 'Moderate range, expect about 60\u201390 minutes of prime access.' : 'Modest range, work quickly, the window is shorter than ideal.'}</div>
       </div>
       <div class="briefing-item">
         <span class="b-icon">\u25C8</span>
-        <div class="b-text"><strong>Tidal range context:</strong> ${s.tidalRange} ft range. ${s.rangeF >= 4 ? 'Anything above 4 ft is exceptional for this station. More island surface exposed than average \u2014 check the far sandbars and the edges of Keg Island too.' : s.rangeF >= 3 ? 'Solid range for the Cape Fear. The main island cluster should be well exposed.' : s.rangeF >= 2 ? 'Decent but not exceptional. Focus on the primary spoil deposit rather than the outer bars.' : 'Weak range. The outer areas may stay submerged. Concentrate effort on the main deposit.'}</div>
+        <div class="b-text"><strong>Tidal range context:</strong> ${s.tidalRange} ft range. ${s.rangeF >= 4 ? 'Anything above 4 ft is exceptional for this station. More island surface exposed than average, so check the far sandbars and the edges of Keg Island too.' : s.rangeF >= 3 ? 'Solid range for the Cape Fear. The main island cluster should be well exposed.' : s.rangeF >= 2 ? 'Decent but not exceptional. Focus on the primary spoil deposit rather than the outer bars.' : 'Weak range. The outer areas may stay submerged. Concentrate effort on the main deposit.'}</div>
       </div>
       <div class="briefing-item">
         <span class="b-icon">\u25C7</span>
-        <div class="b-text"><strong>Weather:</strong> ${wcode !== null ? wmoDesc(wcode) : 'Forecast unavailable'}${rain > 0 ? ' \u00B7 ' + rain.toFixed(2) + '" precipitation expected' : ' \u00B7 Dry conditions'}. Wind ${wind !== null ? Math.round(wind) + ' mph from the ' + (wdir !== null ? windDir(wdir) : '\u2014') : 'data unavailable'}. ${wind > 15 ? 'Wind above 15 mph can make river crossings uncomfortable in a small boat \u2014 check conditions at the launch before committing.' : 'Good boating conditions.'}</div>
+        <div class="b-text"><strong>Weather:</strong> ${wcode !== null ? wmoDesc(wcode) : 'Forecast unavailable'}${rain > 0 ? ' \u00B7 ' + rain.toFixed(2) + '" precipitation expected' : ' \u00B7 Dry conditions'}. Wind ${wind !== null ? Math.round(wind) + ' mph from the ' + (wdir !== null ? windDir(wdir) : '\u2014') : 'data unavailable'}. ${wind > 15 ? 'Wind above 15 mph can make river crossings uncomfortable in a small boat, check conditions at the launch before committing.' : 'Good boating conditions.'}</div>
       </div>
       <div class="briefing-item">
         <span class="b-icon">\u25CB</span>
-        <div class="b-text"><strong>Moon:</strong> ${moon.icon} ${moon.name}. ${moon.amp}. ${moon.name.includes('New') || moon.name.includes('Full') ? 'Spring tides around new and full moon produce the largest tidal ranges \u2014 this week is a good window overall.' : 'Standard tidal range expected this week.'}</div>
+        <div class="b-text"><strong>Moon:</strong> ${moon.icon} ${moon.name}. ${moon.amp}. ${moon.name.includes('New') || moon.name.includes('Full') ? 'Spring tides around new and full moon produce the largest tidal ranges, and this week is a good window overall.' : 'Standard tidal range expected this week.'}</div>
       </div>
       <div class="briefing-item">
-        <span class="b-icon">\u2014</span>
-        <div class="b-text"><strong>Launch reminder:</strong> River Road Park is the standard access point for Shark Tooth Island. Water shoes required \u2014 the spoil sediment is rough. Bring a mesh sifter, water, sunscreen, and a dry bag for your phone and finds. Check the launch for current conditions before casting off.</div>
+        <span class="b-icon">\u2022</span>
+        <div class="b-text"><strong>Launch reminder:</strong> River Road Park is the standard access point for Shark Tooth Island. Water shoes recommended: jagged rock and shell line the southern beaches. Bring a mesh sifter, water, sunscreen, and a dry bag for your phone and finds. Check the launch for current conditions before casting off.</div>
       </div>
     </div>
   `;
