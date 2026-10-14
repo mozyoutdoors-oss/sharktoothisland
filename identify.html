@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html class="light" lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Tooth ID | SharkToothIsland.org</title>
+<link rel="canonical" href="https://sharktoothisland.org/identify.html">
+<meta name="robots" content="noindex">
+<meta name="description" content="Found a tooth on Shark Tooth Island? Send two photos with a coin for scale and we will email you what it is, why, and how big it is.">
+<meta property="og:title" content="Tooth ID | SharkToothIsland.org">
+<meta property="og:description" content="What did you find? Send us your Shark Tooth Island find and we will tell you what it is.">
+<meta property="og:image" content="https://sharktoothisland.org/images/hero-island.jpg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Public+Sans:ital,wght@0,300;0,400;0,600;0,700;0,800;0,900;1,400&family=Space+Grotesk:wght@300;400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet">
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script>
+tailwind.config = {
+  theme: {
+    extend: {
+      colors: {
+        "surface": "#f9f9f9",
+        "surface-bright": "#f9f9f9",
+        "surface-container-lowest": "#ffffff",
+        "surface-container-low": "#f3f3f3",
+        "surface-container": "#eeeeee",
+        "on-surface": "#1a1c1c",
+        "on-surface-variant": "#414750",
+        "outline": "#717781",
+        "outline-variant": "#c1c7d2",
+        "primary": "#085f9e",
+        "primary-container": "#3478b8",
+        "primary-fixed": "#d1e4ff",
+        "on-primary": "#ffffff"
+      },
+      borderRadius: { DEFAULT: "0.125rem", lg: "0.25rem", xl: "0.5rem", full: "0.75rem" },
+      fontFamily: { headline: ["Public Sans"], body: ["Public Sans"], label: ["Space Grotesk"] }
+    }
+  }
+}
+</script>
+<style>
+  .material-symbols-outlined { font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24; vertical-align: middle; }
+  details summary::-webkit-details-marker { display: none; }
+  details summary::marker { display: none; }
+  .archival-grain {
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+    opacity: 0.03; pointer-events: none;
+  }
+</style>
+<script src="/analytics.js" defer></script>
+</head>
+<body class="bg-surface text-on-surface font-body selection:bg-primary-fixed selection:text-on-primary">
+
+<!-- NAV -->
+<header class="sticky top-0 z-50 bg-white/80 backdrop-blur-xl shadow-sm shadow-blue-900/5">
+  <nav class="flex justify-between items-center max-w-7xl mx-auto px-6 md:px-8 h-20">
+    <a href="index.html" class="text-xl font-bold tracking-tight text-blue-900 font-headline">SharkToothIsland.org</a>
+    <div class="hidden md:flex items-center gap-8">
+      <a href="field-guide.html" class="text-blue-700 border-b-2 border-blue-700 font-medium pb-1 font-label text-sm uppercase tracking-widest">Field Guide</a>
+      <a href="field-notes/" class="text-slate-600 hover:text-blue-600 font-label text-sm uppercase tracking-widest transition-colors">Field Notes</a>
+      <a href="megalodon-calculator-v5.html" class="text-slate-600 hover:text-blue-600 font-label text-sm uppercase tracking-widest transition-colors">Size Calculator</a>
+      <a href="hunt-planner.html" class="text-slate-600 hover:text-blue-600 font-label text-sm uppercase tracking-widest transition-colors">Hunt Planner</a>
+      <a href="depth-of-time.html" class="text-slate-600 hover:text-blue-600 font-label text-sm uppercase tracking-widest transition-colors">Depth of Time</a>
+    </div>
+    <div class="flex items-center gap-3">
+      <a href="hunt-planner.html" class="bg-primary text-on-primary px-3 md:px-5 py-2 rounded font-label text-xs font-bold uppercase tracking-widest hover:bg-primary-container transition-all"><span class="md:hidden">Tides</span><span class="hidden md:inline">Current Conditions</span></a>
+      <button onclick="document.getElementById('mobile-menu').classList.toggle('hidden')" class="md:hidden flex items-center justify-center w-10 h-10">
+        <span class="material-symbols-outlined text-on-surface">menu</span>
+      </button>
+    </div>
+  </nav>
+  <div id="mobile-menu" class="hidden md:hidden bg-white/95 backdrop-blur-xl border-t border-outline-variant/30 px-6 pb-6 pt-4 space-y-4">
+    <a href="field-guide.html" class="block text-blue-700 font-bold font-label text-sm uppercase tracking-widest py-2">Field Guide</a>
+    <a href="field-notes/" class="block text-slate-600 font-label text-sm uppercase tracking-widest py-2">Field Notes</a>
+    <a href="megalodon-calculator-v5.html" class="block text-slate-600 font-label text-sm uppercase tracking-widest py-2">Size Calculator</a>
+    <a href="hunt-planner.html" class="block text-slate-600 font-label text-sm uppercase tracking-widest py-2">Hunt Planner</a>
+    <a href="depth-of-time.html" class="block text-slate-600 font-label text-sm uppercase tracking-widest py-2">Depth of Time</a>
+  </div>
+</header>
+
+<main class="relative min-h-screen tid">
+  <style>
+    .tid{--ink:#e8eef2;--muted:#9fb3c1;--faint:#8aa2b1;--ground:#0b1821;--panel:#10232f;--line:#1d3341;--edge:#3c6178;--sky:#7cc4f5;--gold:#f2b544;background:var(--ground);color:var(--ink)}
+    .tid .mono{font-family:"IBM Plex Mono",ui-monospace,Menlo,monospace}
+    .tid .eyebrow{font-family:"IBM Plex Mono",ui-monospace,monospace;font-size:11px;letter-spacing:.2em;text-transform:uppercase}
+    .tid .slot{position:relative;aspect-ratio:1/1.05;background:var(--panel);border:1.5px dashed var(--edge);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;cursor:pointer;overflow:hidden;color:var(--ink)}
+    .tid .slot:hover,.tid .slot:focus-within{border-color:var(--sky)}
+    .tid .slot input{position:absolute;inset:0;opacity:0;cursor:pointer}
+    .tid .slot img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+    .tid .slot .badge{position:absolute;left:8px;bottom:8px;z-index:2;background:var(--sky);color:var(--ground);font-family:"IBM Plex Mono",monospace;font-size:10px;letter-spacing:.12em;padding:3px 7px}
+    .tid .chip{height:40px;padding:0 15px;font-size:14px;font-weight:600;border:1px solid var(--edge);color:var(--ink);background:transparent;cursor:pointer}
+    .tid .chip[aria-pressed="true"]{background:var(--sky);border-color:var(--sky);color:var(--ground)}
+    .tid .field{width:100%;background:var(--panel);border:1px solid var(--edge);color:var(--ink);padding:13px 14px;font-size:16px;font-family:inherit}
+    .tid .field:focus{outline:2px solid var(--sky);outline-offset:1px;border-color:var(--sky)}
+    .tid .go{display:flex;align-items:center;justify-content:center;gap:10px;width:100%;height:56px;background:var(--gold);color:var(--ground);font-weight:900;font-size:17px;border:0;cursor:pointer}
+    .tid .go:disabled{opacity:.6;cursor:progress}
+    .tid button:focus-visible,.tid a:focus-visible{outline:2px solid var(--gold);outline-offset:2px}
+    .tid .hp{position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden}
+  </style>
+
+  <section class="max-w-xl mx-auto px-5 md:px-8 pt-12 md:pt-16 pb-20">
+    <nav class="mono text-[10px] uppercase tracking-[0.25em] mb-8" style="color:var(--faint)" aria-label="Breadcrumb">
+      <a href="index.html" class="hover:underline" style="color:var(--faint)">Home</a><span class="mx-2">&middot;</span><span style="color:var(--sky)">Tooth ID</span>
+    </nav>
+
+    <div id="tid-form-wrap">
+      <div class="flex items-center justify-between gap-4 mb-5">
+        <span class="eyebrow" style="color:var(--sky)">Step 1 of 2 &middot; Photograph</span>
+        <span class="mono text-[11px] tracking-[0.14em] px-2 py-1" style="color:var(--gold);border:1px solid var(--gold)">TOOTH ID</span>
+      </div>
+      <h1 class="font-headline font-black tracking-tight leading-[1.02] text-[40px] md:text-[56px] mb-4">What did<br>you find?</h1>
+      <p class="text-[16px] leading-relaxed mb-8" style="color:var(--muted)">Send us two photos and a coin for scale. We look at every find ourselves and email you what it is, why, and how big it is.</p>
+
+      <form id="tid-form" novalidate>
+        <div class="grid grid-cols-2 gap-3 mb-5">
+          <label class="slot" for="tid-front">
+            <svg width="58" height="74" viewBox="0 0 58 74" aria-hidden="true"><path d="M29 3 L52 50 Q54 58 46 60 L40 61 Q36 70 29 71 Q22 70 18 61 L12 60 Q4 58 6 50 Z" fill="none" stroke="#7cc4f5" stroke-width="1.6"/><path d="M14 60 Q29 52 44 60" fill="none" stroke="#7cc4f5" stroke-width="1.2" stroke-dasharray="3 3"/></svg>
+            <span class="font-extrabold text-[15px]">Front</span>
+            <span class="mono text-[10px] tracking-[0.08em]" style="color:var(--faint)">TAP TO ADD &middot; REQUIRED</span>
+            <input id="tid-front" type="file" accept="image/*" aria-label="Front photo of the tooth">
+          </label>
+          <label class="slot" for="tid-back">
+            <svg width="58" height="74" viewBox="0 0 58 74" aria-hidden="true"><path d="M29 3 L52 50 Q54 58 46 60 L40 61 Q36 70 29 71 Q22 70 18 61 L12 60 Q4 58 6 50 Z" fill="none" stroke="#7cc4f5" stroke-width="1.6" transform="translate(58 0) scale(-1 1)"/><circle cx="29" cy="40" r="4" fill="none" stroke="#7cc4f5" stroke-width="1.2"/></svg>
+            <span class="font-extrabold text-[15px]">Back</span>
+            <span class="mono text-[10px] tracking-[0.08em]" style="color:var(--faint)">TAP TO ADD</span>
+            <input id="tid-back" type="file" accept="image/*" aria-label="Back photo of the tooth">
+          </label>
+        </div>
+
+        <div class="p-4 mb-7 flex flex-col gap-3" style="background:var(--panel)">
+          <div class="eyebrow" style="color:var(--gold)">Field photo tips</div>
+          <div class="flex gap-3 items-start text-[15px] leading-snug"><svg width="22" height="22" viewBox="0 0 22 22" aria-hidden="true" class="shrink-0"><circle cx="11" cy="11" r="9" fill="none" stroke="#e8eef2" stroke-width="1.5"/><text x="11" y="15" text-anchor="middle" font-size="8" fill="#e8eef2" font-family="IBM Plex Mono">25&#162;</text></svg><div><strong>Lay it next to a quarter.</strong> <span style="color:var(--muted)">That&rsquo;s how we measure it.</span></div></div>
+          <div class="flex gap-3 items-start text-[15px] leading-snug"><svg width="22" height="22" viewBox="0 0 22 22" aria-hidden="true" class="shrink-0"><circle cx="11" cy="11" r="4" fill="none" stroke="#e8eef2" stroke-width="1.5"/><path d="M11 1v3M11 18v3M1 11h3M18 11h3M4 4l2 2M16 16l2 2M4 18l2-2M16 6l2-2" stroke="#e8eef2" stroke-width="1.5"/></svg><div><strong>Daylight, no flash.</strong> <span style="color:var(--muted)">Flash hides serrations.</span></div></div>
+          <div class="flex gap-3 items-start text-[15px] leading-snug"><svg width="22" height="22" viewBox="0 0 22 22" aria-hidden="true" class="shrink-0"><path d="M2 7V2h5M15 2h5v5M20 15v5h-5M7 20H2v-5" fill="none" stroke="#e8eef2" stroke-width="1.5"/></svg><div><strong>Fill the frame.</strong> <span style="color:var(--muted)">Root and tip both in view.</span></div></div>
+        </div>
+
+        <fieldset class="mb-7">
+          <legend class="eyebrow mb-3" style="color:var(--faint)">Where on the island? (optional)</legend>
+          <div class="flex flex-wrap gap-2" id="tid-spots">
+            <button type="button" class="chip" aria-pressed="false" data-spot="South beach">South beach</button>
+            <button type="button" class="chip" aria-pressed="false" data-spot="East cove">East cove</button>
+            <button type="button" class="chip" aria-pressed="false" data-spot="North shore">North shore</button>
+            <button type="button" class="chip" aria-pressed="false" data-spot="Not sure">Not sure</button>
+          </div>
+        </fieldset>
+
+        <div class="mb-5">
+          <label for="tid-email" class="eyebrow block mb-2" style="color:var(--faint)">Your email (required)</label>
+          <input id="tid-email" class="field" type="email" autocomplete="email" inputmode="email" placeholder="you@example.com" required>
+          <p class="text-[13px] mt-2" style="color:var(--faint)">We&rsquo;ll send what you found here.</p>
+        </div>
+
+        <div class="mb-5">
+          <label for="tid-notes" class="eyebrow block mb-2" style="color:var(--faint)">Anything else? (optional)</label>
+          <textarea id="tid-notes" class="field" rows="3" maxlength="1000" placeholder="When you found it, how big it felt, anything odd about it."></textarea>
+        </div>
+
+        <label class="flex gap-3 items-start mb-7 text-[15px] leading-snug cursor-pointer">
+          <input id="tid-optin" type="checkbox" checked class="mt-1 w-5 h-5 shrink-0 rounded-sm" style="color:#f2b544;accent-color:#f2b544;background-color:#10232f;border-color:#3c6178">
+          <span>Also send me low-tide windows and new finds from the island. <span style="color:var(--faint)">Unsubscribe anytime.</span></span>
+        </label>
+
+        <div class="hp" aria-hidden="true"><label for="tid-website">Leave this empty</label><input id="tid-website" type="text" tabindex="-1" autocomplete="off"></div>
+
+        <p id="tid-error" class="text-[14px] mb-4 hidden" role="alert" style="color:#ffb4a8"></p>
+
+        <button id="tid-submit" type="submit" class="go">
+          <span id="tid-submit-label">Send my find</span>
+          <svg width="18" height="18" viewBox="0 0 18 18" aria-hidden="true"><path d="M3 9h11M10 4l5 5-5 5" fill="none" stroke="#0b1821" stroke-width="2.2"/></svg>
+        </button>
+        <p class="text-[12px] leading-relaxed text-center mt-3" style="color:var(--faint)">Location data is removed from every photo. Nothing is posted publicly without your OK. <a href="privacy.html" style="color:var(--sky)" class="underline underline-offset-2">Privacy</a></p>
+      </form>
+    </div>
+
+    <div id="tid-done" class="hidden" tabindex="-1">
+      <div class="flex items-center justify-between gap-4 mb-5">
+        <span class="eyebrow" style="color:var(--sky)">Step 2 of 2 &middot; Received</span>
+        <span class="mono text-[11px] tracking-[0.14em] px-2 py-1" style="color:var(--gold);border:1px solid var(--gold)">TOOTH ID</span>
+      </div>
+      <h2 class="font-headline font-black tracking-tight leading-[1.02] text-[40px] md:text-[56px] mb-4">Got it.</h2>
+      <p class="text-[17px] leading-relaxed mb-3">We&rsquo;ll take a look and email you what you found, usually within a couple of days.</p>
+      <p class="mono text-[13px] mb-8" style="color:var(--faint)">Specimen <span id="tid-ref" style="color:var(--gold)"></span></p>
+      <div class="flex flex-col gap-3">
+        <a href="identify.html" class="go" style="text-decoration:none">Send another find</a>
+        <a href="how-to-find-shark-teeth.html" class="flex items-center justify-center h-[52px] font-bold" style="border:1px solid var(--edge);color:var(--ink);text-decoration:none">While you wait: how to find more</a>
+      </div>
+    </div>
+  </section>
+
+  <script>
+  (function () {
+    // Google Apps Script web app that writes the Sheet, saves photos to Drive and emails the station.
+    var ENDPOINT = '';
+    var ML_URL = 'https://assets.mailerlite.com/jsonp/2702376/forms/201014095184397330/subscribe';
+    var MAX_SIDE = 1600;
+
+    var photos = { front: null, back: null };
+    var spot = '';
+    var $ = function (id) { return document.getElementById(id); };
+
+    function shrink(file) {
+      // Redraw on a canvas: resizes and drops EXIF (including GPS) in one step.
+      var load = window.createImageBitmap
+        ? createImageBitmap(file, { imageOrientation: 'from-image' })
+        : new Promise(function (ok, bad) { var i = new Image(); i.onload = function () { ok(i); }; i.onerror = bad; i.src = URL.createObjectURL(file); });
+      return load.then(function (img) {
+        var w = img.width, h = img.height, s = Math.min(1, MAX_SIDE / Math.max(w, h));
+        var c = document.createElement('canvas');
+        c.width = Math.round(w * s); c.height = Math.round(h * s);
+        c.getContext('2d').drawImage(img, 0, 0, c.width, c.height);
+        return c.toDataURL('image/jpeg', 0.85);
+      });
+    }
+
+    function attach(side) {
+      var input = $('tid-' + side);
+      input.addEventListener('change', function () {
+        var f = input.files && input.files[0];
+        if (!f) return;
+        shrink(f).then(function (url) {
+          photos[side] = url;
+          var slot = input.parentNode;
+          var old = slot.querySelector('img'); if (old) old.remove();
+          var oldB = slot.querySelector('.badge'); if (oldB) oldB.remove();
+          var img = document.createElement('img'); img.src = url; img.alt = side + ' photo preview';
+          var b = document.createElement('span'); b.className = 'badge'; b.textContent = side.toUpperCase() + ' ✓';
+          slot.insertBefore(img, input); slot.insertBefore(b, input);
+        }).catch(function () { showError('That photo could not be read. Try a JPG or PNG.'); });
+      });
+    }
+    attach('front'); attach('back');
+
+    $('tid-spots').addEventListener('click', function (e) {
+      var btn = e.target.closest('.chip'); if (!btn) return;
+      var on = btn.getAttribute('aria-pressed') !== 'true';
+      Array.prototype.forEach.call(this.querySelectorAll('.chip'), function (c) { c.setAttribute('aria-pressed', 'false'); });
+      btn.setAttribute('aria-pressed', on ? 'true' : 'false');
+      spot = on ? btn.dataset.spot : '';
+    });
+
+    function showError(msg) { var el = $('tid-error'); el.textContent = msg; el.classList.remove('hidden'); }
+
+    function subscribe(email) {
+      var fd = new FormData();
+      fd.append('fields[email]', email);
+      fd.append('fields[signup_source]', 'tooth-id');
+      fd.append('ml-submit', '1');
+      fd.append('anticsrf', 'true');
+      return fetch(ML_URL, { method: 'POST', body: fd }).catch(function () {});
+    }
+
+    $('tid-form').addEventListener('submit', function (e) {
+      e.preventDefault();
+      $('tid-error').classList.add('hidden');
+      var email = $('tid-email').value.trim();
+      if (!photos.front) return showError('Add a front photo of the tooth.');
+      if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) return showError('Enter an email so we can send you the answer.');
+      if (!ENDPOINT) return showError('Tooth ID isn’t open yet. Check back soon, or email station@sharktoothisland.org.');
+
+      var btn = $('tid-submit'); btn.disabled = true; $('tid-submit-label').textContent = 'Sending…';
+      var payload = {
+        email: email,
+        spot: spot,
+        notes: $('tid-notes').value.trim(),
+        optIn: $('tid-optin').checked,
+        website: $('tid-website').value,
+        page: location.href,
+        photos: [photos.front, photos.back].filter(Boolean).map(function (u, i) {
+          return { side: i === 0 ? 'front' : 'back', data: u.split(',')[1] };
+        })
+      };
+      fetch(ENDPOINT, { method: 'POST', headers: { 'Content-Type': 'text/plain;charset=utf-8' }, body: JSON.stringify(payload) })
+        .then(function (r) { return r.json(); })
+        .then(function (res) {
+          if (!res || !res.ok) throw new Error(res && res.error || 'failed');
+          if (payload.optIn) subscribe(email);
+          if (window.stiTrack) window.stiTrack('tooth_id_submit', { spot: spot || 'none' });
+          $('tid-ref').textContent = res.id || '';
+          $('tid-form-wrap').classList.add('hidden');
+          var done = $('tid-done'); done.classList.remove('hidden'); done.focus();
+          window.scrollTo(0, 0);
+        })
+        .catch(function () {
+          btn.disabled = false; $('tid-submit-label').textContent = 'Send my find';
+          showError('Something went wrong sending your find. Try again, or email the photos to station@sharktoothisland.org.');
+        });
+    });
+  })();
+  </script>
+</main>
+
+<!-- FOOTER -->
+<footer class="bg-slate-100 py-16">
+  <div class="grid grid-cols-1 md:grid-cols-4 gap-12 max-w-7xl mx-auto px-6 md:px-8">
+    <div class="md:col-span-2">
+      <div class="text-lg font-semibold text-slate-800 font-headline mb-4">Shark Tooth Island Coastal Field Station</div>
+      <p class="text-slate-500 font-body text-sm max-w-md leading-relaxed mb-4">
+        A public field station and educational resource for Shark Tooth Island in the Cape Fear River.
+      </p>
+      <p class="font-label text-[10px] uppercase tracking-widest text-slate-400">
+        34.1175&deg; N &middot; 77.9306&deg; W &middot; New Hanover County, NC
+      </p>
+    </div>
+    <div>
+      <h5 class="font-label text-xs uppercase tracking-widest text-blue-900 font-bold mb-6">Tools &amp; Resources</h5>
+      <ul class="space-y-3">
+        <li><a href="field-guide.html" class="text-slate-500 font-body text-sm hover:text-blue-800 transition-colors">Field Guide</a></li>
+        <li><a href="how-to-visit.html" class="text-slate-500 font-body text-sm hover:text-blue-800 transition-colors">How to Visit</a></li>
+        <li><a href="field-notes/" class="text-slate-500 font-body text-sm hover:text-blue-800 transition-colors">Field Notes</a></li>
+        <li><a href="megalodon-calculator-v5.html" class="text-slate-500 font-body text-sm hover:text-blue-800 transition-colors">Size Calculator</a></li>
+        <li><a href="hunt-planner.html" class="text-slate-500 font-body text-sm hover:text-blue-800 transition-colors">Hunt Planner</a></li>
+        <li><a href="depth-of-time.html" class="text-slate-500 font-body text-sm hover:text-blue-800 transition-colors">Depth of Time</a></li>
+        <li><a href="how-shark-tooth-island-was-made.html" class="text-slate-500 font-body text-sm hover:text-blue-800 transition-colors">History of the Island</a></li>
+        <li><a href="faq.html" class="text-slate-500 font-body text-sm hover:text-blue-800 transition-colors">FAQ</a></li>
+        <li><a href="field-guide-download.html" class="text-slate-500 font-body text-sm hover:text-blue-800 transition-colors">Free Field Guide PDF</a></li>
+      </ul>
+    </div>
+    <div>
+      <h5 class="font-label text-xs uppercase tracking-widest text-blue-900 font-bold mb-6">Contact</h5>
+      <ul class="space-y-3">
+        <li><a href="mailto:Station@sharktoothisland.org" class="text-slate-500 font-body text-sm hover:text-blue-800 transition-colors">Station@sharktoothisland.org</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="max-w-7xl mx-auto px-6 md:px-8 mt-12 pt-6 border-t border-slate-200">
+    <p class="font-body text-[11px] text-slate-500 leading-relaxed max-w-3xl mb-3">
+      Shark Tooth Island sits on a working tidal river. Paddling, boating, and fossil hunting carry real risk. This site is educational; it is not a guide service and does not guarantee conditions. You are responsible for your own safety: check weather and tides, wear a PFD, and do not attempt without the skills and gear for moving water.
+    </p>
+    <p class="font-label text-[10px] uppercase tracking-widest text-slate-400">
+      &copy; 2026 Shark Tooth Island Coastal Field Station &middot; <a href="/privacy.html" class="underline underline-offset-2 hover:no-underline">Privacy</a> &middot; A field project by <a href="https://mozyoutdoors.com" target="_blank" rel="noopener" class="text-blue-900 hover:text-blue-700">Mozy Outdoors</a>
+    </p>
+  </div>
+</footer>
+
+</body>
+</html>
