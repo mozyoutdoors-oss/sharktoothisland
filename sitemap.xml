@@ -144,4 +144,15 @@
     <priority>0.2</priority>
   </url>
 
+  <url>
+    <loc>https://sharktoothisland.org/identify.html</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://sharktoothisland.org/finds.html</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.6</priority>
+  </url>
+
 </urlset>
