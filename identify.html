@@ -86,7 +86,7 @@ tailwind.config = {
     .tid{--ink:#e8eef2;--muted:#9fb3c1;--faint:#8aa2b1;--ground:#0b1821;--panel:#10232f;--line:#1d3341;--edge:#3c6178;--sky:#7cc4f5;--gold:#f2b544;background:var(--ground);color:var(--ink)}
     .tid .mono{font-family:"IBM Plex Mono",ui-monospace,Menlo,monospace}
     .tid .eyebrow{font-family:"IBM Plex Mono",ui-monospace,monospace;font-size:11px;letter-spacing:.2em;text-transform:uppercase}
-    .tid .slot{position:relative;aspect-ratio:1/1.05;background:var(--panel);border:1.5px dashed var(--edge);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;cursor:pointer;overflow:hidden;color:var(--ink)}
+    .tid .slot{text-align:center;padding:0 10px;position:relative;aspect-ratio:1/1.05;background:var(--panel);border:1.5px dashed var(--edge);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;cursor:pointer;overflow:hidden;color:var(--ink)}
     .tid .slot:hover,.tid .slot:focus-within{border-color:var(--sky)}
     .tid .slot input{position:absolute;inset:0;opacity:0;cursor:pointer}
     .tid .slot img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
@@ -112,19 +112,19 @@ tailwind.config = {
         <span class="mono text-[11px] tracking-[0.14em] px-2 py-1" style="color:var(--gold);border:1px solid var(--gold)">TOOTH ID</span>
       </div>
       <h1 class="font-headline font-black tracking-tight leading-[1.02] text-[40px] md:text-[56px] mb-4">What did<br>you find?</h1>
-      <p class="text-[16px] leading-relaxed mb-3" style="color:var(--muted)">Send us two photos and a coin for scale. We look at every find ourselves and email you what it is, why, and how big it is.</p>
-      <p class="mono text-[12px] tracking-[0.12em] uppercase mb-8"><a href="finds.html" style="color:var(--gold)">See what others have found <p class="text-[16px] leading-relaxed mb-8" style="color:var(--muted)">Send us two photos and a coin for scale. We look at every find ourselves and email you what it is, why, and how big it is.</p>rarr;</a></p>
+      <p class="text-[16px] leading-relaxed mb-3" style="color:var(--muted)">Send us two photos with a coin for scale. We look at every find ourselves and email you our best guess at what it is, why, and how big the shark was.</p>
+      <p class="mono text-[12px] tracking-[0.12em] uppercase mb-8"><a href="finds.html" style="color:var(--gold)">See what others have found &rarr;</a></p>
 
       <form id="tid-form" novalidate>
         <div class="grid grid-cols-2 gap-3 mb-5">
           <label class="slot" for="tid-front">
-            <svg width="58" height="74" viewBox="0 0 58 74" aria-hidden="true"><path d="M29 3 L52 50 Q54 58 46 60 L40 61 Q36 70 29 71 Q22 70 18 61 L12 60 Q4 58 6 50 Z" fill="none" stroke="#7cc4f5" stroke-width="1.6"/><path d="M14 60 Q29 52 44 60" fill="none" stroke="#7cc4f5" stroke-width="1.2" stroke-dasharray="3 3"/></svg>
+            <svg width="64" height="74" viewBox="0 0 64 74" aria-hidden="true"><path d="M32 4 C33 18 41 36 52 49 L58 53 Q61 63 54 68 Q44 71 38 63 L32 57 L26 63 Q20 71 10 68 Q3 63 6 53 L12 49 C23 36 31 18 32 4 Z" fill="none" stroke="#7cc4f5" stroke-width="1.6" stroke-linejoin="round"/><path d="M11 51 Q32 43 53 51" fill="none" stroke="#7cc4f5" stroke-width="1.2" stroke-dasharray="3 3"/><path d="M32 12 C32.5 24 36 36 42 45" fill="none" stroke="#7cc4f5" stroke-width="0.9" stroke-opacity=".5"/></svg>
             <span class="font-extrabold text-[15px]">Front</span>
             <span class="mono text-[10px] tracking-[0.08em]" style="color:var(--faint)">TAP TO ADD &middot; REQUIRED</span>
             <input id="tid-front" type="file" accept="image/*" aria-label="Front photo of the tooth">
           </label>
           <label class="slot" for="tid-back">
-            <svg width="58" height="74" viewBox="0 0 58 74" aria-hidden="true"><path d="M29 3 L52 50 Q54 58 46 60 L40 61 Q36 70 29 71 Q22 70 18 61 L12 60 Q4 58 6 50 Z" fill="none" stroke="#7cc4f5" stroke-width="1.6" transform="translate(58 0) scale(-1 1)"/><circle cx="29" cy="40" r="4" fill="none" stroke="#7cc4f5" stroke-width="1.2"/></svg>
+            <svg width="64" height="74" viewBox="0 0 64 74" aria-hidden="true"><path d="M32 4 C33 18 41 36 52 49 L58 53 Q61 63 54 68 Q44 71 38 63 L32 57 L26 63 Q20 71 10 68 Q3 63 6 53 L12 49 C23 36 31 18 32 4 Z" fill="none" stroke="#7cc4f5" stroke-width="1.6" stroke-linejoin="round"/><path d="M32 47 L32 57" fill="none" stroke="#7cc4f5" stroke-width="1.6" stroke-linecap="round"/><path d="M26 50 Q32 47 38 50" fill="none" stroke="#7cc4f5" stroke-width="1" stroke-opacity=".6"/></svg>
             <span class="font-extrabold text-[15px]">Back</span>
             <span class="mono text-[10px] tracking-[0.08em]" style="color:var(--faint)">TAP TO ADD</span>
             <input id="tid-back" type="file" accept="image/*" aria-label="Back photo of the tooth">
@@ -144,7 +144,7 @@ tailwind.config = {
             <button type="button" class="chip" aria-pressed="false" data-spot="South beach">South beach</button>
             <button type="button" class="chip" aria-pressed="false" data-spot="East cove">East cove</button>
             <button type="button" class="chip" aria-pressed="false" data-spot="North shore">North shore</button>
-            <button type="button" class="chip" aria-pressed="false" data-spot="Not sure">Not sure</button>
+            <button type="button" class="chip" aria-pressed="false" data-spot="Not an island find">Not an island find</button>
           </div>
         </fieldset>
 
@@ -155,8 +155,9 @@ tailwind.config = {
         </div>
 
         <div class="mb-5">
-          <label for="tid-notes" class="eyebrow block mb-2" style="color:var(--faint)">Anything else? (optional)</label>
-          <textarea id="tid-notes" class="field" rows="3" maxlength="1000" placeholder="When you found it, how big it felt, anything odd about it."></textarea>
+          <label for="tid-notes" class="eyebrow block mb-2" style="color:var(--faint)">The story behind it (optional)</label>
+          <textarea id="tid-notes" class="field" rows="4" maxlength="1000" placeholder="If we featured your find, what story should we tell? Who spotted it, how long you'd been looking, what you yelled when you saw it."></textarea>
+          <p class="text-[13px] mt-2" style="color:var(--faint)">We&rsquo;ll always ask before we share it.</p>
         </div>
 
         <label class="flex gap-3 items-start mb-7 text-[15px] leading-snug cursor-pointer">
