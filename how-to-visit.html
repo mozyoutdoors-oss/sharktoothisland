@@ -152,6 +152,8 @@ tailwind.config = {
         <dd class="text-on-surface-variant">A small island in the Cape Fear River near Wilmington, NC, just upriver of Keg Island. <span class="whitespace-nowrap">34.1175&deg; N, 77.9306&deg; W.</span></dd>
         <dt class="font-label text-xs font-bold uppercase tracking-widest text-on-surface pt-1">Getting there</dt>
         <dd class="text-on-surface-variant">Boat, kayak or paddleboard (SUP) only. Most people launch at River Road Park (6500 River Rd, Wilmington) and paddle northwest across the river, under half a mile, to the island.</dd>
+        <dt class="font-label text-xs font-bold uppercase tracking-widest text-on-surface pt-1">Safety</dt>
+        <dd class="text-on-surface-variant">This is a working shipping channel with strong currents. Wear a PFD, go with a buddy, and leave a float plan. <a href="#before-you-go" class="text-primary hover:underline">Before you go</a></dd>
         <dt class="font-label text-xs font-bold uppercase tracking-widest text-on-surface pt-1">When to go</dt>
         <dd class="text-on-surface-variant">Arrive about 1 hour before low tide, when the shoreline and the fossil layer are exposed. The <a href="hunt-planner.html" class="text-primary hover:underline">Hunt Planner</a> shows this week&rsquo;s best windows.</dd>
         <dt class="font-label text-xs font-bold uppercase tracking-widest text-on-surface pt-1">Official record</dt>
@@ -178,21 +180,29 @@ tailwind.config = {
 
   <!-- BEFORE YOU GO -->
   <section id="before-you-go" class="max-w-7xl mx-auto px-6 md:px-8 pb-12 scroll-mt-20">
-    <div class="border-l-2 border-primary pl-6 md:pl-8 py-2">
-      <span class="font-label text-primary text-[11px] font-bold uppercase tracking-[0.3em] mb-3 block">Before You Go</span>
+    <div class="bg-[#0b2a42] text-white p-6 md:p-10 max-w-5xl">
+      <div class="flex items-center gap-3 mb-3">
+        <span class="material-symbols-outlined text-[#f2b84b] text-3xl" aria-hidden="true">warning</span>
+        <span class="font-label text-[#f2b84b] text-[11px] font-bold uppercase tracking-[0.3em]">Safety First &middot; Before You Go</span>
+      </div>
       <h2 class="font-headline text-2xl md:text-3xl font-extrabold tracking-tight mb-4">The river is working water, not a swim beach.</h2>
-      <p class="font-body text-base md:text-lg text-on-surface-variant leading-relaxed max-w-3xl mb-5">
+      <p class="font-body text-base md:text-lg text-white/80 leading-relaxed max-w-3xl mb-6">
         The lower Cape Fear is a federally-maintained shipping channel with strong tidal currents, commercial traffic, and turbid water you can't see through. It is not a place to swim, and it doesn't forgive a casual paddle. Plan the trip, not just the hunt.
       </p>
-      <ul class="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-2 max-w-3xl">
-        <li class="flex gap-3 text-sm text-on-surface-variant leading-relaxed"><span class="text-primary mt-0.5 flex-shrink-0">&bull;</span>Wear a PFD. NC law requires one per person; kids under 13 must wear one underway.</li>
-        <li class="flex gap-3 text-sm text-on-surface-variant leading-relaxed"><span class="text-primary mt-0.5 flex-shrink-0">&bull;</span>Don't swim the channel. Currents and boat traffic are unforgiving.</li>
-        <li class="flex gap-3 text-sm text-on-surface-variant leading-relaxed"><span class="text-primary mt-0.5 flex-shrink-0">&bull;</span>Watch for ship wake. Give the channel distance; brace when wakes hit.</li>
-        <li class="flex gap-3 text-sm text-on-surface-variant leading-relaxed"><span class="text-primary mt-0.5 flex-shrink-0">&bull;</span>Leave a float plan. Tell someone your launch, route, and ETA back.</li>
-        <li class="flex gap-3 text-sm text-on-surface-variant leading-relaxed"><span class="text-primary mt-0.5 flex-shrink-0">&bull;</span>Paddle with a buddy. Even with a float plan, go with someone. Weather turns fast here, and ships come up quicker than you'd think.</li>
-        <li class="flex gap-3 text-sm text-on-surface-variant leading-relaxed"><span class="text-primary mt-0.5 flex-shrink-0">&bull;</span>Cold-water months (Nov&ndash;Apr): dress for the water, not the air.</li>
-        <li class="flex gap-3 text-sm text-on-surface-variant leading-relaxed"><span class="text-primary mt-0.5 flex-shrink-0">&bull;</span>Emergency: <strong>911</strong> &middot; USCG Sector NC <a href="tel:9103433882" class="text-primary hover:underline">910-343-3882</a></li>
+      <ul class="grid grid-cols-1 md:grid-cols-2 gap-x-10 gap-y-4 max-w-4xl">
+        <li class="flex gap-3 text-sm md:text-base text-white/85 leading-relaxed"><span class="material-symbols-outlined text-[#f2b84b] text-xl flex-shrink-0" aria-hidden="true">check_circle</span><span><strong class="text-white">Wear a PFD.</strong> NC law requires one per person; kids under 13 must wear one underway.</span></li>
+        <li class="flex gap-3 text-sm md:text-base text-white/85 leading-relaxed"><span class="material-symbols-outlined text-[#f2b84b] text-xl flex-shrink-0" aria-hidden="true">check_circle</span><span><strong class="text-white">Paddle with a buddy.</strong> Even with a float plan, go with someone. Weather turns fast here, and ships come up quicker than you'd think.</span></li>
+        <li class="flex gap-3 text-sm md:text-base text-white/85 leading-relaxed"><span class="material-symbols-outlined text-[#f2b84b] text-xl flex-shrink-0" aria-hidden="true">check_circle</span><span><strong class="text-white">Leave a float plan.</strong> Tell someone your launch, route, and ETA back.</span></li>
+        <li class="flex gap-3 text-sm md:text-base text-white/85 leading-relaxed"><span class="material-symbols-outlined text-[#f2b84b] text-xl flex-shrink-0" aria-hidden="true">check_circle</span><span><strong class="text-white">Check tides and weather.</strong> Wind against the tide stacks up waves fast. If it looks rough from the ramp, it's worse in the channel.</span></li>
+        <li class="flex gap-3 text-sm md:text-base text-white/85 leading-relaxed"><span class="material-symbols-outlined text-[#f2b84b] text-xl flex-shrink-0" aria-hidden="true">check_circle</span><span><strong class="text-white">Watch for ship wake.</strong> Give the channel distance; brace when wakes hit.</span></li>
+        <li class="flex gap-3 text-sm md:text-base text-white/85 leading-relaxed"><span class="material-symbols-outlined text-[#f2b84b] text-xl flex-shrink-0" aria-hidden="true">check_circle</span><span><strong class="text-white">Don't swim the channel.</strong> Currents and boat traffic are unforgiving.</span></li>
+        <li class="flex gap-3 text-sm md:text-base text-white/85 leading-relaxed"><span class="material-symbols-outlined text-[#f2b84b] text-xl flex-shrink-0" aria-hidden="true">check_circle</span><span><strong class="text-white">Cold-water months (Nov&ndash;Apr):</strong> dress for the water, not the air.</span></li>
       </ul>
+      <div class="mt-8 pt-5 border-t border-white/20 flex flex-wrap items-center gap-x-6 gap-y-2 text-sm md:text-base">
+        <span class="font-label text-[11px] font-bold uppercase tracking-[0.25em] text-[#f2b84b]">Emergency</span>
+        <a href="tel:911" class="font-bold text-white hover:underline">911</a>
+        <span class="text-white/85">USCG Sector North Carolina <a href="tel:9103433882" class="font-bold text-white hover:underline">910-343-3882</a></span>
+      </div>
     </div>
   </section>
 
