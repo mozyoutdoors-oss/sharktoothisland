@@ -287,7 +287,7 @@ tailwind.config = {
 
     <!-- FOOTNOTE -->
     <div class="mt-12 pt-6 border-t border-outline-variant/40 font-label text-[10px] uppercase tracking-widest text-outline leading-loose text-center">
-      Tides: NOAA CO-OPS Station 8658501 · Orton Point · Cape Fear River, NC (~5 mi downstream of STI; the tide wave reaches Orton Point first and travels upstream, so add ~20&ndash;30 min to displayed times for local arrival at STI)<br>
+      Tides: NOAA CO-OPS Station 8658501 · Orton Point · Cape Fear River, NC (~4 mi downstream of STI; the tide wave reaches Orton Point first and travels upstream, so add ~20&ndash;30 min to displayed times for local arrival at STI)<br>
       Weather: Open-Meteo · Forecast updated every 3 hours · Queried at 34.1175°N, 77.9306°W<br>
       For educational and planning purposes · Always check conditions before launching
     </div>
@@ -342,7 +342,7 @@ tailwind.config = {
 
 <script>
 // ─── CONFIG ───────────────────────────────────────────────────
-const NOAA_STATION = '8658501'; // Orton Point, Cape Fear River (~5 mi downstream of STI; closest published station)
+const NOAA_STATION = '8658501'; // Orton Point, Cape Fear River (~4 mi downstream of STI; closest published station)
 const LAT = 34.1175;
 const LON = -77.93066;
 
@@ -689,7 +689,7 @@ async function loadDate(dateStr) {
       <div class="verdict-icon loading-pulse">\u25CC</div>
       <div>
         <div class="verdict-label">Fetching conditions...</div>
-        <div class="verdict-title loading-pulse">Pulling tides from NOAA \u00B7 Federal Point Station</div>
+        <div class="verdict-title loading-pulse">Pulling tides from NOAA \u00B7 Orton Point Station</div>
         <div class="verdict-summary">Contacting Open-Meteo for weather forecast...</div>
       </div>
     </div>`;

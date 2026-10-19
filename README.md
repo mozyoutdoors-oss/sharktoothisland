@@ -50,7 +50,7 @@ The main landing page. Species identification guide with 6 illustrated shark too
 Interactive tool: enter a tooth's slant height (25–175mm) and get estimated body length, mass, jaw width, and bite force. Uses the Pimiento & Clements 2014 field formula (`body_ft ≈ tooth_inches × 8.5`). Features animated SVG shark silhouette with comparative scale, 5-tier rarity classification, and science notes.
 
 ### `hunt-planner.html` — Hunt Planner
-Real-time conditions tool. Pulls NOAA tide predictions (Station 8658715, Federal Point) and Open-Meteo weather data (33.9465, -77.9421). Scores each day on a 100-point scale across tidal range, low tide timing, precipitation, and wind. Generates SVG tide curves and Go/Maybe/Pass verdicts with moon phase effects.
+Real-time conditions tool. Pulls NOAA tide predictions (Station 8658501, Orton Point) and Open-Meteo weather data (34.1175, -77.93066, the island). Scores each day on a 100-point scale across tidal range, low tide timing, precipitation, and wind. Generates SVG tide curves and Go/Maybe/Pass verdicts with moon phase effects.
 
 ### `depth-of-time.html` — Depth of Time (Coming Soon)
 Geological timeline placeholder showing stratigraphic column from Holocene through Eocene.
@@ -89,7 +89,7 @@ Minimal: `0.125rem` default, `0.75rem` max. The site is archival/editorial, not 
 
 | Constant | Value | Used In |
 |----------|-------|---------|
-| NOAA Station | `8658715` (Federal Point, Cape Fear River) | hunt-planner.html |
+| NOAA Station | `8658501` (Orton Point, Cape Fear River, ~4 mi downstream) | hunt-planner.html, island-hero.html |
 | Latitude | `33.9465` | hunt-planner.html (Open-Meteo) |
 | Longitude | `-77.9421` | hunt-planner.html (Open-Meteo) |
 | Display Coords | `34.1175° N · 77.9306° W` | All footers |
@@ -204,4 +204,4 @@ Active page gets `text-blue-700 border-b-2 border-blue-700 font-medium pb-1`.
 - **No Shopify.** This is NOT part of the Mozy Outdoors Shopify theme. Completely separate project.
 - **Field station tone.** The site reads like a research station, not a startup. Educational, archival, data-driven.
 - **PRPA compliance.** The Field Guide includes a legal callout about fossil collecting regulations with links to NPS, NC Coastal Management, and USACE Wilmington District.
-- **Two coordinate sets.** NOAA API uses 33.9465/-77.9421 (Federal Point station). Footer branding and weather use 34.1175/-77.93066, the island itself. Verified Oct 13, 2026 against New Hanover County parcel R07800-001-001-000, legal description "SHARK TOOTH ISLAND CAPE FEAR RIVER", owner State of NC, 7.88 ac, parcel point 34.11757/-77.93050. Not the same as "WRC North Pelican Island #1 & 2 (39-29 & 39-30)", OSM way 38583327, county parcel R07500-002-001-000, which is a separate state island about 1 km north. Coordinates were briefly moved there by mistake on Oct 12 and reverted.
+- **Two coordinate sets.** Tides come from NOAA 8658501 Orton Point (34.0567/-77.9400, a subordinate station of Wilmington 8658120), the closest published station. Footer branding and weather use 34.1175/-77.93066, the island itself. Verified Oct 13, 2026 against New Hanover County parcel R07800-001-001-000, legal description "SHARK TOOTH ISLAND CAPE FEAR RIVER", owner State of NC, 7.88 ac, parcel point 34.11757/-77.93050. Not the same as "WRC North Pelican Island #1 & 2 (39-29 & 39-30)", OSM way 38583327, county parcel R07500-002-001-000, which is a separate state island about 1 km north. Coordinates were briefly moved there by mistake on Oct 12 and reverted.

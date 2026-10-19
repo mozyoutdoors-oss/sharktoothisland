@@ -186,7 +186,7 @@ input[type=range]#tide-slider::-webkit-slider-thumb {
   <div class="station-id">
     <div class="station-label">Field Station · <span id="station-status">Connecting</span></div>
     <div class="station-name">Shark Tooth Island</div>
-    <div class="station-sub">Cape Fear River · 34.0°N 77.9°W</div>
+    <div class="station-sub">Cape Fear River · 34.1°N 77.9°W</div>
   </div>
 
   <div class="data-overlay">
@@ -564,8 +564,8 @@ function updateFossilLayer(n, pulse, waterY){
 
 // ── LIVE DATA INTEGRATION ──────────────────────────────────
 const TMIN=-0.35, TMAX=0.58;
-const TIDE_MIN_FT=-1.0, TIDE_MAX_FT=5.5; // expected range for station 8658715
-const NOAA_STATION='8658715';
+const TIDE_MIN_FT=-1.0, TIDE_MAX_FT=5.5; // expected range for station 8658501 (ft MLLW)
+const NOAA_STATION='8658501'; // Orton Point, about 4 mi downstream; same station as the Hunt Planner
 const ISLAND_LAT=34.1175, ISLAND_LON=-77.93066;
 
 let liveTideFt=null;    // current interpolated tide in feet
