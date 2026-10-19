@@ -272,6 +272,7 @@ tailwind.config = {
           <p class="text-white/60 leading-relaxed max-w-md">Occasional updates from the station: tidal windows, new finds, and the latest entries. No spam, no filler.</p>
         </div>
         <form class="md:col-span-5" id="signup-form" onsubmit="return submitEmail(event)">
+<input type="text" name="website" tabindex="-1" autocomplete="off" aria-hidden="true" style="position:absolute;left:-9999px;width:1px;height:1px;opacity:0">
           <div class="flex flex-col sm:flex-row gap-2">
             <input type="email" id="email-input" required autocomplete="email" placeholder="your@email.com" class="flex-1 bg-white/10 border border-white/15 text-white placeholder:text-white/40 px-5 py-3.5 font-label text-sm focus:ring-1 focus:ring-field-accent/50 focus:border-field-accent rounded">
             <button type="submit" id="signup-btn" class="bg-field-accent text-white px-6 py-3.5 font-label text-[11px] font-bold uppercase tracking-widest hover:bg-field-accent-light transition-all whitespace-nowrap rounded">Subscribe</button>
@@ -337,12 +338,13 @@ async function submitEmail(e) {
   const status = document.getElementById('signup-status');
   const email = input.value.trim();
   if (!email) return false;
+  if (e.target.website && e.target.website.value) return false;   // hidden field filled in: a bot
   btn.disabled = true;
   const originalText = btn.textContent;
   btn.textContent = 'Sending...';
   status.textContent = '';
   try {
-    // MailerLite form "SharkToothIsland.org signup" → Shark Tooth Island group (double opt-in)
+    // MailerLite form "SharkToothIsland.org signup" → Shark Tooth Island group (single opt-in; the welcome email arrives right away)
     const fd = new FormData();
     fd.append('fields[email]', email);
     fd.append('fields[signup_source]', 'sharktoothisland.org/field-notes');

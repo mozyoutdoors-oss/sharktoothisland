@@ -116,6 +116,7 @@ tailwind.config = {
       <p class="mono text-[12px] tracking-[0.12em] uppercase mb-8"><a href="finds.html" style="color:var(--gold)">See what others have found &rarr;</a></p>
 
       <form id="tid-form" novalidate>
+<input type="text" name="website" tabindex="-1" autocomplete="off" aria-hidden="true" style="position:absolute;left:-9999px;width:1px;height:1px;opacity:0">
         <div class="grid grid-cols-2 gap-3 mb-5">
           <label class="slot" for="tid-front">
             <svg width="64" height="74" viewBox="0 0 64 74" aria-hidden="true"><path d="M32 4 C33 18 41 36 52 49 L58 53 Q61 63 54 68 Q44 71 38 63 L32 57 L26 63 Q20 71 10 68 Q3 63 6 53 L12 49 C23 36 31 18 32 4 Z" fill="none" stroke="#7cc4f5" stroke-width="1.6" stroke-linejoin="round"/><path d="M11 51 Q32 43 53 51" fill="none" stroke="#7cc4f5" stroke-width="1.2" stroke-dasharray="3 3"/><path d="M32 12 C32.5 24 36 36 42 45" fill="none" stroke="#7cc4f5" stroke-width="0.9" stroke-opacity=".5"/></svg>
@@ -256,6 +257,7 @@ tailwind.config = {
 
     $('tid-form').addEventListener('submit', function (e) {
       e.preventDefault();
+      if (this.website && this.website.value) return;   // hidden field filled in: a bot
       $('tid-error').classList.add('hidden');
       var email = $('tid-email').value.trim();
       if (!photos.front) return showError('Add a front photo of the tooth.');
