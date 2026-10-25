@@ -97,7 +97,7 @@ Minimal: `0.125rem` default, `0.75rem` max. The site is archival/editorial, not 
 | Body Length Formula | `tooth_inches × 8.5` | megalodon-calculator-v5.html |
 | Tooth Range | 25–175 mm | megalodon-calculator-v5.html |
 | Moon Cycle | 29.53059 days (ref: 2000-01-06) | hunt-planner.html |
-| Contact | Station@sharktoothisland.org | All footers |
+| Contact | guide@sharktoothisland.org (station@ is the old Porkbun webmail box) | All footers |
 
 ---
 

@@ -262,7 +262,7 @@ tailwind.config = {
       var email = $('tid-email').value.trim();
       if (!photos.front) return showError('Add a front photo of the tooth.');
       if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) return showError('Enter an email so we can send you the answer.');
-      if (!ENDPOINT) return showError('Tooth ID isn’t open yet. Check back soon, or email station@sharktoothisland.org.');
+      if (!ENDPOINT) return showError('Tooth ID isn’t open yet. Check back soon, or email guide@sharktoothisland.org.');
 
       var btn = $('tid-submit'); btn.disabled = true; $('tid-submit-label').textContent = 'Sending…';
       var payload = {
@@ -289,7 +289,7 @@ tailwind.config = {
         })
         .catch(function () {
           btn.disabled = false; $('tid-submit-label').textContent = 'Send my find';
-          showError('Something went wrong sending your find. Try again, or email the photos to station@sharktoothisland.org.');
+          showError('Something went wrong sending your find. Try again, or email the photos to guide@sharktoothisland.org.');
         });
     });
   })();
@@ -327,7 +327,7 @@ tailwind.config = {
     <div>
       <h5 class="font-label text-xs uppercase tracking-widest text-blue-900 font-bold mb-6">Contact</h5>
       <ul class="space-y-3">
-        <li><a href="mailto:Station@sharktoothisland.org" class="text-slate-500 font-body text-sm hover:text-blue-800 transition-colors">Station@sharktoothisland.org</a></li>
+        <li><a href="mailto:guide@sharktoothisland.org" class="text-slate-500 font-body text-sm hover:text-blue-800 transition-colors">guide@sharktoothisland.org</a></li>
       </ul>
     </div>
   </div>
