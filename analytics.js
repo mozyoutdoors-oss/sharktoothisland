@@ -10,12 +10,17 @@
   };
 
   if (LIVE_HOSTS.indexOf(location.hostname) === -1) return;
-  var s = document.createElement('script');
-  s.async = true;
-  s.src = 'https://www.googletagmanager.com/gtag/js?id=' + GA4_ID;
-  document.head.appendChild(s);
   window.dataLayer = window.dataLayer || [];
   window.gtag = function () { window.dataLayer.push(arguments); };
   window.gtag('js', new Date());
   window.gtag('config', GA4_ID);
+  // Fetch the tag after the page has loaded, so it never competes with the first paint. Events queue until then.
+  function load() {
+    var s = document.createElement('script');
+    s.async = true;
+    s.src = 'https://www.googletagmanager.com/gtag/js?id=' + GA4_ID;
+    document.head.appendChild(s);
+  }
+  function idle() { if ('requestIdleCallback' in window) requestIdleCallback(load, { timeout: 4000 }); else setTimeout(load, 2000); }
+  if (document.readyState === 'complete') idle(); else window.addEventListener('load', idle, { once: true });
 })();

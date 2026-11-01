@@ -2,6 +2,7 @@
 <html class="light" lang="en">
 <head>
 <meta charset="utf-8">
+<link rel="icon" href="data:,">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Field Notes | SharkToothIsland.org</title>
 <link rel="canonical" href="https://sharktoothisland.org/field-notes/">
@@ -12,32 +13,8 @@
 <meta property="og:type" content="website">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Public+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400&family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet">
-<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
-<script>
-tailwind.config = {
-  theme: {
-    extend: {
-      colors: {
-        "field-dark":    "#0f2e3d",
-        "field-teal":    "#1a4f5e",
-        "field-mid":     "#2a6b7a",
-        "field-accent":  "#d97b2b",
-        "field-accent-light": "#f0a050",
-        "field-cream":   "#f5f0e8",
-        "field-paper":   "#ede7db",
-        "field-ink":     "#1c1a17",
-        "field-ink-mid": "#4a4640",
-        "field-ink-light":"#7a756d",
-        "field-rule":    "#d5cfc5"
-      },
-      borderRadius: { DEFAULT: "0.125rem", lg: "0.25rem", xl: "0.5rem", full: "0.75rem" },
-      fontFamily: { headline: ["Public Sans"], body: ["Public Sans"], label: ["Space Grotesk"] }
-    }
-  }
-}
-</script>
+<link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Public+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400&family=Space+Grotesk:wght@300;400;500;600;700&display=swap" onload="this.onload=null;this.rel='stylesheet'"><noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Public+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400&family=Space+Grotesk:wght@300;400;500;600;700&display=swap"></noscript>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&icon_names=arrow_back,arrow_forward,article,auto_stories,backpack,badge,block,calendar_month,check,check_circle,class,close,collections_bookmark,compare,construction,dentistry,description,download,eco,email,emergency,event,expand_more,eyebrow,falling,function,gavel,help,hide,history_edu,home,iframe,image,info,input,kayaking,landscape,light,location_on,map,menu,menu_book,opacity,photo_camera,photo_library,resize,sailing,script,search,straighten,warning,waves,weight,width&display=swap" rel="stylesheet">
 <style>
   .material-symbols-outlined { font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24; vertical-align: middle; }
 
@@ -76,6 +53,7 @@ tailwind.config = {
   html { scroll-behavior: smooth; }
 </style>
 <script src="/analytics.js" defer></script>
+<link rel="stylesheet" href="/css/tw/field-notes--index.css?v=20261101">
 </head>
 <body class="bg-field-cream text-field-ink font-body selection:bg-field-accent/20 selection:text-field-ink">
 
@@ -160,7 +138,7 @@ tailwind.config = {
         <a href="welcome-to-field-notes.html" class="note-card group block bg-white border border-field-rule overflow-hidden md:col-span-2">
           <div class="grid grid-cols-1 md:grid-cols-12">
             <div class="md:col-span-5 aspect-[16/10] md:aspect-auto overflow-hidden bg-field-dark relative">
-              <img src="../images/hero-island.jpg" alt="Aerial view of Shark Tooth Island in the Cape Fear River" class="w-full h-full object-cover object-[center_60%] opacity-90 group-hover:scale-105 group-hover:opacity-100 transition-all duration-700">
+              <img src="../images/hero-island.jpg" srcset="../images/hero-island-800.webp 800w, ../images/hero-island-1280.webp 1280w, ../images/hero-island.jpg 1920w" sizes="100vw" alt="Aerial view of Shark Tooth Island in the Cape Fear River" class="w-full h-full object-cover object-[center_60%] opacity-90 group-hover:scale-105 group-hover:opacity-100 transition-all duration-700">
               <div class="absolute inset-0 bg-gradient-to-br from-field-dark/30 to-transparent"></div>
               <div class="absolute top-4 left-4">
                 <span class="font-label text-[10px] uppercase tracking-[0.25em] text-field-cream bg-field-accent px-2.5 py-1 font-bold">Featured</span>
@@ -183,7 +161,7 @@ tailwind.config = {
         <!-- Summer on the Cape Fear -->
         <a href="summer-on-the-cape-fear.html" class="note-card group block bg-white border border-field-rule overflow-hidden">
           <div class="aspect-[16/10] overflow-hidden">
-            <img src="../images/hero-island.jpg" alt="Aerial view of Shark Tooth Island in summer" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700">
+            <img src="../images/hero-island.jpg" srcset="../images/hero-island-800.webp 800w, ../images/hero-island-1280.webp 1280w, ../images/hero-island.jpg 1920w" sizes="100vw" alt="Aerial view of Shark Tooth Island in summer" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700">
           </div>
           <div class="p-6 md:p-8">
             <div class="flex items-center gap-3 mb-4">
@@ -201,7 +179,7 @@ tailwind.config = {
         <!-- Spring on the Cape Fear -->
         <a href="spring-on-the-cape-fear.html" class="note-card group block bg-white border border-field-rule overflow-hidden">
           <div class="aspect-[16/10] overflow-hidden">
-            <img src="../images/break-approach.webp" alt="Kayaker paddling toward Shark Tooth Island" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700">
+            <img src="../images/break-approach.webp" srcset="../images/break-approach-800.webp 800w, ../images/break-approach-1280.webp 1280w, ../images/break-approach.webp 1920w" sizes="100vw" alt="Kayaker paddling toward Shark Tooth Island" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700">
           </div>
           <div class="p-6 md:p-8">
             <div class="flex items-center gap-3 mb-4">
@@ -219,7 +197,7 @@ tailwind.config = {
         <!-- Working a Two-Meter Patch -->
         <a href="working-a-two-meter-patch.html" class="note-card group block bg-white border border-field-rule overflow-hidden">
           <div class="aspect-[16/10] overflow-hidden">
-            <img src="../images/break-hunting.webp" alt="Fossil hunting on the exposed shoreline at low tide" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700">
+            <img src="../images/break-hunting.webp" srcset="../images/break-hunting-800.webp 800w, ../images/break-hunting-1280.webp 1280w, ../images/break-hunting.webp 1920w" sizes="100vw" alt="Fossil hunting on the exposed shoreline at low tide" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700">
           </div>
           <div class="p-6 md:p-8">
             <div class="flex items-center gap-3 mb-4">
