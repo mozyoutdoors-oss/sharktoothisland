@@ -2,6 +2,7 @@
 <html class="light" lang="en">
 <head>
 <meta charset="utf-8">
+<link rel="icon" href="data:,">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Shark Tooth Island, NC | Field Guide to the Cape Fear Fossil Island</title>
 <link rel="canonical" href="https://sharktoothisland.org/">
@@ -50,47 +51,8 @@
 <meta property="og:image" content="https://sharktoothisland.org/images/hero-island.jpg">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Public+Sans:ital,wght@0,300;0,400;0,600;0,700;0,800;1,400&family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet">
-<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
-<script>
-tailwind.config = {
-  theme: {
-    extend: {
-      colors: {
-        "surface": "#f9f9f9",
-        "surface-bright": "#f9f9f9",
-        "surface-container-lowest": "#ffffff",
-        "surface-container-low": "#f3f3f3",
-        "surface-container": "#eeeeee",
-        "surface-container-high": "#e8e8e8",
-        "surface-container-highest": "#e2e2e2",
-        "on-surface": "#1a1c1c",
-        "on-surface-variant": "#414750",
-        "outline": "#717781",
-        "outline-variant": "#c1c7d2",
-        "primary": "#085f9e",
-        "primary-container": "#3478b8",
-        "primary-fixed": "#d1e4ff",
-        "primary-fixed-dim": "#9ecaff",
-        "on-primary": "#ffffff",
-        "on-primary-fixed": "#001d36",
-        "secondary": "#5e5e5e",
-        "secondary-fixed": "#e4e2e2",
-        "secondary-fixed-dim": "#c7c6c6",
-        "on-secondary-fixed": "#1b1c1c",
-        "tertiary": "#435c86",
-        "tertiary-fixed": "#d6e3ff",
-        "on-tertiary-fixed": "#001b3d",
-        "error-container": "#ffdad6",
-        "on-error-container": "#93000a"
-      },
-      borderRadius: { DEFAULT: "0.125rem", lg: "0.25rem", xl: "0.5rem", full: "0.75rem" },
-      fontFamily: { headline: ["Public Sans"], body: ["Public Sans"], label: ["Space Grotesk"] }
-    }
-  }
-}
-</script>
+<link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Public+Sans:ital,wght@0,300;0,400;0,600;0,700;0,800;1,400&family=Space+Grotesk:wght@300;400;500;600;700&display=swap" onload="this.onload=null;this.rel='stylesheet'"><noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Public+Sans:ital,wght@0,300;0,400;0,600;0,700;0,800;1,400&family=Space+Grotesk:wght@300;400;500;600;700&display=swap"></noscript>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&icon_names=arrow_back,arrow_forward,article,auto_stories,backpack,badge,block,calendar_month,check,check_circle,class,close,collections_bookmark,compare,construction,dentistry,description,download,eco,email,emergency,event,expand_more,eyebrow,falling,function,gavel,help,hide,history_edu,home,iframe,image,info,input,kayaking,landscape,light,location_on,map,menu,menu_book,opacity,photo_camera,photo_library,resize,sailing,script,search,straighten,warning,waves,weight,width&display=swap" rel="stylesheet">
 <style>
   .material-symbols-outlined { font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24; vertical-align: middle; }
   .archival-grain {
@@ -99,6 +61,7 @@ tailwind.config = {
   }
 </style>
 <script src="/analytics.js" defer></script>
+<link rel="stylesheet" href="/css/tw/index.css?v=20261101">
 </head>
 <body class="bg-surface text-on-surface font-body selection:bg-primary-fixed selection:text-on-primary-fixed">
 
@@ -168,7 +131,7 @@ tailwind.config = {
     <a href="how-shark-tooth-island-was-made.html" class="group block bg-surface-container-lowest border border-outline-variant/20 overflow-hidden hover:shadow-lg transition-shadow duration-500">
       <div class="grid grid-cols-1 md:grid-cols-12">
         <div class="md:col-span-5 relative overflow-hidden">
-          <img src="images/hero-island.jpg"
+          <img src="images/hero-island.jpg" srcset="images/hero-island-800.webp 800w, images/hero-island-1280.webp 1280w, images/hero-island.jpg 1920w" sizes="100vw"
             alt="Aerial view of Shark Tooth Island, a dredge spoil island in the Cape Fear River"
             class="w-full h-56 md:h-full object-cover object-[center_60%] group-hover:scale-105 transition-transform duration-700">
           <div class="absolute inset-0 bg-gradient-to-r from-transparent to-black/5 hidden md:block"></div>
@@ -243,7 +206,7 @@ tailwind.config = {
 
   <!-- BREAK: Kayaker -->
   <div class="my-8 md:my-16">
-    <img src="images/break-approach.webp" alt="Kayaker paddling toward Shark Tooth Island on the Cape Fear River" class="w-full object-cover h-[240px] md:h-[52vh]" loading="lazy">
+    <img src="images/break-approach.webp" srcset="images/break-approach-800.webp 800w, images/break-approach-1280.webp 1280w, images/break-approach.webp 1920w" sizes="100vw" alt="Kayaker paddling toward Shark Tooth Island on the Cape Fear River" class="w-full object-cover h-[240px] md:h-[52vh]" loading="lazy">
   </div>
 
   <!-- COMPACT CATALOG PREVIEW: 6-up -->
