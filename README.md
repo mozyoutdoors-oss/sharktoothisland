@@ -32,9 +32,9 @@ git push origin main
 |-------|-----------|
 | Hosting | GitHub Pages (static, auto-deploy from `main`) |
 | Domain | sharktoothisland.org via Porkbun (ALIAS + CNAME → mozyoutdoors-oss.github.io) |
-| CSS | Tailwind CSS 3 via CDN (`forms` + `container-queries` plugins) |
+| CSS | Tailwind CSS 3.4.17, prebuilt per page into `css/tw/` (`forms` + `container-queries` plugins). See CLAUDE.md before changing classes |
 | Fonts | Public Sans (headline/body), Space Grotesk (labels), Material Symbols Outlined |
-| JavaScript | Vanilla JS — no frameworks, no build step |
+| JavaScript | Vanilla JS, no frameworks. Only build step: the per-page Tailwind CSS (CLAUDE.md) |
 | APIs | NOAA CO-OPS Tides, Open-Meteo Weather |
 | Email Capture | Web3Forms |
 | HTTPS | GitHub Pages auto-cert, enforced |
@@ -62,7 +62,7 @@ Dark-themed 3D tidal visualization. Embedded via iframe in the Field Guide. Inte
 
 ## Design System (Stitch)
 
-All pages share the same Tailwind config with Material Design 3-inspired tokens.
+Pages use Material Design 3-inspired tokens. Each page's Tailwind config now lives in `tools/speed/cfg/` (see CLAUDE.md).
 
 ### Colors
 ```
