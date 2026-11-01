@@ -11,7 +11,7 @@ const c = {
         "surface-container-highest": "#e2e2e2",
         "on-surface": "#1a1c1c",
         "on-surface-variant": "#414750",
-        "outline": "#717781",
+        "outline": "#62686f",
         "outline-variant": "#c1c7d2",
         "primary": "#085f9e",
         "primary-container": "#3478b8",
