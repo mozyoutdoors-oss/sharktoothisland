@@ -11,4 +11,4 @@ const c = {
     }
   }
 };
-module.exports = Object.assign(c, { content: ["field-notes\\summer-on-the-cape-fear.html"], plugins: [require("@tailwindcss/forms"), require("@tailwindcss/container-queries")] });
+module.exports = Object.assign(c, { content: ["field-notes/summer-on-the-cape-fear.html"], plugins: [require("@tailwindcss/forms"), require("@tailwindcss/container-queries")] });

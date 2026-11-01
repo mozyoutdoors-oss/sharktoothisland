@@ -19,4 +19,4 @@ const c = {
     }
   }
 };
-module.exports = Object.assign(c, { content: ["field-notes\\index.html"], plugins: [require("@tailwindcss/forms"), require("@tailwindcss/container-queries")] });
+module.exports = Object.assign(c, { content: ["field-notes/index.html"], plugins: [require("@tailwindcss/forms"), require("@tailwindcss/container-queries")] });
