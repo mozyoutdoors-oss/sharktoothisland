@@ -27,7 +27,7 @@ Big photos have smaller WebP versions (`-800`, `-1280`, `-600`) and a `srcset`. 
 `analytics.js` loads Google Analytics after the page has loaded. Visits that leave within a second or two may not be counted. `stiTrack()` events queue until the tag loads.
 
 ## Accessibility (Nov 1, 2026 pass on branch a11y)
-23 of 25 pages score 100. Text colors darkened (field-ink-light #6a655e, outline #62686f, new field-accent-ink #a15516 for orange text on light backgrounds; dark footers use field-accent-light), footer column titles are `<p>` not `<h5>`, inline links underlined, sliders labeled. Still open: one item each on depth-of-time and field-notes/index. Scripts: tools/speed/a11y.js, a11y2.js.
+All 25 pages score 100. Text colors darkened (field-ink-light #6a655e, outline #62686f, new field-accent-ink #a15516 for orange text on light backgrounds; dark footers use field-accent-light), footer column titles are `<p>` not `<h5>`, inline links underlined, sliders labeled. Scripts: tools/speed/a11y.js, a11y2.js.
 
 ## Speed record
 Lighthouse mobile performance, before -> after (Nov 1, 2026): Home 56 -> 89, How to visit 57 -> 85, Hunt Planner 57 -> 86, Field Guide 56 -> 74, How to find 56 -> 90, Finds 57 -> 99.
