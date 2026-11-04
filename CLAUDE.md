@@ -1,6 +1,14 @@
 # SharkToothIsland.org: notes for Claude Code
 
-Claude Code edits this site (not Codex). Rob approves anything that goes live: a push to `main` publishes on GitHub Pages in about a minute, and there is no preview host, so work on a branch and preview locally (the `sti-speed-preview` / `sti-main-preview` configs in `Sites\.claude\launch.json`).
+Read this first. Last updated Nov 4, 2026. Claude Code edits this site (not Codex). Rob approves anything that goes live: a push to `main` publishes on GitHub Pages in about a minute, and there is no preview host, so work on a branch and preview locally (`.claude/launch.json`). This repo is public, so keep private details out of this file. `_config.yml` keeps it and `tools/` off the live site.
+
+## Identity and copy rules (Rob)
+- "The independent guide to the little fossil island." Never "field station" on the site. Email sign-off "The station" is fine.
+- Mozy Outdoors appears only as the footer credit. Island content never plugs Mozy. No About page goes public until Rob says so.
+- Short, plain, sourced. No hype, no em dashes. Real photos only.
+- Contact: guide@sharktoothisland.org.
+- Island location: 34.1175 N, 77.93066 W. Tide station: NOAA 8658501 (Orton Point). When you write about tides, check the dates and days of the week against NOAA; a monthly email draft had them wrong.
+- Signups: MailerLite form "SharkToothIsland.org signup", called from page scripts. Full map: `Sites\email-lists\MAILERLITE-SETUP.md` (local, not in this repo). Tooth ID posts to an Apps Script.
 
 ## Styles are prebuilt (since Nov 1, 2026)
 Pages do **not** load the Tailwind Play CDN any more. Each page links its own stylesheet, `/css/tw/<page>.css` (field notes: `/css/tw/field-notes--<page>.css`), built from that page's Tailwind config.
@@ -26,8 +34,8 @@ Big photos have smaller WebP versions (`-800`, `-1280`, `-600`) and a `srcset`. 
 ## Analytics
 `analytics.js` loads Google Analytics after the page has loaded. Visits that leave within a second or two may not be counted. `stiTrack()` events queue until the tag loads.
 
-## Accessibility (Nov 1, 2026 pass on branch a11y)
-All 25 pages score 100. Text colors darkened (field-ink-light #6a655e, outline #62686f, new field-accent-ink #a15516 for orange text on light backgrounds; dark footers use field-accent-light), footer column titles are `<p>` not `<h5>`, inline links underlined, sliders labeled. Scripts: tools/speed/a11y.js, a11y2.js.
+## Accessibility (live since Nov 2, 2026)
+All 25 pages score 100. Text colors darkened (field-ink-light #6a655e, outline #62686f, new field-accent-ink #a15516 for orange text on light backgrounds; dark footers use field-accent-light), footer column titles are `<p>` not `<h5>`, inline links underlined, sliders labeled. Scripts: tools/speed/a11y.js, a11y2.js. Keep it at 100: orange text on a light background is `text-field-accent-ink`, on navy it's `text-field-accent-light`; plain `field-accent` is for bars and borders.
 
 ## Speed record
 Lighthouse mobile performance, before -> after (Nov 1, 2026): Home 56 -> 89, How to visit 57 -> 85, Hunt Planner 57 -> 86, Field Guide 56 -> 74, How to find 56 -> 90, Finds 57 -> 99.
