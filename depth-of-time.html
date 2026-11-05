@@ -6,9 +6,9 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Depth of Time | SharkToothIsland.org</title>
 <link rel="canonical" href="https://sharktoothisland.org/depth-of-time.html">
-<meta name="description" content="Scroll from the Cape Fear River today back through 45 million years, to scale. See how dredging mixed the ages together, and find where your shark tooth belongs.">
+<meta name="description" content="Scroll from the Cape Fear River today back through 45 million years. See how dredging mixed the ages together, and find where your shark tooth belongs.">
 <meta property="og:title" content="Depth of Time | SharkToothIsland.org">
-<meta property="og:description" content="Scroll through 45 million years, to scale, and find where your shark tooth belongs.">
+<meta property="og:description" content="Scroll through 45 million years and find where your shark tooth belongs.">
 <meta property="og:image" content="https://sharktoothisland.org/images/hero-island.jpg">
 <meta property="og:type" content="website">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -22,7 +22,7 @@
   #tooth-result { scroll-margin-bottom: 1rem; }
   #dredge-svg image { clip-path: circle(36% at 50% 37%); }
 
-  /* The layers: 100px per million years, so one pixel is 10,000 years. */
+  /* The layers: 100px per million years, so one pixel is 10,000 years, apart from the .gap breaks. */
   #stack { --rail: 3.5rem; position: relative; }
   @media (min-width: 768px) { #stack { --rail: 6rem; } }
   #rail { position: absolute; top: 0; bottom: 0; left: 0; width: var(--rail); background: #0f2e3d; z-index: 2; }
@@ -43,6 +43,18 @@
   .l-oli  { --c: #a8875a; background-image: radial-gradient(rgba(40,25,10,.28) 2px, transparent 2.5px), radial-gradient(rgba(255,255,255,.16) 3px, transparent 3.5px); background-size: 37px 33px, 59px 53px; }
   .l-eo   { --c: #7a5d3a; background-image: radial-gradient(rgba(20,10,0,.3) 3px, transparent 3.5px), radial-gradient(rgba(255,255,255,.12) 5px, transparent 5.5px); background-size: 47px 43px, 83px 71px; }
 
+  .gap { display: flex; align-items: center; gap: .875rem; padding: 1rem 1rem 1rem calc(var(--rail) + 1rem); background: #0f2e3d; }
+  @media (min-width: 768px) { .gap { padding: 1rem 2.5rem 1rem calc(var(--rail) + 2.5rem); gap: 1.25rem; } }
+  .gap::before, .gap::after { content: ''; position: absolute; left: 0; right: 0; height: 10px; background-size: 20px 20px; background-repeat: repeat-x; }
+  .gap::before { top: 0; background-image: linear-gradient(135deg, var(--above) 25%, transparent 25%), linear-gradient(225deg, var(--above) 25%, transparent 25%); }
+  .gap::after { bottom: 0; background-position: 0 100%; background-image: linear-gradient(45deg, var(--below) 25%, transparent 25%), linear-gradient(315deg, var(--below) 25%, transparent 25%); }
+  .gap-teeth { display: flex; flex-shrink: 0; }
+  .gap-teeth img { width: 3rem; height: 3rem; object-fit: contain; background: #f5f0e8; border-radius: 50%; padding: 3px; border: 2px solid #f0a050; transform: rotate(-12deg); }
+  .gap-teeth img + img { margin-left: -.75rem; transform: rotate(10deg); }
+  .gap-teeth img + img + img { transform: rotate(-4deg); }
+  .gap-title { font: 700 13px/1.25 "Space Grotesk", sans-serif; color: #f0a050; }
+  .gap-sub { font-size: 12px; line-height: 1.4; color: rgba(255,255,255,.85); margin-top: .125rem; }
+  .rail-gap { position: absolute; left: 0; right: 0; z-index: 2; background: #0f2e3d; display: flex; align-items: center; justify-content: center; font: 700 16px/1 "Space Grotesk", sans-serif; color: #f0a050; }
   .card { position: relative; background: #fff; border: 1px solid #d5cfc5; padding: 1.25rem; max-width: 36rem; }
   @media (min-width: 768px) { .card { padding: 1.75rem; } }
   .ev { position: absolute; left: calc(var(--rail) + 1rem); right: 1rem; max-width: 24rem; transform: translateY(-50%); background: #fff; border: 1px solid #d5cfc5; border-left: 3px solid #d97b2b; padding: .75rem 1rem; }
@@ -134,7 +146,7 @@
     <span class="font-label text-field-accent-ink text-[11px] font-bold uppercase tracking-[0.3em] mb-4 block">Cape Fear Region &middot; 45 Million Years</span>
     <h1 class="font-headline text-5xl md:text-7xl font-extrabold tracking-tight text-field-dark leading-[0.95] mb-6">Depth of Time.</h1>
     <p class="text-lg md:text-xl text-field-ink-mid leading-relaxed font-light mb-5">
-      Scroll from today's river back through 45 million years. Time is to scale: one pixel is 10,000 years. At the bottom, see how all of it ended up on one shoreline.
+      Scroll from today's river back through 45 million years. Time is to scale, one pixel for every 10,000 years, except at three marked breaks that skip stretches with no events listed. At the bottom, see how all of it ended up on one shoreline.
     </p>
     <p class="text-sm text-field-ink-mid leading-relaxed mb-8">
       This is a timeline, not a drill core. It measures time, not feet. The real beds here are thin or missing in places.
@@ -206,7 +218,7 @@
         </div>
       </section>
 
-      <section id="miocene" class="layer l-mio" data-from="5.33" data-to="23.04" data-name="Miocene" style="min-height:1771px">
+      <section id="miocene" class="layer l-mio" data-from="5.33" data-to="16" data-name="Miocene" style="min-height:1067px">
         <div class="card">
           <p class="font-label text-[10px] uppercase tracking-[0.2em] text-field-accent-ink font-bold mb-1">23 to 5.33 million years ago</p>
           <h2 class="font-headline text-2xl font-extrabold text-field-dark mb-2">Miocene</h2>
@@ -221,28 +233,52 @@
         </div>
         <div class="ev" style="top:627px"><p class="font-label text-[10px] uppercase tracking-[0.15em] text-field-accent-ink font-bold">About 11.6 million years ago</p><p class="text-xs text-field-ink-mid leading-relaxed">The middle Miocene ends. Cooling seas afterward may have begun breaking up megalodon's range.</p></div>
         <div class="ev" style="top:917px"><p class="font-label text-[10px] uppercase tracking-[0.15em] text-field-accent-ink font-bold">About 14.5 million years ago</p><p class="text-xs text-field-ink-mid leading-relaxed">At Maryland's Calvert Cliffs, about a third of megatooth teeth still have side cusps, down from about 87% between 20 and 17 million years ago. By 7.6 million years ago, none do.</p></div>
-        <div class="ev" style="top:1467px"><p class="font-label text-[10px] uppercase tracking-[0.15em] text-field-accent-ink font-bold">About 20 million years ago</p><p class="text-xs text-field-ink-mid leading-relaxed">The broad-tooth mako enters the record. Many paleontologists now see it as the great white's ancestor.</p></div>
-        <div class="ev up" style="top:1757px"><p class="font-label text-[10px] uppercase tracking-[0.15em] text-field-accent-ink font-bold">About 23 million years ago</p><p class="text-xs text-field-ink-mid leading-relaxed">Megalodon's commonly given start. Scientists can't pinpoint it, because the change from its ancestor was so gradual.</p></div>
+        </section>
+
+      <div class="layer gap" data-from="16" data-to="19" data-name="Miocene" data-skip="Skipping 3 million years" style="min-height:148px;--above:#d0b27f;--below:#d0b27f">
+        <div class="gap-teeth"><img src="images/tooth-megalodon.webp" alt="" loading="lazy" width="48" height="48"><img src="images/tooth-mako.webp" alt="" loading="lazy" width="48" height="48"><img src="images/tooth-snaggletooth.webp" alt="" loading="lazy" width="48" height="48"></div>
+        <div><p class="gap-title">3 million years skipped</p><p class="gap-sub">In the record: megalodon, broad-tooth mako, snaggletooth</p></div>
+      </div>
+
+      <section class="layer l-mio" data-from="19" data-to="23.04" data-name="Miocene" style="min-height:404px">
+        <div class="ev" style="top:100px"><p class="font-label text-[10px] uppercase tracking-[0.15em] text-field-accent-ink font-bold">About 20 million years ago</p><p class="text-xs text-field-ink-mid leading-relaxed">The broad-tooth mako enters the record. Many paleontologists now see it as the great white's ancestor.</p></div>
+        <div class="ev up" style="top:390px"><p class="font-label text-[10px] uppercase tracking-[0.15em] text-field-accent-ink font-bold">About 23 million years ago</p><p class="text-xs text-field-ink-mid leading-relaxed">Megalodon's commonly given start. Scientists can't pinpoint it, because the change from its ancestor was so gradual.</p></div>
       </section>
 
-      <section id="oligocene" class="layer l-oli" data-from="23.04" data-to="33.9" data-name="Oligocene" style="min-height:1086px">
+      <section id="oligocene" class="layer l-oli" data-from="23.04" data-to="28.7" data-name="Oligocene" style="min-height:566px">
         <div class="card">
           <p class="font-label text-[10px] uppercase tracking-[0.2em] text-field-accent-ink font-bold mb-1">33.9 to 23 million years ago</p>
           <h2 class="font-headline text-2xl font-extrabold text-field-dark mb-2">Oligocene</h2>
-          <p class="text-sm text-field-ink-mid leading-relaxed">It opens with a major global cooling, as ice sheets in Antarctica reach the sea. Most of the teeth in this guide haven't appeared yet. The empty stretch is the point: this is a lot of time.</p>
+          <p class="text-sm text-field-ink-mid leading-relaxed">It opens with a major global cooling, as ice sheets in Antarctica reach the sea. Most of the teeth in this guide haven't appeared yet. Even with a break cut out, this is a lot of time.</p>
         </div>
         <div class="ev" style="top:496px"><p class="font-label text-[10px] uppercase tracking-[0.15em] text-field-accent-ink font-bold">Middle Oligocene</p><p class="text-xs text-field-ink-mid leading-relaxed">The River Bend Formation. This is one of three rock units the Wilmington ship channel is cut into.</p></div>
-        <div class="ev" style="top:996px"><p class="font-label text-[10px] uppercase tracking-[0.15em] text-field-accent-ink font-bold">About 33 million years ago</p><p class="text-xs text-field-ink-mid leading-relaxed"><em>Otodus angustidens</em>, an earlier megatooth with side cusps, appears. Dates vary by source.</p></div>
+        </section>
+
+      <div class="layer gap" data-from="28.7" data-to="32.2" data-name="Oligocene" data-skip="Skipping 3.5 million years" style="min-height:148px;--above:#a8875a;--below:#a8875a">
+        <div class="gap-teeth"><img src="images/tooth-tiger.webp" alt="" loading="lazy" width="48" height="48"></div>
+        <div><p class="gap-title">3.5 million years skipped</p><p class="gap-sub">In the record: older tiger shark species</p></div>
+      </div>
+
+      <section class="layer l-oli" data-from="32.2" data-to="33.9" data-name="Oligocene" style="min-height:170px">
+        <div class="ev" style="top:80px"><p class="font-label text-[10px] uppercase tracking-[0.15em] text-field-accent-ink font-bold">About 33 million years ago</p><p class="text-xs text-field-ink-mid leading-relaxed"><em>Otodus angustidens</em>, an earlier megatooth with side cusps, appears. Dates vary by source.</p></div>
       </section>
 
-      <section id="eocene" class="layer l-eo" data-from="33.9" data-to="45" data-name="Eocene" style="min-height:1110px">
+      <section id="eocene" class="layer l-eo" data-from="33.9" data-to="37.4" data-name="Eocene" style="min-height:350px">
         <div class="card">
           <p class="font-label text-[10px] uppercase tracking-[0.2em] text-field-accent-ink font-bold mb-1">Back to 45 million years ago</p>
           <h2 class="font-headline text-2xl font-extrabold text-field-dark mb-2">Eocene</h2>
           <p class="text-sm text-field-ink-mid leading-relaxed">A warmer world, before the Oligocene cooling. The tiger shark genus is already here. Its record goes back about 56 million years, though today's species is far younger.</p>
         </div>
-        <div class="ev" style="top:810px"><p class="font-label text-[10px] uppercase tracking-[0.15em] text-field-accent-ink font-bold">Roughly 40 to 45 million years ago</p><p class="text-xs text-field-ink-mid leading-relaxed">The Castle Hayne Limestone, with its type area at the Castle Hayne quarries. The channel cuts into it too, and shark and ray teeth are the most common fossils in its lowest member.</p></div>
-        <div class="ev up" style="top:1100px"><p class="font-label text-[10px] uppercase tracking-[0.15em] text-field-accent-ink font-bold">The scroll stops here</p><p class="text-xs text-field-ink-mid leading-relaxed">Deeper still is the Cretaceous Peedee Formation, more than 66 million years old, and the channel reaches that as well. Showing it would take another 2,100 pixels.</p></div>
+        </section>
+
+      <div class="layer gap" data-from="37.4" data-to="41" data-name="Eocene" data-skip="Skipping 3.6 million years" style="min-height:148px;--above:#7a5d3a;--below:#7a5d3a">
+        <div class="gap-teeth"><img src="images/tooth-tiger.webp" alt="" loading="lazy" width="48" height="48"></div>
+        <div><p class="gap-title">3.6 million years skipped</p><p class="gap-sub">In the record: older tiger shark species</p></div>
+      </div>
+
+      <section class="layer l-eo" data-from="41" data-to="45" data-name="Eocene" style="min-height:400px">
+        <div class="ev" style="top:100px"><p class="font-label text-[10px] uppercase tracking-[0.15em] text-field-accent-ink font-bold">Roughly 40 to 45 million years ago</p><p class="text-xs text-field-ink-mid leading-relaxed">The Castle Hayne Limestone, with its type area at the Castle Hayne quarries. The channel cuts into it too, and shark and ray teeth are the most common fossils in its lowest member.</p></div>
+        <div class="ev up" style="top:390px"><p class="font-label text-[10px] uppercase tracking-[0.15em] text-field-accent-ink font-bold">The scroll stops here</p><p class="text-xs text-field-ink-mid leading-relaxed">Deeper still is the Cretaceous Peedee Formation, more than 66 million years old, and the channel reaches that as well. Showing it would take another 2,100 pixels.</p></div>
       </section>
     </div>
   </div>
@@ -252,7 +288,7 @@
     <div class="max-w-3xl mx-auto px-6 md:px-8 py-14 md:py-20">
       <span class="font-label text-field-accent-light text-[11px] font-bold uppercase tracking-[0.3em] mb-4 block">The Last 155 Years</span>
       <h2 class="font-headline text-3xl md:text-5xl font-extrabold tracking-tight text-white leading-tight mb-5">Then a dredge mixed it up.</h2>
-      <p class="text-lg text-white/80 leading-relaxed font-light">You just scrolled 4,500 pixels. The channel's whole history would fill 0.015 of one. Keep going to watch what that sliver of time did.</p>
+      <p class="text-lg text-white/80 leading-relaxed font-light">At full scale, that scroll is 4,500 pixels. The channel's whole history would fill 0.015 of one. Keep going to watch what that sliver of time did.</p>
     </div>
   </section>
   <div id="dredge-track" class="bg-field-cream">
@@ -421,9 +457,10 @@
   /* ---------- Layers, rail, and readout ---------- */
   var stack = byId('stack'), rail = byId('rail');
   var layers = [].slice.call(document.querySelectorAll('.layer')).map(function (el) {
-    return { el: el, id: el.id, from: +el.dataset.from, to: +el.dataset.to, name: el.dataset.name, top: 0, h: 0 };
+    return { el: el, id: el.id, from: +el.dataset.from, to: +el.dataset.to, name: el.dataset.name, gap: el.classList.contains('gap'), top: 0, h: 0 };
   });
   var bars = {}, ticks = [];
+  var gaps = layers.filter(function (l) { return l.gap; });
 
   function yForAge(age) {
     for (var i = 0; i < layers.length; i++) {
@@ -464,7 +501,15 @@
       l.top = r.top + window.scrollY - base;
       l.h = r.height;
     });
-    ticks.forEach(function (t) { t.el.style.top = yForAge(t.age) + 'px'; });
+    ticks.forEach(function (t) {
+      t.el.style.top = yForAge(t.age) + 'px';
+      t.el.style.display = gaps.some(function (g) { return t.age > g.from && t.age < g.to; }) ? 'none' : '';
+    });
+    gaps.forEach(function (g) {
+      if (!g.mark) { g.mark = document.createElement('div'); g.mark.className = 'rail-gap'; g.mark.textContent = '//'; rail.appendChild(g.mark); }
+      g.mark.style.top = g.top + 'px';
+      g.mark.style.height = g.h + 'px';
+    });
     KEYS.forEach(function (k) {
       var s = SPECIES[k], y0 = yForAge(s.to), y1 = yForAge(Math.min(s.from, DEEPEST));
       bars[k].main.style.top = y0 + 'px';
@@ -506,10 +551,10 @@
         if (y >= l.top) { current = l; age = l.from + clamp((y - l.top) / l.h, 0, 1) * (l.to - l.from); }
       }
     }
-    hudAge.textContent = fmtAge(age);
+    hudAge.textContent = current.gap ? current.el.dataset.skip : fmtAge(age);
     hudEpoch.textContent = current.name;
     var idx = layers.indexOf(current);
-    var next = layers[idx + 1];
+    var next = layers.slice(idx + 1).filter(function (l) { return l.id && l.name !== current.name; })[0];
     hudNext.href = next ? '#' + next.id : '#the-dredge';
     KEYS.forEach(function (k) {
       var s = SPECIES[k], oldest = s.ext || s.from;
