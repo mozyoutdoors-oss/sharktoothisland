@@ -6,9 +6,9 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Depth of Time | SharkToothIsland.org</title>
 <link rel="canonical" href="https://sharktoothisland.org/depth-of-time.html">
-<meta name="description" content="A vertical journey through the stratigraphy of the Cape Fear region, from today's river sediment down through the Pliocene, Miocene, and the warm shallow seas that produced megalodon.">
+<meta name="description" content="Scroll from the Cape Fear River today back through 45 million years, to scale. See how dredging mixed the ages together, and find where your shark tooth belongs.">
 <meta property="og:title" content="Depth of Time | SharkToothIsland.org">
-<meta property="og:description" content="How deep time shaped what washes ashore at Shark Tooth Island.">
+<meta property="og:description" content="Scroll through 45 million years, to scale, and find where your shark tooth belongs.">
 <meta property="og:image" content="https://sharktoothisland.org/images/hero-island.jpg">
 <meta property="og:type" content="website">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -17,180 +17,643 @@
 <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&icon_names=arrow_back,arrow_forward,article,auto_stories,backpack,badge,block,calendar_month,check,check_circle,class,close,collections_bookmark,compare,construction,dentistry,description,download,eco,email,emergency,event,expand_more,eyebrow,falling,function,gavel,help,hide,history_edu,home,iframe,image,info,input,kayaking,landscape,light,location_on,map,menu,menu_book,opacity,photo_camera,photo_library,resize,sailing,script,search,straighten,warning,waves,weight,width&display=swap" rel="stylesheet">
 <style>
   .material-symbols-outlined { font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24; vertical-align: middle; }
-  .archival-grain {
-    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
-    opacity: 0.03; pointer-events: none;
-  }
-  @keyframes slowpulse { 0%,100%{opacity:.5;} 50%{opacity:1;} }
-  .slow-pulse { animation: slowpulse 3s ease-in-out infinite; }
+  @media (prefers-reduced-motion: no-preference) { html { scroll-behavior: smooth; } }
+  [id] { scroll-margin-top: 9rem; }
+  #tooth-result { scroll-margin-bottom: 1rem; }
+  #dredge-svg image { clip-path: circle(36% at 50% 37%); }
+
+  /* The layers: 100px per million years, so one pixel is 10,000 years. */
+  #stack { --rail: 3.5rem; position: relative; }
+  @media (min-width: 768px) { #stack { --rail: 6rem; } }
+  #rail { position: absolute; top: 0; bottom: 0; left: 0; width: var(--rail); background: #0f2e3d; z-index: 2; }
+  .tick { position: absolute; right: 0; width: 6px; height: 1px; background: rgba(255,255,255,.35); }
+  .tick.major { width: 12px; background: rgba(255,255,255,.8); }
+  .tick span { position: absolute; right: 16px; top: -7px; font: 700 10px/14px "Space Grotesk", sans-serif; color: #fff; white-space: nowrap; }
+  .bar { position: absolute; width: 3px; border-radius: 2px; background: rgba(255,255,255,.3); transition: background-color .2s, opacity .2s; }
+  .bar.ext { background: repeating-linear-gradient(to bottom, rgba(255,255,255,.3) 0 6px, transparent 6px 12px); }
+  .bar.on { background: #f0a050; width: 5px; z-index: 1; }
+  .bar.ext.on { background: repeating-linear-gradient(to bottom, #f0a050 0 6px, transparent 6px 12px); }
+
+  .layer { position: relative; padding: 1.5rem 1rem 1.5rem calc(var(--rail) + 1rem); background-color: var(--c); }
+  @media (min-width: 768px) { .layer { padding: 2.5rem 2.5rem 2.5rem calc(var(--rail) + 2.5rem); } }
+  .l-holo { padding: 0; background: #d97b2b; }
+  .l-plei { --c: #efe4cb; background-image: radial-gradient(rgba(70,50,20,.2) 1px, transparent 1.5px), radial-gradient(rgba(255,255,255,.5) 1px, transparent 1.5px); background-size: 15px 17px, 23px 19px; }
+  .l-plio { --c: #e2d0aa; background-image: radial-gradient(rgba(70,50,20,.22) 1.2px, transparent 1.7px), radial-gradient(rgba(255,255,255,.35) 1.5px, transparent 2px); background-size: 19px 23px, 31px 27px; }
+  .l-mio  { --c: #d0b27f; background-image: radial-gradient(rgba(60,40,15,.25) 1.5px, transparent 2px), radial-gradient(rgba(255,255,255,.25) 2px, transparent 2.5px); background-size: 27px 31px, 43px 37px; }
+  .l-oli  { --c: #a8875a; background-image: radial-gradient(rgba(40,25,10,.28) 2px, transparent 2.5px), radial-gradient(rgba(255,255,255,.16) 3px, transparent 3.5px); background-size: 37px 33px, 59px 53px; }
+  .l-eo   { --c: #7a5d3a; background-image: radial-gradient(rgba(20,10,0,.3) 3px, transparent 3.5px), radial-gradient(rgba(255,255,255,.12) 5px, transparent 5.5px); background-size: 47px 43px, 83px 71px; }
+
+  .card { position: relative; background: #fff; border: 1px solid #d5cfc5; padding: 1.25rem; max-width: 36rem; }
+  @media (min-width: 768px) { .card { padding: 1.75rem; } }
+  .ev { position: absolute; left: calc(var(--rail) + 1rem); right: 1rem; max-width: 24rem; transform: translateY(-50%); background: #fff; border: 1px solid #d5cfc5; border-left: 3px solid #d97b2b; padding: .75rem 1rem; }
+  .ev.up { transform: translateY(-100%); }
+  .ev::before { content: ''; position: absolute; top: 50%; left: calc(-1rem - 3px); width: 1rem; height: 1px; background: #0f2e3d; }
+  .ev.up::before { top: 100%; }
+  @media (min-width: 768px) { .ev { left: calc(var(--rail) + 2.5rem); } .ev::before { left: calc(-2.5rem - 3px); width: 2.5rem; } }
+
+  .l-plei, .l-plio { padding-top: 1rem; padding-bottom: 0; }
+  .l-plei .card, .l-plio .card { padding: 1rem; }
+  @media (max-width: 340px) { .l-plei, .l-plio { padding-top: .5rem; } }
+  .teeth { display: flex; flex-wrap: wrap; gap: .75rem 1rem; margin-top: 1rem; }
+  .teeth li { width: 4.25rem; text-align: center; }
+  .teeth img { width: 3.25rem; height: 3.25rem; object-fit: contain; margin: 0 auto .25rem; }
+  .teeth span { display: block; font: 600 11px/1.25 "Space Grotesk", sans-serif; color: #4a4640; }
+
+  /* HUD */
+  #hud-teeth img { width: 1.75rem; height: 1.75rem; object-fit: contain; background: #f5f0e8; border-radius: 50%; padding: 2px; border: 2px solid transparent; }
+  #hud-teeth img.on { border-color: #f0a050; }
+
+  /* Dredge scene */
+  #dredge-track { height: 320vh; height: 320svh; }
+  #dredge-pin { position: sticky; top: 4rem; height: calc(100vh - 4rem); height: calc(100svh - 4rem); display: flex; flex-direction: column; }
+  @media (min-width: 768px) { #dredge-pin { flex-direction: row; align-items: center; } }
+  #dredge-caps { display: grid; flex-shrink: 0; padding: 1rem 1.5rem; }
+  @media (min-width: 768px) { #dredge-caps { width: 42%; padding: 2.5rem; } }
+  .cap { grid-area: 1 / 1; opacity: 0; transition: opacity .25s; }
+  .cap.on { opacity: 1; }
+  #dredge-svg-wrap { flex: 1; min-height: 0; min-width: 0; padding: 0 .5rem .5rem; }
+  #dredge-svg { display: block; width: 100%; height: 100%; }
+  .dredge-static #dredge-track { height: auto; }
+  .dredge-static #dredge-pin { position: static; height: auto; display: block; max-width: 48rem; margin: 0 auto; }
+  .dredge-static #dredge-caps { width: auto; display: block; }
+  .dredge-static .cap { opacity: 1; margin-bottom: 1.25rem; }
+  .dredge-static #dredge-svg { height: auto; aspect-ratio: 1; max-height: 28rem; }
+  .no-js-hide { display: none !important; }
+
+  /* Tooth lookup */
+  .tooth-btn { background: #fff; border: 2px solid #d5cfc5; padding: .75rem .5rem; text-align: center; cursor: pointer; transition: border-color .15s, background-color .15s; }
+  .tooth-btn:hover { border-color: #1a4f5e; }
+  .tooth-btn:focus-visible, .hud-next:focus-visible { outline: 3px solid #a15516; outline-offset: 2px; }
+  .tooth-btn[aria-pressed="true"] { border-color: #d97b2b; background: #fdf3e7; }
+  .tooth-btn img { width: 4rem; height: 4rem; object-fit: contain; margin: 0 auto .5rem; }
+  #mini { position: relative; display: flex; height: 2.25rem; }
+  #mini-range, #mini-ext { position: absolute; top: .625rem; height: 1rem; }
+  #mini-range { background: #0f2e3d; border: 2px solid #fff; }
+  #mini-ext { top: .875rem; height: .5rem; background: repeating-linear-gradient(to right, #0f2e3d 0 6px, transparent 6px 12px); }
+  .mini-ax { position: relative; height: 1.25rem; margin-top: .25rem; }
+  .mini-ax span { position: absolute; transform: translateX(-50%); white-space: nowrap; font: 700 10px/1.25rem "Space Grotesk", sans-serif; color: #4a4640; }
+  .mini-ax span:first-child { transform: none; }
+  .mini-ax span:last-child { transform: translateX(-100%); }
 </style>
 <script src="/analytics.js" defer></script>
-<link rel="stylesheet" href="/css/tw/depth-of-time.css?v=20261102c">
+<link rel="stylesheet" href="/css/tw/depth-of-time.css?v=20261105">
 </head>
-<body class="bg-surface text-on-surface font-body selection:bg-primary-fixed selection:text-on-primary-fixed">
+<body class="bg-field-cream text-field-ink font-body selection:bg-field-accent/20 selection:text-field-ink">
 
 <!-- NAV -->
-<header class="sticky top-0 z-50 bg-white/80 backdrop-blur-xl shadow-sm shadow-blue-900/5">
-  <nav class="flex justify-between items-center max-w-7xl mx-auto px-6 md:px-8 h-20">
-    <a href="index.html" class="text-[17px] sm:text-xl font-bold tracking-tight text-blue-900 font-headline whitespace-nowrap mr-4">SharkToothIsland.org</a>
+<header class="sticky top-0 z-50 bg-field-cream/85 backdrop-blur-xl border-b border-field-paper">
+  <nav class="flex justify-between items-center max-w-7xl mx-auto px-6 md:px-8 h-16">
+    <a href="index.html" class="text-base sm:text-lg font-bold tracking-tight text-field-dark font-headline whitespace-nowrap mr-4">SharkToothIsland.org</a>
     <div class="hidden md:flex items-center gap-8">
-      <a href="field-guide.html" class="text-slate-600 hover:text-blue-600 font-label text-sm uppercase tracking-widest transition-colors">Field Guide</a>
-      <a href="field-notes/" class="text-slate-600 hover:text-blue-600 font-label text-sm uppercase tracking-widest transition-colors">Field Notes</a>
-      <a href="megalodon-calculator-v5.html" class="text-slate-600 hover:text-blue-600 font-label text-sm uppercase tracking-widest transition-colors">Size Calculator</a>
-      <a href="hunt-planner.html" class="text-slate-600 hover:text-blue-600 font-label text-sm uppercase tracking-widest transition-colors">Hunt Planner</a>
-      <a href="identify.html" class="text-slate-600 hover:text-blue-600 font-label text-sm uppercase tracking-widest transition-colors">Tooth ID</a>
-      <a href="depth-of-time.html" class="text-blue-700 border-b-2 border-blue-700 font-medium pb-1 font-label text-sm uppercase tracking-widest">Depth of Time</a>
+      <a href="field-guide.html" class="text-field-ink-light hover:text-field-dark font-label text-[11px] uppercase tracking-[0.2em] transition-colors">Field Guide</a>
+      <a href="field-notes/" class="text-field-ink-light hover:text-field-dark font-label text-[11px] uppercase tracking-[0.2em] transition-colors">Field Notes</a>
+      <a href="megalodon-calculator-v5.html" class="text-field-ink-light hover:text-field-dark font-label text-[11px] uppercase tracking-[0.2em] transition-colors">Size Calculator</a>
+      <a href="hunt-planner.html" class="text-field-ink-light hover:text-field-dark font-label text-[11px] uppercase tracking-[0.2em] transition-colors">Hunt Planner</a>
+      <a href="identify.html" class="text-field-ink-light hover:text-field-dark font-label text-[11px] uppercase tracking-[0.2em] transition-colors">Tooth ID</a>
+      <a href="depth-of-time.html" aria-current="page" class="text-field-accent-ink border-b border-field-accent font-label text-[11px] uppercase tracking-[0.2em] pb-1">Depth of Time</a>
     </div>
     <div class="flex items-center gap-3">
-      <a href="hunt-planner.html" class="bg-primary text-on-primary px-3 md:px-5 py-2 rounded font-label text-xs font-bold uppercase tracking-widest hover:bg-primary-container transition-all"><span class="md:hidden">Tides</span><span class="hidden md:inline">Current Conditions</span></a>
-      <button onclick="document.getElementById('mobile-menu').classList.toggle('hidden')" class="md:hidden flex items-center justify-center w-10 h-10">
-        <span class="material-symbols-outlined text-on-surface">menu</span>
-      </button>
+      <a href="hunt-planner.html" class="bg-field-dark text-field-cream px-3 md:px-5 py-2 rounded font-label text-[11px] font-bold uppercase tracking-widest hover:bg-field-teal transition-all"><span class="md:hidden">Tides</span><span class="hidden md:inline">Current Conditions</span></a>
+      <button onclick="document.getElementById('mobile-menu').classList.toggle('hidden')" class="md:hidden flex items-center justify-center w-10 h-10" aria-label="Menu"><span class="material-symbols-outlined text-field-dark">menu</span></button>
     </div>
   </nav>
-  <!-- Mobile menu -->
-  <div id="mobile-menu" class="hidden md:hidden bg-white/95 backdrop-blur-xl border-t border-outline-variant/30 px-6 pb-6 pt-4 space-y-4">
-    <a href="field-guide.html" class="block text-slate-600 font-label text-sm uppercase tracking-widest py-2">Field Guide</a>
-    <a href="field-notes/" class="block text-slate-600 font-label text-sm uppercase tracking-widest py-2">Field Notes</a>
-    <a href="megalodon-calculator-v5.html" class="block text-slate-600 font-label text-sm uppercase tracking-widest py-2">Size Calculator</a>
-    <a href="hunt-planner.html" class="block text-slate-600 font-label text-sm uppercase tracking-widest py-2">Hunt Planner</a>
-      <a href="identify.html" class="block text-slate-600 font-label text-sm uppercase tracking-widest py-2">Tooth ID</a>
-    <a href="depth-of-time.html" class="block text-blue-700 font-bold font-label text-sm uppercase tracking-widest py-2">Depth of Time</a>
+  <div id="mobile-menu" class="hidden md:hidden bg-field-cream/95 backdrop-blur-xl border-t border-field-paper px-6 pb-6 pt-4 space-y-4">
+    <a href="field-guide.html" class="block text-field-ink-mid font-label text-sm uppercase tracking-widest py-2">Field Guide</a>
+    <a href="field-notes/" class="block text-field-ink-mid font-label text-sm uppercase tracking-widest py-2">Field Notes</a>
+    <a href="megalodon-calculator-v5.html" class="block text-field-ink-mid font-label text-sm uppercase tracking-widest py-2">Size Calculator</a>
+    <a href="hunt-planner.html" class="block text-field-ink-mid font-label text-sm uppercase tracking-widest py-2">Hunt Planner</a>
+    <a href="identify.html" class="block text-field-ink-mid font-label text-sm uppercase tracking-widest py-2">Tooth ID</a>
+    <a href="depth-of-time.html" aria-current="page" class="block text-field-accent-ink font-bold font-label text-sm uppercase tracking-widest py-2">Depth of Time</a>
   </div>
 </header>
 
 <main class="relative">
-  <div class="archival-grain fixed inset-0"></div>
 
-  <section class="max-w-6xl mx-auto px-6 md:px-8 py-16 md:py-24 w-full">
-    <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+  <!-- INTRO -->
+  <section class="max-w-3xl mx-auto px-6 md:px-8 pt-12 md:pt-20 pb-12">
+    <span class="font-label text-field-accent-ink text-[11px] font-bold uppercase tracking-[0.3em] mb-4 block">Cape Fear Region &middot; 45 Million Years</span>
+    <h1 class="font-headline text-5xl md:text-7xl font-extrabold tracking-tight text-field-dark leading-[0.95] mb-6">Depth of Time.</h1>
+    <p class="text-lg md:text-xl text-field-ink-mid leading-relaxed font-light mb-5">
+      Scroll from today's river back through 45 million years. Time is to scale: one pixel is 10,000 years. At the bottom, see how all of it ended up on one shoreline.
+    </p>
+    <p class="text-sm text-field-ink-mid leading-relaxed mb-8">
+      This is a timeline, not a drill core. It measures time, not feet. The real beds here are thin or missing in places.
+    </p>
+    <div class="flex flex-wrap items-center gap-3 mb-8">
+      <a href="#today" class="inline-flex items-center gap-2 bg-field-dark text-field-cream px-5 py-3 rounded font-label text-xs font-bold uppercase tracking-widest hover:bg-field-teal transition-all">
+        Start scrolling <span class="material-symbols-outlined text-base">expand_more</span>
+      </a>
+      <a href="#your-tooth" class="inline-flex items-center gap-2 border border-field-dark text-field-dark px-5 py-3 rounded font-label text-xs font-bold uppercase tracking-widest hover:bg-field-paper transition-all">
+        Holding a tooth? Find its place <span class="material-symbols-outlined text-base">arrow_forward</span>
+      </a>
+    </div>
+    <nav aria-label="Jump to a layer" class="font-label text-[11px] uppercase tracking-[0.15em] text-field-ink-mid leading-loose">
+      Jump to:
+      <a class="underline underline-offset-2 hover:text-field-accent-ink" href="#pleistocene">Pleistocene</a> &middot;
+      <a class="underline underline-offset-2 hover:text-field-accent-ink" href="#pliocene">Pliocene</a> &middot;
+      <a class="underline underline-offset-2 hover:text-field-accent-ink" href="#miocene">Miocene</a> &middot;
+      <a class="underline underline-offset-2 hover:text-field-accent-ink" href="#oligocene">Oligocene</a> &middot;
+      <a class="underline underline-offset-2 hover:text-field-accent-ink" href="#eocene">Eocene</a> &middot;
+      <a class="underline underline-offset-2 hover:text-field-accent-ink" href="#the-dredge">The dredge</a>
+    </nav>
+  </section>
 
-      <!-- LEFT: headline + copy -->
-      <div class="lg:col-span-7">
-        <span class="font-label text-primary text-xs font-bold uppercase tracking-[0.3em] mb-4 block">Stratigraphic Reference &middot; Cape Fear Region</span>
-        <h1 class="font-headline text-5xl md:text-7xl font-extrabold tracking-tighter text-on-surface leading-[0.9] mb-8">
-          Depth of <br><span class="text-outline italic font-light">Time.</span>
-        </h1>
-        <p class="font-body text-lg md:text-xl text-on-surface-variant max-w-xl leading-relaxed mb-6">
-          A vertical journey through the stratigraphy of the Cape Fear region, from today's river sediment down through the Pliocene, Miocene, and the warm shallow seas that produced megalodon.
-        </p>
-        <p class="font-body text-base text-on-surface-variant max-w-xl leading-relaxed mb-10">
-          A schematic reference for placing what washes up at Shark Tooth Island on the geological timeline. The interactive long-scroll version is in progress.
-        </p>
+  <!-- THE SCROLL -->
+  <div id="dig">
+    <!-- Filled in by the script; stays hidden without JavaScript. -->
+    <div id="hud" class="hidden sticky top-16 z-30 bg-field-dark text-white border-t border-white/10">
+      <div class="flex items-center justify-between gap-3 px-4 md:px-8 h-14 max-w-7xl mx-auto">
+        <div class="min-w-0">
+          <p id="hud-age" class="font-headline font-bold text-sm md:text-base leading-tight whitespace-nowrap" style="font-variant-numeric: tabular-nums">Today</p>
+          <p id="hud-epoch" class="font-label text-[10px] uppercase tracking-[0.15em] text-field-accent-light leading-tight truncate">Holocene</p>
+        </div>
+        <div class="flex items-center gap-2 shrink-0">
+          <div id="hud-teeth" class="flex -space-x-1"></div>
+          <a id="hud-next" href="#pleistocene" class="hud-next flex items-center justify-center w-10 h-10 rounded bg-white/10 hover:bg-white/20" aria-label="Next layer"><span class="material-symbols-outlined text-white">expand_more</span></a>
+        </div>
+      </div>
+    </div>
 
-        <div class="flex flex-wrap items-center gap-4">
-          <a href="field-guide.html" class="inline-flex items-center gap-2 bg-primary text-on-primary px-6 py-3 rounded font-label text-xs font-bold uppercase tracking-widest hover:bg-primary-container transition-all">
-            <span class="material-symbols-outlined text-base">arrow_back</span>
-            Back to Field Guide
-          </a>
-          <a href="hunt-planner.html" class="inline-flex items-center gap-2 border border-outline-variant text-on-surface-variant hover:text-primary hover:border-primary px-6 py-3 rounded font-label text-xs font-bold uppercase tracking-widest transition-all">
-            Hunt Planner
-            <span class="material-symbols-outlined text-base">arrow_forward</span>
-          </a>
+    <section id="today" class="relative">
+      <img src="images/hero-island-1280.webp" srcset="images/hero-island-800.webp 800w, images/hero-island-1280.webp 1280w" sizes="100vw" alt="Aerial view of Shark Tooth Island in the Cape Fear River" width="1280" height="720" loading="lazy" class="block w-full h-[26rem] md:h-[34rem] object-cover">
+      <div class="absolute left-4 right-4 md:left-8 md:right-auto bottom-6 md:max-w-md bg-white border border-field-rule p-5">
+        <p class="font-label text-[10px] uppercase tracking-[0.2em] text-field-accent-ink font-bold mb-1">Today &middot; Holocene</p>
+        <h2 class="font-headline text-xl font-bold text-field-dark mb-2">You start here.</h2>
+        <p class="text-sm text-field-ink-mid leading-relaxed">River sand, oyster shell, and modern wash. The Holocene is the last 11,700 years. At this scale, that's the thin orange line under this photo, about one pixel tall.</p>
+      </div>
+    </section>
+
+    <div id="stack">
+      <div id="rail" aria-hidden="true"></div>
+
+      <div class="layer l-holo" data-from="0" data-to="0.0117" data-name="Holocene" style="min-height:1.17px"></div>
+
+      <section id="pleistocene" class="layer l-plei" data-from="0.0117" data-to="2.58" data-name="Pleistocene" style="min-height:257px">
+        <div class="card">
+          <p class="font-label text-[10px] uppercase tracking-[0.2em] text-field-accent-ink font-bold mb-1">2.58 million to 11,700 years ago</p>
+          <h2 class="font-headline text-2xl font-extrabold text-field-dark mb-2">Pleistocene</h2>
+          <p class="text-sm text-field-ink-mid leading-relaxed mb-2">Ice ages and swinging sea levels. Most sharks now look like today's. Teeth are often lighter and less mineralized.</p>
+          <p class="text-xs text-field-ink-mid leading-relaxed"><strong>Teeth:</strong> great white, tiger, bull.</p>
+        </div>
+      </section>
+
+      <section id="pliocene" class="layer l-plio" data-from="2.58" data-to="5.33" data-name="Pliocene" style="min-height:275px">
+        <div class="card">
+          <p class="font-label text-[10px] uppercase tracking-[0.2em] text-field-accent-ink font-bold mb-1">5.33 to 2.58 million years ago</p>
+          <h2 class="font-headline text-2xl font-extrabold text-field-dark mb-2">Pliocene</h2>
+          <p class="text-sm text-field-ink-mid leading-relaxed mb-2">Cooler seas and a turnover in sharks. Great whites spread out of the Pacific around 4 million years ago. Megalodon is gone by about 3.6 million.</p>
+          <p class="text-xs text-field-ink-mid leading-relaxed"><strong>Teeth:</strong> last megalodon, great white, broad-tooth mako, snaggletooth.</p>
+        </div>
+      </section>
+
+      <section id="miocene" class="layer l-mio" data-from="5.33" data-to="23.04" data-name="Miocene" style="min-height:1771px">
+        <div class="card">
+          <p class="font-label text-[10px] uppercase tracking-[0.2em] text-field-accent-ink font-bold mb-1">23 to 5.33 million years ago</p>
+          <h2 class="font-headline text-2xl font-extrabold text-field-dark mb-2">Miocene</h2>
+          <p class="text-sm text-field-ink-mid leading-relaxed mb-2">Warm, shallow seas cover much of what is now the Atlantic coastal plain. This is the big one for the teeth people come looking for.</p>
+          <p class="text-xs text-field-ink-mid leading-relaxed">The channel study we cite names no Miocene bed along the river. We place these teeth here by their species.</p>
+          <ul class="teeth">
+            <li><img src="images/tooth-megalodon.webp" alt="" loading="lazy" width="52" height="52"><span>Megalodon</span></li>
+            <li><img src="images/tooth-mako.webp" alt="" loading="lazy" width="52" height="52"><span>Broad-tooth mako</span></li>
+            <li><img src="images/tooth-snaggletooth.webp" alt="" loading="lazy" width="52" height="52"><span>Snaggletooth</span></li>
+            <li><img src="images/tooth-tiger.webp" alt="" loading="lazy" width="52" height="52"><span>Tiger</span></li>
+          </ul>
+        </div>
+        <div class="ev" style="top:627px"><p class="font-label text-[10px] uppercase tracking-[0.15em] text-field-accent-ink font-bold">About 11.6 million years ago</p><p class="text-xs text-field-ink-mid leading-relaxed">The middle Miocene ends. Cooling seas afterward may have begun breaking up megalodon's range.</p></div>
+        <div class="ev" style="top:917px"><p class="font-label text-[10px] uppercase tracking-[0.15em] text-field-accent-ink font-bold">About 14.5 million years ago</p><p class="text-xs text-field-ink-mid leading-relaxed">At Maryland's Calvert Cliffs, about a third of megatooth teeth still have side cusps, down from about 87% between 20 and 17 million years ago. By 7.6 million years ago, none do.</p></div>
+        <div class="ev" style="top:1467px"><p class="font-label text-[10px] uppercase tracking-[0.15em] text-field-accent-ink font-bold">About 20 million years ago</p><p class="text-xs text-field-ink-mid leading-relaxed">The broad-tooth mako enters the record. Many paleontologists now see it as the great white's ancestor.</p></div>
+        <div class="ev up" style="top:1757px"><p class="font-label text-[10px] uppercase tracking-[0.15em] text-field-accent-ink font-bold">About 23 million years ago</p><p class="text-xs text-field-ink-mid leading-relaxed">Megalodon's commonly given start. Scientists can't pinpoint it, because the change from its ancestor was so gradual.</p></div>
+      </section>
+
+      <section id="oligocene" class="layer l-oli" data-from="23.04" data-to="33.9" data-name="Oligocene" style="min-height:1086px">
+        <div class="card">
+          <p class="font-label text-[10px] uppercase tracking-[0.2em] text-field-accent-ink font-bold mb-1">33.9 to 23 million years ago</p>
+          <h2 class="font-headline text-2xl font-extrabold text-field-dark mb-2">Oligocene</h2>
+          <p class="text-sm text-field-ink-mid leading-relaxed">It opens with a major global cooling, as ice sheets in Antarctica reach the sea. Most of the teeth in this guide haven't appeared yet. The empty stretch is the point: this is a lot of time.</p>
+        </div>
+        <div class="ev" style="top:496px"><p class="font-label text-[10px] uppercase tracking-[0.15em] text-field-accent-ink font-bold">Middle Oligocene</p><p class="text-xs text-field-ink-mid leading-relaxed">The River Bend Formation. This is one of three rock units the Wilmington ship channel is cut into.</p></div>
+        <div class="ev" style="top:996px"><p class="font-label text-[10px] uppercase tracking-[0.15em] text-field-accent-ink font-bold">About 33 million years ago</p><p class="text-xs text-field-ink-mid leading-relaxed"><em>Otodus angustidens</em>, an earlier megatooth with side cusps, appears. Dates vary by source.</p></div>
+      </section>
+
+      <section id="eocene" class="layer l-eo" data-from="33.9" data-to="45" data-name="Eocene" style="min-height:1110px">
+        <div class="card">
+          <p class="font-label text-[10px] uppercase tracking-[0.2em] text-field-accent-ink font-bold mb-1">Back to 45 million years ago</p>
+          <h2 class="font-headline text-2xl font-extrabold text-field-dark mb-2">Eocene</h2>
+          <p class="text-sm text-field-ink-mid leading-relaxed">A warmer world, before the Oligocene cooling. The tiger shark genus is already here. Its record goes back about 56 million years, though today's species is far younger.</p>
+        </div>
+        <div class="ev" style="top:810px"><p class="font-label text-[10px] uppercase tracking-[0.15em] text-field-accent-ink font-bold">Roughly 40 to 45 million years ago</p><p class="text-xs text-field-ink-mid leading-relaxed">The Castle Hayne Limestone, with its type area at the Castle Hayne quarries. The channel cuts into it too, and shark and ray teeth are the most common fossils in its lowest member.</p></div>
+        <div class="ev up" style="top:1100px"><p class="font-label text-[10px] uppercase tracking-[0.15em] text-field-accent-ink font-bold">The scroll stops here</p><p class="text-xs text-field-ink-mid leading-relaxed">Deeper still is the Cretaceous Peedee Formation, more than 66 million years old, and the channel reaches that as well. Showing it would take another 2,100 pixels.</p></div>
+      </section>
+    </div>
+  </div>
+
+  <!-- THE DREDGE -->
+  <section id="the-dredge" class="bg-field-dark">
+    <div class="max-w-3xl mx-auto px-6 md:px-8 py-14 md:py-20">
+      <span class="font-label text-field-accent-light text-[11px] font-bold uppercase tracking-[0.3em] mb-4 block">The Last 155 Years</span>
+      <h2 class="font-headline text-3xl md:text-5xl font-extrabold tracking-tight text-white leading-tight mb-5">Then a dredge mixed it up.</h2>
+      <p class="text-lg text-white/80 leading-relaxed font-light">You just scrolled 4,500 pixels. The channel's whole history would fill 0.015 of one. Keep going to watch what that sliver of time did.</p>
+    </div>
+  </section>
+  <div id="dredge-track" class="bg-field-cream">
+    <div id="dredge-pin">
+      <div id="dredge-caps">
+        <div class="cap on" data-step="0">
+          <p class="font-label text-[10px] uppercase tracking-[0.2em] text-field-accent-ink font-bold mb-1">Step 1 of 3 &middot; Diagram</p>
+          <h3 class="font-headline text-xl md:text-3xl font-extrabold text-field-dark mb-2">Before the channel</h3>
+          <p class="text-sm md:text-base text-field-ink-mid leading-relaxed">Drawn here as tidy layers, oldest at the bottom. The real ground along the river is patchier than this.</p>
+        </div>
+        <div class="cap" data-step="1">
+          <p class="font-label text-[10px] uppercase tracking-[0.2em] text-field-accent-ink font-bold mb-1">Step 2 of 3 &middot; 1871 on</p>
+          <h3 class="font-headline text-xl md:text-3xl font-extrabold text-field-dark mb-2">The dredging starts</h3>
+          <p class="text-sm md:text-base text-field-ink-mid leading-relaxed">The U.S. Army Corps of Engineers began dredging the lower Cape Fear for a 12-foot channel in 1871. Later projects went deeper, into Eocene, Oligocene, and Cretaceous rock.</p>
+        </div>
+        <div class="cap" data-step="2">
+          <p class="font-label text-[10px] uppercase tracking-[0.2em] text-field-accent-ink font-bold mb-1">Step 3 of 3 &middot; Today</p>
+          <h3 class="font-headline text-xl md:text-3xl font-extrabold text-field-dark mb-2">The spoil goes nearby</h3>
+          <p class="text-sm md:text-base text-field-ink-mid leading-relaxed">Dredged material was placed along the channel and built spoil islands. Shark Tooth Island is generally understood to be one. Its spoil is reported to mix Castle Hayne limestone with younger Miocene and Pliocene sediment, so ages millions of years apart can share one handful of sand.</p>
+        </div>
+      </div>
+      <div id="dredge-svg-wrap" class="no-js-hide">
+        <svg id="dredge-svg" viewBox="0 30 400 365" preserveAspectRatio="xMidYMid meet" role="img" aria-label="Diagram: a dredge cuts a channel down through five stacked layers of sediment and piles the material nearby. The pile becomes an island where pieces of every age are mixed together."></svg>
+      </div>
+    </div>
+  </div>
+
+  <!-- YOUR TOOTH -->
+  <section id="your-tooth" class="bg-white border-t border-field-rule">
+    <div class="max-w-4xl mx-auto px-6 md:px-8 py-14 md:py-20">
+      <span class="font-label text-field-accent-ink text-[11px] font-bold uppercase tracking-[0.3em] mb-4 block">Your Find</span>
+      <h2 class="font-headline text-3xl md:text-5xl font-extrabold tracking-tight text-field-dark leading-tight mb-4">Where does your tooth belong?</h2>
+      <p class="text-base md:text-lg text-field-ink-mid leading-relaxed font-light mb-8 max-w-2xl">Pick the shark. A species gives you a range of time, not an exact date.</p>
+
+      <div id="tooth-grid" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 gap-3 mb-8 no-js-hide">
+        <button type="button" class="tooth-btn" data-tooth="megalodon" aria-pressed="false"><img src="images/tooth-megalodon.webp" alt="" loading="lazy" width="64" height="64"><span class="block font-label text-xs font-bold text-field-dark">Megalodon</span></button>
+        <button type="button" class="tooth-btn" data-tooth="great-white" aria-pressed="false"><img src="images/tooth-great-white.webp" alt="" loading="lazy" width="64" height="64"><span class="block font-label text-xs font-bold text-field-dark">Great White</span></button>
+        <button type="button" class="tooth-btn" data-tooth="tiger" aria-pressed="false"><img src="images/tooth-tiger.webp" alt="" loading="lazy" width="64" height="64"><span class="block font-label text-xs font-bold text-field-dark">Tiger</span></button>
+        <button type="button" class="tooth-btn" data-tooth="mako" aria-pressed="false"><img src="images/tooth-mako.webp" alt="" loading="lazy" width="64" height="64"><span class="block font-label text-xs font-bold text-field-dark">Broad-Tooth Mako</span></button>
+        <button type="button" class="tooth-btn" data-tooth="bull" aria-pressed="false"><img src="images/tooth-bull.webp" alt="" loading="lazy" width="64" height="64"><span class="block font-label text-xs font-bold text-field-dark">Bull</span></button>
+        <button type="button" class="tooth-btn" data-tooth="snaggletooth" aria-pressed="false"><img src="images/tooth-snaggletooth.webp" alt="" loading="lazy" width="64" height="64"><span class="block font-label text-xs font-bold text-field-dark">Snaggletooth</span></button>
+      </div>
+
+      <div id="tooth-result" class="hidden border border-field-rule bg-field-cream p-5 md:p-7" aria-live="polite">
+        <h3 id="r-name" class="font-headline text-2xl font-extrabold text-field-dark"></h3>
+        <p id="r-sci" class="italic text-sm text-field-ink-mid mb-3"></p>
+        <p id="r-range" class="font-headline font-bold text-field-dark"></p>
+        <p id="r-epochs" class="font-label text-[11px] uppercase tracking-[0.15em] text-field-accent-ink font-bold mb-4"></p>
+        <div aria-hidden="true" class="mb-4">
+          <div id="mini">
+            <div style="width:5.7%;background:#efe4cb"></div><div style="width:6.1%;background:#e2d0aa"></div><div style="width:39.4%;background:#d0b27f"></div><div style="width:24.1%;background:#a8875a"></div><div style="width:24.7%;background:#7a5d3a"></div>
+            <div id="mini-ext" class="hidden"></div>
+            <div id="mini-range"></div>
+          </div>
+          <div class="mini-ax"><span style="left:0">Today</span><span style="left:51.2%">23</span><span style="left:75.3%">34</span><span style="left:100%">45 million</span></div>
+        </div>
+        <p id="r-note" class="text-sm text-field-ink-mid leading-relaxed mb-4"></p>
+        <div class="flex flex-wrap gap-3">
+          <a id="r-jump" href="#miocene" class="inline-flex items-center gap-2 bg-field-dark text-field-cream px-4 py-2 rounded font-label text-[11px] font-bold uppercase tracking-widest hover:bg-field-teal transition-all">See it in the layers</a>
+          <a href="identify.html" class="inline-flex items-center gap-2 border border-field-dark text-field-dark px-4 py-2 rounded font-label text-[11px] font-bold uppercase tracking-widest hover:bg-field-paper transition-all">Not sure? Try Tooth ID</a>
         </div>
       </div>
 
-      <!-- RIGHT: stratigraphic column -->
-      <div class="lg:col-span-5">
-        <div class="bg-surface-container-lowest border border-outline-variant/30 rounded-xl overflow-hidden shadow-sm">
-          <div class="p-5 border-b border-outline-variant/30 bg-surface-container-low">
-            <p class="font-label text-[10px] uppercase tracking-widest text-outline mb-1">Stratigraphic Column</p>
-            <p class="font-headline text-sm font-bold text-on-surface">Cape Fear River · schematic</p>
-          </div>
+      <noscript>
+        <ul class="space-y-2 text-sm text-field-ink-mid">
+          <li><strong>Megalodon:</strong> about 23 to 3.6 million years ago.</li>
+          <li><strong>Great white:</strong> about 4 million years ago to today in the wider oceans.</li>
+          <li><strong>Tiger:</strong> about 13.8 million years ago to today. Earlier tiger shark species go back about 56 million years.</li>
+          <li><strong>Broad-tooth mako:</strong> about 20 to 3 million years ago.</li>
+          <li><strong>Bull:</strong> about 5.5 million years ago to today, from Florida records.</li>
+          <li><strong>Snaggletooth:</strong> Miocene to Pliocene, about 23 to 2.6 million years ago.</li>
+        </ul>
+      </noscript>
 
-          <div class="divide-y divide-outline-variant/30">
-            <div class="p-5 flex items-start gap-4" style="background:#f5efe0;">
-              <span class="font-label text-[10px] uppercase tracking-widest text-outline w-20 shrink-0 pt-1">~0 ka</span>
-              <div class="flex-1">
-                <p class="font-headline text-sm font-bold text-on-surface">Holocene</p>
-                <p class="font-body text-xs text-on-surface-variant leading-relaxed">River sand · oyster shell · modern wash</p>
-              </div>
-            </div>
-            <div class="p-5 flex items-start gap-4" style="background:#e9dcc2;">
-              <span class="font-label text-[10px] uppercase tracking-widest text-on-surface-variant w-20 shrink-0 pt-1">~5 Ma</span>
-              <div class="flex-1">
-                <p class="font-headline text-sm font-bold text-on-surface">Pliocene</p>
-                <p class="font-body text-xs text-on-surface-variant leading-relaxed">Cooling seas · great white ancestors</p>
-              </div>
-            </div>
-            <div class="p-5 flex items-start gap-4" style="background:#d4b887;">
-              <span class="font-label text-[10px] uppercase tracking-widest text-on-surface-variant w-20 shrink-0 pt-1">~15 Ma</span>
-              <div class="flex-1">
-                <p class="font-headline text-sm font-bold text-on-surface">Miocene</p>
-                <p class="font-body text-xs text-on-surface-variant leading-relaxed">Peak megalodon · warm shallow shelf</p>
-                <span class="inline-block mt-2 font-label text-[9px] uppercase tracking-widest text-primary bg-primary-fixed px-2 py-0.5 rounded">Source bed</span>
-              </div>
-            </div>
-            <div class="p-5 flex items-start gap-4" style="background:#a8875a;">
-              <span class="font-label text-[10px] uppercase tracking-widest text-on-surface w-20 shrink-0 pt-1">~28 Ma</span>
-              <div class="flex-1">
-                <p class="font-headline text-sm font-bold text-on-surface">Oligocene</p>
-                <p class="font-body text-xs text-on-surface leading-relaxed">Early megatooth sharks · cooler oceans</p>
-              </div>
-            </div>
-            <div class="p-5 flex items-start gap-4" style="background:#7a5d3a;">
-              <span class="font-label text-[10px] uppercase tracking-widest text-white/80 w-20 shrink-0 pt-1">~40 Ma</span>
-              <div class="flex-1">
-                <p class="font-headline text-sm font-bold text-white">Eocene</p>
-                <p class="font-body text-xs text-white/85 leading-relaxed">Basal carcharocles · tropical Atlantic</p>
-              </div>
-            </div>
-          </div>
-
-          <div class="p-4 border-t border-outline-variant/30 bg-surface-container-low">
-            <p class="font-label text-[9px] uppercase tracking-widest text-outline text-center">Schematic only · not to scale</p>
-          </div>
-        </div>
+      <div class="flex flex-wrap gap-x-6 gap-y-2 mt-10 font-label text-[11px] uppercase tracking-[0.15em]">
+        <a href="hunt-planner.html" class="text-field-accent-ink underline underline-offset-2 hover:no-underline">Plan a hunt</a>
+        <a href="how-shark-tooth-island-was-made.html" class="text-field-accent-ink underline underline-offset-2 hover:no-underline">How the island was made</a>
+        <a href="field-guide.html" class="text-field-accent-ink underline underline-offset-2 hover:no-underline">Field Guide</a>
       </div>
+    </div>
+  </section>
 
+  <!-- SOURCES -->
+  <section class="bg-field-paper">
+    <div class="max-w-4xl mx-auto px-6 md:px-8 py-12">
+      <h2 class="font-headline text-lg font-bold text-field-dark mb-4">Sources</h2>
+      <ul class="space-y-2 text-xs text-field-ink-mid leading-relaxed">
+        <li>Channel rock units: <a class="underline underline-offset-2" href="https://gsa.confex.com/gsa/2001SE/webprogram/Paper4427.html" target="_blank" rel="noopener">Harris and Haw, Geological Society of America abstract, 2001</a></li>
+        <li>Castle Hayne Limestone and the spoil mix: <a class="underline underline-offset-2" href="https://en.wikipedia.org/wiki/Castle_Hayne_Limestone" target="_blank" rel="noopener">Wikipedia summary and its references</a></li>
+        <li>River Bend Formation: <a class="underline underline-offset-2" href="https://ngmdb.usgs.gov/Geolex/Units/RiverBend_3575.html" target="_blank" rel="noopener">USGS Geolex</a></li>
+        <li>Spoil islands: <a class="underline underline-offset-2" href="https://www.carolinasportsman.com/?p=100727" target="_blank" rel="noopener">Carolina Sportsman</a> and our <a class="underline underline-offset-2" href="how-shark-tooth-island-was-made.html">island history page</a></li>
+        <li>Megalodon's end: <a class="underline underline-offset-2" href="https://doi.org/10.7717/peerj.6088" target="_blank" rel="noopener">Boessenecker and others, PeerJ, 2019</a></li>
+        <li>Megalodon's dates and tooth changes: <a class="underline underline-offset-2" href="https://www.floridamuseum.ufl.edu/science/megalodons-teeth-evolved-into-the-ultimate-cutting-tools/" target="_blank" rel="noopener">Florida Museum</a></li>
+        <li>Broad-tooth mako: <a class="underline underline-offset-2" href="https://www.floridamuseum.ufl.edu/florida-vertebrate-fossils/species/carcharodon-hastalis/" target="_blank" rel="noopener">Florida Museum</a></li>
+        <li>Tiger sharks: <a class="underline underline-offset-2" href="https://pmc.ncbi.nlm.nih.gov/articles/PMC7612061" target="_blank" rel="noopener">T&uuml;rtscher and others, Paleobiology, 2021</a></li>
+        <li>Bull shark: <a class="underline underline-offset-2" href="https://www.floridamuseum.ufl.edu/florida-vertebrate-fossils/sites/montbrook/" target="_blank" rel="noopener">Florida Museum, Montbrook site</a></li>
+        <li>Epoch dates: <a class="underline underline-offset-2" href="https://en.wikipedia.org/wiki/Geologic_time_scale" target="_blank" rel="noopener">geologic time scale</a>. Oligocene cooling: <a class="underline underline-offset-2" href="https://en.wikipedia.org/wiki/Oligocene" target="_blank" rel="noopener">Wikipedia</a></li>
+      </ul>
     </div>
   </section>
 </main>
 
 <!-- FOOTER -->
-<footer class="bg-slate-100 py-16">
+<footer class="bg-field-dark text-white/70 py-16">
   <div class="grid grid-cols-1 md:grid-cols-4 gap-12 max-w-7xl mx-auto px-6 md:px-8">
     <div class="md:col-span-2">
-      <div class="text-lg font-semibold text-slate-800 font-headline mb-4">SharkToothIsland.org</div>
-      <p class="text-slate-600 font-body text-sm max-w-md leading-relaxed mb-4">
-        An independent guide to Shark Tooth Island in the Cape Fear River.
-      </p>
-      <p class="font-label text-[10px] uppercase tracking-widest text-slate-600">
-        34.1175&deg; N &middot; 77.9306&deg; W &middot; New Hanover County, NC
-      </p>
+      <div class="text-lg font-semibold text-white font-headline mb-4">SharkToothIsland.org</div>
+      <p class="text-white/70 font-body text-sm max-w-md leading-relaxed mb-4">An independent guide to Shark Tooth Island in the Cape Fear River.</p>
+      <p class="font-label text-[10px] uppercase tracking-widest text-white/60">34.1175&deg; N &middot; 77.9306&deg; W &middot; New Hanover County, NC</p>
     </div>
     <div>
-      <p class="font-label text-xs uppercase tracking-widest text-blue-900 font-bold mb-6">Tools &amp; Resources</p>
+      <p class="font-label text-[11px] uppercase tracking-widest text-field-accent-light font-bold mb-6">Tools &amp; Resources</p>
       <ul class="space-y-3">
-        <li><a href="field-guide.html" class="text-slate-600 font-body text-sm hover:text-blue-800 transition-colors">Field Guide</a></li>
-        <li><a href="field-notes/" class="text-slate-600 font-body text-sm hover:text-blue-800 transition-colors">Field Notes</a></li>
-        <li><a href="how-to-visit.html" class="text-slate-600 font-body text-sm hover:text-blue-800 transition-colors">How to Visit</a></li>
-        <li><a href="megalodon-calculator-v5.html" class="text-slate-600 font-body text-sm hover:text-blue-800 transition-colors">Size Calculator</a></li>
-        <li><a href="hunt-planner.html" class="text-slate-600 font-body text-sm hover:text-blue-800 transition-colors">Hunt Planner</a></li>
-        <li><a href="identify.html" class="text-slate-600 font-body text-sm hover:text-blue-800 transition-colors">Tooth ID</a></li>
-        <li><a href="finds.html" class="text-slate-600 font-body text-sm hover:text-blue-800 transition-colors">Reader Finds</a></li>
-        <li><a href="depth-of-time.html" class="text-slate-600 font-body text-sm hover:text-blue-800 transition-colors">Depth of Time</a></li>
-        <li><a href="how-shark-tooth-island-was-made.html" class="text-slate-600 font-body text-sm hover:text-blue-800 transition-colors">History of the Island</a></li>
-        <li><a href="faq.html" class="text-slate-600 font-body text-sm hover:text-blue-800 transition-colors">FAQ</a></li>
-        <li><a href="field-guide-download.html" class="text-slate-600 font-body text-sm hover:text-blue-800 transition-colors">Free Field Guide PDF</a></li>
+        <li><a href="field-guide.html" class="text-white/70 font-body text-sm hover:text-white transition-colors">Field Guide</a></li>
+        <li><a href="field-notes/" class="text-white/70 font-body text-sm hover:text-white transition-colors">Field Notes</a></li>
+        <li><a href="how-to-visit.html" class="text-white/70 font-body text-sm hover:text-white transition-colors">How to Visit</a></li>
+        <li><a href="megalodon-calculator-v5.html" class="text-white/70 font-body text-sm hover:text-white transition-colors">Size Calculator</a></li>
+        <li><a href="hunt-planner.html" class="text-white/70 font-body text-sm hover:text-white transition-colors">Hunt Planner</a></li>
+        <li><a href="identify.html" class="text-white/70 font-body text-sm hover:text-white transition-colors">Tooth ID</a></li>
+        <li><a href="finds.html" class="text-white/70 font-body text-sm hover:text-white transition-colors">Reader Finds</a></li>
+        <li><a href="how-shark-tooth-island-was-made.html" class="text-white/70 font-body text-sm hover:text-white transition-colors">History of the Island</a></li>
+        <li><a href="faq.html" class="text-white/70 font-body text-sm hover:text-white transition-colors">FAQ</a></li>
+        <li><a href="field-guide-download.html" class="text-white/70 font-body text-sm hover:text-white transition-colors">Free Field Guide PDF</a></li>
       </ul>
     </div>
     <div>
-      <p class="font-label text-xs uppercase tracking-widest text-blue-900 font-bold mb-6">Contact</p>
+      <p class="font-label text-[11px] uppercase tracking-widest text-field-accent-light font-bold mb-6">Contact</p>
       <ul class="space-y-3">
-        <li><a href="mailto:guide@sharktoothisland.org" class="text-slate-600 font-body text-sm hover:text-blue-800 transition-colors">guide@sharktoothisland.org</a></li>
+        <li><a href="mailto:guide@sharktoothisland.org" class="text-white/70 font-body text-sm hover:text-white transition-colors">guide@sharktoothisland.org</a></li>
       </ul>
     </div>
   </div>
-  <div class="max-w-7xl mx-auto px-6 md:px-8 mt-12 pt-6 border-t border-slate-200">
-    <p class="font-body text-[11px] text-slate-600 leading-relaxed max-w-3xl mb-3">
+  <div class="max-w-7xl mx-auto px-6 md:px-8 mt-12 pt-6 border-t border-white/10">
+    <p class="font-body text-[11px] text-white/60 leading-relaxed max-w-3xl mb-3">
       Shark Tooth Island sits on a working tidal river. Paddling, boating, and fossil hunting carry real risk. This site is educational; it is not a guide service and does not guarantee conditions. It is an independent guide, not affiliated with the State of North Carolina, New Hanover County or the U.S. Army Corps of Engineers. You are responsible for your own safety: check weather and tides, wear a PFD, and do not attempt without the skills and gear for moving water.
     </p>
-    <p class="font-label text-[10px] uppercase tracking-widest text-slate-600">
-      &copy; 2026 <a href="https://mozyoutdoors.com" target="_blank" rel="noopener" class="text-blue-900 underline underline-offset-2 hover:text-blue-700">Mozy Outdoors</a> &middot; An independent guide to Shark Tooth Island &middot; <a href="/privacy.html" class="underline underline-offset-2 hover:no-underline">Privacy</a> &middot; Photos by Mozy Outdoors &middot; Drone photos by Jed Whitley
+    <p class="font-label text-[10px] uppercase tracking-widest text-white/60">
+      &copy; 2026 <a href="https://mozyoutdoors.com" target="_blank" rel="noopener" class="text-white/80 underline underline-offset-2 hover:text-white">Mozy Outdoors</a> &middot; An independent guide to Shark Tooth Island &middot; <a href="/privacy.html" class="underline underline-offset-2 hover:no-underline">Privacy</a> &middot; Photos by Mozy Outdoors &middot; Drone photos by Jed Whitley
     </p>
   </div>
 </footer>
 
+<script>
+(function () {
+  var byId = function (id) { return document.getElementById(id); };
+  var clamp = function (v, a, b) { return Math.max(a, Math.min(b, v)); };
+  var reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var DEEPEST = 45;
+
+  // from/to are millions of years ago. ext is an older, fainter stretch (relatives of the species).
+  var SPECIES = {
+    'megalodon': { name: 'Megalodon', sci: 'Otodus megalodon', from: 23, to: 3.6, range: 'About 23 to 3.6 million years ago', epochs: 'Miocene to early Pliocene', layer: 'miocene', note: 'A big, dark megalodon is usually Miocene, but the species ran into the early Pliocene. Its start is hard to pin down, because it changed so gradually from its ancestor.' },
+    'great-white': { name: 'Great White', sci: 'Carcharodon carcharias', from: 4, to: 0, range: 'About 4 million years ago to today', epochs: 'Pliocene to today', layer: 'pliocene', note: 'The species evolved in the Pacific a few million years earlier and spread worldwide around 4 million years ago, so we start the bar there for a Carolina find.' },
+    'tiger': { name: 'Tiger Shark', sci: 'Galeocerdo cuvier', from: 13.8, to: 0, ext: 45, range: 'About 13.8 million years ago to today', epochs: 'Middle Miocene to today', layer: 'miocene', note: 'That range is for the living species. The dashed bar shows older tiger shark species, whose record goes back about 56 million years, well past the bottom of this scroll.' },
+    'mako': { name: 'Broad-Tooth Mako', sci: 'Cosmopolitodus hastalis', from: 20, to: 3, range: 'About 20 to 3 million years ago', epochs: 'Early Miocene to Pliocene', layer: 'miocene', note: 'Many paleontologists now see it as the ancestor of the great white. You may also see it filed under Carcharodon hastalis.' },
+    'bull': { name: 'Bull Shark', sci: 'Carcharhinus leucas', from: 5.5, to: 0, range: 'About 5.5 million years ago to today', epochs: 'Latest Miocene to today', layer: 'pliocene', note: 'This start comes from Florida fossils at the Montbrook site. We did not find a firm first date for the species, so treat it as approximate.' },
+    'snaggletooth': { name: 'Snaggletooth', sci: 'Hemipristis serra', from: 23, to: 2.6, range: 'About 23 to 2.6 million years ago', epochs: 'Miocene to Pliocene', layer: 'miocene', note: 'Some sources report it from the Oligocene too, and a few relict records run later in Southeast Asia. For a Cape Fear find, Miocene to Pliocene is the working range.' }
+  };
+  var KEYS = Object.keys(SPECIES);
+  var selected = null;
+
+  byId('hud').classList.remove('hidden');
+  byId('dredge-svg-wrap').classList.remove('no-js-hide');
+  byId('tooth-grid').classList.remove('no-js-hide');
+
+  /* ---------- Layers, rail, and readout ---------- */
+  var stack = byId('stack'), rail = byId('rail');
+  var layers = [].slice.call(document.querySelectorAll('.layer')).map(function (el) {
+    return { el: el, id: el.id, from: +el.dataset.from, to: +el.dataset.to, name: el.dataset.name, top: 0, h: 0 };
+  });
+  var bars = {}, ticks = [];
+
+  function yForAge(age) {
+    for (var i = 0; i < layers.length; i++) {
+      var l = layers[i];
+      if (age <= l.to) return l.top + (age - l.from) / (l.to - l.from) * l.h;
+    }
+    var last = layers[layers.length - 1];
+    return last.top + last.h;
+  }
+
+  KEYS.forEach(function (k, i) {
+    var b = document.createElement('div');
+    b.className = 'bar';
+    b.style.left = (5 + i * 5) + 'px';
+    rail.appendChild(b);
+    bars[k] = { main: b };
+    if (SPECIES[k].ext) {
+      var e = document.createElement('div');
+      e.className = 'bar ext';
+      e.style.left = b.style.left;
+      rail.appendChild(e);
+      bars[k].ext = e;
+    }
+  });
+  for (var a = 1; a <= DEEPEST; a++) {
+    var t = document.createElement('div');
+    var major = a % 5 === 0;
+    t.className = 'tick' + (major ? ' major' : '');
+    if (major) { var lab = document.createElement('span'); lab.textContent = a; t.appendChild(lab); }
+    rail.appendChild(t);
+    ticks.push({ el: t, age: a });
+  }
+
+  function layout() {
+    var base = stack.getBoundingClientRect().top + window.scrollY;
+    layers.forEach(function (l) {
+      var r = l.el.getBoundingClientRect();
+      l.top = r.top + window.scrollY - base;
+      l.h = r.height;
+    });
+    ticks.forEach(function (t) { t.el.style.top = yForAge(t.age) + 'px'; });
+    KEYS.forEach(function (k) {
+      var s = SPECIES[k], y0 = yForAge(s.to), y1 = yForAge(Math.min(s.from, DEEPEST));
+      bars[k].main.style.top = y0 + 'px';
+      bars[k].main.style.height = (y1 - y0) + 'px';
+      if (bars[k].ext) {
+        var y2 = yForAge(s.ext);
+        bars[k].ext.style.top = y1 + 'px';
+        bars[k].ext.style.height = (y2 - y1) + 'px';
+      }
+    });
+    update();
+  }
+
+  var hudAge = byId('hud-age'), hudEpoch = byId('hud-epoch'), hudNext = byId('hud-next'), hudTeeth = byId('hud-teeth');
+  var hudImgs = {};
+  KEYS.forEach(function (k) {
+    var img = document.createElement('img');
+    img.src = 'images/tooth-' + k + '.webp';
+    img.alt = '';
+    img.title = SPECIES[k].name;
+    img.loading = 'lazy';
+    img.width = 28; img.height = 28;
+    img.style.display = 'none';
+    hudTeeth.appendChild(img);
+    hudImgs[k] = img;
+  });
+  function fmtAge(age) {
+    if (age < 0.0117) return 'Today';
+    if (age < 1) return Math.round(age * 1000) + ' thousand years ago';
+    return age.toFixed(1) + ' million years ago';
+  }
+  function updateHud() {
+    var base = stack.getBoundingClientRect().top;
+    var y = window.innerHeight * 0.4 - base;
+    var current = layers[0], age = 0;
+    if (y > 0) {
+      for (var i = 0; i < layers.length; i++) {
+        var l = layers[i];
+        if (y >= l.top) { current = l; age = l.from + clamp((y - l.top) / l.h, 0, 1) * (l.to - l.from); }
+      }
+    }
+    hudAge.textContent = fmtAge(age);
+    hudEpoch.textContent = current.name;
+    var idx = layers.indexOf(current);
+    var next = layers[idx + 1];
+    hudNext.href = next ? '#' + next.id : '#the-dredge';
+    KEYS.forEach(function (k) {
+      var s = SPECIES[k], oldest = s.ext || s.from;
+      var alive = age <= oldest && age >= s.to;
+      hudImgs[k].style.display = alive ? '' : 'none';
+    });
+  }
+
+  /* ---------- Dredge scene ---------- */
+  var NS = 'http://www.w3.org/2000/svg';
+  var track = byId('dredge-track'), pin = byId('dredge-pin'), svg = byId('dredge-svg');
+  var caps = [].slice.call(document.querySelectorAll('.cap'));
+  var isStatic = reduced;
+  if (isStatic) document.body.classList.add('dredge-static');
+
+  function el(name, attrs, parent) {
+    var n = document.createElementNS(NS, name);
+    for (var k in attrs) n.setAttribute(k, attrs[k]);
+    (parent || svg).appendChild(n);
+    return n;
+  }
+  var seed = 7;
+  function rnd() { seed = (seed * 16807) % 2147483647; return (seed - 1) / 2147483646; }
+
+  var BED = 130, BAND = 52, WATER = 100;
+  var BANDS = [
+    { name: 'Pleistocene', c: '#efe4cb', d: '#b9a67c', ink: '#1c1a17' },
+    { name: 'Pliocene', c: '#e2d0aa', d: '#a3895a', ink: '#1c1a17' },
+    { name: 'Miocene', c: '#d0b27f', d: '#7f6235', ink: '#1c1a17' },
+    { name: 'Oligocene', c: '#a8875a', d: '#5e4525', ink: '#1c1a17' },
+    { name: 'Eocene', c: '#7a5d3a', d: '#3e2c15', ink: '#ffffff' }
+  ];
+  el('rect', { x: 0, y: 0, width: 400, height: WATER, fill: '#f5f0e8' });
+  el('rect', { x: 0, y: WATER, width: 400, height: BED - WATER, fill: '#1a4f5e' });
+  BANDS.forEach(function (b, i) {
+    el('rect', { x: 0, y: BED + i * BAND, width: 400, height: BAND, fill: b.c });
+    var txt = el('text', { x: 394, y: BED + i * BAND + 30, 'text-anchor': 'end', fill: b.ink, 'font-family': 'Space Grotesk, sans-serif', 'font-size': 12, 'font-weight': 700 });
+    txt.textContent = b.name;
+  });
+  var TRENCH_X = 190, TRENCH_W = 100;
+  var trench = el('rect', { x: TRENCH_X, y: BED, width: TRENCH_W, height: 0, fill: '#1a4f5e' });
+  var mound = el('path', { d: '', fill: '#c9b083' });
+  var parts = [];
+  function moundTop(x) { var u = (x - 10) / 150; return BED - 60 * 4 * u * (1 - u); }
+  for (var bi = 0; bi < BANDS.length; bi++) {
+    for (var j = 0; j < 14; j++) {
+      var px = TRENCH_X + 6 + rnd() * (TRENCH_W - 12);
+      var py = BED + bi * BAND + 5 + rnd() * (BAND - 10);
+      var tx = 28 + rnd() * 114;
+      var ty = moundTop(tx) + 5 + rnd() * (BED - moundTop(tx) - 7);
+      parts.push({ n: el('circle', { r: 3 + rnd() * 2.5, fill: BANDS[bi].d, stroke: '#fff', 'stroke-width': .5 }), x: px, y: py, tx: tx, ty: ty, s: (py - BED) / 260 * 0.72 });
+    }
+  }
+  var TEETH = [['bull', 0, 75], ['great-white', 1, 65], ['megalodon', 2, 90], ['mako', 2, 110], ['snaggletooth', 2, 48], ['tiger', 3, 130]];
+  TEETH.forEach(function (t, i) {
+    var x = TRENCH_X + 10 + i * 14, y = BED + t[1] * BAND + 8 + (i % 2) * 6;
+    var ix = t[2], iy = moundTop(ix) + 2;
+    parts.push({ n: el('image', { href: 'images/tooth-' + t[0] + '.webp', width: 34, height: 34 }), x: x, y: y, tx: ix - 13, ty: iy, s: (y - BED) / 260 * 0.72, tooth: true });
+  });
+  var crane = el('line', { x1: 240, x2: 240, y1: 88, y2: BED, stroke: '#0f2e3d', 'stroke-width': 2 });
+  var bucket = el('rect', { x: 230, width: 20, height: 10, y: BED, fill: '#0f2e3d' });
+  el('path', { d: 'M203 88 L277 88 L270 102 L210 102 Z', fill: '#0f2e3d' });
+  el('rect', { x: 228, y: 72, width: 24, height: 16, fill: '#0f2e3d' });
+  var labelStyle = { 'font-family': 'Space Grotesk, sans-serif', 'font-size': 12, 'font-weight': 700, fill: '#0f2e3d', 'text-anchor': 'middle' };
+  var labChannel = el('text', Object.assign({ x: 240, y: 62 }, labelStyle)); labChannel.textContent = 'Dredge';
+  var labIsland = el('text', Object.assign({ x: 85, y: 52, opacity: 0 }, labelStyle)); labIsland.textContent = 'Spoil island';
+
+  function ease(t) { return t * t * (3 - 2 * t); }
+  var lastT = -1;
+  function drawDredge(t) {
+    if (t === lastT) return;
+    lastT = t;
+    var depth = clamp(t / 0.85, 0, 1) * 260;
+    trench.setAttribute('height', depth);
+    crane.setAttribute('y2', BED + depth);
+    bucket.setAttribute('y', BED + Math.max(depth - 8, 0));
+    var rise = clamp(t * 1.1, 0, 1);
+    var peak = BED - 120 * rise;
+    mound.setAttribute('d', 'M10 ' + BED + ' Q 85 ' + peak + ' 160 ' + BED + ' Z');
+    labIsland.setAttribute('opacity', t > 0.65 ? 1 : 0);
+    parts.forEach(function (p) {
+      var q = ease(clamp((t - p.s) / 0.2, 0, 1));
+      var endY = BED - (BED - p.ty) * Math.max(rise, 0.05);
+      var cx = 170, cy = 30, u = 1 - q;
+      var x = u * u * p.x + 2 * u * q * cx + q * q * p.tx;
+      var y = u * u * p.y + 2 * u * q * cy + q * q * endY;
+      if (p.tooth) { p.n.setAttribute('x', x); p.n.setAttribute('y', y); }
+      else { p.n.setAttribute('cx', x); p.n.setAttribute('cy', y); }
+    });
+  }
+  function updateDredge() {
+    if (isStatic) { drawDredge(1); return; }
+    var rect = track.getBoundingClientRect();
+    var stickyTop = pin.getBoundingClientRect().height ? parseFloat(getComputedStyle(pin).top) || 64 : 64;
+    var dist = rect.height - pin.offsetHeight;
+    var p = clamp((stickyTop - rect.top) / dist, 0, 1);
+    drawDredge(clamp((p - 0.15) / 0.65, 0, 1));
+    var step = p < 0.15 ? 0 : p < 0.72 ? 1 : 2;
+    caps.forEach(function (c, i) { c.classList.toggle('on', i === step); });
+  }
+
+  /* ---------- Scroll loop ---------- */
+  var ticking = false;
+  function update() { ticking = false; updateHud(); updateDredge(); }
+  window.addEventListener('scroll', function () {
+    if (!ticking) { ticking = true; requestAnimationFrame(update); }
+  }, { passive: true });
+  window.addEventListener('resize', layout);
+  window.addEventListener('load', layout);
+  layout();
+
+  /* ---------- Tooth lookup ---------- */
+  var buttons = [].slice.call(document.querySelectorAll('.tooth-btn'));
+  buttons.forEach(function (btn) {
+    btn.addEventListener('click', function () { selectTooth(btn.dataset.tooth); });
+  });
+  function pct(age) { return clamp(age / DEEPEST, 0, 1) * 100; }
+  function selectTooth(k) {
+    selected = k;
+    var s = SPECIES[k];
+    buttons.forEach(function (b) { b.setAttribute('aria-pressed', String(b.dataset.tooth === k)); });
+    KEYS.forEach(function (key) {
+      var on = key === k;
+      bars[key].main.classList.toggle('on', on);
+      if (bars[key].ext) bars[key].ext.classList.toggle('on', on);
+      hudImgs[key].classList.toggle('on', on);
+    });
+    byId('tooth-result').classList.remove('hidden');
+    byId('r-name').textContent = s.name;
+    byId('r-sci').textContent = s.sci;
+    byId('r-range').textContent = s.range;
+    byId('r-epochs').textContent = s.epochs;
+    byId('r-note').textContent = s.note;
+    byId('r-jump').href = '#' + s.layer;
+    var range = byId('mini-range');
+    range.style.left = pct(s.to) + '%';
+    range.style.width = (pct(s.from) - pct(s.to)) + '%';
+    var ext = byId('mini-ext');
+    ext.classList.toggle('hidden', !s.ext);
+    if (s.ext) { ext.style.left = pct(s.from) + '%'; ext.style.width = (pct(s.ext) - pct(s.from)) + '%'; }
+    byId('tooth-result').scrollIntoView({ block: 'nearest', behavior: reduced ? 'auto' : 'smooth' });
+    if (window.stiTrack) window.stiTrack('depth_tooth_select', { species: k });
+  }
+})();
+</script>
 </body>
 </html>

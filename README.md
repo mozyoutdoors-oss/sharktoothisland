@@ -52,8 +52,8 @@ Interactive tool: enter a tooth's slant height (25–175mm) and get estimated bo
 ### `hunt-planner.html` — Hunt Planner
 Real-time conditions tool. Pulls NOAA tide predictions (Station 8658501, Orton Point) and Open-Meteo weather data (34.1175, -77.93066, the island). Scores each day on a 100-point scale across tidal range, low tide timing, precipitation, and wind. Generates SVG tide curves and Go/Maybe/Pass verdicts with moon phase effects.
 
-### `depth-of-time.html` — Depth of Time (Coming Soon)
-Geological timeline placeholder showing stratigraphic column from Holocene through Eocene.
+### `depth-of-time.html` — Depth of Time
+Scrolling timeline from today back to 45 million years ago, to scale at 100px per million years, so one pixel is 10,000 years. Includes a running age readout, species range bars, a scroll-driven dredge diagram, and a tap-a-tooth range lookup. Sources are listed on the page. If you change a layer's dates, update its `data-from`, `data-to`, `min-height`, and event positions together.
 
 ### `island-hero.html` — Live Visualization
 Dark-themed 3D tidal visualization. Embedded via iframe in the Field Guide. Intentionally dark (#080F1A) — not restyled to light theme. Uses `scrolling="no"` and `overflow:hidden`.
@@ -167,7 +167,7 @@ Active page gets `text-blue-700 border-b-2 border-blue-700 font-medium pb-1`.
 - `index.html` — Field Guide homepage
 - `megalodon-calculator-v5.html` — Size Calculator
 - `hunt-planner.html` — Hunt Planner
-- `depth-of-time.html` — Depth of Time (coming soon)
+- `depth-of-time.html` — Depth of Time
 - `island-hero.html` — 3D visualization (iframe embed)
 - `CNAME` — Custom domain config
 - `sitemap.xml` — Search engine sitemap (4 URLs)
@@ -190,7 +190,6 @@ Active page gets `text-blue-700 border-b-2 border-blue-700 font-medium pb-1`.
 
 ## Pending Work
 
-- [ ] **Depth of Time** — Build out the interactive geological timeline
 - [ ] **Calculator redesign** — Explore "field station radio" aesthetic (use calculator-lab.html)
 - [ ] **Google Search Console** — Add TXT verification record in Porkbun, resubmit sitemap
 - [ ] **Google Maps** — Suggest sharktoothisland.org as website for the island's listing
