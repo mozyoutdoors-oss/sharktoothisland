@@ -3,7 +3,7 @@
 Read this first. Last updated Nov 4, 2026. Claude Code edits this site (not Codex). Rob approves anything that goes live: a push to `main` publishes on GitHub Pages in about a minute, and there is no preview host, so work on a branch and preview locally (`.claude/launch.json`). This repo is public, so keep private details out of this file. `_config.yml` keeps it and `tools/` off the live site.
 
 ## Identity and copy rules (Rob)
-- "The independent guide to the little fossil island." Never "field station" on the site. Email sign-off "The station" is fine.
+- "The independent guide to the little fossil island." Never "field station" or "the station", on the site or in email (Rob, Nov 4, 2026). Emails sign off "SharkToothIsland.org" and use the footer "Mozy Outdoors · An independent guide to Shark Tooth Island."
 - Mozy Outdoors appears only as the footer credit. Island content never plugs Mozy. No About page goes public until Rob says so.
 - Short, plain, sourced. No hype, no em dashes. Real photos only.
 - Contact: guide@sharktoothisland.org.
