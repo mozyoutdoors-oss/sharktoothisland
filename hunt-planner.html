@@ -254,7 +254,7 @@
 
     <!-- FOOTNOTE -->
     <div class="mt-12 pt-6 border-t border-outline-variant/40 font-label text-[10px] uppercase tracking-widest text-outline leading-loose text-center">
-      Tides: NOAA CO-OPS Station 8658501 · Orton Point · Cape Fear River, NC (~4 mi downstream of STI; the tide wave reaches Orton Point first and travels upstream, so add ~20&ndash;30 min to displayed times for local arrival at STI)<br>
+      Tides: NOAA CO-OPS Station 8658501 · Orton Point · Cape Fear River, NC (~4 mi downstream of STI; the tide wave reaches Orton Point first and travels upstream, so low tide reaches STI roughly 20 minutes later than shown, by our estimate)<br>
       Weather: Open-Meteo · Forecast updated every 3 hours · Queried at 34.1175°N, 77.9306°W<br>
       For educational and planning purposes · Always check conditions before launching
     </div>
@@ -400,7 +400,10 @@ function scoreDay(tides, weather, date) {
   const highs = tides.filter(t => t.type === 'H');
   if (!lows.length) return { verdict:'unknown', score:0 };
 
-  const bestLow = lows.reduce((a,b) => parseFloat(a.v) < parseFloat(b.v) ? a : b);
+  // Prefer lows you can reach while River Road Park is open (8 a.m. to sunset); fall back to the lowest low.
+  const hourOf = t => parseInt(t.t.split(' ')[1].split(':')[0]);
+  const reachable = lows.filter(t => hourOf(t) >= 9 && hourOf(t) <= 17);
+  const bestLow = (reachable.length ? reachable : lows).reduce((a,b) => parseFloat(a.v) < parseFloat(b.v) ? a : b);
   const lowTime = fmtTime(bestLow.t);
   const lowHeight = parseFloat(bestLow.v).toFixed(1);
 
@@ -415,9 +418,10 @@ function scoreDay(tides, weather, date) {
   else score += 6;
 
   const lowHour = parseInt(bestLow.t.split(' ')[1].split(':')[0]);
-  if (lowHour >= 6 && lowHour <= 12) score += 25;
-  else if (lowHour >= 13 && lowHour <= 16) score += 18;
-  else if (lowHour >= 5 || (lowHour >= 17 && lowHour <= 18)) score += 10;
+  // River Road Park is open 8 a.m. to sunset, and you arrive about an hour before low.
+  if (lowHour >= 9 && lowHour <= 15) score += 25;
+  else if (lowHour === 16 || lowHour === 17) score += 15;
+  else if (lowHour === 8) score += 10;
   else score += 0;
 
   let rain = 0, wind = 0, wcode = 0;
@@ -490,7 +494,7 @@ function renderBriefing(dateStr, tides, curve, weather) {
   }
 
   const rangeQuality = s.rangeF >= 4 ? ['good','Excellent, strong exposure'] : s.rangeF >= 3 ? ['good','Good, solid hunting window'] : s.rangeF >= 2 ? ['warn','Moderate, limited exposure'] : ['bad','Weak, minimal island surface'];
-  const lowQuality   = s.lowHour >= 6 && s.lowHour <= 12 ? ['good','Morning low, ideal timing'] : s.lowHour >= 13 && s.lowHour <= 16 ? ['warn','Afternoon low, workable'] : (s.lowHour === 5 || (s.lowHour >= 17 && s.lowHour <= 18)) ? ['warn','Dawn/dusk low, tight window'] : s.lowHour < 5 ? ['bad','Pre-dawn low, not practical'] : ['bad','After dark, not huntable'];
+  const lowQuality   = s.lowHour >= 9 && s.lowHour <= 15 ? ['good','Daytime low, park open'] : (s.lowHour === 16 || s.lowHour === 17) ? ['warn','Late low, watch the sunset closing'] : s.lowHour === 8 ? ['warn','Early low, park opens at 8 a.m.'] : ['bad','Park closed (open 8 a.m. to sunset)'];
   const rainQuality  = rain === null ? ['','\u2014'] : rain < 0.1 ? ['good','Dry'] : rain < 0.4 ? ['warn',`${rain.toFixed(2)}" expected`] : ['bad',`${rain.toFixed(2)}", significant rain`];
   const windQuality  = wind === null ? ['','\u2014'] : wind < 10 ? ['good',`${Math.round(wind)} mph, calm`] : wind < 18 ? ['warn',`${Math.round(wind)} mph, moderate`] : ['bad',`${Math.round(wind)} mph, rough`];
 
