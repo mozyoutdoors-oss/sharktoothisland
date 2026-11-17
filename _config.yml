@@ -2,6 +2,7 @@
 # internal project files in the repo without publishing them on sharktoothisland.org.
 exclude:
   - CLAUDE.md
+  - EXPLAINER.md
   - tools
   - README.md
   - SharkToothIsland-ProjectBrief.docx
